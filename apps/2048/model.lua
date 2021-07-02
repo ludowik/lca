@@ -194,10 +194,14 @@ end
 
 function load()
     local str = love.filesystem.read('2048.data')
-    local data = loadstring('return '..str)()
-    for i=1,grid.size*grid.size do
-        grid.cells[i] = data[i]
+    if str then
+        local data = loadstring('return '..str)()
+        if data then
+            for i=1,grid.size*grid.size do
+                grid.cells[i] = data[i]
+            end
+            score = data.score or 0
+            scoreMax = data.scoreMax or 0
+        end
     end
-    score = data.score or 0
-    scoreMax = data.scoreMax or 0
 end

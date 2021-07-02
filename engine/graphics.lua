@@ -9,9 +9,12 @@ function resetStyles()
     return table{
         fontName = 'Arial',
         fontSize = 14,
+        
         textMode = CORNER,
+        textColor = white,
+        
         stroke = white,
-        fill = black
+        fill = black,
     }
 end
 
@@ -43,9 +46,9 @@ function text(str, x, y)
 
     styles.yText = (styles.yText or 0) + ht
 
-    if styles.fill then
-        love.graphics.setColor(styles.fill.r, styles.fill.g, styles.fill.b)
-        love.graphics.draw(text, x, y)
+    if styles.textColor then
+        love.graphics.setColor(styles.textColor.r, styles.textColor.g, styles.textColor.b)
+        love.graphics.draw(text, x, y+.5)
     end
 end
 
@@ -74,6 +77,11 @@ end
 
 function getText(font, str)
     return love.graphics.newText(font, str)
+end
+
+function textColor(clr)
+    styles.textColor = clr or styles.textColor
+    return styles.textColor
 end
 
 function stroke(clr)

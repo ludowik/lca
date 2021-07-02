@@ -15,8 +15,8 @@ end
 class 'Window'
 
 function Window:init(env, x, y, w, h)
-    w = w or 800
-    h = h or 600
+    w = w or W
+    h = h or H
 
     WindowsManager.windows:insert(self)
 
