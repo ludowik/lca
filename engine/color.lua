@@ -14,19 +14,33 @@ function color.hexa(hexa)
     return color(r/255, g/255, b/255)
 end
 
-function color.reverse(clr)
-    return color(
-        1-clr.r,
-        1-clr.g,
-        1-clr.b)
-end
-
 function color:init(r, g, b, a)
     self.r = r or 0
     self.g = g or 0
     self.b = b or 0
     self.a = a or 1
+    
+    if self.r > 1 then self.r = self.r / 255 end
+    if self.g > 1 then self.g = self.g / 255 end
+    if self.b > 1 then self.b = self.b / 255 end
+    if self.a > 1 then self.a = self.a / 255 end
+end
+
+function color:reverse()
+    return color(
+        1-self.r,
+        1-self.g,
+        1-self.b)
+end
+
+function color:grayscale()
+    local gray = 0.299*self.r + 0.587*self.g + 0.114*self.b
+    return color(gray, gray, gray)
 end
 
 white = color(1, 1, 1)
 black = color(0, 0, 0)
+
+red   = color(1, 0, 0)
+green = color(0, 1, 0)
+blue  = color(0, 0, 1)

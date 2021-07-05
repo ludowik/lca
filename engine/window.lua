@@ -15,6 +15,9 @@ end
 class 'Window'
 
 function Window:init(env, x, y, w, h)
+    x = x or 0
+    y = y or 0
+    
     w = w or W
     h = h or H
 

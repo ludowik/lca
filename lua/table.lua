@@ -32,4 +32,24 @@ function table:call(name, ...)
             v[name](v, ...)
         end
     end
+    return self
+end
+
+function table:attribs(attribs)
+    for k,v in pairs(attribs) do
+        self[k] = v
+    end
+    return self
+end
+
+function table:concat(sep)
+    local str
+    for i,v in ipairs(self) do
+        if not str then
+            str = tostring(v)
+        else
+            str = str..sep..tostring(v)
+        end
+    end
+    return str
 end

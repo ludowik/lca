@@ -22,8 +22,8 @@ end
 
 class 'Console' : extends(Window)
 
-function Console:init()
-    self:super(self, 0, H-100, W, 100)
+function Console:init(x, y)
+    self:super(self, x or 0, y or (H-100), W, 100)
     self.index = 1
 end
 

@@ -1,5 +1,6 @@
 function background(r, g, b, a)
-    love.graphics.clear(r, g, b, a)
+    local clr = color(r, g, b, a)
+    love.graphics.clear(clr.r, clr.g, clr.b, clr.a)
 end
 
 CENTER = 'center'

@@ -4,29 +4,55 @@ function draw() end
 function keyboard() end
 
 function love.load()
-    love.window.setMode(800, 600, {
-            fullscreen = false, -- true for fullscreen
-            fullscreentype = 'desktop', -- 'exclusive' or 'normal'
-            vsync = false,
-            --msaa = 1, -- number of antialiasing samples
+    local dx, dy = 0, 0
+    if os.name == 'ios' then
+        W = love.graphics.getWidth()
+        H = love.graphics.getHeight()
+
+        fullscreen = true
+        fullscreentype = 'exclusive'
+        highdpi = true
+
+        if W > H then
+            dx, dy = 50, 0
+        else
+            dx, dy = 0, 50
+        end
+
+    else
+        W, H = 800, 600
+
+        fullscreen = false
+        fullscreentype = 'desktop'
+        highdpi = true
+    end
+
+    log(W, H)
+
+    love.window.setMode(W, H, {
+            fullscreen = fullscreen,
+            fullscreentype = fullscreentype, -- 'desktop', 'exclusive'
+
+            vsync = true,
+            -- msaa = 1, -- number of antialiasing samples
+
             resizable = false,
             borderless = false,
+
             centered = true,
             -- x = 0,
             -- y = 0,
-            --display = 0, -- index of the display to show the window in, if multiple monitors are available
+
+            -- display = 0, -- index of the display to show the window in, if multiple monitors are available
             -- minwidth	= 100, -- minimum width of the window, if it's resizable
             -- minheight = 100, -- minimum height of the window, if it's resizable
-            highdpi = false,
+            highdpi = highdpi,
         })
 
     setupClasses()
 
-    W = love.graphics.getWidth()
-    H = love.graphics.getHeight()
-
-    Window(env)
-    Fps()
+    Window(env, dx, dy)
+    Fps(0, 50)
     Console()
 
     print(love.filesystem.getSaveDirectory())
@@ -45,6 +71,7 @@ end
 function love.keypressed(key, scancode, isrepeat)
     if key == 'escape' then
         love.event.quit()
+        os.exit(0)
     elseif key == 'r' then
         love.event.quit('restart')
     else

@@ -1,4 +1,4 @@
-require 'engine.__init'
+require 'engine.#'
 
 local env = {}
 _G.env = env

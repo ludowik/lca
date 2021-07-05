@@ -189,7 +189,7 @@ function save()
     str = str..NL..'    scoreMax = '..scoreMax..','
     str = str..NL..'}'
 
-    love.filesystem.write('2048.data', str)
+    return love.filesystem.write('2048.data', str)
 end
 
 function load()
@@ -202,6 +202,9 @@ function load()
             end
             score = data.score or 0
             scoreMax = data.scoreMax or 0
+            
+            return true
         end
     end
+    return false, 'no file'
 end

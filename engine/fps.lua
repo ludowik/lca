@@ -1,10 +1,10 @@
 class 'Fps' : extends(Window)
 
-function Fps:init()
-    self:super(self, 0, 0, 50, 50)
+function Fps:init(x, y)
+    self:super(self, x, y, 50, 50)
 end
 
 function Fps:draw()
-    background(0.5, 0.5, 0.5)
+    background(0, 0, 0, 0)
     text(love.timer.getFPS())
 end

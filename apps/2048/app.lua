@@ -3,7 +3,11 @@ function setup()
 
     state = 'play'
 
-    cellSize = 80
+    if W < H then
+        cellSize = W / 4.4
+    else
+        cellSize = H / 8.8
+    end
 
     scoreMax = 0
 
@@ -24,6 +28,7 @@ end
 function keyboard(key)
     if state == 'play' then
         if key:inList(commands) then
+            log(key)
             action(key)
             if isGameOver() then
                 state = 'game over'
@@ -35,15 +40,33 @@ function keyboard(key)
     if key == 'n' then
         newGrid()
     end
-    
+
     if key == 't' then
         auto = not auto
     end
 end
 
+function touched(touch)
+    if state == 'play' then
+        if touch.state == RELEASED then
+            if touch.tx > math.abs(touch.ty) then
+                keyboard('right')
+            elseif touch.tx < -math.abs(touch.ty) then
+                keyboard('left')
+            elseif touch.ty > math.abs(touch.tx) then
+                keyboard('down')
+            elseif touch.ty < -math.abs(touch.tx) then
+                keyboard('up')
+            end
+        end
+    else
+        if touch.state == RELEASED and touch.y <= 100 then
+            newGrid()
+        end
+    end
+end
+
 function update(dt)
-    log(state)
-    
     if auto then
         keyboard(table.random(commands))
     end
@@ -51,7 +74,7 @@ end
 
 local bestSizeOfText = table()
 function draw()
-    background()
+    background(51, 51, 51)
 
     fontName('Arial')
 
@@ -59,18 +82,23 @@ function draw()
 
     noStroke()
 
+    local x, y = cellSize/2, cellSize*1.2
+    local round = 4
+    local innerMarge = 6
+    local outerMarge = 12
+
     fill(colors[-1])
-    rect(cellSize-10, cellSize-10, cellSize*4+20, cellSize*4+20, 10)
+    rect(x-outerMarge, y-outerMarge, cellSize*4+outerMarge*2, cellSize*4+outerMarge*2, round)
 
     grid:applyFunction(
         function (i, j, value)
-            local x, y = i*cellSize, j*cellSize
+            local xc, yc = x+(i-1)*cellSize, y+(j-1)*cellSize
 
             if value then
 
                 local clr = colors[value] or color(0.5)
                 fill(clr)
-                rect(x+2, y+2, cellSize-4, cellSize-4, 10)
+                rect(xc+innerMarge/2, yc+innerMarge/2, cellSize-innerMarge, cellSize-innerMarge, round)
 
                 if bestSizeOfText[value] then
                     fontSize(bestSizeOfText[value])
@@ -79,7 +107,7 @@ function draw()
                     while true do
                         fontSize(size)
                         local wt, ht = textSize(tostring(value))
-                        if wt > cellSize*0.8 or ht > cellSize*0.8 then
+                        if wt > cellSize*0.8 or ht > cellSize*0.6 then
                             break
                         end
                         size = size + 1
@@ -87,29 +115,33 @@ function draw()
                     bestSizeOfText[value] = size
                 end
 
-                clr = color.reverse(clr)
+                clr = clr:reverse():grayscale()
                 textColor(clr)
-                text(tostring(value), x+cellSize/2, y+cellSize/2)
+                text(tostring(value), xc+cellSize/2, yc+cellSize/2)
 
             else
                 local clr = colors[0]
                 fill(clr)
-                rect(x+2, y+2, cellSize-4, cellSize-4, 10)
+                rect(xc+2, yc+2, cellSize-4, cellSize-4, round)
             end
         end)
 
     fontSize(22)
 
     textColor(white)
-    
-    text(score, cellSize*2, cellSize/2)
-    text(scoreMax, cellSize*4, cellSize/2)
+
+    text('SCORE'..NL..score, cellSize*1.5, cellSize/2)
+    text('BEST'..NL..scoreMax, cellSize*3.5, cellSize/2)
 
     if state == 'game over' then    
         fontName('Segoe')
-        fontSize(50)
-
         textMode(CENTER)
+
+        fontSize(100)
+        textColor(red)
+        text('game over', W/2, H/2)
+        fontSize(98)
+        textColor(white)
         text('game over', W/2, H/2)
     end
 end
