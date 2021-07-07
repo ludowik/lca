@@ -62,3 +62,12 @@ function table:removeItem(item)
         end
     end
 end
+
+function table:tolua()
+    local str = '{'
+    for k,v in pairs(self) do
+        str = str..NL..k..' = '..tostring(v)..','
+    end
+    str = str..NL..'}'
+    return str
+end

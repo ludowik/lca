@@ -44,7 +44,7 @@ function Touch:send()
     end
 end
 
-if os.name == 'ios' then
+if os.name == 'osx' then
     function love.touchpressed(id, x, y, dx, dy, pressure)
         Touch.touches[id] = Touch(id, PRESSED, x, y, dx, dy, pressure, id)
         Touch.touches[id]:send()
@@ -61,8 +61,9 @@ if os.name == 'ios' then
 
         Touch.touches[id] = nil
     end
+end
 
-elseif os.name == 'osx' or os.name == 'windows' then
+if os.name == 'osx' or os.name == 'windows' then
     function love.mousepressed(x, y, button, istouch, presses)
         id = 0
         Touch.touches[id] = Touch(id, PRESSED, x, y, 0, 0, 1, button)
@@ -93,8 +94,9 @@ function love.keypressed(key, scancode, isrepeat)
     elseif key == 'r' then
         love.event.quit('restart')
     else
-        if love.keyboard.isDown('lctrl') then
-            if key ~= 'lctrl' then
+        print(key)
+        if love.keyboard.isDown('lalt') then
+            if key ~= 'lalt' then
                 if key == 'left' then
                     previousApp()
                 elseif key == 'right' then
