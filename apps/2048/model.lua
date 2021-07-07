@@ -1,5 +1,12 @@
-function addCell()
-    local countFreeCells = grid:countCellsWithValue(nil)
+class 'Grid2048' : extends(Grid)
+
+function Grid2048:init(...)
+    self:super(...)
+    self.score = 0
+end
+
+function Grid2048:addCell()
+    local countFreeCells = self:countCellsWithValue(nil)
     if countFreeCells == 0 then
         state = 'game over'
         return
@@ -9,200 +16,192 @@ function addCell()
     repeat
         i = love.math.random(4)
         j = love.math.random(4)
-    until not grid:get(i, j)
-    grid:set(i, j, table{2,2,4,2,2}:random())
+    until not self:get(i, j)
+    self:set(i, j, table{2,2,4,2,2}:random())
 end
 
-function isGameOver()
-    local cells = grid.cells:clone()
+function Grid2048:isGameOver()
+    local grid = Grid2048(self.size)
+    grid.cells = self.cells:clone()
+    
     local n = 0
-
-    inGameOver = true
-
     for _,key in ipairs(commands) do
-        n = n + action(key)
+        n = n + grid:action(key)
     end
 
-    inGameOver = false
-
-    grid.cells = cells
     return n == 0
 end
 
-function merge(i, j, di, dj)
-    local value = grid:get(i, j)
+function Grid2048:merge(i, j, di, dj)
+    local value = self:get(i, j)
     if value then
-        local value2 = grid:get(i+di, j+dj)
+        local value2 = self:get(i+di, j+dj)
         if value == value2 then
-            grid:set(i, j, nil)
-            grid:set(i+di, j+dj, value*2)
-            if not inGameOver then
-                score = score + value*2
-                scoreMax = math.max(score, scoreMax)
-            end
+            self:set(i, j, nil)
+            self:set(i+di, j+dj, value*2)
+            self.score = self.score + value*2
             return 1
         end
     end
     return 0
 end
 
-function mergeDown(i)
+function Grid2048:mergeDown(i)
     local n = 0
     for j=3,1,-1 do
-        n = n + merge(i, j, 0, 1)
+        n = n + self:merge(i, j, 0, 1)
     end
     return n
 end
 
-function mergeUp(i)
+function Grid2048:mergeUp(i)
     local n = 0
     for j=2,4 do
-        n = n + merge(i, j, 0, -1)
+        n = n + self:merge(i, j, 0, -1)
     end
     return n
 end
 
-function mergeLeft(j)
+function Grid2048:mergeLeft(j)
     local n = 0
     for i=2,4 do
-        n = n + merge(i, j, -1, 0)
+        n = n + self:merge(i, j, -1, 0)
     end
     return n
 end
 
-function mergeRight(j)
+function Grid2048:mergeRight(j)
     local n = 0
     for i=3,1,-1 do
-        n = n + merge(i, j, 1, 0)
+        n = n + self:merge(i, j, 1, 0)
     end
     return n
 end
 
-function move(i, j, di, dj)
-    local value = grid:get(i, j)
+function Grid2048:move(i, j, di, dj)
+    local value = self:get(i, j)
     if value then
-        local value2 = grid:get(i+di, j+dj)
+        local value2 = self:get(i+di, j+dj)
         if not value2 then
-            grid:set(i, j, nil)
-            grid:set(i+di, j+dj, value)
+            self:set(i, j, nil)
+            self:set(i+di, j+dj, value)
             return 1
         end
     end
     return 0
 end
 
-function moveDown(i)
+function Grid2048:moveDown(i)
     local n = 0    
     for j=3,1,-1 do
         for j2=j,3 do
-            n = n + move(i, j2, 0, 1)
+            n = n + self:move(i, j2, 0, 1)
         end
     end
     return n
 end
 
-function moveUp(i)
+function Grid2048:moveUp(i)
     local n = 0
     for j=2,4 do
         for j2=j,2,-1 do
-            n = n + move(i, j2, 0, -1)
+            n = n + self:move(i, j2, 0, -1)
         end
     end
     return n    
 end
 
-function moveLeft(j)
+function Grid2048:moveLeft(j)
     local n = 0
     for i=2,4 do
         for i2=i,2,-1 do
-            n = n + move(i2, j, -1, 0)
+            n = n + self:move(i2, j, -1, 0)
         end
     end
     return n    
 end
 
-function moveRight(j)
+function Grid2048:moveRight(j)
     local n = 0    
     for i=3,1,-1 do
         for i2=i,3 do
-            n = n + move(i2, j, 1, 0)
+            n = n + self:move(i2, j, 1, 0)
         end
     end
     return n
 end
 
-function action(key)
+function Grid2048:action(key)
     local n = 0        
     if key == 'down' then
         for i=1,4 do
             n = (n +
-                moveDown(i) +
-                mergeDown(i) +
-                moveDown(i))
+                self:moveDown(i) +
+                self:mergeDown(i) +
+                self:moveDown(i))
         end
 
     elseif key == 'up' then
         for i=1,4 do
             n = (n +
-                moveUp(i) +
-                mergeUp(i) +
-                moveUp(i))
+                self:moveUp(i) +
+                self:mergeUp(i) +
+                self:moveUp(i))
         end
 
     elseif key == 'left' then
         for j=1,4 do
             n = (n +
-                moveLeft(j) +
-                mergeLeft(j) +
-                moveLeft(j)
+                self:moveLeft(j) +
+                self:mergeLeft(j) +
+                self:moveLeft(j)
             )
         end
 
     elseif key == 'right' then
         for j=1,4 do
             n = (n +
-                moveRight(j) +
-                mergeRight(j) +
-                moveRight(j)
+                self:moveRight(j) +
+                self:mergeRight(j) +
+                self:moveRight(j)
             )
         end
     end
 
+    scoreMax = math.max(self.score, scoreMax)
+
     if n > 0 then
-        addCell()
-        if not inGameOver then
-            save()
-        end
+        self:addCell()
     end
 
     return n
 end
 
-function save()
+function Grid2048:save()
     local str = '{'..NL
-    for i=1,grid.size*grid.size do
-        if grid.cells[i] then
-            str = str..'['..i..'] = '..grid.cells[i]..','
+    for i=1,self.size*self.size do
+        if self.cells[i] then
+            str = str..'['..i..'] = '..self.cells[i]..','
         end
     end
-    str = str..NL..'    score = '..score..','
+    str = str..NL..'    score = '..self.score..','
     str = str..NL..'    scoreMax = '..scoreMax..','
     str = str..NL..'}'
 
     return love.filesystem.write('2048.data', str)
 end
 
-function load()
+function Grid2048:load()
     local str = love.filesystem.read('2048.data')
     if str then
         local data = loadstring('return '..str)()
         if data then
-            for i=1,grid.size*grid.size do
-                grid.cells[i] = data[i]
+            for i=1,self.size*self.size do
+                self.cells[i] = data[i]
             end
-            score = data.score or 0
+            self.score = data.score or 0
             scoreMax = data.scoreMax or 0
-            
+
             return true
         end
     end

@@ -9,22 +9,24 @@ function love.load()
         W = love.graphics.getWidth()
         H = love.graphics.getHeight()
 
+        W, H = math.min(W,H), math.max(W,H)
+
         fullscreen = true
         fullscreentype = 'exclusive'
         highdpi = true
 
-        if W > H then
-            dx, dy = 50, 0
-        else
-            dx, dy = 0, 50
-        end
-
     else
-        W, H = 800, 600
+        W, H = 600, 900
 
         fullscreen = false
         fullscreentype = 'desktop'
         highdpi = true
+    end
+
+    if W > H then
+        dx, dy = 50, 0
+    else
+        dx, dy = 0, 50
     end
 
     log(W, H)
@@ -40,6 +42,7 @@ function love.load()
             borderless = false,
 
             centered = true,
+
             -- x = 0,
             -- y = 0,
 
@@ -53,7 +56,7 @@ function love.load()
 
     Window(env, dx, dy)
     Fps(0, 50)
-    Console()
+    Console(0, 50)
 
     print(love.filesystem.getSaveDirectory())
 

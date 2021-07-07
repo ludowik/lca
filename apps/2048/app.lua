@@ -1,8 +1,6 @@
 function setup()
     commands = table{'down', 'up', 'left', 'right'}
 
-    state = 'play'
-
     if W < H then
         cellSize = W / 4.4
     else
@@ -11,26 +9,26 @@ function setup()
 
     scoreMax = 0
 
-    grid = Grid(4)
-
-    if not load() then
-        newGrid()
-    end
+    newGrid()
 end
 
-function newGrid()
+function newGrid(new)
     state = 'play'
-    grid = Grid(4)
-    score = 0
-    addCell()
+    grid = Grid2048(4)
+    if new or not grid:load() then
+        grid:addCell()
+    end
 end
 
 function keyboard(key)
     if state == 'play' then
         if key:inList(commands) then
             log(key)
-            action(key)
-            if isGameOver() then
+
+            grid:action(key)
+            grid:save()
+
+            if grid:isGameOver() then
                 state = 'game over'
             end
             return
@@ -38,7 +36,7 @@ function keyboard(key)
     end
 
     if key == 'n' then
-        newGrid()
+        newGrid(true)
     end
 
     if key == 't' then
@@ -61,7 +59,7 @@ function touched(touch)
         end
     else
         if touch.state == RELEASED and touch.y <= 100 then
-            newGrid()
+            newGrid(true)
         end
     end
 end
@@ -82,7 +80,7 @@ function draw()
 
     noStroke()
 
-    local x, y = cellSize/2, cellSize*1.2
+    local x, y = (W-cellSize*4)/2, cellSize*1.2
     local round = 4
     local innerMarge = 6
     local outerMarge = 12
@@ -130,7 +128,7 @@ function draw()
 
     textColor(white)
 
-    text('SCORE'..NL..score, cellSize*1.5, cellSize/2)
+    text('SCORE'..NL..grid.score, cellSize*1.5, cellSize/2)
     text('BEST'..NL..scoreMax, cellSize*3.5, cellSize/2)
 
     if state == 'game over' then    

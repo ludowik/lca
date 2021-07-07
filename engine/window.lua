@@ -17,7 +17,7 @@ class 'Window'
 function Window:init(env, x, y, w, h)
     x = x or 0
     y = y or 0
-    
+
     w = w or W
     h = h or H
 
@@ -45,12 +45,14 @@ function Window:update(dt)
 end
 
 function Window:drawInstance()
-    self.canvas:renderTo(
-        function ()
-            self.styles = resetStyles()
-            _G.styles = self.styles
-            self:draw()
-        end)
+    function render()
+        self.styles = resetStyles()
+        _G.styles = self.styles
+        self:draw()
+    end
+
+    self.canvas:renderTo(render)
+
     love.graphics.reset()
     love.graphics.draw(self.canvas, self.position.x, self.position.y)
 end
