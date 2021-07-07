@@ -23,7 +23,7 @@ end
 class 'Console' : extends(Window)
 
 function Console:init(x, y)
-    self:super(self, x or 0, y or (H-100), W, 100)
+    self:super(self, x or 0, y or (screen.h-100), screen.w, 100)
     self.index = 1
 end
 

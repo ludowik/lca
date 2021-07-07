@@ -1,19 +1,13 @@
 table.__index = table
 
 local mt = {
-        __call = function (_, t)
-            t = t or {}
-            setmetatable(t, table)
-            return t
-        end
-    }
-setmetatable(table, mt)
-
-function table:random()
-    if #self > 0 then
-        return self[love.math.random(#self)]
+    __call = function (_, t)
+        t = t or {}
+        setmetatable(t, table)
+        return t
     end
-end
+}
+setmetatable(table, mt)
 
 function table:clone()
     local copy = table()
@@ -26,6 +20,19 @@ function table:clone()
     return copy
 end
 
+function table:attribs(attribs)
+    for k,v in pairs(attribs) do
+        self[k] = v
+    end
+    return self
+end
+
+function table:random()
+    if #self > 0 then
+        return self[love.math.random(#self)]
+    end
+end
+
 function table:call(name, ...)
     for i,v in ipairs(self) do
         if type(v) == 'table' and v[name] then
@@ -35,14 +42,8 @@ function table:call(name, ...)
     return self
 end
 
-function table:attribs(attribs)
-    for k,v in pairs(attribs) do
-        self[k] = v
-    end
-    return self
-end
-
 function table:concat(sep)
+    assert(sep)
     local str
     for i,v in ipairs(self) do
         if not str then
@@ -52,4 +53,12 @@ function table:concat(sep)
         end
     end
     return str
+end
+
+function table:removeItem(item)
+    for i,v in ipairs(self) do
+        if v == item then
+            return self:remove(i)
+        end
+    end
 end

@@ -1,6 +1,6 @@
-require 'apps.2048.app'
-require 'apps.2048.model'
-require 'apps.2048.theme'
+require 'apps.the2048.app'
+require 'apps.the2048.model'
+require 'apps.the2048.theme'
 
 -- TODO : refactoring grid (score dans la grille)
 -- TODO : copy de grille pour check game over
