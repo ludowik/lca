@@ -1,13 +1,13 @@
-function setup() end
-function update() end
-function draw() end
-function keyboard() end
-
 function love.load()
+    screen = {
+        w = 0,
+        h = 0
+    }
+
     local dx, dy = 0, 0
     if os.name == 'ios' then
-        W = love.graphics.getWidth()
-        H = love.graphics.getHeight()
+        screen.w = love.graphics.getWidth()
+        screen.h = love.graphics.getHeight()
 
         W, H = math.min(W,H), math.max(W,H)
 
@@ -16,22 +16,22 @@ function love.load()
         highdpi = true
 
     else
-        W, H = 600, 900
+        screen.w, screen.h = 800, 600
 
         fullscreen = false
         fullscreentype = 'desktop'
         highdpi = true
     end
 
-    if W > H then
+    if screen.w > screen.h then
         dx, dy = 50, 0
     else
         dx, dy = 0, 50
     end
 
-    log(W, H)
+    log(screen.w, screen.h)
 
-    love.window.setMode(W, H, {
+    love.window.setMode(screen.w, screen.h, {
             fullscreen = fullscreen,
             fullscreentype = fullscreentype, -- 'desktop', 'exclusive'
 
@@ -54,30 +54,20 @@ function love.load()
 
     setupClasses()
 
-    Window(env, dx, dy)
     Fps(0, 50)
     Console(0, 50)
 
-    print(love.filesystem.getSaveDirectory())
+    setActiveApp(loadApp('Apps', 'apps.apps'))
+    setActiveApp(loadApp('Apps', 'apps.creativeCoding.colors'))
 
-    env.setup()
+    log(love.filesystem.getSaveDirectory())
 end
 
 function love.update(dt)
+    TweensManager.update(dt)
     WindowsManager.update(dt)
 end
 
 function love.draw()
     WindowsManager.draw()
-end
-
-function love.keypressed(key, scancode, isrepeat)
-    if key == 'escape' then
-        love.event.quit()
-        os.exit(0)
-    elseif key == 'r' then
-        love.event.quit('restart')
-    else
-        env.keyboard(key)
-    end
 end

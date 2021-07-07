@@ -34,7 +34,14 @@ function Touch:set(id, state, x, y, dx, dy, pressure, button)
 end
 
 function Touch:send()
-    env.touched(self)
+    for i=#WindowsManager.windows,1,-1 do
+        local window = WindowsManager.windows[i]
+        if window:contains(self) then
+            if window.env.touched then
+                window.env.touched(self)
+            end
+        end
+    end
 end
 
 if os.name == 'ios' then
@@ -54,9 +61,8 @@ if os.name == 'ios' then
 
         Touch.touches[id] = nil
     end
-end
 
-if os.name == 'osx' then
+elseif os.name == 'osx' or os.name == 'windows' then
     function love.mousepressed(x, y, button, istouch, presses)
         id = 0
         Touch.touches[id] = Touch(id, PRESSED, x, y, 0, 0, 1, button)
@@ -77,5 +83,28 @@ if os.name == 'osx' then
         Touch.touches[id]:send()
 
         Touch.touches[id] = nil
+    end
+end
+
+function love.keypressed(key, scancode, isrepeat)
+    if key == 'escape' then
+        love.event.quit()
+        os.exit(0)
+    elseif key == 'r' then
+        love.event.quit('restart')
+    else
+        if love.keyboard.isDown('lctrl') then
+            if key ~= 'lctrl' then
+                if key == 'left' then
+                    previousApp()
+                elseif key == 'right' then
+                    nextApp()
+                else
+                    env.keyboard('lctrl+'..key)
+                end
+            end
+        else
+            env.keyboard(key)
+        end
     end
 end

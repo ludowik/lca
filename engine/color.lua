@@ -1,5 +1,25 @@
 class 'color'
 
+function color:init(r, g, b, a)
+    if type(r) == 'table' then
+        r, g, b, a = r.r, r.g, r.b, r.a
+    end
+    
+    self.r = r or 0
+    self.g = g or 0
+    self.b = b or 0
+    self.a = a or 1
+    
+    if self.r > 1 then self.r = self.r / 255 end
+    if self.g > 1 then self.g = self.g / 255 end
+    if self.b > 1 then self.b = self.b / 255 end
+    if self.a > 1 then self.a = self.a / 255 end
+end
+
+function color.random()
+    return color(math.random(), math.random(), math.random())
+end
+
 function color.hexa(hexa)
     local r, g, b
 
@@ -12,18 +32,6 @@ function color.hexa(hexa)
     b = hexa % 256
 
     return color(r/255, g/255, b/255)
-end
-
-function color:init(r, g, b, a)
-    self.r = r or 0
-    self.g = g or 0
-    self.b = b or 0
-    self.a = a or 1
-    
-    if self.r > 1 then self.r = self.r / 255 end
-    if self.g > 1 then self.g = self.g / 255 end
-    if self.b > 1 then self.b = self.b / 255 end
-    if self.a > 1 then self.a = self.a / 255 end
 end
 
 function color:reverse()
