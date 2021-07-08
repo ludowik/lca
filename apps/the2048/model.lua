@@ -188,7 +188,7 @@ function Grid2048:save()
     str = str..NL..'    scoreMax = '..scoreMax..','
     str = str..NL..'}'
 
-    return love.filesystem.write('2048.data', str)
+    return love.filesystem.write(app.name..'.mydata', str)
 end
 
 function Grid2048:load()

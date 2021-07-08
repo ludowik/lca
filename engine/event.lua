@@ -38,7 +38,11 @@ function Touch:send()
         local window = WindowsManager.windows[i]
         if window:contains(self) then
             if window.env.touched then
-                window.env.touched(self)
+                window.env.touched(self, touch)
+            end
+            if window.touchedWin then
+                log(tostring(window)..'<='..tostring(self))
+                window.touchedWin(window, self)
             end
         end
     end

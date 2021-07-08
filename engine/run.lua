@@ -55,10 +55,10 @@ function love.load()
     setupClasses()
 
     Fps(0, 50)
-    Console(0, 50)
+    Console()
 
-    setActiveApp(loadApp('Apps', 'apps.apps'))
-    setActiveApp(loadApp('Apps', 'apps.creativeCoding.colors'))
+    setActiveApp(loadApp('apps.apps'))
+    setActiveApp(loadApp('apps.creativeCoding.colors'))
 
     log(love.filesystem.getSaveDirectory())
 end

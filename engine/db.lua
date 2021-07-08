@@ -1,28 +1,32 @@
 class 'db'
 
-function db.set(key, value)
-    local data = db.load()
+function db.set(dbName, key, value)
+    local data = db.load(dbName)
     data[key] = value
-    db.save(data)
+    db.save(dbName, data)
 end
 
-function db.get(key, default)
-    local data = db.load()
+function db.get(dbName, key, default)
+    local data = db.load(dbName)
     if data[key] ~= nil then
         return data[key]
     end
     return default
 end
 
-function db.load()
+function db.load(dbName)
     if db.data == nil then
-        local content = love.filesystem.read('db')
-        db.data = table(loadstring('return '..content)() )
+        local content = love.filesystem.read(dbName..'.mydb')
+        if content then
+            db.data = table(loadstring('return '..content)() )
+        else
+            db.data = table()
+        end
     end
     
     return db.data
 end
 
-function db.save(data)
-    love.filesystem.write('db', data:tolua())
+function db.save(dbName, data)
+    love.filesystem.write(dbName..'.mydb', data:tolua())
 end

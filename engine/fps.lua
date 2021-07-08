@@ -1,6 +1,8 @@
 class 'Fps' : extends(Window)
 
 function Fps:init(x, y)
+    self.app = self
+    self.name = 'fps'
     self:super(self, x, y, 50, 50)
 end
 

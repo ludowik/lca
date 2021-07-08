@@ -19,8 +19,8 @@ end
 class 'Window'
 
 function Window:init(env, x, y, w, h)
-    x = x or 0
-    y = y or 0
+    x = db.get(env.app.name, 'x', x or 0)
+    y = db.get(env.app.name, 'y', y or 0)
 
     w = w or (screen.w / 2)
     h = h or (screen.h / 2)
@@ -57,13 +57,11 @@ function Window:update(dt)
 end
 
 function Window:drawInstance()
-    function render()
+    love.graphics.setCanvas(self.canvas)
+    do
         self:setActive()
         self:draw()
     end
-
-    love.graphics.setCanvas(self.canvas)
-    render()
     love.graphics.setCanvas()
 
     love.graphics.reset()
@@ -76,7 +74,22 @@ function Window:draw()
     end
 end
 
-function Window:touched(touch)
+function Window:touchedWin(touch)
+    if touch.state == PRESSED and touch.y < self.position.y + 25 then
+        self.moving = true
+    end
+
+    if touch.state == MOVED and self.moving then
+        self.position.x = self.position.x + touch.dx
+        self.position.y = self.position.y + touch.dy
+    end
+
+    if touch.state == RELEASED then
+        self.moving = false
+
+        db.set(self.env.app.name, 'x', self.position.x)
+        db.set(self.env.app.name, 'y', self.position.y)
+    end
 end
 
 function Window:keyboard()

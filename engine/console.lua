@@ -23,6 +23,9 @@ end
 class 'Console' : extends(Window)
 
 function Console:init(x, y)
+    self.app = self
+    self.name = 'console'
+    
     self:super(self, x or 0, y or (screen.h-100), screen.w, 100)
     self.index = 1
 end

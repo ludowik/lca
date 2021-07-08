@@ -12,6 +12,6 @@ end
 
 function touched(touch)
     if touch.state == PRESSED then
-        setActiveApp(loadApp('Apps', 'apps.the2048'))
+        setActiveApp(loadApp('apps.the2048'))
     end
 end
