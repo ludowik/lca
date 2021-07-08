@@ -9,7 +9,7 @@ function love.load()
         screen.w = love.graphics.getWidth()
         screen.h = love.graphics.getHeight()
 
-        W, H = math.min(W,H), math.max(W,H)
+        screen.w, screen.h = math.min(screen.w, screen.h), math.max(screen.w, screen.h)
 
         fullscreen = true
         fullscreentype = 'exclusive'

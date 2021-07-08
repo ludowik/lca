@@ -23,7 +23,7 @@ function db.load(dbName)
             db.data = table()
         end
     end
-    
+
     return db.data
 end
 

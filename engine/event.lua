@@ -48,7 +48,7 @@ function Touch:send()
     end
 end
 
-if os.name == 'osx' then
+if os.name == 'ios' then
     function love.touchpressed(id, x, y, dx, dy, pressure)
         Touch.touches[id] = Touch(id, PRESSED, x, y, dx, dy, pressure, id)
         Touch.touches[id]:send()
