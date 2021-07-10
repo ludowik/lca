@@ -1,5 +1,9 @@
 class 'db'
 
+function db.setup()
+    db.datas = table()
+end
+
 function db.set(dbName, key, value)
     local data = db.load(dbName)
     data[key] = value
@@ -15,16 +19,18 @@ function db.get(dbName, key, default)
 end
 
 function db.load(dbName)
-    if db.data == nil then
+    local data = db.datas[dbName]
+    if data == nil then
         local content = love.filesystem.read(dbName..'.mydb')
         if content then
-            db.data = table(loadstring('return '..content)() )
+            db.datas[dbName] = table(loadstring('return '..content)() )
         else
-            db.data = table()
+            db.datas[dbName] = table()
         end
+        data = db.datas[dbName]
     end
 
-    return db.data
+    return data
 end
 
 function db.save(dbName, data)

@@ -74,21 +74,21 @@ function Window:draw()
     end
 end
 
-function Window:touchedWin(touch)
-    if touch.state == PRESSED and touch.y < self.position.y + 25 then
-        self.moving = true
-    end
+local movingWindow
 
-    if touch.state == MOVED and self.moving then
+function Window:touchedWin(touch)
+    if movingWindow == nil and touch.state == PRESSED and touch.y < self.position.y + 25 then
+        movingWindow = self
+        
+    elseif movingWindow == self and touch.state == MOVED then
         self.position.x = self.position.x + touch.dx
         self.position.y = self.position.y + touch.dy
-    end
-
-    if touch.state == RELEASED then
-        self.moving = false
-
+        
         db.set(self.env.app.name, 'x', self.position.x)
         db.set(self.env.app.name, 'y', self.position.y)
+    
+    elseif touch.state == RELEASED then
+        movingWindow = nil
     end
 end
 
