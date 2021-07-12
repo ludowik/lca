@@ -4,9 +4,7 @@ local __classesByName = table()
 function class(className)
     local k = {}
     k.__index = k
-
-    k.attribs = table.attribs
-
+    
     local mt = {}
     function mt.__call(k, ...)
         local instance = {}
@@ -31,6 +29,8 @@ function class(className)
         end
         return k
     end
+    
+    k:extends(table)
 
     k.meta = function (self, __base)
         k.init = function (self)

@@ -57,9 +57,7 @@ function love.load()
     Fps(0, 50)
     Console()
 
-    setActiveApp(loadApp('apps.apps'))
-    setActiveApp(loadApp('apps.creativeCoding.colors'))
-    setActiveApp(loadApp('apps.morpion.morpion'))
+    loadApp('apps.apps')
 
     log(love.filesystem.getSaveDirectory())
 end

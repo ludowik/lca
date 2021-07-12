@@ -27,11 +27,11 @@ function loadApp(path)
     W = env.win.position.w
     H = env.win.position.h
 
-    if env.setup then
-        env.setup()
-    end
-
     Apps:insert(env)
+    
+    setActiveApp(env)
+    
+    env.win:setupInstance()    
 
     return env
 end
