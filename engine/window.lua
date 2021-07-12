@@ -75,7 +75,6 @@ function Window:draw()
 end
 
 local movingWindow
-
 function Window:touchedWin(touch)
     if movingWindow == nil and touch.state == PRESSED and touch.y < self.position.y + 25 then
         movingWindow = self
