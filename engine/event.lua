@@ -3,9 +3,15 @@ class 'Touch'
 function Touch.setup()
     Touch.touches = table()
 
+    
     PRESSED = 'pressed'
+    BEGAN = PRESSED
+    
     MOVED = 'moved'
+    MOVING = MOVED
+    
     RELEASED = 'released'
+    ENDED = RELEASED
 end
 
 function Touch:init(id, state, x, y, dx, dy, pressure, button)
@@ -34,18 +40,16 @@ function Touch:set(id, state, x, y, dx, dy, pressure, button)
 end
 
 function Touch:send()
-    for i=#WindowsManager.windows,1,-1 do
-        local window = WindowsManager.windows[i]
-        if window:contains(self) then
-            if window.env.touched then
-                window.env.touched(self, touch)
-            end
-            if window.touchedWin then
-                log(tostring(window)..'<='..tostring(self))
-                window.touchedWin(window, self)
-            end
-        end
+    if env.win:contains(self) then
+        env.win:touched(self)
     end
+
+--    for i=#WindowsManager.windows,1,-1 do
+--        local window = WindowsManager.windows[i]
+--        if window:contains(self) then
+--            window:touched(self)
+--        end
+--    end
 end
 
 if os.name == 'ios' then
@@ -88,6 +92,12 @@ if os.name == 'osx' or os.name == 'windows' then
         Touch.touches[id]:send()
 
         Touch.touches[id] = nil
+    end
+end
+
+function love.wheelmoved(x, y)
+    if env.wheelmoved then
+        env.wheelmoved(x, y)
     end
 end
 

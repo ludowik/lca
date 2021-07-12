@@ -4,7 +4,7 @@ local __classesByName = table()
 function class(className)
     local k = {}
     k.__index = k
-    
+
     k.attribs = table.attribs
 
     local mt = {}
@@ -32,6 +32,23 @@ function class(className)
         return k
     end
 
+    k.meta = function (self, __base)
+        k.init = function (self)
+            return self
+        end
+
+        local mt = getmetatable(self)
+
+        mt.__index = __base
+        mt.__call = function (_, ...)
+            assert(mt.__call ~= k.init)
+            mt.__call = k.init
+            return mt.__call(_, ...)
+        end
+
+        return self
+    end
+
     _G[className] = k
 
     __classesByName[className] = k
@@ -42,4 +59,5 @@ end
 
 function setupClasses()
     __classes:call('setup')
+    __classes:call('test')
 end

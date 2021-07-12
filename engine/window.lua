@@ -22,8 +22,8 @@ function Window:init(env, x, y, w, h)
     x = db.get(env.app.name, 'x', x or 0)
     y = db.get(env.app.name, 'y', y or 0)
 
-    w = w or (screen.w / 2)
-    h = h or (screen.h / 2)
+    w = w or (screen.w)
+    h = h or (screen.h)
 
     WindowsManager.windows:insert(self)
 
@@ -76,7 +76,15 @@ end
 
 local movingWindow
 
-function Window:touchedWin(touch)
+function Window:touched(touch)
+    if self.env ~= self then
+        self.env.touched(touch)
+    end
+    
+    self:moveWindow(touch)
+end
+
+function Window:moveWindow(touch)
     if movingWindow == nil and touch.state == PRESSED and touch.y < self.position.y + 25 then
         movingWindow = self
         

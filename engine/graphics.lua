@@ -16,6 +16,8 @@ function resetStyles()
         
         stroke = white,
         fill = black,
+        
+        rectMode = CORNER,
     }
 end
 
@@ -103,7 +105,16 @@ function noFill()
     styles.fill = nil
 end
 
+function rectMode()
+    styles.rectMode = clr or styles.rectMode
+    return styles.rectMode
+end
+
 function rect(x, y, w, h, r)
+    local transform = love.math.newTransform()
+    transform:setMatrix(modelMatrix():unpack())
+    love.graphics.replaceTransform(transform)
+
     if styles.fill then
         love.graphics.setColor(styles.fill.r, styles.fill.g, styles.fill.b)
         love.graphics.rectangle('fill', x, y, w, h, r, r, r)

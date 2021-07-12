@@ -44,18 +44,22 @@ function keyboard(key)
     end
 end
 
+function wheelmoved(x, y)
+    if x > math.abs(y) then
+        keyboard('right')
+    elseif x < -math.abs(y) then
+        keyboard('left')
+    elseif y > math.abs(x) then
+        keyboard('down')
+    elseif y < -math.abs(x) then
+        keyboard('up')
+    end
+end
+
 function touched(touch)
     if state == 'play' then
         if touch.state == RELEASED then
-            if touch.tx > math.abs(touch.ty) then
-                keyboard('right')
-            elseif touch.tx < -math.abs(touch.ty) then
-                keyboard('left')
-            elseif touch.ty > math.abs(touch.tx) then
-                keyboard('down')
-            elseif touch.ty < -math.abs(touch.tx) then
-                keyboard('up')
-            end
+            wheelmoved(touch.tx, touch.ty)
         end
     else
         if touch.state == RELEASED and touch.y <= 100 then

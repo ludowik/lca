@@ -59,6 +59,7 @@ function love.load()
 
     setActiveApp(loadApp('apps.apps'))
     setActiveApp(loadApp('apps.creativeCoding.colors'))
+    setActiveApp(loadApp('apps.morpion.morpion'))
 
     log(love.filesystem.getSaveDirectory())
 end

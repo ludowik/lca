@@ -9,6 +9,8 @@ local mt = {
 }
 setmetatable(table, mt)
 
+table.add = table.insert
+
 function table:clone()
     local copy = table()
     for i,v in ipairs(self) do

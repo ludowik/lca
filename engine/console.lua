@@ -20,6 +20,11 @@ function log(...)
     logs[text].count = logs[text].count + 1
 end
 
+function implement(...)
+    return log(...)
+end
+
+
 class 'Console' : extends(Window)
 
 function Console:init(x, y)

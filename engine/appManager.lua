@@ -8,6 +8,7 @@ function loadApp(path)
         update   = default,
         draw     = default,
         keyboard = default,
+        touched  = default,
     }
 
     setmetatable(env, {__index=_G})
@@ -19,6 +20,7 @@ function loadApp(path)
     app = {
         name = path
     }
+    parameter = Parameter()
     
     env.win = Window(env, 0, 0)    
 
