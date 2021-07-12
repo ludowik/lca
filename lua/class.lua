@@ -5,9 +5,7 @@ function class(className)
     local k = {}
     k.__index = k
     
-    k.attribs = table.attribs
-
-    local mt = {}
+    local mt = table()
     function mt.__call(k, ...)
         local instance = {}
         setmetatable(instance, k)
@@ -31,6 +29,8 @@ function class(className)
         end
         return k
     end
+    
+    k:extends(table)
 
     _G[className] = k
 

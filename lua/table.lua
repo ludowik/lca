@@ -1,4 +1,5 @@
 table.__index = table
+table.add = table.insert
 
 local mt = {
     __call = function (_, t)

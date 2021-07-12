@@ -34,8 +34,11 @@ function Window:init(env, x, y, w, h)
     self.position = Rect(x, y, w, h)
 end
 
-function Window:contains(position)
-    return self.position:contains(position.x, position.y)
+function Window:setupInstance()
+    self:setActive()
+    if self.env ~= self then
+        self.env:setup()
+    end
 end
 
 function Window:setActive()
@@ -43,6 +46,10 @@ function Window:setActive()
     _G.styles = self.styles
     _G.env.W = self.position.w
     _G.env.H = self.position.h
+end
+
+function Window:contains(position)
+    return self.position:contains(position.x, position.y)
 end
 
 function Window:updateInstance(dt)
@@ -78,14 +85,14 @@ local movingWindow
 function Window:touchedWin(touch)
     if movingWindow == nil and touch.state == PRESSED and touch.y < self.position.y + 25 then
         movingWindow = self
-        
+
     elseif movingWindow == self and touch.state == MOVED then
         self.position.x = self.position.x + touch.dx
         self.position.y = self.position.y + touch.dy
-        
+
         db.set(self.env.app.name, 'x', self.position.x)
         db.set(self.env.app.name, 'y', self.position.y)
-    
+
     elseif touch.state == RELEASED then
         movingWindow = nil
     end
