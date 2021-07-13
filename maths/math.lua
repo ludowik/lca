@@ -115,6 +115,10 @@ function math.fract(x)
 end
 fract = math.fract
 
+function tointeger(v)
+    return round(tonumber(v))
+end
+
 class('__math')
 
 function __math.test()
@@ -145,6 +149,6 @@ function __math.test()
 
     ut.assertEqual('map', math.map(0, 1, 10, 2, 10), 2)
     ut.assertEqual('map', math.map(11, 1, 10, 2, 5), 5)
-    
+
     ut.assertEqual('map', math.map(5.5, 0, 10, 0, 100), 55)
 end

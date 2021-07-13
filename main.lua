@@ -5,10 +5,3 @@ require 'engine.#'
 -- TODO : sauvegarde du placement des fenêtres
 
 -- TODO : gestion d'une base clé / valeur
-
-
-
-pushMatrix = function () end
-popMatrix = function () end
-
-translate = function () end

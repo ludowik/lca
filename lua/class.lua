@@ -30,8 +30,6 @@ function class(className)
         return k
     end
     
-    k:extends(table)
-
     k.meta = function (self, __base)
         k.init = function (self)
             return self

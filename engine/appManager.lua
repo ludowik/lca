@@ -1,6 +1,11 @@
 Apps = table()
 
 function loadApp(path)
+    if Apps[path] then
+        setActiveApp(Apps[path])
+        return
+    end
+
     local default = function () end
 
     local env = {
@@ -21,36 +26,34 @@ function loadApp(path)
         name = path
     }
     parameter = Parameter()
-    
+
     env.win = Window(env, 0, 0)    
 
     W = env.win.position.w
     H = env.win.position.h
 
     Apps:insert(env)
-    
+    Apps[path] = env
+
     setActiveApp(env)
-    
+
     env.win:setupInstance()    
 
     return env
 end
 
 function setActiveApp(env)
+    WindowsManager.windows:insert(WindowsManager.windows:removeItem(env.win))
     _G.env = env
     setfenv(0, env)
 end
 
 function nextApp()
     local app = Apps[#Apps]
-    WindowsManager.windows:insert(WindowsManager.windows:removeItem(app.win))
-
     setActiveApp(app)
 end
 
 function previousApp(env)
     local app = Apps[1]
-    WindowsManager.windows:insert(WindowsManager.windows:removeItem(app.win))
-
     setActiveApp(app)
 end

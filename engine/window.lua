@@ -84,6 +84,9 @@ end
 local movingWindow
 
 function Window:touched(touch)
+    touch.x = touch.x - self.position.x
+    touch.y = touch.y - self.position.y
+    
     if self.env ~= self then
         self.env.touched(touch)
     end

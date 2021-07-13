@@ -5,7 +5,7 @@ function setup()
     scene = Scene()
     scene:add(UI('apps.the2048'))
     scene:add(UI('apps.creativeCoding.colors'))
-
+    scene:add(UI('apps.morpion.morpion'))
 end
 
 function draw()
@@ -34,7 +34,7 @@ function UI:draw()
     text(self.label, self.x, self.y)
 end
 
-class 'Scene'
+class 'Scene' : extends(table)
 
 function Scene:layout()
     local x, y = 0, 0

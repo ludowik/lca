@@ -9,4 +9,5 @@ end
 function Fps:draw()
     background(0, 0, 0, 0)
     text(love.timer.getFPS())
+    text(Touch.count)
 end

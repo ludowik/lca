@@ -1,4 +1,4 @@
---require 'maths.math'
+require 'maths.math'
 --require 'maths.vec2'
 --require 'maths.vec3'
 --require 'maths.vec4'

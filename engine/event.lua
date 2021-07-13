@@ -3,13 +3,12 @@ class 'Touch'
 function Touch.setup()
     Touch.touches = table()
 
-    
     PRESSED = 'pressed'
     BEGAN = PRESSED
-    
+
     MOVED = 'moved'
     MOVING = MOVED
-    
+
     RELEASED = 'released'
     ENDED = RELEASED
 end
@@ -105,8 +104,13 @@ function love.keypressed(key, scancode, isrepeat)
     if key == 'escape' then
         love.event.quit()
         os.exit(0)
+
     elseif key == 'r' then
         love.event.quit('restart')
+
+    elseif key == 'f2' then
+        loadApp('apps.apps')        
+
     else
         print(key)
         if love.keyboard.isDown('lalt') then

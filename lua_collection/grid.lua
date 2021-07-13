@@ -2,10 +2,10 @@ class 'Grid'
 
 function Grid:init(w, h)
     self.size = w
-    
+
     self.w = w
     self.h = h or w
-    
+
     self.cells = table()
 end
 
@@ -14,32 +14,36 @@ function Grid:clear()
 end
 
 function Grid:offset(i, j)
-    assert(i>=1 and i<=4)
-    assert(j>=1 and j<=4)
-    return i + (j-1) * self.size
+    if (i>=1 and i<=4) and (j>=1 and j<=4) then
+        return i + (j-1) * self.size
+    end
+    return -1
 end
 
 function Grid:cell(i, j)
     local offset = self:offset(i, j)
+    if offset == -1 then return nil end
+
     self.cells[offset] = self.cells[offset] or table()
-    
+
     self.cells[offset].x = i
     self.cells[offset].y = j
-    
+
     return self.cells[offset]
 end
 
 function Grid:set(i, j, value)
     local cell = self:cell(i, j)
-    cell.value = value
+    if cell then
+        cell.value = value
+    end
 end
 
 function Grid:get(i, j)
-    return self:cell(i, j).value
-end
-
-function Grid:ipairs()
-    
+    local cell = self:cell(i, j)
+    if cell then
+        return cell.value
+    end
 end
 
 function Grid:countCellsWithNoValue()
