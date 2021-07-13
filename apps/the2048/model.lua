@@ -21,9 +21,9 @@ function Grid2048:addCell()
 end
 
 function Grid2048:isGameOver()
-    local grid = Grid2048(self.size)
+    local grid = Grid2048(self.w, self.h)
     grid.cells = self.cells:clone()
-    
+
     local n = 0
     for _,key in ipairs(commands) do
         n = n + grid:action(key)
@@ -179,11 +179,13 @@ end
 
 function Grid2048:save()
     local str = '{'..NL
-    for i=1,self.size*self.size do
-        if self.cells[i] then
-            str = str..'['..i..'] = '..self.cells[i]..','
-        end
-    end
+
+    self:applyFunction(function (i, j, cell)
+            if cell and cell.value then
+                str = str..'    {i='..i..', j='..j..', value='..cell.value..'},'..NL
+            end
+    end)
+
     str = str..NL..'    score = '..self.score..','
     str = str..NL..'    scoreMax = '..scoreMax..','
     str = str..NL..'}'
@@ -192,13 +194,14 @@ function Grid2048:save()
 end
 
 function Grid2048:load()
-    local str = love.filesystem.read('2048.data')
+    local str = love.filesystem.read(app.name..'.mydata')
     if str then
         local data = loadstring('return '..str)()
         if data then
-            for i=1,self.size*self.size do
-                self.cells[i] = data[i]
+            for i,cell in ipairs(data) do
+                self:set(cell.i, cell.j, cell.value)
             end
+            
             self.score = data.score or 0
             scoreMax = data.scoreMax or 0
 

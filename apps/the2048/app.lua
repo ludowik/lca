@@ -93,9 +93,10 @@ function draw()
     rect(x-outerMarge, y-outerMarge, cellSize*4+outerMarge*2, cellSize*4+outerMarge*2, round)
 
     grid:applyFunction(
-        function (i, j, value)
+        function (i, j, cell)
             local xc, yc = x+(i-1)*cellSize, y+(j-1)*cellSize
 
+            local value = cell.value
             if value then
 
                 local clr = colors[value] or color(0.5)

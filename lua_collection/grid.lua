@@ -1,8 +1,6 @@
 class 'Grid'
 
 function Grid:init(w, h)
-    self.size = w
-
     self.w = w
     self.h = h or w
 
@@ -15,7 +13,7 @@ end
 
 function Grid:offset(i, j)
     if (i>=1 and i<=4) and (j>=1 and j<=4) then
-        return i + (j-1) * self.size
+        return i + (j-1) * self.w
     end
     return -1
 end
@@ -48,8 +46,8 @@ end
 
 function Grid:countCellsWithNoValue()
     local count = 0
-    for j=1,self.size do
-        for i=1,self.size do
+    for j=1,self.h do
+        for i=1,self.w do
             if self:get(i, j) == nil then
                 count = count + 1
             end
@@ -60,8 +58,8 @@ end
 
 function Grid:countCellsWithValue(value)
     local count = 0
-    for j=1,self.size do
-        for i=1,self.size do
+    for j=1,self.h do
+        for i=1,self.w do
             if self:get(i, j) == value then
                 count = count + 1
             end
@@ -71,8 +69,8 @@ function Grid:countCellsWithValue(value)
 end
 
 function Grid:applyFunction(f)
-    for j=1,self.size do
-        for i=1,self.size do
+    for j=1,self.h do
+        for i=1,self.w do
             f(i, j, self:cell(i, j))
         end
     end
