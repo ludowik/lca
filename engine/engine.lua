@@ -15,7 +15,9 @@ function love.load()
     makelove()
     
     local x, y, w, h = love.window.getSafeArea()
-    love.window.setMode(w, h)
+    love.window.setMode(h, w)
+    
+    print(x, y, w, h)
     
     local major, minor, revision, codename = love.getVersion()
     version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
