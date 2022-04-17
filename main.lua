@@ -2,9 +2,6 @@ require 'engine.engine'
 
 local angle
 function setup()
-    local major, minor, revision, codename = love.getVersion()
-    version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
-    
     angle = 0
 end
 
@@ -15,5 +12,5 @@ end
 function draw()
     love.graphics.translate(W/2, H/2)
     love.graphics.rotate(angle)
-    love.graphics.print(version)
+    love.graphics.print(love.system.getOS())
 end

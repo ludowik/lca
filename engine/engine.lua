@@ -5,14 +5,18 @@ update = update or nilf
 draw = draw or nilf
 
 function makelove()
+    if love.system.getOS() ~= 'OS X' then return end
     os.execute('makelove')
     os.execute('unzip -o -u makelove-build/lovejs/lca-lovejs.zip')
-    os.execute('python3 -m http.server 8080 --directory lca')
+--    os.execute('python3 -m http.server 8080 --directory lca')
 end
 
 function love.load()
     makelove()
     
+--    local major, minor, revision, codename = love.getVersion()
+--    version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
+
     W, H = love.graphics.getDimensions()
     setup()
 end
