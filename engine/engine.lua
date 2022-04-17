@@ -34,9 +34,13 @@ function love.update(dt)
 end
 
 function love.draw()
+    resetMatrix()
+    resetStyles()
+    
     draw()
     
-    love.graphics.origin()
+    resetMatrix()
+    
     love.graphics.print(love.timer.getFPS(), 0, 0)
     
     love.graphics.print(windowSize, 0, 20)

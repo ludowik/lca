@@ -4,5 +4,7 @@ build_directory = "makelove-build"
 
 love_files = [
     "./main.lua",
+    "./lua/*.lua",
     "./engine/*.lua",
+    "./graphics/*.lua",
 ]
