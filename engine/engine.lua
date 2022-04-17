@@ -14,10 +14,13 @@ end
 function love.load()
     makelove()
     
-    local x, y, w, h = love.window.getSafeArea()
-    love.window.setMode(h, w)
+    local x, y, h, w = love.window.getSafeArea()
+    w = love.window.toPixels(w)
+    h = love.window.toPixels(h)
+
+    love.window.setMode(w, h)
     
-    print(x, y, w, h)
+    windowSize = string.format('Size %d, %d', w, h)
     
     local major, minor, revision, codename = love.getVersion()
     version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
@@ -32,6 +35,11 @@ end
 
 function love.draw()
     draw()
+    
+    love.graphics.origin()
+    love.graphics.print(love.timer.getFPS(), 0, 0)
+    
+    love.graphics.print(windowSize, 0, 20)
 end
 
 function love.keyreleased(key)
