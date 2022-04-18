@@ -1,3 +1,9 @@
+function textSize(txt)
+    local font = love.graphics.getFont()
+    return font:getHeight() * #txt, font:getHeight()
+--    return font:getWidth(txt), font:getHeight()
+end
+
 function text(txt, x, y)
     if type(txt) == 'table' then
         local t = txt
@@ -5,19 +11,21 @@ function text(txt, x, y)
         for _,v in ipairs(t) do
             txt = txt .. tostring(v) .. ' '
         end
+    else
+        txt = tostring(txt)
     end
     
-    local font = love.graphics.getFont()
+    local w, h = textSize(txt)
 
     x = x or 0
     if not y then
         y = textPosition
-        textPosition = textPosition + font:getHeight()
+        textPosition = textPosition + h
     end
 
     if textMode() == CENTER then
-        x = x - font:getWidth(txt) / 2
-        y = y - font:getHeight() / 2
+        x = x - w / 2
+        y = y - h / 2
     end
 
     love.graphics.setColor(textColor():unpack())

@@ -27,6 +27,7 @@ function makelove()
     if os.name ~= 'osx' then return end
     os.execute('makelove')
     os.execute('unzip -o makelove-build/lovejs/lca-lovejs.zip')
+    os.execute('cp lca/game.data .')
 --    os.execute('python3 -m http.server 8080 --directory lca')
 end
 
