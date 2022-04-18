@@ -1,6 +1,16 @@
 require 'engine.engine'
 
 local angle, mode
+
+local functions = {
+    function () return random() * 2 - 1 end,
+    function () return noise(angle) * 2 - 1 end,
+    function () return sin(angle) end,
+    function ()
+        return (angle-floor(angle/TAU)*TAU)/TAU
+    end,
+}
+
 function setup()
     angle = 0
     mode = 0
@@ -15,23 +25,16 @@ function draw()
     local w = round(W / (nx + 2))
     local ny = round(H / w) - 2
 
+    textMode(CENTER)
     rectMode(CENTER)
 
     translate(w/2, w/2)
 
-
     strokeSize(0.1)
     stroke(colors.black)
 
-    local f
-    if mode == 0 then
-        seed(2423525)
-        f = random
-    else
-        f = function ()
-            return cos(angle)
-        end
-    end
+    local f = functions[mode+1]
+    seed(12345)
 
     for j=1,ny do
         translate(0, w)
@@ -40,19 +43,29 @@ function draw()
         for i=1,nx do
             translate(w, 0)
 
+            local clr = Color(1 - f() * (j/ny))
+            fill(clr)
+
             pushMatrix()
             do
-                fill(Color(1 - f() * (j/ny)))
-
-                rotate((f() * 2 - 1 ) * PI * (j/(ny*2)))
-                rect(0, 0, w*0.9, w*0.9)
+                rotate(f() * PI * (j/(ny*2)))
+                rect(0, 0, w*0.9, w*0.9)                
             end
             popMatrix()
+
+            textColor(clr:contrast())
+            text(('LCA'):random(), 0, 0)
         end
         popMatrix()
     end
 end
 
-function mousepressed()
-    mode = mode == 0 and 1 or 0
+function drawInfo()
+    text(mode)
+    text({love.window.getDesktopDimensions()})
+end
+
+function mousereleased()
+    angle = 0
+    mode = (mode + 1) % #functions
 end

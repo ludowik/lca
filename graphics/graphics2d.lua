@@ -1,11 +1,27 @@
 function text(txt, x, y)
+    if type(txt) == 'table' then
+        local t = txt
+        txt = ''
+        for _,v in ipairs(t) do
+            txt = txt .. tostring(v) .. ' '
+        end
+    end
+    
+    local font = love.graphics.getFont()
+
     x = x or 0
-    y = y or textPosition or 0
-    
+    if not y then
+        y = textPosition
+        textPosition = textPosition + font:getHeight()
+    end
+
+    if textMode() == CENTER then
+        x = x - font:getWidth(txt) / 2
+        y = y - font:getHeight() / 2
+    end
+
     love.graphics.setColor(textColor():unpack())
-    love.graphics.print(txt, x, y)
-    
-    textPosition = textPosition + 12
+    love.graphics.print(txt, x, y)    
 end
 
 function point(x, y)
@@ -29,10 +45,10 @@ function rect(x, y, w, h)
         x = x - w / 2
         y = y - h / 2
     end
-    
+
     love.graphics.setColor(fill():unpack())    
     love.graphics.rectangle('fill', x, y, w, h)
-    
+
     love.graphics.setColor(stroke():unpack())    
     love.graphics.setLineWidth(strokeSize())
     love.graphics.rectangle('line', x, y, w, h)
@@ -43,7 +59,7 @@ function circle(x, y, r)
         x = x - r
         y = y - r
     end
-    
+
     love.graphics.setColor(fill():unpack())
     love.graphics.circle('fill', x, y, r)
 end

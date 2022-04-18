@@ -11,6 +11,23 @@ function Color:unpack()
     return self.r, self.g, self.b, self.a
 end
 
+function Color:contrast()
+    local lum =
+        (0.2125 * self.r) +
+        (0.7154 * self.g) + 
+        (0.0721 * self.b)
+        
+    if lum < 0.3 then return colors.white end
+    return colors.black
+end
+
+function Color:complementary()
+    return Color(
+        1 - self.r,
+        1 - self.g,
+        1 - self.b)
+end
+
 function Color.setup()
     colors = {
         white = Color(1, 1, 1),

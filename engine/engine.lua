@@ -3,6 +3,7 @@ if arg[#arg] == "-debug" then require("mobdebug").start() end
 require 'lua.class'
 require 'lua.math'
 require 'lua.random'
+require 'lua.string'
 
 require 'graphics.window'
 require 'graphics.transform'
@@ -17,6 +18,8 @@ update = update or nilf
 draw = draw or nilf
 keypressed = keypressed or nilf
 mousepressed = mousepressed or nilf
+mousemoved = mousemoved or nilf
+mousereleased = mousereleased or nilf
 
 os.name = love.system.getOS():lower():gsub(' ', '')
 
@@ -29,10 +32,10 @@ end
 
 function love.load()
     makelove()
-    
+
     setupClasses()
     setupWindow()
-    
+
     setup()
 end
 
@@ -40,16 +43,20 @@ function love.update(dt)
     update(dt)
 end
 
-function love.draw()
+function love.render(f)
     resetMatrix()
     resetStyles()
     
-    draw()
-    
-    resetMatrix()
-    
-    text(love.timer.getFPS())
-    text(windowSize)
+    f()
+end
+
+function love.draw()
+    love.render(draw)
+    love.render(function()
+            text(love.timer.getFPS())
+            text(windowSize)
+            drawInfo()
+        end)    
 end
 
 function love.keyreleased(key)
@@ -58,4 +65,12 @@ end
 
 function love.mousepressed()
     mousepressed()
+end
+
+function love.mousemoved()
+    mousemoved()
+end
+
+function love.mousereleased()
+    mousereleased()
 end

@@ -1,12 +1,13 @@
 function resetStyles()
     textPosition = 0
-    textColor(white)
+    textColor(colors.white)
     
-    stroke(white)
+    stroke(colors.white)
     strokeSize(1)
     
-    fill(gray)
+    fill(colors.gray)
     
+    textMode(CORNER)
     rectMode(CORNER)
     circleMode(CENTER)
     
@@ -15,6 +16,11 @@ end
 
 CORNER = 'corner'
 CENTER = 'center'
+
+function textMode(mode)
+    _textMode = mode or _textMode or CORNER
+    return _textMode
+end
 
 function rectMode(mode)
     _rectMode = mode or _rectMode or CORNER
