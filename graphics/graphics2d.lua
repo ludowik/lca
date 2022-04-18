@@ -1,7 +1,24 @@
-function textSize(txt)
+local resources = {}
+function textRes(txt)
     local font = love.graphics.getFont()
-    return font:getHeight() * #txt, font:getHeight()
---    return font:getWidth(txt), font:getHeight()
+    
+    local res = resources[txt]
+    if not res then
+        print('create res ' .. txt)
+        resources[txt] = {
+            text = love.graphics.newText(love.graphics.getFont(), txt),
+            w = font:getWidth(txt),
+            h = font:getHeight(),
+        }
+        res = resources[txt]
+    end
+    
+    return res
+end
+
+function textSize(txt)
+    local res = textRes(txt)
+    return res.w, res.h
 end
 
 function text(txt, x, y)
@@ -14,8 +31,9 @@ function text(txt, x, y)
     else
         txt = tostring(txt)
     end
-    
-    local w, h = textSize(txt)
+
+    local res = textRes(txt)    
+    local w, h = res.w, res.h
 
     x = x or 0
     if not y then
@@ -29,7 +47,7 @@ function text(txt, x, y)
     end
 
     love.graphics.setColor(textColor():unpack())
-    love.graphics.print(txt, x, y)    
+    love.graphics.draw(res.text, x, y)
 end
 
 function point(x, y)
