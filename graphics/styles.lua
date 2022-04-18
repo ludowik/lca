@@ -7,6 +7,8 @@ function resetStyles()
     
     fill(colors.gray)
     
+    fontSize(12)
+    
     textMode(CORNER)
     rectMode(CORNER)
     circleMode(CENTER)

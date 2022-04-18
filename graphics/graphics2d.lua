@@ -1,19 +1,28 @@
 local resources = {}
 function textRes(txt)
     local font = love.graphics.getFont()
-    
-    local res = resources[txt]
+
+    local resName = txt..fontSize()
+    local res = resources[resName]
     if not res then
-        print('create res ' .. txt)
-        resources[txt] = {
-            text = love.graphics.newText(love.graphics.getFont(), txt),
+        print('create res '..resName)
+        resources[resName] = {
+            text = love.graphics.newText(font, txt),
             w = font:getWidth(txt),
             h = font:getHeight(),
         }
-        res = resources[txt]
+        res = resources[resName]
     end
-    
+
     return res
+end
+
+function fontSize(size)
+    _fontSize = size or _fontSize or 12
+    if size then
+        love.graphics.setNewFont(size)
+    end
+    return _fontSize
 end
 
 function textSize(txt)

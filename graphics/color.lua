@@ -11,6 +11,13 @@ function Color:unpack()
     return self.r, self.g, self.b, self.a
 end
 
+function Color.random()
+    return Color(
+        random(),
+        random(),
+        random())
+end
+
 function Color:contrast()
     local lum =
         (0.2125 * self.r) +
