@@ -1,7 +1,21 @@
 function setupWindow()
-    local x, y, h, w = love.window.getSafeArea()
+    local w, h
+    if os.name == 'web' then
+        local w1, h1 = love.window.getDesktopDimensions()
+        local w2, h2 = love.graphics.getDimensions()        
+        if w1 < w2 then
+            w, h = w1, h1
+        else
+            w, h = w2, h2
+        end
+    else
+        w, h = love.window.getMode()
+    end
+    
     w = love.window.toPixels(w)
     h = love.window.toPixels(h)
+    
+    w, h = min(w,h), max(w,h)
 
     love.window.setMode(w, h, {
             highdpi = true,
