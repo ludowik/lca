@@ -2,6 +2,8 @@ require 'engine.engine'
 
 local angle, mode
 
+-- https://easings.net
+
 function easeInSine(x)
     return 1 - cos((x * PI) / 2)
 end
