@@ -1,23 +1,24 @@
+local love2d = love
 function resetMatrix()
-    love.graphics.origin()
+    love2d.graphics.origin()
 end
 
 function pushMatrix()
-    love.graphics.push()
+    love2d.graphics.push()
 end
 
 function popMatrix()
-    love.graphics.pop()
+    love2d.graphics.pop()
 end
 
 function translate(x, y)
-    love.graphics.translate(x, y)
+    love2d.graphics.translate(x, y)
 end
 
 function scale(w, h)
-    love.graphics.scale(w, h)
+    love2d.graphics.scale(w, h)
 end
 
 function rotate(angle)
-    love.graphics.rotate(angle)
+    love2d.graphics.rotate(angle)
 end

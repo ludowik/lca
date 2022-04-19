@@ -24,3 +24,11 @@ function setupClasses()
         end
     end
 end
+
+function push2_G(meta)
+    for k,f in pairs(meta) do
+        if k ~= 'setup' and k ~= 'init' and type(f) == 'function' then 
+           _G[k] = f
+        end
+    end
+end

@@ -1,100 +1,59 @@
-local resources = {}
-function textRes(txt)
-    local font = love.graphics.getFont()
+local Graphics = class 'GraphicsTemplate'
 
-    local resName = txt..fontSize()
-    local res = resources[resName]
-    if not res then
-        print('create res '..resName)
-        resources[resName] = {
-            text = love.graphics.newText(font, txt),
-            w = font:getWidth(txt),
-            h = font:getHeight(),
-        }
-        res = resources[resName]
-    end
-
-    return res
+local vertices = {}
+function Graphics:init()
+    push2_G(Graphics)
 end
 
-function fontSize(size)
-    _fontSize = size or _fontSize or 12
-    if size then
-        love.graphics.setNewFont(size)
-    end
-    return _fontSize
+function Graphics.fontSize(size)
 end
 
-function textSize(txt)
-    local res = textRes(txt)
-    return res.w, res.h
+function Graphics.textSize(txt)
 end
 
-function text(txt, x, y)
-    if type(txt) == 'table' then
-        local t = txt
-        txt = ''
-        for _,v in ipairs(t) do
-            txt = txt .. tostring(v) .. ' '
-        end
-    else
-        txt = tostring(txt)
-    end
-
-    local res = textRes(txt)    
-    local w, h = res.w, res.h
-
-    x = x or 0
-    if not y then
-        y = textPosition
-        textPosition = textPosition + h
-    end
-
-    if textMode() == CENTER then
-        x = x - w / 2
-        y = y - h / 2
-    end
-
-    love.graphics.setColor(textColor():unpack())
-    love.graphics.draw(res.text, x, y)
+function Graphics.text(txt, x, y)
+    return GraphicsLove.text(txt, x, y)
 end
 
-function point(x, y)
-    love.graphics.setColor(stroke():unpack())
-    love.graphics.points(x, y)
+function Graphics.point(x, y)
 end
 
-function points(...)
-    love.graphics.setColor(stroke():unpack())
-    love.graphics.points(...)
+function Graphics.points(...)
 end
 
-function line()
+function Graphics.line()
 end
 
-function lines()
+function Graphics.lines()
 end
 
-function rect(x, y, w, h)
+function Graphics.rect(x, y, w, h)
     if rectMode() == CENTER then
         x = x - w / 2
         y = y - h / 2
     end
 
-    love.graphics.setColor(fill():unpack())    
-    love.graphics.rectangle('fill', x, y, w, h)
+    local r,g,b,a = fill():unpack()
 
-    love.graphics.setColor(stroke():unpack())    
-    love.graphics.setLineWidth(strokeSize())
-    love.graphics.rectangle('line', x, y, w, h)
+    vertices = vertices or {}
+    table.insert(vertices, {x  ,y  , 0,0, r,g,b,a})
+    table.insert(vertices, {x  ,y+h, 0,1, r,g,b,a})
+    table.insert(vertices, {x+w,y+h, 1,1, r,g,b,a})
+    table.insert(vertices, {x  ,y  , 0,0, r,g,b,a})
+    table.insert(vertices, {x+w,y+h, 1,1, r,g,b,a})
+    table.insert(vertices, {x+w,y  , 1,0, r,g,b,a})
+    
+    Graphics.flush()
 end
 
-function circle(x, y, r)
-    if circleMode() == CORNER then
-        x = x - r
-        y = y - r
-    end
+function Graphics.circle(x, y, r)
+end
 
-    love.graphics.setColor(fill():unpack())
-    love.graphics.circle('fill', x, y, r)
+function Graphics.flush()
+    if #vertices == 0 then return end
+    
+    local mesh = love.graphics.newMesh(vertices, 'triangles')
+    love.graphics.draw(mesh)
+    
+    vertices = {}
 end
