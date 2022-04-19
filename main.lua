@@ -1,3 +1,5 @@
+--love2d = love
+
 require 'engine.engine'
 
 local angle, mode
@@ -82,7 +84,6 @@ end
 
 function drawInfo()
     text(mode)
-    text({love.window.getDesktopDimensions()})
 end
 
 function mousereleased()

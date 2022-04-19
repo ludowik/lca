@@ -12,8 +12,6 @@ function resetStyles()
     textMode(CORNER)
     rectMode(CORNER)
     circleMode(CENTER)
-    
-    love.graphics.setLineStyle('smooth')
 end
 
 CORNER = 'corner'

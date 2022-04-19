@@ -1,5 +1,6 @@
 if arg[#arg] == "-debug" then require("mobdebug").start() end
 
+require 'lua.os'
 require 'lua.class'
 require 'lua.math'
 require 'lua.random'
@@ -10,6 +11,9 @@ require 'graphics.transform'
 require 'graphics.styles'
 require 'graphics.color'
 require 'graphics.graphics2d'
+require 'graphics.graphics2d_love'
+
+require 'engine.love'
 
 nilf = function() end 
 
@@ -21,18 +25,10 @@ mousepressed = mousepressed or nilf
 mousemoved = mousemoved or nilf
 mousereleased = mousereleased or nilf
 
-os.name = love.system.getOS():lower():gsub(' ', '')
+class 'Engine'
 
-function makelove()
-    if os.name ~= 'osx' then return end
-    os.execute('makelove')
-    os.execute('unzip -o makelove-build/lovejs/lca-lovejs.zip')
-    os.execute('cp lca/game.data .')
---    os.execute('python3 -m http.server 8080 --directory lca')
-end
-
-function love.load()
-    makelove()
+function Engine.load()
+    Engine.graphics = GraphicsTemplate()
 
     setupClasses()
     setupWindow()
@@ -40,39 +36,49 @@ function love.load()
     setup()
 end
 
-function love.update(dt)
+function Engine.update(dt)
     update(dt)
 end
 
-function love.render(f)
+function Engine.render(f)
     resetMatrix()
     resetStyles()
-    
+
     f()
 end
 
-function love.draw()
-    love.render(draw)
-    love.render(function()
-            text(love.timer.getFPS())
-            text(windowSize)
+function Engine.draw()
+    Engine.render(draw)    
+    Engine.render(function()
+            text(getFPS())
             drawInfo()
         end)    
 end
 
-function love.keyreleased(key)
-    if key == 'escape' then love.event.quit() end
-    if key == 'r' then love.event.quit('restart') end
+function Engine.keyreleased(key)
+    if key == 'escape' then
+        quit()
+        
+    elseif key == 'r' then
+        quit('restart')
+        
+    elseif key =='g' then
+        if point == GraphicsLove.point then
+            Engine.graphics = GraphicsTemplate()
+        else
+            Engine.graphics = GraphicsLove()
+        end
+    end
 end
 
-function love.mousepressed()
+function Engine.mousepressed()
     mousepressed()
 end
 
-function love.mousemoved()
+function Engine.mousemoved()
     mousemoved()
 end
 
-function love.mousereleased()
+function Engine.mousereleased()
     mousereleased()
 end

@@ -1,0 +1,112 @@
+local love2d = love
+
+local Graphics = class 'GraphicsLove'
+
+function Graphics:init()
+    push2_G(Graphics)
+    love2d.graphics.setLineStyle('smooth')    
+end
+
+local resources = {}
+function Graphics.textRes(txt)
+    local font = love2d.graphics.getFont()
+
+    local resName = txt .. Graphics.fontSize()
+    local res = resources[resName]
+    if not res then
+        print('create res '..resName)
+        resources[resName] = {
+            text = love2d.graphics.newText(font, txt),
+            w = font:getWidth(txt),
+            h = font:getHeight(),
+        }
+        res = resources[resName]
+    end
+
+    return res
+end
+
+function Graphics.fontSize(size)
+    _fontSize = size or _fontSize or 12
+    if size then
+        love2d.graphics.setNewFont(size)
+    end
+    return _fontSize
+end
+
+function Graphics.textSize(txt)
+    local res = Graphics.textRes(txt)
+    return res.w, res.h
+end
+
+function Graphics.text(txt, x, y)
+    if type(txt) == 'table' then
+        local t = txt
+        txt = ''
+        for _,v in ipairs(t) do
+            txt = txt .. tostring(v) .. ' '
+        end
+    else
+        txt = tostring(txt)
+    end
+
+    local res = Graphics.textRes(txt)    
+    local w, h = res.w, res.h
+
+    x = x or 0
+    if not y then
+        y = textPosition
+        textPosition = textPosition + h
+    end
+
+    if textMode() == CENTER then
+        x = x - w / 2
+        y = y - h / 2
+    end
+
+    love2d.graphics.setColor(textColor():unpack())
+    love2d.graphics.draw(res.text, x, y)
+end
+
+function Graphics.point(x, y)
+    love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.points(x, y)
+end
+
+function Graphics.points(...)
+    love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.points(...)
+end
+
+function Graphics.line()
+end
+
+function Graphics.lines()
+end
+
+function Graphics.rect(x, y, w, h)
+    if rectMode() == CENTER then
+        x = x - w / 2
+        y = y - h / 2
+    end
+
+    love2d.graphics.setColor(fill():unpack())    
+    love2d.graphics.rectangle('fill', x, y, w, h)
+
+    love2d.graphics.setColor(stroke():unpack())    
+    love2d.graphics.setLineWidth(strokeSize())
+    love2d.graphics.rectangle('line', x, y, w, h)
+end
+
+function Graphics.circle(x, y, r)
+    if circleMode() == CORNER then
+        x = x - r
+        y = y - r
+    end
+
+    love2d.graphics.setColor(fill():unpack())
+    love2d.graphics.circle('fill', x, y, r)
+end
+
+function Graphics.flush()
+end
