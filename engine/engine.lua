@@ -27,31 +27,39 @@ mousereleased = mousereleased or nilf
 
 class 'Engine'
 
+function call(fname, ...)
+    if _G.env and _G.env[fname] then 
+        return _G.env[fname](...)
+    end
+end
+
 function Engine.load()
     Engine.graphics = GraphicsTemplate()
 
     setupClasses()
     setupWindow()
 
-    setup()
+    call('setup')
 end
 
 function Engine.update(dt)
-    update(dt)
+    call('update', dt)
 end
 
 function Engine.render(f)
+    if not f then return end
+    
     resetMatrix()
     resetStyles()
-
+    
     f()
 end
 
 function Engine.draw()
-    Engine.render(draw)    
+    Engine.render(_G.env.draw)
     Engine.render(function()
             text(getFPS())
-            drawInfo()
+            call('drawInfo')
         end)    
 end
 
@@ -62,6 +70,10 @@ function Engine.keyreleased(key)
     elseif key == 'r' then
         quit('restart')
         
+    elseif key == 'right' then
+        _G.env = apps[1]
+        _G.env.setup()
+        
     elseif key =='g' then
         if point == GraphicsLove.point then
             Engine.graphics = GraphicsTemplate()
@@ -71,14 +83,14 @@ function Engine.keyreleased(key)
     end
 end
 
-function Engine.mousepressed()
-    mousepressed()
+function Engine.mousepressed(...)
+    call('mousepressed', ...)
 end
 
-function Engine.mousemoved()
-    mousemoved()
+function Engine.mousemoved(...)
+    call('mousemoved', ...)
 end
 
-function Engine.mousereleased()
-    mousereleased()
+function Engine.mousereleased(...)
+    call('mousereleased', ...)
 end
