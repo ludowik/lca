@@ -27,7 +27,7 @@ end
 function Graphics.lines()
 end
 
-function Graphics.rect(x, y, w, h)    
+function Graphics.rect(x, y, w, h)
     if rectMode() == CENTER then
         x = x - w / 2
         y = y - h / 2
@@ -60,7 +60,37 @@ function Graphics.rect(x, y, w, h)
     popMatrix()
 end
 
-function Graphics.circle(x, y, r)
+function Graphics.circle(x, y, radius)
+    if circleMode() == CORNER then
+        x = x - r
+        y = y - r
+    end
+
+    if not Graphics.circleMesh then
+        local vertices = {}
+        local x, y, w, h = 0, 0, 1, 1 
+        table.insert(vertices, {x  , y  , 0, 0})
+        table.insert(vertices, {x  , y+h, 0, 1})
+        table.insert(vertices, {x+w, y+h, 1, 1})
+        table.insert(vertices, {x  , y  , 0, 0})
+        table.insert(vertices, {x+w, y+h, 1, 1})
+        table.insert(vertices, {x+w, y  , 1, 0})
+        Graphics.circleMesh = love.graphics.newMesh(vertices, 'triangles', 'static')
+    end        
+
+    local r, g, b, a = fill():unpack()
+
+    pushMatrix()
+    do
+        translate(x, y)
+        scale(radius, radius)
+
+        love.graphics.setColor(r, g, b, a)
+        love.graphics.draw(Graphics.circleMesh)
+
+--    Graphics.flush()
+    end
+    popMatrix()
 end
 
 function Graphics.flush()

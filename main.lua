@@ -1,27 +1,37 @@
 require 'engine.engine'
 
-apps = {}
+apps = {
+    listByName = {},
+    listByIndex = {},
+}
 
 function loadApp(name)
-    local env = {}
-    setmetatable(env, {__index = _G})
-    local function requireApp()
-        loadfile('apps/' .. name .. '.lua', env)()
+    if not apps.listByName[name] then
+        local env = setmetatable({}, {__index = _G})
+        assert(pcall(loadfile('apps/' .. name .. '.lua', 't', env)))
+        apps.listByName[name] = {
+            name = name,
+            env = env,
+            index = #apps.listByIndex + 1
+        }
+        apps.listByIndex[#apps.listByIndex + 1] = apps.listByName[name]
     end
-    setfenv(requireApp, env)
-    requireApp()
-    assert(env.draw)
-    _G.env = env
-    table.insert(apps, env)
+    _G.env = apps.listByName[name].env
+    apps.current = apps.listByName[name].index
 end
 
-function loadApp(name)
-    local env = setmetatable({}, {__index=_G})
-    assert(pcall(loadfile('apps/' .. name .. '.lua',"run_test_script",env)))
-    _G.env = env
-    table.insert(apps, env)
-    return env
+function previousApp()
+    apps.current = (apps.current + #apps.listByIndex - 2) % #apps.listByIndex + 1
+    _G.env = apps.listByIndex[apps.current].env
+    call('setup')
 end
 
-loadApp('falling_square')
+function nextApp()
+    apps.current = apps.current % #apps.listByIndex + 1
+    _G.env = apps.listByIndex[apps.current].env
+    call('setup')
+end
+
 loadApp('primitives')
+loadApp('falling_square')
+loadApp('blinking_circle')

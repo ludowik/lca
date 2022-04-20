@@ -90,10 +90,10 @@ function Graphics.rect(x, y, w, h)
         y = y - h / 2
     end
 
-    love2d.graphics.setColor(fill():unpack())    
+    love2d.graphics.setColor(fill():unpack())
     love2d.graphics.rectangle('fill', x, y, w, h)
 
-    love2d.graphics.setColor(stroke():unpack())    
+    love2d.graphics.setColor(stroke():unpack())
     love2d.graphics.setLineWidth(strokeSize())
     love2d.graphics.rectangle('line', x, y, w, h)
 end
@@ -106,6 +106,10 @@ function Graphics.circle(x, y, r)
 
     love2d.graphics.setColor(fill():unpack())
     love2d.graphics.circle('fill', x, y, r)
+
+    love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.setLineWidth(strokeSize())
+    love2d.graphics.circle('line', x, y, r)
 end
 
 function Graphics.flush()

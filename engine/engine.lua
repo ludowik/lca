@@ -15,16 +15,6 @@ require 'graphics.graphics2d_love'
 
 require 'engine.love'
 
-nilf = function() end 
-
-setup = setup or nilf
-update = update or nilf
-draw = draw or nilf
-keypressed = keypressed or nilf
-mousepressed = mousepressed or nilf
-mousemoved = mousemoved or nilf
-mousereleased = mousereleased or nilf
-
 class 'Engine'
 
 function call(fname, ...)
@@ -34,7 +24,10 @@ function call(fname, ...)
 end
 
 function Engine.load()
-    Engine.graphics = GraphicsTemplate()
+    Engine.graphics = GraphicsLove()
+    
+    deltaTime = 0
+    ellapsedTime = 0
 
     setupClasses()
     setupWindow()
@@ -43,6 +36,9 @@ function Engine.load()
 end
 
 function Engine.update(dt)
+    deltaTime = dt
+    ellapsedTime = ellapsedTime + dt
+    
     call('update', dt)
 end
 
@@ -60,7 +56,7 @@ function Engine.draw()
     Engine.render(function()
             text(getFPS())
             call('drawInfo')
-        end)    
+        end)
 end
 
 function Engine.keyreleased(key)
@@ -70,9 +66,14 @@ function Engine.keyreleased(key)
     elseif key == 'r' then
         quit('restart')
         
+    elseif key == 't' then
+        nextApp()
+        
+    elseif key == 'left' then
+        previousApp()
+        
     elseif key == 'right' then
-        _G.env = apps[1]
-        _G.env.setup()
+        nextApp()
         
     elseif key =='g' then
         if point == GraphicsLove.point then
