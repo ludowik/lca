@@ -27,23 +27,37 @@ end
 function Graphics.lines()
 end
 
-function Graphics.rect(x, y, w, h)
+function Graphics.rect(x, y, w, h)    
     if rectMode() == CENTER then
         x = x - w / 2
         y = y - h / 2
     end
 
-    local r,g,b,a = fill():unpack()
+    if not Graphics.rectMesh then
+        local vertices = {}
+        local x, y, w, h = 0, 0, 1, 1 
+        table.insert(vertices, {x  , y  , 0, 0})
+        table.insert(vertices, {x  , y+h, 0, 1})
+        table.insert(vertices, {x+w, y+h, 1, 1})
+        table.insert(vertices, {x  , y  , 0, 0})
+        table.insert(vertices, {x+w, y+h, 1, 1})
+        table.insert(vertices, {x+w, y  , 1, 0})
+        Graphics.rectMesh = love.graphics.newMesh(vertices, 'triangles', 'static')
+    end        
 
-    vertices = vertices or {}
-    table.insert(vertices, {x  ,y  , 0,0, r,g,b,a})
-    table.insert(vertices, {x  ,y+h, 0,1, r,g,b,a})
-    table.insert(vertices, {x+w,y+h, 1,1, r,g,b,a})
-    table.insert(vertices, {x  ,y  , 0,0, r,g,b,a})
-    table.insert(vertices, {x+w,y+h, 1,1, r,g,b,a})
-    table.insert(vertices, {x+w,y  , 1,0, r,g,b,a})
-    
-    Graphics.flush()
+    local r, g, b, a = fill():unpack()
+
+    pushMatrix()
+    do
+        translate(x, y)
+        scale(w, h)
+
+        love.graphics.setColor(r, g, b, a)
+        love.graphics.draw(Graphics.rectMesh)
+
+--    Graphics.flush()
+    end
+    popMatrix()
 end
 
 function Graphics.circle(x, y, r)
@@ -51,9 +65,9 @@ end
 
 function Graphics.flush()
     if #vertices == 0 then return end
-    
+
     local mesh = love.graphics.newMesh(vertices, 'triangles')
     love.graphics.draw(mesh)
-    
+
     vertices = {}
 end

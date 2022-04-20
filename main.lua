@@ -21,13 +21,13 @@ function easeInOutElastic(x)
 end
 
 local functions = {
-    function() return easeInSine(angle) end,
     function () return random() * 2 - 1 end,
     function () return noise(angle) * 2 - 1 end,
     function () return sin(angle) end,
     function ()
         return (angle-floor(angle/TAU)*TAU)/TAU
     end,
+    function() return easeInSine(angle) end,    
 }
 
 function setup()
@@ -58,11 +58,11 @@ function draw()
     local f = functions[mode+1]
     seed(12345)
 
-    for j=1,ny do
+    for j=0,ny-1 do
         translate(0, h)
 
         pushMatrix()
-        for i=1,nx do
+        for i=0,nx-1 do
             translate(w, 0)
 
             local clr = Color.random() -- (1 - f() * (j/ny))
@@ -72,11 +72,11 @@ function draw()
             do
                 rotate(f() * PI * (j/(ny*2)))
                 rect(0, 0, w*0.9, h*0.9)                
+                
+                textColor(clr:contrast())
+            text(('LCA'):random(), 0, 0)
             end
             popMatrix()
-
-            textColor(clr:contrast())
-            text(('LCA'):random(), 0, 0)
         end
         popMatrix()
     end

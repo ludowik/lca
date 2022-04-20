@@ -25,6 +25,7 @@ function initWindow()
     love2d.window.setMode(w, h, {
             highdpi = true,
             usedpiscale = true,
+            msaa = 8,
         })
     
     return w, h
