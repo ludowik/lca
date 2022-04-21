@@ -14,7 +14,6 @@ function Graphics.textRes(txt)
     local resName = txt .. Graphics.fontSize()
     local res = resources[resName]
     if not res then
-        print('create res '..resName)
         resources[resName] = {
             text = love2d.graphics.newText(font, txt),
             w = font:getWidth(txt),
@@ -70,18 +69,40 @@ end
 
 function Graphics.point(x, y)
     love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.setPointSize(strokeSize())
     love2d.graphics.points(x, y)
 end
 
 function Graphics.points(...)
     love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.setPointSize(strokeSize())
     love2d.graphics.points(...)
 end
 
-function Graphics.line()
+function Graphics.line(x1, y1, x2, y2)
+    love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.setLineWidth(strokeSize())
+    love2d.graphics.line(x1, y1, x2, y2)
 end
 
-function Graphics.lines()
+function Graphics.lines(t)
+    love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.setLineWidth(strokeSize())    
+    for i=1,#t,4 do
+        Graphics.line(t[i], t[i+1], t[i+2], t[i+3])
+    end
+end
+
+function Graphics.polyline(t)
+    love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.setLineWidth(strokeSize())
+    love2d.graphics.line(t)
+end
+
+function Graphics.polygon(t)
+    love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.setLineWidth(strokeSize())
+    love2d.graphics.polygon('line', t)
 end
 
 function Graphics.rect(x, y, w, h)
@@ -90,12 +111,16 @@ function Graphics.rect(x, y, w, h)
         y = y - h / 2
     end
 
-    love2d.graphics.setColor(fill():unpack())
-    love2d.graphics.rectangle('fill', x, y, w, h)
+    if fill() then
+        love2d.graphics.setColor(fill():unpack())
+        love2d.graphics.rectangle('fill', x, y, w, h)
+    end
 
-    love2d.graphics.setColor(stroke():unpack())
-    love2d.graphics.setLineWidth(strokeSize())
-    love2d.graphics.rectangle('line', x, y, w, h)
+    if stroke() then
+        love2d.graphics.setColor(stroke():unpack())
+        love2d.graphics.setLineWidth(strokeSize())
+        love2d.graphics.rectangle('line', x, y, w, h)
+    end
 end
 
 function Graphics.circle(x, y, r)
@@ -104,13 +129,13 @@ function Graphics.circle(x, y, r)
         y = y - r
     end
 
-    love2d.graphics.setColor(fill():unpack())
-    love2d.graphics.circle('fill', x, y, r)
+    if fill() then
+        love2d.graphics.setColor(fill():unpack())
+        love2d.graphics.circle('fill', x, y, r)
+    end
 
-    love2d.graphics.setColor(stroke():unpack())
-    love2d.graphics.setLineWidth(strokeSize())
-    love2d.graphics.circle('line', x, y, r)
-end
-
-function Graphics.flush()
+    if stroke() then    love2d.graphics.setColor(stroke():unpack())
+        love2d.graphics.setLineWidth(strokeSize())
+        love2d.graphics.circle('line', x, y, r)
+    end
 end

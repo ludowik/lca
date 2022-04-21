@@ -46,8 +46,90 @@ function Color.setup()
 
         gray = Color(0.5, 0.5, 0.5),
 
-        red = Color(1, 0, 0),
+        red = Color(210/255, 70/255, 50/255), -- 1, 0, 0),
         green = Color(0, 1, 0),
-        blue = Color(0, 0, 1),
+        blue = Color(50/255, 120/255, 170/255), -- 0, 0, 1),
+
+        yellow = Color(245/255, 225/255, 50/255),
     }
+end
+
+function Color.hsl(hue, sat, lgt, a)
+    assert(hue)
+    sat = sat or 0.5
+    lgt = lgt or 0.5
+    a = a or 1
+
+    if sat <= 0 then
+        return
+        Color(lgt,lgt,lgt,a)
+    end
+    
+    hue = hue * 6 -- We will split hue into 6 sectors    
+    
+    local c = (1-math.abs(2*lgt-1))*sat
+    local x = (1-math.abs(hue%2-1))*c
+
+    local m,r,g,b = (lgt-.5*c), 0,0,0
+
+    if     hue < 1 then r,g,b = c,x,0
+    elseif hue < 2 then r,g,b = x,c,0
+    elseif hue < 3 then r,g,b = 0,c,x
+    elseif hue < 4 then r,g,b = 0,x,c
+    elseif hue < 5 then r,g,b = x,0,c
+    else              r,g,b = c,0,x
+    end
+
+    return Color(r+m, g+m, b+m, a)
+end
+
+function Color.hsb(hue, sat, val, alpha)
+    assert(hue)
+    sat = sat or 0.5
+    val = val or 1
+    a = a or 1
+
+    if sat <= 0 then 
+        return Color(val, val, val, alpha) -- Return early if grayscale
+    end
+    
+    hue = hue * 6 -- We will split hue into 6 sectors    
+
+    local sector = floor(hue)
+    local tint1 = val * (1 - sat)
+    local tint2 = val * (1 - sat * (hue - sector))
+    local tint3 = val * (1 - sat * (1 + sector - hue))
+    local r, g, b
+    if sector == 1 then
+        -- Yellow to green
+        r = tint2
+        g = val
+        b = tint1
+    elseif sector == 2 then
+        -- Green to cyan
+        r = tint1
+        g = val
+        b = tint3
+    elseif sector == 3 then
+        -- Cyan to blue
+        r = tint1
+        g = tint2
+        b = val
+    elseif sector == 4 then
+        -- Blue to magenta
+        r = tint3
+        g = tint1
+        b = val
+    elseif sector == 5 then
+        -- Magenta to red
+        r = val
+        g = tint1
+        b = tint2
+    else
+        -- Red to yellow (sector could be 0 or 6)
+        r = val
+        g = tint3
+        b = tint1
+    end
+    return Color(r, g, b, alpha)
 end

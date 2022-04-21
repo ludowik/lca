@@ -37,8 +37,12 @@ function textColor(clr)
     return _textColor
 end
 
+function noStroke()
+    _strokeColor = nil
+end
+
 function stroke(clr)
-    _strokeColor = clr or _strokeColor or colors.white
+    _strokeColor = clr or _strokeColor
     return _strokeColor
 end
 
@@ -47,7 +51,11 @@ function strokeSize(size)
     return _strokeSize
 end
 
+function noFill()
+    _fillColor = nil
+end
+
 function fill(clr)
-    _fillColor = clr or _fillColor or colors.gray
+    _fillColor = clr or _fillColor
     return _fillColor
 end

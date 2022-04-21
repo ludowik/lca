@@ -3,8 +3,9 @@ default_targets = ["lovejs"]
 build_directory = "makelove-build"
 
 love_files = [
-    "./main.lua",
-    "./lua/*.lua",
+    "./apps/*.lua",
     "./engine/*.lua",
     "./graphics/*.lua",
+    "./lua/*.lua",
+    "./main.lua",    
 ]
