@@ -1,6 +1,7 @@
 local love2d = love
 function resetMatrix()
     love2d.graphics.origin()
+    love2d.graphics.translate(X, Y)    
 end
 
 function pushMatrix()

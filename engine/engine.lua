@@ -16,8 +16,7 @@ require 'graphics.graphics2d_love'
 
 require 'engine.app'
 require 'engine.love'
-
-require 'config'
+require 'engine.config'
 
 class 'Engine'
 
@@ -59,6 +58,8 @@ function Engine.render(f)
 
     resetMatrix()
     resetStyles()
+    
+    clip()
 
     f()
 end

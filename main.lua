@@ -1,8 +1,4 @@
 require 'engine.engine'
 
-loadApp('primitives')
-loadApp('falling_square')
-loadApp('blinking_circle')
-loadApp('colors')
-
+loadApps()
 loadApp(config.appName)

@@ -13,7 +13,7 @@ function layer(nx, ny)
     for i=1,nx do
         for j=1,ny do
             local val = noise((i+5)*(j+3), ellapsedTime/2)
-            fill(Color.hsl2rgb(val))
+            fill(Color.hsl(val))
             circle(
                 (i - 0.5) * w,
                 (j - 0.5) * h,

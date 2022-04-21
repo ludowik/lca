@@ -3,7 +3,7 @@ function draw()
     seed(12)
     translate(100, 100)
     local w, h = 50, 50
-    love.graphics.setScissor(100, 100, 50, 50)
+    clip(100, 100, 50, 50)
     for i=1,100 do
         strokeSize(6)
         stroke(Color.hsl(random()))

@@ -3,10 +3,17 @@ apps = {
     listByIndex = {},
 }
 
+function loadApps()
+    local files = love.filesystem.getDirectoryItems('apps')
+    for _,file in ipairs(files) do
+        loadApp(file:gsub('.lua', ''))
+    end
+end
+
 function loadApp(name)
     if not apps.listByName[name] then
-        local env = setmetatable({}, {__index = _G})
-        assert(pcall(loadfile('apps/' .. name .. '.lua', 't', env)))
+        local env = setmetatable({}, {__index = _G})        
+        assert(pcall(setfenv(love.filesystem.load('apps/' .. name .. '.lua'), env)))
         apps.listByName[name] = {
             name = name,
             env = env,

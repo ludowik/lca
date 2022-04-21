@@ -7,6 +7,10 @@ function Graphics:init()
     love2d.graphics.setLineStyle('smooth')    
 end
 
+function Graphics.clip(...)
+    love.graphics.setScissor(...)
+end
+
 local resources = {}
 function Graphics.textRes(txt)
     local font = love2d.graphics.getFont()

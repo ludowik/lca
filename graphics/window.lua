@@ -1,5 +1,5 @@
 function setupWindow()
-    W, H = initWindow()
+    X, Y, W, H = initWindow()
 end
 
 local love2d = love
@@ -28,7 +28,7 @@ function initWindow()
             msaa = 8,
         })
     
-    return w, h
+    love.keyboard.setTextInput(true)
+
+    return love.window.getSafeArea()
 end
-
-
