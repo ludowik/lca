@@ -30,6 +30,7 @@ function love2d.keyreleased(...)
 end
 
 function love2d.mousepressed(...)
+    love.keyboard.setTextInput(true)
     return Engine.mousepressed(...)
 end
 

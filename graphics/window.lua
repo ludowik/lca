@@ -28,7 +28,5 @@ function initWindow()
             msaa = 8,
         })
     
-    love.keyboard.setTextInput(true)
-
     return love.window.getSafeArea()
 end

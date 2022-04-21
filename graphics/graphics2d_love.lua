@@ -11,6 +11,10 @@ function Graphics.clip(...)
     love.graphics.setScissor(...)
 end
 
+function Graphics.background(clr)
+    love.graphics.clear(clr:unpack())
+end
+
 local resources = {}
 function Graphics.textRes(txt)
     local font = love2d.graphics.getFont()

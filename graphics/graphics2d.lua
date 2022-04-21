@@ -2,7 +2,7 @@ local Graphics = class 'GraphicsTemplate'
 
 function Graphics:init()
     push2_G(Graphics)
-    love2d.graphics.setLineStyle('smooth')    
+    love.graphics.setLineStyle('smooth')    
 end
 
 function Graphics.clip(...)

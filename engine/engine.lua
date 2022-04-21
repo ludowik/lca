@@ -58,14 +58,22 @@ function Engine.render(f)
 
     resetMatrix()
     resetStyles()
-    
+
     clip()
 
     f()
 end
 
+local canvas
 function Engine.draw()
+    canvas = canvas or love.graphics.newCanvas(W, H)
+    love.graphics.setCanvas(canvas)
+
     Engine.render(_G.env.draw)
+
+    love.graphics.setCanvas()
+    love.graphics.draw(canvas)
+
     Engine.render(function()
             text(getFPS())
             text(apps.current)
