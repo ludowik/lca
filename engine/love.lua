@@ -47,5 +47,6 @@ function getFPS()
 end
 
 function quit(...)
+    Engine.unload()
     return love2d.event.quit(...)
 end

@@ -6,6 +6,7 @@ require 'lua.math'
 require 'lua.random'
 require 'lua.string'
 require 'lua.vec2'
+require 'lua.table'
 
 require 'graphics.window'
 require 'graphics.transform'
@@ -20,12 +21,6 @@ require 'engine.config'
 
 class 'Engine'
 
-function call(fname, ...)
-    if _G.env and _G.env[fname] then 
-        return _G.env[fname](...)
-    end
-end
-
 function Engine.load()
     Engine.graphics = GraphicsLove()
 
@@ -35,7 +30,11 @@ function Engine.load()
     setupClasses()
     setupWindow()
 
-    call('setup')
+    callApp('setup')
+end
+
+function Engine.unload()
+    saveConfig()
 end
 
 function Engine.update(dt)
@@ -50,7 +49,7 @@ function Engine.update(dt)
     deltaTime = dt
     ellapsedTime = ellapsedTime + dt
 
-    call('update', dt)
+    callApp('update', dt)
 end
 
 function Engine.render(f)
@@ -64,22 +63,27 @@ function Engine.render(f)
     f()
 end
 
-local canvas
-function Engine.draw()
-    canvas = canvas or love.graphics.newCanvas(W, H)
-    love.graphics.setCanvas(canvas)
+function Engine.beginDraw()
+    _G.env.canvas = _G.env.canvas or love.graphics.newCanvas(W, H)
+    love.graphics.setCanvas(_G.env.canvas)
+end
 
-    Engine.render(_G.env.draw)
-
+function Engine.endDraw()
     love.graphics.setCanvas()
-    love.graphics.draw(canvas)
+    love.graphics.draw(_G.env.canvas)
+end
+
+function Engine.draw()
+    Engine.beginDraw()
+    Engine.render(_G.env.draw)
+    Engine.endDraw()    
 
     Engine.render(function()
             text(getFPS())
             text(apps.current)
             text(#apps.listByIndex)
             text(apps.listByIndex[apps.current].name)
-            call('drawInfo')
+            callApp('drawInfo')
         end)
 end
 
@@ -116,13 +120,14 @@ function Engine.keyreleased(key)
 end
 
 function Engine.mousepressed(...)
-    call('mousepressed', ...)
+    callApp('mousepressed', ...)
 end
 
 function Engine.mousemoved(...)
-    call('mousemoved', ...)
+    callApp('mousemoved', ...)
 end
 
 function Engine.mousereleased(...)
-    call('mousereleased', ...)
+    callApp('mousereleased', ...)
+    nextApp()
 end

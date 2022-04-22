@@ -32,7 +32,8 @@ end
 function setApp(index)
     apps.current = index
     _G.env = apps.listByIndex[apps.current].env
-    call('setup')
+    callApp('setup')
+    config.appName = apps.listByIndex[apps.current].name
 end
 
 function previousApp()
@@ -45,4 +46,10 @@ end
 
 function randomApp()
     setApp(random(#apps.listByIndex))
+end
+
+function callApp(fname, ...)
+    if _G.env and _G.env[fname] then 
+        return _G.env[fname](...)
+    end
 end
