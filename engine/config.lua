@@ -2,9 +2,9 @@ function loadConfig()
     local data = love.filesystem.read('config.lua')
     if data then
         data = 'local data = ' .. data .. ' return data'
-        return load(data)()
+        return pcall(load(data)()) or {}
     end
-    return nil
+    return {}
 end
 
 function saveConfig()
