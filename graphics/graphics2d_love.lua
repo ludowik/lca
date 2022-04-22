@@ -82,9 +82,18 @@ function Graphics.point(x, y)
 end
 
 function Graphics.points(...)
-    love2d.graphics.setColor(stroke():unpack())
+--    love2d.graphics.setColor(stroke():unpack())
     love2d.graphics.setPointSize(strokeSize())
-    love2d.graphics.points(...)
+--    love2d.graphics.points(...)
+
+    local format = {
+        {"VertexPosition", "float", 2}, -- The x,y position of each vertex.
+       -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
+        {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
+    }
+
+    love2d.graphics.draw(love2d.graphics.newMesh(format, ..., 'points', 'static'))
+
 end
 
 function Graphics.line(x1, y1, x2, y2)
