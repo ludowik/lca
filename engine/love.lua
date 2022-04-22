@@ -1,13 +1,5 @@
 local love2d = love
 
-function love2d.makelove()
-    if os.name ~= 'osx' then return end
-    os.execute('makelove')
-    os.execute('unzip -o makelove-build/lovejs/lca-lovejs.zip')
-    os.execute('cp lca/game.data .')
---    os.execute('python3 -m http.server 8080 --directory lca')
-end
-
 function love2d.load()
     love2d.makelove()
     
@@ -15,6 +7,14 @@ function love2d.load()
     version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
     
     return Engine.load()
+end
+
+function love2d.makelove()
+    if os.name ~= 'osx' then return end
+    os.execute('makelove')
+    os.execute('unzip -o makelove-build/lovejs/lca-lovejs.zip')
+    os.execute('cp lca/game.data .')
+--    os.execute('python3 -m http.server 8080 --directory lca')
 end
 
 function love2d.update(dt)
