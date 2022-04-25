@@ -7,5 +7,6 @@ love_files = [
     "./engine/*.lua",
     "./graphics/*.lua",
     "./lua/*.lua",
-    "./main.lua",    
+    "./main.lua",,
+    "./conf.lua",
 ]

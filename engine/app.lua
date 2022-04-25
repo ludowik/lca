@@ -34,6 +34,7 @@ function setApp(index)
     _G.env = apps.listByIndex[apps.current].env
     callApp('setup')
     config.appName = apps.listByIndex[apps.current].name
+    saveConfig()
 end
 
 function previousApp()
