@@ -24,9 +24,8 @@ function Graphics.textRes(txt)
     if not res then
         resources[resName] = {
             text = love2d.graphics.newText(font, txt),
-            w = font:getWidth(txt),
-            h = font:getHeight(),
         }
+        resources[resName].w, resources[resName].h = resources[resName].text:getDimensions()
         res = resources[resName]
     end
 
@@ -88,7 +87,7 @@ function Graphics.points(...)
 
     local format = {
         {"VertexPosition", "float", 2}, -- The x,y position of each vertex.
-       -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
+        -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
         {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
     }
 

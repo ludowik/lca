@@ -19,9 +19,9 @@ function easeInOutElastic(x)
 end
 
 local functions = {
+    function () return sin(angle) end,
     function () return random() * 2 - 1 end,
     function () return noise(angle) * 2 - 1 end,
-    function () return sin(angle) end,
     function ()
         return (angle-floor(angle/TAU)*TAU)/TAU
     end,
@@ -67,12 +67,12 @@ function draw()
             fill(clr)
 
             pushMatrix()
-            do
+            do                
                 rotate(f() * PI * (j/(ny*2)))
-                rect(0, 0, w*0.9, h*0.9)                
+                rect(0, 0, w*0.9, h*0.9)
                 
                 textColor(clr:contrast())
-            text(('LCA'):random(), 0, 0)
+                text(('LCA'):random(), 0, 0)
             end
             popMatrix()
         end

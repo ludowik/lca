@@ -28,5 +28,5 @@ function initWindow()
             msaa = 8,
         })
     
-    return love.window.getSafeArea()
+    return getSafeArea()
 end

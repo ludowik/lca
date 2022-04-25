@@ -30,6 +30,14 @@ function Engine.load()
     setupClasses()
     setupWindow()
 
+    loadApps()
+
+    if config.appName then
+        loadApp(config.appName)
+    else
+        loadApp('info')
+    end
+
     callApp('setup')
 end
 
@@ -119,15 +127,34 @@ function Engine.keyreleased(key)
     end
 end
 
-function Engine.mousepressed(...)
-    callApp('mousepressed', ...)
+local xBegin, yBegin
+function Engine.mousepressed(x, y, button, istouch, presses)
+    xBegin, yBegin = x, y
+    callApp('mousepressed', x, y, button, istouch, presses)
 end
 
-function Engine.mousemoved(...)
-    callApp('mousemoved', ...)
+function Engine.mousemoved(x, y, dx, dy, istouch)
+    callApp('mousemoved', x, y, dx, dy, istouch)
 end
 
-function Engine.mousereleased(...)
-    callApp('mousereleased', ...)
-    nextApp()
+function Engine.mousereleased(x, y, button, istouch, presses)
+    local xEnd, yEnd = x, y
+
+    dx = abs(xEnd - xBegin)
+    dy = abs(yEnd - yBegin)
+
+    if xBegin > 0.85 * W and yBegin < 0.15 * H then
+        quit()
+
+    elseif xBegin > 0.7 * W and xEnd < .3 * W and dy < 0.1 * dx then
+        previousApp()
+
+        -- TODO : slide function
+
+    elseif xEnd > 0.7 * W and xBegin < .3 * W and dy < 0.1 * dx then
+        nextApp()
+
+    else
+        callApp('mousereleased', x, y, button, istouch, presses)
+    end
 end

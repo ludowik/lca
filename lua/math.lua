@@ -1,5 +1,7 @@
 min, max = math.min, math.max
 
+abs = math.abs
+
 floor, ceil = math.floor, math.ceil
 round = math.floor
 

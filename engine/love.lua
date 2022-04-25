@@ -35,11 +35,20 @@ function love2d.mousepressed(...)
 end
 
 function love2d.mousemoved(...)
-    return Engine.mousemoved()
+    return Engine.mousemoved(...)
 end
 
 function love2d.mousereleased(...)
-    return Engine.mousereleased()
+    return Engine.mousereleased(...)
+end
+
+function getSafeArea()
+    local x, y, w, h = love.window.getSafeArea()
+    x = 1
+    y = 20
+    w = w - x * 2
+    h = h - y * 2
+    return x, y, w, h
 end
 
 function getFPS()
