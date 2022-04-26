@@ -44,8 +44,8 @@ end
 
 function getSafeArea()
     local x, y, w, h = love.window.getSafeArea()
-    x = 1
-    y = 20
+    x = 2
+    y = 24
     w = w - x * 2
     h = h - y * 2
     return x, y, w, h

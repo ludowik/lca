@@ -78,6 +78,7 @@ end
 
 function Engine.endDraw()
     love.graphics.setCanvas()
+    love.graphics.origin()
     love.graphics.draw(_G.env.canvas)
 end
 
@@ -88,8 +89,6 @@ function Engine.draw()
 
     Engine.render(function()
             text(getFPS())
-            text(apps.current)
-            text(#apps.listByIndex)
             text(apps.listByIndex[apps.current].name)
             callApp('drawInfo')
         end)

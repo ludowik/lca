@@ -155,3 +155,7 @@ function Graphics.circle(x, y, r)
         love2d.graphics.circle('line', x, y, r)
     end
 end
+
+function Graphics.box(x, y, z, w, h, d)
+    GraphicsTemplate.box(x, y, z, w, h, d)
+end

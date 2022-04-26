@@ -38,7 +38,7 @@ function Graphics.line(x1, y1, x2, y2)
     local v = vec2(x2, y2) - vec2(x1, y1)
     v = v:normalize(strokeSize()*0.5)
     v.x, v.y = -v.y, v.x
-    
+
     local vertices = {}
     do
         table.insert(vertices, {x1-v.x, y1-v.y, 0, 0})
@@ -47,7 +47,7 @@ function Graphics.line(x1, y1, x2, y2)
         table.insert(vertices, {x1-v.x, y1-v.y, 0, 0})
         table.insert(vertices, {x2+v.x, y2+v.y, 0, 0})
         table.insert(vertices, {x1+v.x, y1+v.y, 0, 0})
-        
+
     end
     Graphics.lineMesh = love.graphics.newMesh(vertices, 'triangles', 'static')
     love.graphics.setColor(stroke():unpack())        
@@ -143,6 +143,39 @@ function Graphics.circle(x, y, radius)
         if fill() then
             love.graphics.setColor(fill():unpack())        
             love.graphics.draw(Graphics.circleMesh)
+        end
+    end
+    popMatrix()
+end
+
+function Graphics.box(x, y, z, w, h, d)
+    if not Graphics.boxMesh then
+        local vertices = {}
+        local x, y, z, w, h, d = 0, 0, 0, 1, 1, d
+        local format = {
+            {"VertexPosition", "float", 3}, -- The x,y position of each vertex.
+            -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
+            -- {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
+        }
+        
+        table.insert(vertices, {x-w, y-h, 0-d})
+        table.insert(vertices, {x+w, y-h, 0-d})
+        table.insert(vertices, {x+w, y+h, 0-d})
+        table.insert(vertices, {x-w, y-h, 0-d})
+        table.insert(vertices, {x+w, y+h, 0-d})
+        table.insert(vertices, {x-w, y-h, 0-d})        
+
+        Graphics.boxMesh = love.graphics.newMesh(format, vertices, 'triangles', 'static')
+    end        
+
+    pushMatrix()
+    do
+        translate(x, y, z)
+        scale(w, h, d)
+
+        if fill() then
+            love.graphics.setColor(fill():unpack())        
+            love.graphics.draw(Graphics.boxMesh)
         end
     end
     popMatrix()

@@ -4,17 +4,18 @@ local matrices = {}
 local model
 
 function resetMatrix()
-    model = love.math.newTransform()
-    model:translate(X, Y)
-    love.graphics.replaceTransform(model)
 --    love2d.graphics.origin()
 --    love2d.graphics.translate(X, Y)
+    model = love.math.newTransform()
+    model:translate(X, Y, 0)
+    love.graphics.replaceTransform(model)
 end
 
 function pushMatrix()
 --    love2d.graphics.push()
     table.insert(matrices, model)
     model = model:clone()    
+    love.graphics.replaceTransform(model)
 end
 
 function popMatrix()
@@ -23,15 +24,15 @@ function popMatrix()
     love.graphics.replaceTransform(model)
 end
 
-function translate(x, y)
+function translate(x, y, z)
 --    love2d.graphics.translate(x, y)
-    model:translate(x, y)
+    model:translate(x, y, z)
     love.graphics.replaceTransform(model)
 end
 
-function scale(w, h)
+function scale(w, h, d)
 --    love2d.graphics.scale(w, h)
-    model:scale(w, h)
+    model:scale(w, h, d)
     love.graphics.replaceTransform(model)
 end
 
