@@ -11,3 +11,5 @@ PI = math.pi
 TAU = math.pi * 2
 
 cos, sin = math.cos, math.sin
+
+rad, deg = math.rad, math.deg

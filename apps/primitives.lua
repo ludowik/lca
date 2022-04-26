@@ -26,6 +26,7 @@ function draw()
                     random(),
                     random(),
                     random(),
+                    1,
                 }
         end
     end

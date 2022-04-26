@@ -2,6 +2,10 @@ function draw()
     rectMode(CENTER)
     translate(W/2, H/2)
     translate(0, 0, -200)
+    
+    perspective()
+    lookAt(vec3(0, 0, -10))
+    
     box(0, 0, 0, 50, 50, 1)
 end
 

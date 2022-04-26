@@ -38,6 +38,8 @@ function update(dt)
 end
 
 function draw()
+    background()
+    
     local nx = 10
     local w = round(W / (nx + 2))
     local h = w * 1.2

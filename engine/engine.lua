@@ -6,6 +6,7 @@ require 'lua.math'
 require 'lua.random'
 require 'lua.string'
 require 'lua.vec2'
+require 'lua.vec3'
 require 'lua.table'
 
 require 'graphics.window'
@@ -60,26 +61,36 @@ function Engine.update(dt)
     callApp('update', dt)
 end
 
-function Engine.render(f)
+function Engine.render(f, x, y)
     if not f then return end
 
     resetMatrix()
     resetStyles()
 
+    if x then
+        translate(x, y)
+    end
+    
     clip()
 
     f()
 end
 
 function Engine.beginDraw()
-    _G.env.canvas = _G.env.canvas or love.graphics.newCanvas(W, H)
+    if not _G.env.canvas then
+        _G.env.canvas = love.graphics.newCanvas(W, H)
+        love.graphics.setCanvas(_G.env.canvas)
+        love.graphics.clear(0, 0, 0, 1)
+    end
     love.graphics.setCanvas(_G.env.canvas)
 end
 
 function Engine.endDraw()
     love.graphics.setCanvas()
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setBlendMode('replace')
     love.graphics.origin()
-    love.graphics.draw(_G.env.canvas)
+    love.graphics.draw(_G.env.canvas, X, Y)
 end
 
 function Engine.draw()
@@ -91,7 +102,7 @@ function Engine.draw()
             text(getFPS())
             text(apps.listByIndex[apps.current].name)
             callApp('drawInfo')
-        end)
+        end, X, Y)
 end
 
 function Engine.keyreleased(key)
@@ -141,17 +152,17 @@ function Engine.mousereleased(x, y, button, istouch, presses)
 
     dx = abs(xEnd - xBegin)
     dy = abs(yEnd - yBegin)
-
+    
     if xBegin > 0.85 * W and yBegin < 0.15 * H then
         quit()
 
-    elseif xBegin > 0.7 * W and xEnd < .3 * W and dy < 0.1 * dx then
-        previousApp()
+    elseif xBegin > .5 * W and xEnd < .5 * W and dx > .4 * W and dy < .1 * dx then
+        nextApp()
 
         -- TODO : slide function
 
-    elseif xEnd > 0.7 * W and xBegin < .3 * W and dy < 0.1 * dx then
-        nextApp()
+    elseif xBegin < .5 * W and xEnd > .5 * W and dx > .4 * W and dy < .1 * dx then
+        previousApp()
 
     else
         callApp('mousereleased', x, y, button, istouch, presses)

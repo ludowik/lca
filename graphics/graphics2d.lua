@@ -163,7 +163,7 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x+w, y+h, 0-d})
         table.insert(vertices, {x-w, y-h, 0-d})
         table.insert(vertices, {x+w, y+h, 0-d})
-        table.insert(vertices, {x-w, y-h, 0-d})        
+        table.insert(vertices, {x-w, y-h, 0-d})
 
         Graphics.boxMesh = love.graphics.newMesh(format, vertices, 'triangles', 'static')
     end        

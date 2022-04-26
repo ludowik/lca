@@ -12,7 +12,13 @@ function Graphics.clip(...)
 end
 
 function Graphics.background(clr)
-    love.graphics.clear(clr:unpack())
+    clr = clr or colors.black
+    love.graphics.setColor(clr:unpack())
+    love.graphics.rectangle('fill', 0, 0, W, H)
+end
+
+function Graphics.blendMode(mode, alphamode)
+    love.graphics.setBlendMode(mode, alphamode)
 end
 
 local resources = {}
@@ -70,6 +76,7 @@ function Graphics.text(txt, x, y)
         y = y - h / 2
     end
 
+love.graphics.setBlendMode('alpha')
     love2d.graphics.setColor(textColor():unpack())
     love2d.graphics.draw(res.text, x, y)
 end
@@ -81,9 +88,8 @@ function Graphics.point(x, y)
 end
 
 function Graphics.points(...)
---    love2d.graphics.setColor(stroke():unpack())
+    love2d.graphics.setColor(1, 1, 1, 1)
     love2d.graphics.setPointSize(strokeSize())
---    love2d.graphics.points(...)
 
     local format = {
         {"VertexPosition", "float", 2}, -- The x,y position of each vertex.
@@ -92,7 +98,6 @@ function Graphics.points(...)
     }
 
     love2d.graphics.draw(love2d.graphics.newMesh(format, ..., 'points', 'static'))
-
 end
 
 function Graphics.line(x1, y1, x2, y2)
@@ -150,7 +155,8 @@ function Graphics.circle(x, y, r)
         love2d.graphics.circle('fill', x, y, r)
     end
 
-    if stroke() then    love2d.graphics.setColor(stroke():unpack())
+    if stroke() then
+        love2d.graphics.setColor(stroke():unpack())
         love2d.graphics.setLineWidth(strokeSize())
         love2d.graphics.circle('line', x, y, r)
     end

@@ -20,10 +20,10 @@ function Color.random()
 end
 
 function Color:contrast()
-    local lum =
-    (0.2125 * self.r) +
-    (0.7154 * self.g) + 
-    (0.0721 * self.b)
+    local lum = (
+        (0.2125 * self.r) +
+        (0.7154 * self.g) + 
+        (0.0721 * self.b))
 
     if lum < 0.3 then return
         colors.white
@@ -47,26 +47,25 @@ function Color.setup()
         gray = Color(0.5, 0.5, 0.5),
 
         red = Color(210/255, 70/255, 50/255), -- 1, 0, 0),
-        green = Color(0, 1, 0),
+        green = Color(50/225, 170/255, 120/255), -- 0, 1, 0),
         blue = Color(50/255, 120/255, 170/255), -- 0, 0, 1),
 
         yellow = Color(245/255, 225/255, 50/255),
     }
 end
 
-function Color.hsl(hue, sat, lgt, a)
+function Color.hsl(hue, sat, lgt, alpha)
     assert(hue)
     sat = sat or 0.5
     lgt = lgt or 0.5
-    a = a or 1
+    alpha = alpha or 1
 
     if sat <= 0 then
-        return
-        Color(lgt,lgt,lgt,a)
+        return Color(lgt, lgt, lgt, alpha)
     end
-    
+
     hue = hue * 6 -- We will split hue into 6 sectors    
-    
+
     local c = (1-math.abs(2*lgt-1))*sat
     local x = (1-math.abs(hue%2-1))*c
 
@@ -80,7 +79,7 @@ function Color.hsl(hue, sat, lgt, a)
     else              r,g,b = c,0,x
     end
 
-    return Color(r+m, g+m, b+m, a)
+    return Color(r+m, g+m, b+m, alpha)
 end
 
 function Color.hsb(hue, sat, val, alpha)
@@ -92,7 +91,7 @@ function Color.hsb(hue, sat, val, alpha)
     if sat <= 0 then 
         return Color(val, val, val, alpha) -- Return early if grayscale
     end
-    
+
     hue = hue * 6 -- We will split hue into 6 sectors    
 
     local sector = floor(hue)

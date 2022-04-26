@@ -18,7 +18,9 @@ function vec2:__sub(v)
 end
 
 function vec2:len()
-    return math.sqrt(self.x^2 + self.y^2)
+    return math.sqrt(
+        self.x^2 +
+        self.y^2)
 end
 
 function vec2:normalize(norm)
@@ -29,4 +31,3 @@ function vec2:normalize(norm)
         norm * self.x * invlen,
         norm * self.y * invlen)
 end
-
