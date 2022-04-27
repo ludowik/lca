@@ -1,12 +1,14 @@
 function draw()
+    background()
+    
     rectMode(CENTER)
     translate(W/2, H/2)
     translate(0, 0, -200)
     
     perspective()
-    lookAt(vec3(0, 0, -10))
+--    lookAt(vec3(0, 0, -1))
     
-    box(0, 0, 0, 50, 50, 1)
+    box(0, 0, 0, 100, 100, 100)
 end
 
 function drawInfo()

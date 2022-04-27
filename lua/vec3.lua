@@ -1,9 +1,13 @@
 class 'vec3'
 
-function vec3:init(x, y)
+function vec3:init(x, y, z)
     self.x = x or 0
     self.y = y or 0
     self.z = z or 0
+end
+
+function vec3:__tostring()
+    return self.x .. ',' .. self.y .. ',' .. self.z
 end
 
 function vec3:__add(v)
@@ -45,5 +49,8 @@ function vec3.cross(a, b)
 end
 
 function vec3.dot(a, b)
-    return a.x * b.x + a.y * b.y
+    return (
+        a.x * b.x +
+        a.y * b.y  +
+        a.z * b.z)        
 end

@@ -21,8 +21,8 @@ function draw()
     for i=1,100 do
         for j=1,100 do
             array[#array+1] = {
-                    noise(i, ellapsedTime)*W,
-                    noise(j, ellapsedTime)*H,
+                    noise(i, elapsedTime)*W,
+                    noise(j, elapsedTime)*H,
                     random(),
                     random(),
                     random(),

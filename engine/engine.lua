@@ -26,7 +26,7 @@ function Engine.load()
     Engine.graphics = GraphicsLove()
 
     deltaTime = 0
-    ellapsedTime = 0
+    elapsedTime = 0
 
     setupClasses()
     setupWindow()
@@ -56,7 +56,7 @@ function Engine.update(dt)
     end
 
     deltaTime = dt
-    ellapsedTime = ellapsedTime + dt
+    elapsedTime = elapsedTime + dt
 
     callApp('update', dt)
 end
@@ -100,6 +100,7 @@ function Engine.draw()
 
     Engine.render(function()
             text(getFPS())
+            text(elapsedTime)
             text(apps.listByIndex[apps.current].name)
             callApp('drawInfo')
         end, X, Y)

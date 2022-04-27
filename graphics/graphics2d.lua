@@ -151,19 +151,44 @@ end
 function Graphics.box(x, y, z, w, h, d)
     if not Graphics.boxMesh then
         local vertices = {}
-        local x, y, z, w, h, d = 0, 0, 0, 1, 1, d
+        local x, y, z, w, h, d = 0, 0, 0, 1, 1, 1
         local format = {
             {"VertexPosition", "float", 3}, -- The x,y position of each vertex.
             -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
             -- {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
         }
         
-        table.insert(vertices, {x-w, y-h, 0-d})
-        table.insert(vertices, {x+w, y-h, 0-d})
-        table.insert(vertices, {x+w, y+h, 0-d})
-        table.insert(vertices, {x-w, y-h, 0-d})
-        table.insert(vertices, {x+w, y+h, 0-d})
-        table.insert(vertices, {x-w, y-h, 0-d})
+        -- front
+        table.insert(vertices, {x-w, y-h, z-d})
+        table.insert(vertices, {x+w, y-h, z-d})
+        table.insert(vertices, {x+w, y+h, z-d})
+        table.insert(vertices, {x-w, y-h, z-d})
+        table.insert(vertices, {x+w, y+h, z-d})
+        table.insert(vertices, {x-w, y+h, z-d})
+        
+        -- back
+        table.insert(vertices, {x-w, y-h, z+d})
+        table.insert(vertices, {x+w, y-h, z+d})
+        table.insert(vertices, {x+w, y+h, z+d})
+        table.insert(vertices, {x-w, y-h, z+d})
+        table.insert(vertices, {x+w, y+h, z+d})
+        table.insert(vertices, {x-w, y+h, z+d})
+        
+        -- left
+        table.insert(vertices, {x-w, y-h, z+d})
+        table.insert(vertices, {x-w, y-h, z-d})
+        table.insert(vertices, {x-w, y+h, z-d})
+        table.insert(vertices, {x-w, y-h, z+d})
+        table.insert(vertices, {x-w, y+h, z-d})
+        table.insert(vertices, {x-w, y+h, z+d})        
+        
+        -- right
+        table.insert(vertices, {x+w, y-h, z+d})
+        table.insert(vertices, {x+w, y-h, z-d})
+        table.insert(vertices, {x+w, y+h, z-d})
+        table.insert(vertices, {x+w, y-h, z+d})
+        table.insert(vertices, {x+w, y+h, z-d})
+        table.insert(vertices, {x+w, y+h, z+d})
 
         Graphics.boxMesh = love.graphics.newMesh(format, vertices, 'triangles', 'static')
     end        
