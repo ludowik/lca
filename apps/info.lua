@@ -1,14 +1,15 @@
 function draw()
     background()
-    
+
     rectMode(CENTER)
-    translate(W/2, H/2)
-    translate(0, 0, -200)
-    
+--    translate(W/2, H/2)
+--    translate(0, 0, -200)
+
     perspective()
---    lookAt(vec3(0, 0, -1))
-    
-    box(0, 0, 0, 100, 100, 100)
+    lookAt(vec3(0, 0, -1))
+
+    local w = 1
+    box(0, 0, 0, w, w, w)
 end
 
 function drawInfo()
@@ -24,16 +25,16 @@ RELEASED = 'released'
 
 mouse = {
     state = MOVED,
-    
+
     px = 0,
     py = 0,
-    
+
     x = 0,
     y = 0,
-    
+
     dx = 0,
     dy = 0,
-    
+
     tx = 0,
     ty = 0,
 }

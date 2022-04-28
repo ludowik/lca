@@ -90,6 +90,8 @@ function ortho(left, right, bottom, top, near, far)
         0, 2/(t-b), 0, -(t+b)/(t-b),
         0, 0, -2/(f-n), -(f+n)/(f-n),
         0, 0, 0, 1)
+    
+    setMatrix()
 end
 
 function perspective(fov, width, height, zNear, zFar)
@@ -140,6 +142,8 @@ function isometric(n)
     if n then
         scale(n, n, n)
     end
+    
+    setMatrix()
 end
 
 function lookAt(eye, center, up)
@@ -160,6 +164,3 @@ function lookAt(eye, center, up)
 
     setMatrix()
 end
-
-
-

@@ -157,7 +157,7 @@ function Graphics.box(x, y, z, w, h, d)
             -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
             -- {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
         }
-        
+
         -- front
         table.insert(vertices, {x-w, y-h, z-d})
         table.insert(vertices, {x+w, y-h, z-d})
@@ -165,7 +165,7 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x-w, y-h, z-d})
         table.insert(vertices, {x+w, y+h, z-d})
         table.insert(vertices, {x-w, y+h, z-d})
-        
+
         -- back
         table.insert(vertices, {x-w, y-h, z+d})
         table.insert(vertices, {x+w, y-h, z+d})
@@ -173,7 +173,7 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x-w, y-h, z+d})
         table.insert(vertices, {x+w, y+h, z+d})
         table.insert(vertices, {x-w, y+h, z+d})
-        
+
         -- left
         table.insert(vertices, {x-w, y-h, z+d})
         table.insert(vertices, {x-w, y-h, z-d})
@@ -181,7 +181,7 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x-w, y-h, z+d})
         table.insert(vertices, {x-w, y+h, z-d})
         table.insert(vertices, {x-w, y+h, z+d})        
-        
+
         -- right
         table.insert(vertices, {x+w, y-h, z+d})
         table.insert(vertices, {x+w, y-h, z-d})
@@ -191,7 +191,25 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x+w, y+h, z+d})
 
         Graphics.boxMesh = love.graphics.newMesh(format, vertices, 'triangles', 'static')
+
+        local vertexcode = [[
+            vec4 position( mat4 transform_projection, vec4 vertex_position )
+            {
+                return transform_projection * transform_projection * vertex_position;
+            }
+        ]]
+        
+        local pixelcode = [[
+            vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
+            {
+                vec4 texcolor = Texel(tex, texture_coords);
+                return  texcolor * color;
+            }
+        ]]
+        Graphics.boxShader = love.graphics.newShader(pixelcode, vertexcode)
     end        
+
+    love.graphics.setShader(Graphics.boxShader)
 
     pushMatrix()
     do
@@ -204,4 +222,6 @@ function Graphics.box(x, y, z, w, h, d)
         end
     end
     popMatrix()
+
+    love.graphics.setShader()
 end
