@@ -1,53 +1,85 @@
 function draw()
     background(colors.black)
-    
---    function go(w, h)
---        seed(12)
---        translate(100, 100)
---        clip(100, 100, w, h)
---        for i=1,100 do
---            strokeSize(6)
---            stroke(Color.hsl(random()))
---            fill(Color.hsl(random(), random(), random()))
---            circle(random(w), random(h), random(w), random(h))
---        end
---    end
 
---    go(100, 100)
+    local function drawPrimitive(prim, x, y, w, h)
+        assert(x and y and w)
+        h = h or w
 
-    strokeSize(5)
+        seed(12)
 
-    local array = {}
-    for i=1,100 do
-        for j=1,100 do
-            array[#array+1] = {
-                    noise(i, elapsedTime)*W,
-                    noise(j, elapsedTime)*H,
-                    random(),
-                    random(),
-                    random(),
-                    1,
-                }
+        clip(x, y, w, h)
+
+        pushMatrix()
+        do
+            translate(x, y)
+
+            local function callPrimitive(...)
+                strokeSize(random(1, 5))
+                stroke(Color.hsl(random()))
+                
+                textColor(Color.hsl(random()))
+                fontSize(random(8, 24))
+
+                fill(Color.hsl(random(), random(), random()))
+
+                prim.f(...)
+            end            
+
+            local n = 10
+
+            if prim.type and prim.type == 'table' then
+                local t = {}
+                for i=1,n do
+                    table.insert(t, {
+                            random(w),
+                            random(h),
+                            random(w),
+                            random(h)
+                        })
+                end
+
+                callPrimitive(t)
+            else            
+                for i=1,n do
+                    callPrimitive(random(w), random(h), random(w), random(h))
+                end
+            end
         end
+        popMatrix()
     end
 
-    points(array)
+    local marge = 10
+    local x, y = marge, marge
 
---    textMode(CENTER)
---    text('hello world', W/2, H/2)
+    local n = 3
+    local size = (W - (n+1) * marge) / n
 
---    strokeSize(5)
---    stroke(colors.blue)
+    local primitives = {
+        {f = point, },
+        {f = points, type = 'table'},
+        {f = line},
+        {f = lines},
+        {f = rect},
+        {f = circle},
+        {f = ellipse},
+        {f = function (x, y)
+                textMode(CENTER)
+                pushMatrix()
+                do
+                    translate(x, y)
+                    rotate(random() * TAU)
+                    text('hello', 0, 0)
+                end
+                popMatrix()
+            end },
+    }
 
---    line(50, 50, 100, 120)
---    line(250, 25, 150, 200)
-
---    translate(0, 100)
---    lines({50, 50, 100, 100, 250, 25, 150, 200})
-
---    translate(0, 100)
---    polyline({50, 50, 100, 100, 250, 25, 150, 200})
-
---    translate(0, 100)
---    polygon({50, 50, 100, 100, 250, 25, 150, 200})
+    for _,prim in ipairs(primitives) do
+        if x + size >= W then
+            x = marge
+            y = y + size + marge
+        end
+        drawPrimitive(prim, x, y, size)
+        x = x + size + marge
+    end
 end

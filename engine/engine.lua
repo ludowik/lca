@@ -88,6 +88,7 @@ end
 function Engine.endDraw()
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setScissor()
     love.graphics.setBlendMode('replace')
     love.graphics.origin()
     love.graphics.draw(_G.env.canvas, X, Y)

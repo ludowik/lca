@@ -10,9 +10,11 @@ function Graphics.clip(...)
 end
 
 function Graphics.fontSize(size)
+    return GraphicsLove.fontSize(size)
 end
 
 function Graphics.textSize(txt)
+    return GraphicsLove.textSize(txt)
 end
 
 function Graphics.text(txt, x, y)
@@ -21,16 +23,19 @@ end
 
 function Graphics.point(x, y)
     Graphics.rect(
-        x-strokeSize()*0.5,
-        y-strokeSize()*0.5,
+        x - strokeSize() * .5,
+        y - strokeSize() * .5,
         strokeSize(),
         strokeSize(),
-        {_fillColor=stroke()})
+        {
+            _fillColor = stroke()
+        })
 end
 
-function Graphics.points(t)
-    for i=1,#t,2 do
-        Graphics.point(t[i], t[i+1])
+function Graphics.points(t, ...)
+    if type(t) ~= 'table' then t = {t, ...} end
+    for i=1,#t do
+        Graphics.point(t[i][1], t[i][2])
     end
 end
 
@@ -54,7 +59,9 @@ function Graphics.line(x1, y1, x2, y2)
     love.graphics.draw(Graphics.lineMesh)
 end
 
-function Graphics.lines(t)
+function Graphics.lines(t, ...)
+    if type(t) ~= 'table' then t = {t, ...} end
+    
     love.graphics.setColor(stroke():unpack())
     love.graphics.setLineWidth(strokeSize())    
     for i=1,#t,4 do
@@ -198,7 +205,7 @@ function Graphics.box(x, y, z, w, h, d)
                 return transform_projection * transform_projection * vertex_position;
             }
         ]]
-        
+
         local pixelcode = [[
             vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
             {

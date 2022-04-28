@@ -15,6 +15,10 @@ function draw()
     
     -- depthMode(true)
     -- cullingMode(true)
+    
+    love.graphics.setMeshCullMode('none')
+    love.graphics.setDepthMode('always', true)
+    love.graphics.setFrontFaceWinding('ccw')
 
     local n = self.n * 2 + 1
 

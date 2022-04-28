@@ -5,9 +5,9 @@ function draw()
     
     circleMode(CENTER)
     
-    layer(1, 1, 0.1)
-    layer(8, 6, 0.5)
-    layer(24, 18, 0.75)
+    layer(1, 1, 0.05)
+    layer(7, 7, 0.1)
+    layer(22, 22, 0.05)
 end
 
 function layer(nx, ny, alpha)
@@ -15,6 +15,8 @@ function layer(nx, ny, alpha)
     
     local w = W / nx
     local h = H / ny
+    
+    noStroke()
     
     for i=1,nx do
         for j=1,ny do

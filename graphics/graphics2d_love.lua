@@ -76,7 +76,7 @@ function Graphics.text(txt, x, y)
         y = y - h / 2
     end
 
-love.graphics.setBlendMode('alpha')
+    love.graphics.setBlendMode('alpha')
     love2d.graphics.setColor(textColor():unpack())
     love2d.graphics.draw(res.text, x, y)
 end
@@ -87,7 +87,9 @@ function Graphics.point(x, y)
     love2d.graphics.points(x, y)
 end
 
-function Graphics.points(...)
+function Graphics.points(t, ...)
+    if type(t) ~= 'table' then t = {t, ...} end
+    
     love2d.graphics.setColor(1, 1, 1, 1)
     love2d.graphics.setPointSize(strokeSize())
 
@@ -97,7 +99,7 @@ function Graphics.points(...)
         {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
     }
 
-    love2d.graphics.draw(love2d.graphics.newMesh(format, ..., 'points', 'static'))
+    love2d.graphics.draw(love2d.graphics.newMesh(format, t, 'points', 'static'))
 end
 
 function Graphics.line(x1, y1, x2, y2)
@@ -106,7 +108,9 @@ function Graphics.line(x1, y1, x2, y2)
     love2d.graphics.line(x1, y1, x2, y2)
 end
 
-function Graphics.lines(t)
+function Graphics.lines(t, ...)
+    if type(t) ~= 'table' then t = {t, ...} end
+    
     love2d.graphics.setColor(stroke():unpack())
     love2d.graphics.setLineWidth(strokeSize())    
     for i=1,#t,4 do
@@ -159,6 +163,24 @@ function Graphics.circle(x, y, r)
         love2d.graphics.setColor(stroke():unpack())
         love2d.graphics.setLineWidth(strokeSize())
         love2d.graphics.circle('line', x, y, r)
+    end
+end
+
+function Graphics.ellipse(x, y, w, h)
+    if circleMode() == CORNER then
+        x = x - r
+        y = y - r
+    end
+
+    if fill() then
+        love2d.graphics.setColor(fill():unpack())
+        love2d.graphics.ellipse('fill', x, y, w/2, h/2)
+    end
+
+    if stroke() then
+        love2d.graphics.setColor(stroke():unpack())
+        love2d.graphics.setLineWidth(strokeSize())
+        love2d.graphics.ellipse('line', x, y, w/2, h/2)
     end
 end
 
