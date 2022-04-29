@@ -1,3 +1,14 @@
+local mt = {
+    __call = function (_, t)
+        t = t or {}
+        setmetatable(t, table)
+        return t
+    end
+}
+setmetatable(table, mt)
+
+table.__index = table
+
 function table:tolua(level)
     if not self then return '' end
     

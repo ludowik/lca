@@ -6,9 +6,10 @@ function draw()
 --    translate(0, 0, -200)
 
     perspective()
-    lookAt(vec3(0, 0, -1))
+    lookAt(vec3(0, 0, -10))
 
     local w = 1
+    fill(colors.red)
     box(0, 0, 0, w, w, w)
 end
 

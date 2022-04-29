@@ -4,8 +4,62 @@ local love2d = love
 local matrices = {}
 local model, view, projection
 
-local function setMatrix()
+local function setTransformation()
     love.graphics.replaceTransform(projection * view * model)
+end
+
+local function setMatrix(m, ...)
+    m:setMatrix('row', ...)
+end
+
+function pvMatrix()
+    return projection * view
+end
+
+function pvmMatrix()
+    return projection * view * model
+end
+
+function modelMatrix()
+    return model
+end
+
+function viewMatrix()
+    return view
+end
+
+function matByVector(m, b)
+    local bm = love.math.newTransform()
+    setMatrix(bm,
+        b.x,0,0,0,
+        0,b.y,0,0,
+        0,0,0,b.z,
+        0,0,0,1)
+    
+    local res = m * bm
+    local values = {
+        res:getMatrix()
+    }
+    return vec4(values[1], values[5], values[9], values[13])
+end
+
+--local res, bm
+--function mt:mulVector(b)
+--    res = res or matrix()
+
+--    bm = bm or matrix()
+--    bm.i0 = b.x
+--    bm.i4 = b.y
+--    bm.i8 = b.z
+--    bm.i12 = 1
+
+--    self:__mul(bm, res)
+
+--    return vec4(res.i0, res.i4, res.i8, res.i12)
+--end
+
+function projectionMatrix()
+    return projection
 end
 
 function resetMatrix()
@@ -14,39 +68,39 @@ function resetMatrix()
     view = love.math.newTransform()
     projection = love.math.newTransform()
 
-    setMatrix()
+    setTransformation()
 end
 
 function pushMatrix()
 --    love2d.graphics.push()
     table.insert(matrices, model)
     model = model:clone()    
-    setMatrix()
+    setTransformation()
 end
 
 function popMatrix()
 --    love2d.graphics.pop()
     model = table.remove(matrices)
-    setMatrix()
+    setTransformation()
 end
 
 function translate(x, y, z)
 --    love2d.graphics.translate(x, y)
 --    model:translate(x, y, z)
-    
+
     assert(x)
     y = y or x
     z = z or 0
-    
+
     local m = love.math.newTransform()
-    m:setMatrix(
+    setMatrix(m,
         1,0,0,x,
         0,1,0,y,
         0,0,1,z or 0,
         0,0,0,1)
     model:apply(m)
-        
-    setMatrix()
+
+    setTransformation()
 end
 
 function scale(w, h, d)
@@ -56,22 +110,22 @@ function scale(w, h, d)
     assert(w)
     h = h or w
     d = d or 0    
-    
+
     local m = love.math.newTransform()
-    m:setMatrix(
+    setMatrix(m,
         w,0,0,0,
         0,h,0,0,
         0,0,d,0,
         0,0,0,1)
     model:apply(m)
-    
-    setMatrix()
+
+    setTransformation()
 end
 
 function rotate(angle)
 --    love2d.graphics.rotate(angle)
     model:rotate(angle)
-    setMatrix()
+    setTransformation()
 end
 
 function ortho(left, right, bottom, top, near, far)
@@ -85,13 +139,13 @@ function ortho(left, right, bottom, top, near, far)
     local f = far or 1000
 
     projection = love.math.newTransform()
-    projection:setMatrix(
+    setMatrix(projection,
         2/(r-l), 0, 0, -(r+l)/(r-l),
         0, 2/(t-b), 0, -(t+b)/(t-b),
         0, 0, -2/(f-n), -(f+n)/(f-n),
         0, 0, 0, 1)
-    
-    setMatrix()
+
+    setTransformation()
 end
 
 function perspective(fov, width, height, zNear, zFar)
@@ -119,13 +173,13 @@ function perspective(fov, width, height, zNear, zFar)
     local top = range
 
     projection = love.math.newTransform()
-    projection:setMatrix(
+    setMatrix(projection,
         (2 * near) / (right - left), 0, 0, 0,
         0, (2 * near) / (top - bottom), 0, 0,
         0, 0, - (far + near) / (far - near), - (2 * far * near) / (far - near),
         0, 0, - 1, 0)
 
-    setMatrix()
+    setTransformation()
 end
 
 function isometric(n)
@@ -142,8 +196,8 @@ function isometric(n)
     if n then
         scale(n, n, n)
     end
-    
-    setMatrix()
+
+    setTransformation()
 end
 
 function lookAt(eye, center, up)
@@ -156,11 +210,11 @@ function lookAt(eye, center, up)
     local u = s:cross(f)
 
     view = love.math.newTransform()
-    view:setMatrix(        
+    setMatrix(view,
         s.x, s.y, s.z, -s:dot(eye),
         u.x, u.y, u.z, -u:dot(eye),
         -f.x, -f.y, -f.z, f:dot(eye),
         0, 0, 0, 1)
 
-    setMatrix()
+    setTransformation()
 end

@@ -7,6 +7,7 @@ require 'lua.random'
 require 'lua.string'
 require 'lua.vec2'
 require 'lua.vec3'
+require 'lua.vec4'
 require 'lua.table'
 
 require 'graphics.window'
@@ -23,7 +24,7 @@ require 'engine.config'
 class 'Engine'
 
 function Engine.load()
-    Engine.graphics = GraphicsLove()
+    Engine.graphics = GraphicsLove() -- config.renderer == 'love' and GraphicsLove() or GraphicsTemplate()
 
     deltaTime = 0
     elapsedTime = 0

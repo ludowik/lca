@@ -99,7 +99,8 @@ function Graphics.points(t, ...)
         {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
     }
 
-    love2d.graphics.draw(love2d.graphics.newMesh(format, t, 'points', 'static'))
+    local mesh = love2d.graphics.newMesh(format, t, 'points', 'static')
+    Graphics.drawMesh(mesh)
 end
 
 function Graphics.line(x1, y1, x2, y2)
@@ -186,4 +187,8 @@ end
 
 function Graphics.box(x, y, z, w, h, d)
     GraphicsTemplate.box(x, y, z, w, h, d)
+end
+
+function Graphics.drawMesh(mesh)
+    love2d.graphics.draw(mesh.mesh or mesh)
 end

@@ -128,7 +128,7 @@ function drawMesh(mesh)
     end
 end
 
-function drawMesh_(mesh)
+function drawMesh(mesh)
     -- Vertex shader
     local xmin, ymin, xmax, ymax = W, H, 0, 0
     for t = 1, #mesh.vertices do

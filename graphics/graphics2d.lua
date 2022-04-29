@@ -9,6 +9,12 @@ function Graphics.clip(...)
     love.graphics.setScissor(...)
 end
 
+function Graphics.background(clr)
+    Graphics.rect(0, 0, W, H, {
+            _fillColor = clr or colors.black
+        })
+end
+
 function Graphics.fontSize(size)
     return GraphicsLove.fontSize(size)
 end
@@ -26,8 +32,7 @@ function Graphics.point(x, y)
         x - strokeSize() * .5,
         y - strokeSize() * .5,
         strokeSize(),
-        strokeSize(),
-        {
+        strokeSize(), {
             _fillColor = stroke()
         })
 end
@@ -54,14 +59,14 @@ function Graphics.line(x1, y1, x2, y2)
         table.insert(vertices, {x1+v.x, y1+v.y, 0, 0})
 
     end
-    Graphics.lineMesh = love.graphics.newMesh(vertices, 'triangles', 'static')
+    Graphics.lineMesh = Graphics.newMesh(vertices, 'triangles', 'static')
     love.graphics.setColor(stroke():unpack())        
-    love.graphics.draw(Graphics.lineMesh)
+    Graphics.draw(Graphics.lineMesh)
 end
 
 function Graphics.lines(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
-    
+
     love.graphics.setColor(stroke():unpack())
     love.graphics.setLineWidth(strokeSize())    
     for i=1,#t,4 do
@@ -107,7 +112,7 @@ function Graphics.rect(x, y, w, h, attr)
             table.insert(vertices, {x+w, y+h, 1, 1})
             table.insert(vertices, {x+w, y  , 1, 0})
         end
-        Graphics.rectMesh = love.graphics.newMesh(vertices, 'triangles', 'static')
+        Graphics.rectMesh = Graphics.newMesh(vertices, 'triangles', 'static')
     end        
 
     pushMatrix()
@@ -118,13 +123,17 @@ function Graphics.rect(x, y, w, h, attr)
         local _fillColor = attr and attr._fillColor or fill()
         if _fillColor then
             love.graphics.setColor(_fillColor:unpack())
-            love.graphics.draw(Graphics.rectMesh)
+            Graphics.draw(Graphics.rectMesh)
         end
     end
     popMatrix()
 end
 
 function Graphics.circle(x, y, radius)
+    Graphics.ellipse(x, y, 2*radius, 2*radius)
+end
+
+function Graphics.ellipse(x, y, w, h)
     if circleMode() == CORNER then
         x = x - r
         y = y - r
@@ -139,17 +148,17 @@ function Graphics.circle(x, y, radius)
             local angle = TAU * step / nstep
             table.insert(vertices, {x+cos(angle), y+sin(angle), cos(angle), sin(angle)})
         end
-        Graphics.circleMesh = love.graphics.newMesh(vertices, 'fan', 'static')
+        Graphics.circleMesh = Graphics.newMesh(vertices, 'fan', 'static')
     end        
 
     pushMatrix()
     do
         translate(x, y)
-        scale(radius, radius)
+        scale(w/2, h/2)
 
         if fill() then
             love.graphics.setColor(fill():unpack())        
-            love.graphics.draw(Graphics.circleMesh)
+            Graphics.draw(Graphics.circleMesh)
         end
     end
     popMatrix()
@@ -197,12 +206,14 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x+w, y+h, z-d})
         table.insert(vertices, {x+w, y+h, z+d})
 
-        Graphics.boxMesh = love.graphics.newMesh(format, vertices, 'triangles', 'static')
+        Graphics.boxMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
 
         local vertexcode = [[
+            extern mat4x4 pvm;
             vec4 position( mat4 transform_projection, vec4 vertex_position )
             {
-                return transform_projection * transform_projection * vertex_position;
+                // return transform_projection * vertex_position;
+                return pvm * vertex_position;
             }
         ]]
 
@@ -210,7 +221,7 @@ function Graphics.box(x, y, z, w, h, d)
             vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
             {
                 vec4 texcolor = Texel(tex, texture_coords);
-                return  texcolor * color;
+                return texcolor * color;
             }
         ]]
         Graphics.boxShader = love.graphics.newShader(pixelcode, vertexcode)
@@ -224,11 +235,154 @@ function Graphics.box(x, y, z, w, h, d)
         scale(w, h, d)
 
         if fill() then
+            Graphics.boxShader:send('pvm', {pvmMatrix():getMatrix()})
+            
             love.graphics.setColor(fill():unpack())        
-            love.graphics.draw(Graphics.boxMesh)
+            drawMesh(Graphics.boxMesh)
+            
+            print(pvmMatrix():getMatrix())
+            
         end
     end
     popMatrix()
 
     love.graphics.setShader()
+end
+
+function Graphics.newMesh(...)
+    local args = {...}
+    local mesh = {
+        mesh = love.graphics.newMesh(...)
+    }
+
+    if #args == 3 then
+        mesh.vertices = args[1]
+    elseif #args == 4 then
+        mesh.vertices = args[2]
+    end
+    return mesh
+end
+
+function Graphics.drawMesh_(mesh)
+    return love.graphics.draw(mesh.mesh)
+end
+
+-- pipeline 3d
+local function edgeFunction(a, b, c)
+    return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x)
+end
+
+Graphics.drawMesh_ = Graphics.drawMesh or function (mesh)
+    local vertices = table()
+
+    -- Vertex shader
+    local xmin, ymin, xmax, ymax = W, H, 0, 0
+    for t = 1, #mesh.vertices do
+        local v = mesh.vertices[t]
+        v = vertexShader(vec3(v[1], v[2], v[3]))
+
+        vertices:insert(v)
+
+        xmin = min(xmin, v.x)
+        xmax = max(xmax, v.x)
+
+        ymin = min(ymin, v.y)
+        ymax = max(ymax, v.y)
+    end
+
+    xmin = max(0, floor(xmin))
+    ymin = max(0, floor(ymin))
+
+    xmax = min(W, ceil(xmax))
+    ymax = min(H, ceil(ymax))
+
+    -- assemblage des primitives
+    if #vertices % 3 ~= 0 then
+        return
+    end
+
+    -- rasterisation
+    for y = ymin, ymax do
+        for x = xmin, xmax do
+            local p = vec2(x + 0.5, y + 0.5)
+
+            for t = 1, #vertices / 3 do
+                local offset = (t - 1) * 3
+                local v0, v1, v2 = vertices[offset + 1], vertices[offset + 2], vertices[offset + 3]
+
+--                local clr = Color(v0[6], v0[7], v0[8]) -- mesh.colors[1]
+
+--                local c0 = Color(v0[6], v0[7], v0[8]) -- mesh.colors[offset + 1] or clr
+--                local c1 = Color(v1[6], v1[7], v1[8]) -- mesh.colors[offset + 2] or clr
+--                local c2 = Color(v2[6], v2[7], v2[8]) -- mesh.colors[offset + 3] or clr
+                local c0, c1, c2 = colors.red, colors.green, colors.blue
+
+                local area = edgeFunction(v0, v1, v2)
+
+                local w0 = edgeFunction(v1, v2, p)
+                local w1 = edgeFunction(v2, v0, p)
+                local w2 = edgeFunction(v0, v1, p)
+
+                if ((w0 >= 0 and w1 >= 0 and w2 >= 0) or (w0 <= 0 and w1 <= 0 and w2 <= 0)) then
+                    w0 = w0 / area
+                    w1 = w1 / area
+                    w2 = w2 / area
+
+                    local r = w0 * c0.r + w1 * c1.r + w2 * c2.r
+                    local g = w0 * c0.g + w1 * c1.g + w2 * c2.g
+                    local b = w0 * c0.b + w1 * c1.b + w2 * c2.b
+
+                    local z = w0 * v0.z + w1 * v1.z + w2 * v2.z
+
+                    -- Fragment shader
+                    fragmentShader(x, y, z, Color(r, g, b, 1))
+                end
+            end
+        end
+    end
+end
+
+-- shaders
+local function keepsafe(v)
+    if v > 255 then
+        return 255
+    elseif v < 0 then
+        return 0
+    end
+    return v
+end
+
+function vertexShader(vt)
+    local pv = pvMatrix()
+    local m = modelMatrix()
+--    local v = (pv*m):mulVector(vt)
+    local v = matByVector((pv*m), vt)
+    v = v / v.w
+    return vec3((v.x + 1) * W / 2, (v.y + 1) * H / 2, v.z)
+end
+
+function fragmentShader(x, y, z, clr)
+    local r, g, b, a = clr.r, clr.g, clr.b, clr.a
+
+    local _blendMode = blendMode()
+
+    if x >= 0 and x <= W - 1 and y >= 0 and y <= H - 1 then
+        if usePtr then
+            x, y = floor(x), floor(y)
+
+            local offset = (x + y * W) * 4
+
+            if context.depths and context.depths[offset] and context.depths[offset] < z then
+                return
+            end
+            context.depths[offset] = z
+
+            context.ptrr[offset] = keepsafe(_blendMode(r * 255, context.ptrr[offset], a))
+            context.ptrg[offset] = keepsafe(_blendMode(g * 255, context.ptrg[offset], a))
+            context.ptrb[offset] = keepsafe(_blendMode(b * 255, context.ptrb[offset], a))
+            context.ptra[offset] = keepsafe(_blendMode(a * 255, context.ptra[offset], a))
+        else
+            context.data:setPixel(x, y, r, g, b, a)
+        end
+    end
 end
