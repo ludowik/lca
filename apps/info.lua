@@ -1,9 +1,19 @@
-function draw3d()
+function draw()
     background()
 
+    resetMatrix()
     perspective()
     
---    lookAt(vec3(0, 0, -10))
+    love.graphics.setDepthMode('always', true)
+    
+--    lookAt(vec3(10, 10, 10))
+    
+    local p = vec3(0, 0, 2)
+--    print(matByVector(modelMatrix(), p))
+--    print(matByVector(viewMatrix(), p))
+    print(matByVector(pvmMatrix(), p))
+    
+--    quit()
 --    isometric(20)
     
 --    if elapsedTime/5 % 3 <= 1 then
@@ -13,8 +23,9 @@ function draw3d()
 --    end
     
     local w = 10
-    box(0, 0, 0, w, w, w)
- end
+    --rect(0, 0, w, w)
+    box(0, 0, -1, w, w, w)
+end
 
 function drawInfo()
     text(love.filesystem.getSaveDirectory())

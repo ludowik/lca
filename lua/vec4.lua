@@ -1,6 +1,6 @@
 class 'vec4'
 
-function vec4:init(x, y, z)
+function vec4:init(x, y, z, w)
     self.x = x or 0
     self.y = y or 0
     self.z = z or 0

@@ -14,6 +14,7 @@ function draw3d()
 
 --    isometric(self.zoom)
     perspective()
+--    ortho()
 
 --    depthMode(true)
 --    cullingMode(true)
@@ -25,7 +26,7 @@ function draw3d()
     local mind = 0
     local maxd = vec2(1, 1):dist(vec2(n / 2, n / 2))
 
---    translate(-(n + 1) / 2 * w, 0, -(n + 1) / 2 * w)
+    translate(-(n + 1) / 2 * w, 0, -(n + 1) / 2 * w)
 
     for x = 1, n do
         translate(w, 0, 0)

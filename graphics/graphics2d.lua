@@ -244,10 +244,7 @@ function Graphics.box(x, y, z, w, h, d)
         vec4 position( mat4 transform_projection, vec4 vertex_position )
         {
             // return transform_projection * vertex_position;
-            vec4 p = pvm * vertex_position;
-            return vec4(
-            (p.x+1.)/2.*100,
-            (p.y+1.)/2.*100., p.z, 1.);
+            return pvm * vertex_position;
         }
         ]]
 

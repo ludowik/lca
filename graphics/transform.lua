@@ -5,11 +5,11 @@ local matrices = {}
 local model, view, projection
 
 local function setTransformation()
-    love.graphics.replaceTransform(projection * view * model)
+    love.graphics.replaceTransform(pvmMatrix())
 end
 
-local function setMatrix(m, ...)
-    m:setMatrix('row', ...)
+local function setMatrix(m, mode, ...)
+    m:setMatrix(mode or 'row', ...)
 end
 
 function pvMatrix()
@@ -28,42 +28,26 @@ function viewMatrix()
     return view
 end
 
-function matByVector(m, b)
-    local bm = love.math.newTransform()
-    setMatrix(bm,
-        b.x,0,0,0,
-        0,b.y,0,0,
-        0,0,0,b.z,
-        0,0,0,1)
+function matByVector(m, v)
+    local vm = love.math.newTransform()
+    setMatrix(vm, nil,
+        v.x,0,0,0,
+        v.y,0,0,0,
+        v.z,0,0,0,
+        1,0,0,0)
 
-    local res = m * bm
+    local res = m * vm
     local values = {
         res:getMatrix()
     }
-    return vec4(values[1], values[5], values[9], values[13])
+    return vec4(values[1], values[5], values[9], values[13]) / values[13]
 end
-
---local res, bm
---function mt:mulVector(b)
---    res = res or matrix()
-
---    bm = bm or matrix()
---    bm.i0 = b.x
---    bm.i4 = b.y
---    bm.i8 = b.z
---    bm.i12 = 1
-
---    self:__mul(bm, res)
-
---    return vec4(res.i0, res.i4, res.i8, res.i12)
---end
 
 function projectionMatrix()
     return projection
 end
 
 function resetMatrix()
---    love2d.graphics.origin()
     model = love.math.newTransform()
     view = love.math.newTransform()
     projection = love.math.newTransform()
@@ -72,63 +56,63 @@ function resetMatrix()
 end
 
 function pushMatrix()
---    love2d.graphics.push()
     table.insert(matrices, model)
     model = model:clone()    
     setTransformation()
 end
 
 function popMatrix()
---    love2d.graphics.pop()
     model = table.remove(matrices)
     setTransformation()
 end
 
 function translate(x, y, z)
---    love2d.graphics.translate(x, y)
---    model:translate(x, y, z)
+    translate_matrix(model, x, y, z)    
+    setTransformation()
+end
 
+function translate_matrix(m, x, y, z)
     assert(x)
     y = y or x
     z = z or 0
 
-    local m = love.math.newTransform()
-    setMatrix(m,
+    local translate = love.math.newTransform()
+    setMatrix(translate, nil,
         1,0,0,x,
         0,1,0,y,
         0,0,1,z or 0,
         0,0,0,1)
-    model:apply(m)
-
-    setTransformation()
+    m:apply(translate)
 end
 
 function scale(w, h, d)
---    love2d.graphics.scale(w, h)
---    model:scale(w, h, d)
+    scale_matrix(model, w, h, d)
+    setTransformation()
+end
 
+function scale_matrix(m, w, h, d)
     assert(w)
     h = h or w
     d = d or 0    
 
-    local m = love.math.newTransform()
-    setMatrix(m,
+    local scale = love.math.newTransform()
+    setMatrix(scale, nil,
         w,0,0,0,
         0,h,0,0,
         0,0,d,0,
         0,0,0,1)
-    model:apply(m)
-
-    setTransformation()
+    m:apply(scale)
 end
 
 function rotate(angle, x, y, z)
+    rotate_matrix(model, angle, x, y, z)
+    setTransformation()
+end
+
+function rotate_matrix(m, angle, x, y, z)
     x = x or 0
     y = y or 0
     z = z or 1
-
---    love2d.graphics.rotate(angle)
---    model:rotate(angle)
 
     local c, s
 --        mode = mode or angleMode()
@@ -140,73 +124,68 @@ function rotate(angle, x, y, z)
 
     if x == 1 then
         local m = love.math.newTransform()
-        setMatrix(m,
+        setMatrix(m, nil,
             1,0,0,0,
             0,c,-s,0,
             0,s,c,0,
             0,0,0,1)
         model:apply(m)
-
---        m2x.i5 = c
---        m2x.i6 = -s
---        m2x.i9 = s
---        m2x.i10 = c
---        return m1:__mul(m2x, res)
-end
+    end
 
     if y == 1 then
         local m = love.math.newTransform()
-        setMatrix(m,
+        setMatrix(m, nil,
             c,0,s,0,
             0,1,0,0,
             -s,0,c,0,
             0,0,0,1)
         model:apply(m)
 
---        m2y.i0 = c
---        m2y.i2 = s
---        m2y.i8 = -s
---        m2y.i10 = c
---        return m1:__mul(m2y, res)
-
-end
+    end
 
     if z == 1 then -- default
         local m = love.math.newTransform()
-        setMatrix(m,
+        setMatrix(m, nil,
             c,-s,0,0,
             s,c,0,0,
             0,0,1,0,
             0,0,0,1)
         model:apply(m)
-
---        m2z.i0 = c
---        m2z.i1 = -s
---        m2z.i4 = s
---        m2z.i5 = c
---        return m1:__mul(m2z, res)
-
-    end
-
-    setTransformation()
+    end    
 end
 
 function ortho(left, right, bottom, top, near, far)
     local l = left or 0
-    local r = right or W or screen.W or 400
+    local r = right or W or 400
 
     local b = bottom or 0
-    local t = top or H or screen.H or 400
+    local t = top or H or 400
 
     local n = near or -1000
     local f = far or 1000
 
-    projection = love.math.newTransform()
-    setMatrix(projection,
+    local translate = love.math.newTransform()
+    setMatrix(translate, nil,
+        1,0,0,1,
+        0,1,0,1,
+        0,0,1,0,
+        0,0,0,1)
+
+    local scale = love.math.newTransform()
+    setMatrix(scale, nil,
+        W/2,0,0,0,
+        0,H/2,0,0,
+        0,0,1,0,
+        0,0,0,1)
+
+    local project = love.math.newTransform()
+    setMatrix(project, nil,
         2/(r-l), 0, 0, -(r+l)/(r-l),
         0, 2/(t-b), 0, -(t+b)/(t-b),
         0, 0, -2/(f-n), -(f+n)/(f-n),
         0, 0, 0, 1)
+
+    projection = scale * translate * project
 
     setTransformation()
 end
@@ -214,16 +193,16 @@ end
 function isometric(n)
     ortho()
 
-    translate(W/2, H/2)
+--    translate_matrix(projection, W/2, H/2)
 
     local alpha = __deg(__atan(1/__sqrt(2)))
     local beta = 45
 
-    rotate(alpha, 1, 0, 0)
-    rotate(beta, 0, 1, 0)
+    rotate_matrix(projection, alpha, 1, 0, 0)
+    rotate_matrix(projection, beta, 0, 1, 0)
 
     if n then
-        scale(n, n, n)
+        scale_matrix(projection, n, n, n)
     end
 
     setTransformation()
@@ -237,8 +216,8 @@ function perspective(fov, width, height, zNear, zFar)
         fovy = fovy or 45
     end
 
-    local w = W or screen.W or 400
-    local h = H or screen.H or 400
+    local w = W or 400
+    local h = H or 400
 
     aspect = aspect or (w / h)
 
@@ -253,12 +232,28 @@ function perspective(fov, width, height, zNear, zFar)
     local bottom = -range
     local top = range
 
-    projection = love.math.newTransform()
-    setMatrix(projection,
-        (2 * near) / (right - left), 0, 0, 0,
-        0, (2 * near) / (top - bottom), 0, 0,
+    local translate = love.math.newTransform()
+    setMatrix(translate, nil,
+        1,0,0,1,
+        0,1,0,1,
+        0,0,1,0,
+        0,0,0,1)
+
+    local scale = love.math.newTransform()
+    setMatrix(scale, nil,
+        W/2,0,0,0,
+        0,H/2,0,0,
+        0,0,-1,0,
+        0,0,0,1)
+
+    local project = love.math.newTransform()
+    setMatrix(project, nil,
+        (2 * near) / (right - left), 0, (right + left)/(right - left), 0,
+        0, (2 * near) / (top - bottom), (top + bottom)/(top - bottom), 0,
         0, 0, - (far + near) / (far - near), - (2 * far * near) / (far - near),
         0, 0, - 1, 0)
+
+    projection = scale * translate * project 
 
     setTransformation()
 end
@@ -273,10 +268,10 @@ function lookAt(eye, center, up)
     local u = s:cross(f)
 
     view = love.math.newTransform()
-    setMatrix(view,
-        s.x, s.y, s.z, -s:dot(eye),
-        u.x, u.y, u.z, -u:dot(eye),
-        -f.x, -f.y, -f.z, f:dot(eye),
+    setMatrix(view, nil,
+         s.x,  s.y,  s.z, -s:dot(eye),
+         u.x,  u.y,  u.z, -u:dot(eye),
+        -f.x, -f.y, -f.z,  f:dot(eye),
         0, 0, 0, 1)
 
     setTransformation()

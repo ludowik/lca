@@ -40,7 +40,10 @@ end
 function vec2:normalize(norm)
     norm = norm or 1
     
-    local invlen = 1 / self:len()
+    local len = self:len()
+    if len == 0 then return vec2() end
+    
+    local invlen = 1 / len
     return vec2(
         norm * self.x * invlen,
         norm * self.y * invlen)

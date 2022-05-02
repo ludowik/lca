@@ -34,7 +34,10 @@ end
 function vec3:normalize(norm)
     norm = norm or 1
 
-    local invlen = 1 / self:len()
+    local len = self:len()
+    if len == 0 then return vec3() end
+    
+    local invlen = 1 / len
     return vec3(
         norm * self.x * invlen,
         norm * self.y * invlen,
@@ -51,6 +54,6 @@ end
 function vec3.dot(a, b)
     return (
         a.x * b.x +
-        a.y * b.y  +
+        a.y * b.y +
         a.z * b.z)        
 end
