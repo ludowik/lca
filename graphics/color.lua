@@ -51,6 +51,7 @@ function Color.setup()
         blue = Color(50/255, 120/255, 170/255), -- 0, 0, 1),
 
         yellow = Color(245/255, 225/255, 50/255),
+        orange = Color(1, 165/255, 0),
     }
 end
 

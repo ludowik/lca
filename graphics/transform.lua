@@ -1,4 +1,4 @@
-local __tan, __atan, __rad, __deg, __sqrt = math.tan, math.atan, math.rad, math.deg, math.sqrt
+local __tan, __atan, __rad, __deg, __sqrt, __cos, __sin = math.tan, math.atan, math.rad, math.deg, math.sqrt, math.cos, math.sin
 local love2d = love
 
 local matrices = {}
@@ -17,7 +17,7 @@ function pvMatrix()
 end
 
 function pvmMatrix()
-    return projection * view * model
+    return (projection * view) * model
 end
 
 function modelMatrix()
@@ -35,7 +35,7 @@ function matByVector(m, b)
         0,b.y,0,0,
         0,0,0,b.z,
         0,0,0,1)
-    
+
     local res = m * bm
     local values = {
         res:getMatrix()
@@ -122,9 +122,72 @@ function scale(w, h, d)
     setTransformation()
 end
 
-function rotate(angle)
+function rotate(angle, x, y, z)
+    x = x or 0
+    y = y or 0
+    z = z or 1
+
 --    love2d.graphics.rotate(angle)
-    model:rotate(angle)
+--    model:rotate(angle)
+
+    local c, s
+--        mode = mode or angleMode()
+--        if mode == DEGREES then
+--    c, s = __cos(__rad(angle)), __sin(__rad(angle))
+--        else
+    c, s = __cos(angle), __sin(angle)
+--        end
+
+    if x == 1 then
+        local m = love.math.newTransform()
+        setMatrix(m,
+            1,0,0,0,
+            0,c,-s,0,
+            0,s,c,0,
+            0,0,0,1)
+        model:apply(m)
+
+--        m2x.i5 = c
+--        m2x.i6 = -s
+--        m2x.i9 = s
+--        m2x.i10 = c
+--        return m1:__mul(m2x, res)
+end
+
+    if y == 1 then
+        local m = love.math.newTransform()
+        setMatrix(m,
+            c,0,s,0,
+            0,1,0,0,
+            -s,0,c,0,
+            0,0,0,1)
+        model:apply(m)
+
+--        m2y.i0 = c
+--        m2y.i2 = s
+--        m2y.i8 = -s
+--        m2y.i10 = c
+--        return m1:__mul(m2y, res)
+
+end
+
+    if z == 1 then -- default
+        local m = love.math.newTransform()
+        setMatrix(m,
+            c,-s,0,0,
+            s,c,0,0,
+            0,0,1,0,
+            0,0,0,1)
+        model:apply(m)
+
+--        m2z.i0 = c
+--        m2z.i1 = -s
+--        m2z.i4 = s
+--        m2z.i5 = c
+--        return m1:__mul(m2z, res)
+
+    end
+
     setTransformation()
 end
 
@@ -144,6 +207,24 @@ function ortho(left, right, bottom, top, near, far)
         0, 2/(t-b), 0, -(t+b)/(t-b),
         0, 0, -2/(f-n), -(f+n)/(f-n),
         0, 0, 0, 1)
+
+    setTransformation()
+end
+
+function isometric(n)
+    ortho()
+
+    translate(W/2, H/2)
+
+    local alpha = __deg(__atan(1/__sqrt(2)))
+    local beta = 45
+
+    rotate(alpha, 1, 0, 0)
+    rotate(beta, 0, 1, 0)
+
+    if n then
+        scale(n, n, n)
+    end
 
     setTransformation()
 end
@@ -178,24 +259,6 @@ function perspective(fov, width, height, zNear, zFar)
         0, (2 * near) / (top - bottom), 0, 0,
         0, 0, - (far + near) / (far - near), - (2 * far * near) / (far - near),
         0, 0, - 1, 0)
-
-    setTransformation()
-end
-
-function isometric(n)
-    ortho()
-
-    translate(W/2, H/2)
-
-    local alpha = __deg(__atan(1/__sqrt(2)))
-    local beta = 45
-
-    rotate(alpha, 1, 0, 0)
-    rotate(beta, 0, 1, 0)
-
-    if n then
-        scale(n, n, n)
-    end
 
     setTransformation()
 end

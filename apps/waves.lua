@@ -2,23 +2,21 @@ function setup()
     pixelSize = 1
 end    
 
-function draw()
+function draw3d()
     background(colors.black)
+
     local self = {
-        zoom = 1,
-        n = 13,
-        size = 10 / pixelSize,
-        angle = elapsedTime * 10
+        zoom = 0.5,
+        n = 5,
+        size = 50 / pixelSize,
+        angle = elapsedTime * 2
     }
 
-    isometric(self.zoom)
-    
-    -- depthMode(true)
-    -- cullingMode(true)
-    
-    love.graphics.setMeshCullMode('none')
-    love.graphics.setDepthMode('always', true)
-    love.graphics.setFrontFaceWinding('ccw')
+--    isometric(self.zoom)
+    perspective()
+
+--    depthMode(true)
+--    cullingMode(true)
 
     local n = self.n * 2 + 1
 
@@ -27,7 +25,7 @@ function draw()
     local mind = 0
     local maxd = vec2(1, 1):dist(vec2(n / 2, n / 2))
 
-    translate(-(n + 1) / 2 * w, 0, -(n + 1) / 2 * w)
+--    translate(-(n + 1) / 2 * w, 0, -(n + 1) / 2 * w)
 
     for x = 1, n do
         translate(w, 0, 0)
@@ -46,7 +44,7 @@ function draw()
             strokeSize(2)
             stroke(gray)
 
-            fill(Color(r))
+--            fill(Color(r))
 
             box(0, 0, 0, w, h, w)
         end

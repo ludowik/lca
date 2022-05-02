@@ -89,7 +89,7 @@ end
 
 function Graphics.points(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
-    
+
     love2d.graphics.setColor(1, 1, 1, 1)
     love2d.graphics.setPointSize(strokeSize())
 
@@ -111,7 +111,7 @@ end
 
 function Graphics.lines(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
-    
+
     love2d.graphics.setColor(stroke():unpack())
     love2d.graphics.setLineWidth(strokeSize())    
     for i=1,#t,4 do

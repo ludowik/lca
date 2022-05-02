@@ -71,7 +71,7 @@ function Engine.render(f, x, y)
     if x then
         translate(x, y)
     end
-    
+
     clip()
 
     f()
@@ -80,25 +80,65 @@ end
 function Engine.beginDraw()
     if not _G.env.canvas then
         _G.env.canvas = love.graphics.newCanvas(W, H)
-        love.graphics.setCanvas(_G.env.canvas)
-        love.graphics.clear(0, 0, 0, 1)
+        _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
+        love.graphics.setCanvas({
+                _G.env.canvas,
+                depth = true,
+--                depthstencil = _G.env.depthBuffer
+            })
+        love.graphics.clear() -- 0, 0, 0, 1, true, true)
     end
-    love.graphics.setCanvas(_G.env.canvas)
+
+    love.graphics.setCanvas({
+            _G.env.canvas,
+            depth = true,
+--            depthstencil = _G.env.depthBuffer
+        })
+
+--    love.graphics.setWireframe(config.wireFrame and true or false)
 end
 
-function Engine.endDraw()
+function Engine.endDraw(reverseY)
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setScissor()
+    
     love.graphics.setBlendMode('replace')
     love.graphics.origin()
-    love.graphics.draw(_G.env.canvas, X, Y)
+    love.graphics.setWireframe(false)
+
+    if reverseY then
+        love.graphics.draw(_G.env.canvas, X, H-Y, 0, 1, -1)
+    else
+        love.graphics.draw(_G.env.canvas, X, Y)
+    end
 end
 
 function Engine.draw()
-    Engine.beginDraw()
-    Engine.render(_G.env.draw)
-    Engine.endDraw()    
+    if _G.env.draw then
+        Engine.beginDraw()
+
+        love.graphics.setDepthMode('always', true)
+
+        Engine.render(_G.env.draw)
+
+        Engine.endDraw()
+    end
+
+    if _G.env.draw3d then
+        Engine.beginDraw()
+
+        love.graphics.setMeshCullMode('back')
+        love.graphics.setFrontFaceWinding('ccw')
+        love.graphics.setDepthMode('lequal', true)
+        love.graphics.clear(0, 0, 0, 1, true, true)
+
+        Engine.render(_G.env.draw3d)
+
+        Engine.endDraw(true)
+    end
+
+    love.graphics.setDepthMode('always', true)
 
     Engine.render(function()
             text(getFPS())
@@ -131,6 +171,9 @@ function Engine.keyreleased(key)
     elseif key == 'right' then
         nextApp()
 
+    elseif key == 'w' then
+        config.wireFrame = not config.wireFrame
+
     elseif key =='g' then
         if point == GraphicsLove.point then
             Engine.graphics = GraphicsTemplate()
@@ -155,7 +198,7 @@ function Engine.mousereleased(x, y, button, istouch, presses)
 
     dx = abs(xEnd - xBegin)
     dy = abs(yEnd - yBegin)
-    
+
     if xBegin > 0.85 * W and yBegin < 0.15 * H then
         quit()
 

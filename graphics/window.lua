@@ -26,6 +26,7 @@ function initWindow()
             highdpi = true,
             usedpiscale = true,
             msaa = 8,
+            depth = 24,
         })
     
     return getSafeArea()

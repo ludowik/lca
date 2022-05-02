@@ -1,17 +1,20 @@
-function draw()
+function draw3d()
     background()
 
-    rectMode(CENTER)
---    translate(W/2, H/2)
---    translate(0, 0, -200)
-
     perspective()
-    lookAt(vec3(0, 0, -10))
-
-    local w = 1
-    fill(colors.red)
+    
+--    lookAt(vec3(0, 0, -10))
+--    isometric(20)
+    
+--    if elapsedTime/5 % 3 <= 1 then
+--        rotate(elapsedTime, 1, 0, 0)
+--    else
+--        rotate(elapsedTime, 0, 1, 0)
+--    end
+    
+    local w = 10
     box(0, 0, 0, w, w, w)
-end
+ end
 
 function drawInfo()
     text(love.filesystem.getSaveDirectory())

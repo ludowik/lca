@@ -2,10 +2,10 @@ function resetStyles()
     textPosition = 0
     textColor(colors.white)
     
-    stroke(colors.white)
+    stroke(colors.red)
     strokeSize(1)
     
-    fill(colors.gray)
+    fill(colors.white)
     
     fontSize(12)
     
