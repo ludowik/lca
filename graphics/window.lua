@@ -14,7 +14,8 @@ function initWindow()
             w, h = w2, h2
         end
     else
-        w, h = love2d.window.getMode()
+        w = 1024
+        h = w * 9/16
     end
     
     w = love2d.window.toPixels(w)

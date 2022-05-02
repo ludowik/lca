@@ -1,30 +1,7 @@
-if arg[#arg] == "-debug" then require("mobdebug").start() end
-
-require 'lua.os'
-require 'lua.class'
-require 'lua.math'
-require 'lua.random'
-require 'lua.string'
-require 'lua.vec2'
-require 'lua.vec3'
-require 'lua.vec4'
-require 'lua.table'
-
-require 'graphics.window'
-require 'graphics.transform'
-require 'graphics.styles'
-require 'graphics.color'
-require 'graphics.graphics2d'
-require 'graphics.graphics2d_love'
-
-require 'engine.app'
-require 'engine.love'
-require 'engine.config'
-
 class 'Engine'
 
 function Engine.load()
-    Engine.graphics = GraphicsLove() -- config.renderer == 'love' and GraphicsLove() or GraphicsTemplate()
+    Engine.graphics = config.renderer == 'core' and GraphicsTemplate() or GraphicsLove()
 
     deltaTime = 0
     elapsedTime = 0
@@ -80,61 +57,66 @@ end
 function Engine.beginDraw()
     if not _G.env.canvas then
         _G.env.canvas = love.graphics.newCanvas(W, H)
-        _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
+--        _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
+
         love.graphics.setCanvas({
                 _G.env.canvas,
                 depth = true,
---                depthstencil = _G.env.depthBuffer
             })
+
         love.graphics.clear() -- 0, 0, 0, 1, true, true)
     end
 
     love.graphics.setCanvas({
             _G.env.canvas,
             depth = true,
---            depthstencil = _G.env.depthBuffer
         })
 
---    love.graphics.setWireframe(config.wireFrame and true or false)
+    love.graphics.setWireframe(config.wireFrame and true or false)
 end
 
 function Engine.endDraw(reverseY)
     love.graphics.setCanvas()
+    love.graphics.origin()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setScissor()
-    
     love.graphics.setBlendMode('replace')
-    love.graphics.origin()
     love.graphics.setWireframe(false)
+    love.graphics.clear(.5, .5, .5, 1)
+
+    local source
+    if _G.env.imageData then
+        source = love.graphics.newImage(_G.env.imageData)
+    else
+        source = _G.env.canvas
+    end
 
     if reverseY then
-        love.graphics.draw(_G.env.canvas, X, H-Y, 0, 1, -1)
+        love.graphics.draw(source, X, H+Y, 0, 1, -1)
     else
-        love.graphics.draw(_G.env.canvas, X, Y)
+        love.graphics.draw(source , X, Y)
     end
 end
 
 function Engine.draw()
     if _G.env.draw then
         Engine.beginDraw()
-
-        love.graphics.setDepthMode('always', true)
-
-        Engine.render(_G.env.draw)
-
+        do
+            love.graphics.setDepthMode('always', true)
+            Engine.render(_G.env.draw)
+        end
         Engine.endDraw()
     end
 
     if _G.env.draw3d then
         Engine.beginDraw()
-
-        love.graphics.setMeshCullMode('back')
-        love.graphics.setFrontFaceWinding('ccw')
-        love.graphics.setDepthMode('lequal', true)
-        love.graphics.clear(0, 0, 0, 1, true, true)
-
-        Engine.render(_G.env.draw3d)
-
+        do
+            love.graphics.setMeshCullMode('back')
+            love.graphics.setFrontFaceWinding('ccw')
+            love.graphics.setDepthMode('lequal', true)
+            love.graphics.clear()
+            Engine.render(_G.env.draw3d)
+        end
         Engine.endDraw(true)
     end
 
@@ -175,6 +157,7 @@ function Engine.keyreleased(key)
         config.wireFrame = not config.wireFrame
 
     elseif key =='g' then
+        _G.env.imageData = nil
         if point == GraphicsLove.point then
             Engine.graphics = GraphicsTemplate()
         else

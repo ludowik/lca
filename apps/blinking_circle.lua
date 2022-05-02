@@ -1,7 +1,9 @@
 function draw()
     blendMode('alpha')
     
-    background(Color(0, 0, 0, 0.05))
+    noStroke()
+    fill(Color(0, 0, 0, 0.05))
+    rect(0, 0, W, H)
     
     circleMode(CENTER)
     

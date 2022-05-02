@@ -10,9 +10,18 @@ function Graphics.clip(...)
 end
 
 function Graphics.background(clr)
-    Graphics.rect(0, 0, W, H, {
-            _fillColor = clr or colors.black
-        })
+    clr = clr or colors.black
+    love.graphics.clear(clr:unpack())
+end
+
+function Graphics.blendMode(mode, alphamode)
+    if mode then
+        _blendMode = mode
+        _blendAlphaMode = alphamode
+
+        love.graphics.setBlendMode(mode, alphamode)
+    end
+    return _blendMode
 end
 
 function Graphics.fontSize(size)
@@ -61,7 +70,7 @@ function Graphics.line(x1, y1, x2, y2)
 
     Graphics.lineMesh = Graphics.newMesh(vertices, 'triangles', 'static')
     love.graphics.setColor(stroke():unpack())        
-    Graphics.draw(Graphics.lineMesh)
+    Graphics.drawMesh(Graphics.lineMesh)
 end
 
 function Graphics.lines(t, ...)
@@ -123,7 +132,7 @@ function Graphics.rect(x, y, w, h, attr)
         local _fillColor = attr and attr._fillColor or fill()
         if _fillColor then
             love.graphics.setColor(_fillColor:unpack())
-            Graphics.draw(Graphics.rectMesh)
+            Graphics.drawMesh(Graphics.rectMesh)
         end
     end
     popMatrix()
@@ -158,7 +167,7 @@ function Graphics.ellipse(x, y, w, h)
 
         if fill() then
             love.graphics.setColor(fill():unpack())        
-            Graphics.draw(Graphics.circleMesh)
+            Graphics.drawMesh(Graphics.circleMesh)
         end
     end
     popMatrix()
@@ -200,7 +209,7 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x-w, y+h, z+d})
         table.insert(vertices, {x+w, y+h, z+d})
         setColors(colors.yellow)
-        
+
         -- left
         table.insert(vertices, {x-w, y-h, z+d})
         table.insert(vertices, {x-w, y-h, z-d})
@@ -209,7 +218,7 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x-w, y+h, z-d})
         table.insert(vertices, {x-w, y+h, z+d})        
         setColors(colors.orange)
-        
+
         -- right
         table.insert(vertices, {x+w, y-h, z-d})
         table.insert(vertices, {x+w, y-h, z+d})
@@ -218,7 +227,7 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x+w, y+h, z+d})
         table.insert(vertices, {x+w, y+h, z-d})
         setColors(colors.red)
-        
+
         -- up
         table.insert(vertices, {x-w, y+h, z-d})
         table.insert(vertices, {x+w, y+h, z-d})
@@ -227,7 +236,7 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x+w, y+h, z+d})
         table.insert(vertices, {x-w, y+h, z+d})
         setColors(colors.white)
-        
+
         -- down
         table.insert(vertices, {x+w, y-h, z-d})
         table.insert(vertices, {x-w, y-h, z-d})
@@ -236,24 +245,24 @@ function Graphics.box(x, y, z, w, h, d)
         table.insert(vertices, {x-w, y-h, z+d})
         table.insert(vertices, {x+w, y-h, z+d})
         setColors(colors.blue)
-        
+
         Graphics.boxMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
 
         local vertexcode = [[
-        extern mat4 pvm;
-        vec4 position( mat4 transform_projection, vec4 vertex_position )
-        {
-            // return transform_projection * vertex_position;
-            return pvm * vertex_position;
-        }
+            uniform mat4 pvm;
+            vec4 position( mat4 transform_projection, vec4 vertex_position )
+            {
+                // return transform_projection * vertex_position;
+                return pvm * vertex_position;
+            }
         ]]
 
         local pixelcode = [[
-        vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
-        {
-            // vec4 texcolor = Texel(tex, texture_coords);
-            return /*texcolor * */ color;
-        }
+            vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
+            {
+                // vec4 texcolor = Texel(tex, texture_coords);
+                return /*texcolor * */ color;
+            }
         ]]
         Graphics.boxShader = love.graphics.newShader(pixelcode, vertexcode)
     end
@@ -300,7 +309,7 @@ function Graphics.newMesh(...)
 end
 
 function Graphics.drawMesh_(mesh)
-    return love.graphics.draw(mesh.mesh)
+    love.graphics.draw(mesh.mesh or mesh)
 end
 
 -- pipeline 3d
@@ -308,7 +317,9 @@ local function edgeFunction(a, b, c)
     return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x)
 end
 
-Graphics.drawMesh_ = Graphics.drawMesh or function (mesh)
+Graphics.drawMesh = Graphics.drawMesh or function (mesh)
+    _G.env.imageData = _G.env.imageData or love.image.newImageData(W, H)
+
     local vertices = table()
 
     -- Vertex shader
@@ -346,11 +357,11 @@ Graphics.drawMesh_ = Graphics.drawMesh or function (mesh)
                 local offset = (t - 1) * 3
                 local v0, v1, v2 = vertices[offset + 1], vertices[offset + 2], vertices[offset + 3]
 
-                --                local clr = Color(v0[6], v0[7], v0[8]) -- mesh.colors[1]
+--                local clr = Color(v0[6], v0[7], v0[8]) -- mesh.colors[1]
 
-                --                local c0 = Color(v0[6], v0[7], v0[8]) -- mesh.colors[offset + 1] or clr
-                --                local c1 = Color(v1[6], v1[7], v1[8]) -- mesh.colors[offset + 2] or clr
-                --                local c2 = Color(v2[6], v2[7], v2[8]) -- mesh.colors[offset + 3] or clr
+--                local c0 = Color(v0[6], v0[7], v0[8]) -- mesh.colors[offset + 1] or clr
+--                local c1 = Color(v1[6], v1[7], v1[8]) -- mesh.colors[offset + 2] or clr
+--                local c2 = Color(v2[6], v2[7], v2[8]) -- mesh.colors[offset + 3] or clr
                 local c0, c1, c2 = colors.red, colors.green, colors.blue
 
                 local area = edgeFunction(v0, v1, v2)
@@ -393,8 +404,8 @@ function vertexShader(vt)
     local m = modelMatrix()
     --    local v = (pv*m):mulVector(vt)
     local v = matByVector((pv*m), vt)
-    v = v / v.w
-    return vec3((v.x + 1) * W / 2, (v.y + 1) * H / 2, v.z)
+--    v = v / v.w
+    return v -- vec3((v.x + 1) * W / 2, (v.y + 1) * H / 2, v.z)
 end
 
 function fragmentShader(x, y, z, clr)
@@ -418,7 +429,7 @@ function fragmentShader(x, y, z, clr)
             context.ptrb[offset] = keepsafe(_blendMode(b * 255, context.ptrb[offset], a))
             context.ptra[offset] = keepsafe(_blendMode(a * 255, context.ptra[offset], a))
         else
-            context.data:setPixel(x, y, r, g, b, a)
+            _G.env.imageData:setPixel(x, y, r, g, b, a)
         end
     end
 end

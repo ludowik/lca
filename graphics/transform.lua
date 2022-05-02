@@ -40,7 +40,7 @@ function matByVector(m, v)
     local values = {
         res:getMatrix()
     }
-    return vec4(values[1], values[5], values[9], values[13]) / values[13]
+    return vec4(values[1], values[5], values[9], values[13])
 end
 
 function projectionMatrix()
@@ -164,28 +164,11 @@ function ortho(left, right, bottom, top, near, far)
     local n = near or -1000
     local f = far or 1000
 
-    local translate = love.math.newTransform()
-    setMatrix(translate, nil,
-        1,0,0,1,
-        0,1,0,1,
-        0,0,1,0,
-        0,0,0,1)
-
-    local scale = love.math.newTransform()
-    setMatrix(scale, nil,
-        W/2,0,0,0,
-        0,H/2,0,0,
-        0,0,1,0,
-        0,0,0,1)
-
-    local project = love.math.newTransform()
-    setMatrix(project, nil,
+    setMatrix(projection, nil,
         2/(r-l), 0, 0, -(r+l)/(r-l),
         0, 2/(t-b), 0, -(t+b)/(t-b),
         0, 0, -2/(f-n), -(f+n)/(f-n),
         0, 0, 0, 1)
-
-    projection = scale * translate * project
 
     setTransformation()
 end
@@ -193,7 +176,7 @@ end
 function isometric(n)
     ortho()
 
---    translate_matrix(projection, W/2, H/2)
+    translate_matrix(projection, W/2, H/2)
 
     local alpha = __deg(__atan(1/__sqrt(2)))
     local beta = 45
@@ -232,46 +215,29 @@ function perspective(fov, width, height, zNear, zFar)
     local bottom = -range
     local top = range
 
-    local translate = love.math.newTransform()
-    setMatrix(translate, nil,
-        1,0,0,1,
-        0,1,0,1,
-        0,0,1,0,
-        0,0,0,1)
-
-    local scale = love.math.newTransform()
-    setMatrix(scale, nil,
-        W/2,0,0,0,
-        0,H/2,0,0,
-        0,0,-1,0,
-        0,0,0,1)
-
-    local project = love.math.newTransform()
-    setMatrix(project, nil,
+    setMatrix(projection, nil,
         (2 * near) / (right - left), 0, (right + left)/(right - left), 0,
         0, (2 * near) / (top - bottom), (top + bottom)/(top - bottom), 0,
         0, 0, - (far + near) / (far - near), - (2 * far * near) / (far - near),
         0, 0, - 1, 0)
 
-    projection = scale * translate * project 
-
     setTransformation()
 end
 
-function lookAt(eye, center, up)
+function lookAt(eye, target, up)
     eye = eye or vec3()    
-    center = center or vec3()
+    target = target or vec3()
     up = up or vec3(0, 1, 0)
 
-    local f = (center - eye):normalize()
-    local s = f:cross(up:normalize()):normalize()
+    local f = (target - eye):normalize()
+    local s = f:cross(up):normalize()
     local u = s:cross(f)
 
     view = love.math.newTransform()
     setMatrix(view, nil,
-         s.x,  s.y,  s.z, -s:dot(eye),
-         u.x,  u.y,  u.z, -u:dot(eye),
-        -f.x, -f.y, -f.z,  f:dot(eye),
+        s.x, s.y, s.z, -s:dot(eye),
+        u.x, u.y, u.z, -u:dot(eye),
+        -f.x, -f.y, -f.z, f:dot(eye),
         0, 0, 0, 1)
 
     setTransformation()

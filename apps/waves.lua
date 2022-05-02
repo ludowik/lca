@@ -3,19 +3,17 @@ function setup()
 end    
 
 function draw3d()
-    background(colors.black)
+    background()
 
     local self = {
-        zoom = 0.5,
-        n = 5,
-        size = 50 / pixelSize,
+        zoom = 1,
+        n = 9,
+        size = 20 / pixelSize,
         angle = elapsedTime * 2
     }
 
---    isometric(self.zoom)
-    perspective()
---    ortho()
-
+    isometric(self.zoom)
+    
 --    depthMode(true)
 --    cullingMode(true)
 
@@ -38,14 +36,14 @@ function draw3d()
             local s = sin(self.angle + offset)
 
             local h = math.map(s, -1, 1, w * 2, w * 8)
-            local r = math.map(s, -1, 1, 0, 1)
+            local r = math.map(s, -1, 1, 0.4, 1)
 
             translate(0, 0, w)
 
             strokeSize(2)
             stroke(gray)
 
---            fill(Color(r))
+            fill(Color(r))
 
             box(0, 0, 0, w, h, w)
         end

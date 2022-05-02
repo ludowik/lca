@@ -4,7 +4,7 @@ local Graphics = class 'GraphicsLove'
 
 function Graphics:init()
     push2_G(Graphics)
-    love2d.graphics.setLineStyle('smooth')    
+    love2d.graphics.setLineStyle('smooth')
 end
 
 function Graphics.clip(...)
@@ -13,12 +13,17 @@ end
 
 function Graphics.background(clr)
     clr = clr or colors.black
-    love.graphics.setColor(clr:unpack())
-    love.graphics.rectangle('fill', 0, 0, W, H)
+    love.graphics.clear(clr:unpack())
 end
 
 function Graphics.blendMode(mode, alphamode)
-    love.graphics.setBlendMode(mode, alphamode)
+    if mode then
+        _blendMode = mode
+        _blendAlphaMode = alphamode
+
+        love.graphics.setBlendMode(mode, alphamode)
+    end
+    return _blendMode
 end
 
 local resources = {}

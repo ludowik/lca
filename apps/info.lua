@@ -1,30 +1,15 @@
-function draw()
-    background()
-
-    resetMatrix()
+function draw3d()
     perspective()
     
-    love.graphics.setDepthMode('always', true)
-    
---    lookAt(vec3(10, 10, 10))
-    
-    local p = vec3(0, 0, 2)
---    print(matByVector(modelMatrix(), p))
---    print(matByVector(viewMatrix(), p))
-    print(matByVector(pvmMatrix(), p))
-    
---    quit()
---    isometric(20)
-    
---    if elapsedTime/5 % 3 <= 1 then
---        rotate(elapsedTime, 1, 0, 0)
---    else
---        rotate(elapsedTime, 0, 1, 0)
---    end
-    
-    local w = 10
-    --rect(0, 0, w, w)
-    box(0, 0, -1, w, w, w)
+    lookAt(vec3(3,3,3))
+
+    if elapsedTime/5 % 3 <= 1 then
+        rotate(elapsedTime, 1, 0, 0)
+    else
+        rotate(elapsedTime, 0, 1, 0)
+    end
+
+    box(0, 0, 0, 1, 1, 1)
 end
 
 function drawInfo()
