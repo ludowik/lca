@@ -114,13 +114,7 @@ function rotate_matrix(m, angle, x, y, z)
     y = y or 0
     z = z or 1
 
-    local c, s
---        mode = mode or angleMode()
---        if mode == DEGREES then
---    c, s = __cos(__rad(angle)), __sin(__rad(angle))
---        else
-    c, s = __cos(angle), __sin(angle)
---        end
+    local c, s = __cos(angle), __sin(angle)
 
     if x == 1 then
         local m = love.math.newTransform()

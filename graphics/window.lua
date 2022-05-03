@@ -13,8 +13,13 @@ function initWindow()
         else
             w, h = w2, h2
         end
-    else
+        
+    elseif os.name == 'osx' then
         w = 1024
+        h = w * 9/16
+    
+    else -- if os.name == 'windows' then
+        w = 900
         h = w * 9/16
     end
     
