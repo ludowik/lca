@@ -1,14 +1,10 @@
 local love2d = love
 
-local Graphics = class 'GraphicsLove'
+local Graphics = class 'GraphicsLove' : extends(GraphicsBase)
 
 function Graphics:init()
     push2_G(Graphics)
     love2d.graphics.setLineStyle('smooth')
-end
-
-function Graphics.clip(...)
-    love.graphics.setScissor(...)
 end
 
 function Graphics.background(clr)
@@ -124,13 +120,17 @@ function Graphics.lines(t, ...)
     end
 end
 
-function Graphics.polyline(t)
+function Graphics.polyline(t, ...)
+    if type(t) ~= 'table' then t = {t, ...} end
+    
     love2d.graphics.setColor(stroke():unpack())
     love2d.graphics.setLineWidth(strokeSize())
     love2d.graphics.line(t)
 end
 
-function Graphics.polygon(t)
+function Graphics.polygon(t, ...)
+    if type(t) ~= 'table' then t = {t, ...} end
+    
     love2d.graphics.setColor(stroke():unpack())
     love2d.graphics.setLineWidth(strokeSize())
     love2d.graphics.polygon('line', t)
@@ -192,6 +192,10 @@ end
 
 function Graphics.box(x, y, z, w, h, d)
     GraphicsTemplate.box(x, y, z, w, h, d)
+end
+
+function Graphics.sphere(x, y, z, r)
+    GraphicsTemplate.sphere(x, y, z, r)
 end
 
 function Graphics.drawMesh(mesh)

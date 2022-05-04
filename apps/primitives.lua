@@ -41,7 +41,15 @@ function draw()
                 callPrimitive(t)
             else            
                 for i=1,n do
-                    callPrimitive(random(w), random(h), random(w), random(h))
+                    callPrimitive(
+                        random(w),
+                        random(h),
+                        random(w),
+                        random(h),
+                        random(w),
+                        random(h),
+                        random(w),
+                        random(h))
                 end
             end
         end
@@ -59,6 +67,7 @@ function draw()
         {f = points, type = 'table'},
         {f = line},
         {f = lines},
+        {f = polyline},
         {f = rect},
         {f = circle},
         {f = ellipse},

@@ -9,7 +9,8 @@ function draw3d()
         rotate(elapsedTime, 0, 1, 0)
     end
 
-    box(0, 0, 0, 1, 1, 1)
+--    box(0, 0, 0, 1, 1, 1)
+    sphere()
 end
 
 function drawInfo()

@@ -16,7 +16,7 @@ function initWindow()
         
     elseif os.name == 'osx' then
         w = 1024
-        h = w * 9/16
+        h = w -- * 9/16
     
     else -- if os.name == 'windows' then
         w = 900

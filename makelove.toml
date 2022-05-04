@@ -1,6 +1,6 @@
 name = "lca"
 default_targets = ["lovejs"]
-build_directory = "makelove-build"
+build_directory = "_build"
 
 love_files = [
     "./apps/*.lua",

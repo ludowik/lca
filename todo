@@ -4,11 +4,16 @@ refactoring
 
 rotation quaternion
 
-intersection de 2 vectors
 amélioration du tracé des polylignes via projection de l'intersection sur un vecteur à mi-angle
 
+rect round
+sphere
+
 config vsc
-config compilation web
 projet iphone
 
 rechercher les todo dans les sources
+
+scene
+
+2048

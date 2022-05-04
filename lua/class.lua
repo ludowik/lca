@@ -14,7 +14,7 @@ function class(name)
         })
 
     function k.extends(...)
-        extends(...)
+        return extends(...)
     end
 
     _G[name] = k
@@ -31,6 +31,7 @@ function extends(k, ...)
             end
         end
     end
+    return k
 end
 
 function setupClasses()

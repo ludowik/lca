@@ -7,6 +7,12 @@ function vec2:init(x, y)
     self.y = y or 0
 end
 
+function vec2.random(w, h)
+    return vec2(
+        random(w),
+        random(h))
+end
+
 function vec2:__tostring()
     return self.x .. ',' .. self.y
 end
@@ -85,4 +91,14 @@ function vec2.fx(p1, p2)
     local a = dy / dx
     local b = p2.y - (a * p2.x)
     return a, b
+end
+
+function vec2.intersection(line1, line2)
+    local a1, b1 = vec2.fx(line1[1], line1[2])
+    local a2, b2 = vec2.fx(line2[1], line2[2])
+    
+    x = (b2 - b1) / (a1 - a2)
+    y = a1 * x + b1
+    
+    return x, y
 end
