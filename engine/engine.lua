@@ -16,8 +16,6 @@ function Engine.load()
     else
         loadApp('info')
     end
-
-    callApp('setup')
 end
 
 function Engine.unload()
@@ -125,7 +123,7 @@ function Engine.draw()
     Engine.render(function()
             text(getFPS())
             text(elapsedTime)
-            text(apps.listByIndex[apps.current].name)
+            text(env.appName)
             callApp('drawInfo')
         end, X, Y)
 end
@@ -140,12 +138,15 @@ function Engine.keyreleased(key)
     elseif key == 'tab' then
         randomApp()
 
-    elseif key == 't' then
+    elseif key == 'l' then
         if Engine.test then
             Engine.test = nil
         else
             Engine.test = {delay=0}
         end
+
+    elseif key == 't' then
+        _G.env.autotest = not _G.env.autotest
 
     elseif key == 'left' then
         previousApp()
@@ -166,17 +167,64 @@ function Engine.keyreleased(key)
     end
 end
 
+
+-- MOUSE module
+
+PRESSED = 'pressed'
+MOVED = 'moved'
+RELEASED = 'released'
+
+mouse = {
+    state = MOVED,
+
+    px = 0,
+    py = 0,
+
+    x = 0,
+    y = 0,
+
+    dx = 0,
+    dy = 0,
+
+    tx = 0,
+    ty = 0,
+}
+
+function mouseevent(state, x, y)
+    mouse.state = state
+
+    if state == PRESSED then
+        mouse.px = x
+        mouse.py = y
+    else
+        mouse.px = mouse.x
+        mouse.py = mouse.y
+    end
+
+    mouse.x = x
+    mouse.y = y
+
+    mouse.dx = mouse.x - mouse.px 
+    mouse.dy = mouse.y - mouse.py
+end
+
 local xBegin, yBegin
 function Engine.mousepressed(x, y, button, istouch, presses)
+    mouseevent(PRESSED, x, y)    
     xBegin, yBegin = x, y
-    callApp('mousepressed', x, y, button, istouch, presses)
+
+    callApp('mousepressed', mouse)
 end
 
 function Engine.mousemoved(x, y, dx, dy, istouch)
-    callApp('mousemoved', x, y, dx, dy, istouch)
+    mouseevent(MOVED, x, y)
+
+    callApp('mousemoved', mouse)
 end
 
 function Engine.mousereleased(x, y, button, istouch, presses)
+    mouseevent(RELEASED, x, y)
+
     local xEnd, yEnd = x, y
 
     dx = abs(xEnd - xBegin)
@@ -194,6 +242,7 @@ function Engine.mousereleased(x, y, button, istouch, presses)
         previousApp()
 
     else
-        callApp('mousereleased', x, y, button, istouch, presses)
+        callApp('mousereleased', mouse)
+        callApp('touched', mouse)
     end
 end

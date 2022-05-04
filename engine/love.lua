@@ -2,19 +2,20 @@ local love2d = love
 
 function love2d.load()
     love2d.makelove()
-    
+
     local major, minor, revision, codename = love2d.getVersion()
     version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
-    
+
     return Engine.load()
 end
 
 function love2d.makelove()
-    if os.name ~= 'osx' then return end
     local build_directory = "_build"
-    os.execute('makelove')
-    os.execute('unzip -o '..build_directory..'/lovejs/lca-lovejs.zip -d '..build_directory..'/lovejs')
-    os.execute('cp '..build_directory..'/lovejs/lca/game.data .')
+    if os.name == 'osx' then
+        os.execute('makelove')    
+        os.execute('unzip -o '..build_directory..'/lovejs/lca-lovejs.zip -d '..build_directory..'/lovejs')
+        os.execute('cp '..build_directory..'/lovejs/lca/game.data .')
+    end
 --    os.execute('python3 -m http.server 8080 --directory lca')
 end
 

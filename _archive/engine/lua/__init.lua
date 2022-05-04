@@ -1,0 +1,5 @@
+require 'lua/debug'
+require 'lua/table'
+require 'lua/class'
+require 'lua/random'
+require 'lua/convert'

@@ -13,23 +13,24 @@ function class(name)
             end,
         })
 
-    function k.extends(...)
-        return extends(...)
+    function k.init()
     end
 
-    _G[name] = k
-    return k
-end
-
-function extends(k, ...)
-    local bases = {...}
-    assert(#bases >= 1)
-    for _,base in pairs(bases) do
-        for name,f in pairs(base) do
-            if type(f) == 'function' then
-                k[name] = f
+    function k.extends(...)
+        local bases = {...}
+        assert(#bases >= 1)
+        for _,base in pairs(bases) do
+            for name,f in pairs(base) do
+                if type(f) == 'function' then
+                    k[name] = f
+                end
             end
         end
+        return k
+    end
+
+    if name then
+        _G[name] = k
     end
     return k
 end

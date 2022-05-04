@@ -12,12 +12,16 @@
     <title>lca</title>
 
     <!-- Load custom style sheet -->
-    <link rel="stylesheet" type="text/css" href="lca/theme/love.css">
+    <link rel="stylesheet" type="text/css" href="_build/lovejs/lca/theme/love.css">
 </head>
 
 <body>
     <div>
-        <canvas id="loadingCanvas" oncontextmenu="event.preventDefault()" width="800" height="600"></canvas>
+        <canvas 
+            id="loadingCanvas"
+            oncontextmenu="event.preventDefault()"
+            width="200"
+            height="200"></canvas>
         <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
     </div>
 
@@ -105,8 +109,8 @@
             Love(Module);
         }
     </script>
-    <script type="text/javascript" src="lca/game.js"></script>
-    <script async type="text/javascript" src="lca/love.js" onload="applicationLoad(this)"></script>
+    <script type="text/javascript" src="_build/lovejs/lca/game.js"></script>
+    <script async type="text/javascript" src="_build/lovejs/lca/love.js" onload="applicationLoad(this)"></script>
 </body>
 
 </html>

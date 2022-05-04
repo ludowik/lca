@@ -32,7 +32,8 @@ function circleMode(mode)
     return _circleMode
 end
 
-function textColor(clr)
+function textColor(clr, ...)
+    if type(clr) == 'number' then clr = Color(clr, ...) end
     _textColor = clr or _textColor or colors.white
     return _textColor
 end
@@ -41,7 +42,8 @@ function noStroke()
     _strokeColor = nil
 end
 
-function stroke(clr)
+function stroke(clr, ...)
+    if type(clr) == 'number' then clr = Color(clr, ...) end
     _strokeColor = clr or _strokeColor
     return _strokeColor
 end
@@ -55,7 +57,8 @@ function noFill()
     _fillColor = nil
 end
 
-function fill(clr)
+function fill(clr, ...)
+    if type(clr) == 'number' then clr = Color(clr, ...) end
     _fillColor = clr or _fillColor
     return _fillColor
 end

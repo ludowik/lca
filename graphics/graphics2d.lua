@@ -1,5 +1,22 @@
 local GraphicsBase = class 'GraphicsBase'
 
+function GraphicsBase.fontName(name)
+end
+
+function GraphicsBase.fontSize(size)
+    _fontSize = size or _fontSize or 12
+    if size then
+        love.graphics.setNewFont(size)
+    end
+    return _fontSize
+end
+
+function GraphicsBase.background(clr, ...)
+    if type(clr) == 'number' then clr = Color(clr, ...) end
+    clr = clr or colors.black
+    love.graphics.clear(clr:unpack())
+end
+
 function GraphicsBase.clip(...)
     love.graphics.setScissor(...)
 end
@@ -9,11 +26,6 @@ local Graphics = class 'GraphicsTemplate' : extends(GraphicsBase)
 function Graphics:init()
     push2_G(Graphics)
     love.graphics.setLineStyle('smooth')    
-end
-
-function Graphics.background(clr)
-    clr = clr or colors.black
-    love.graphics.clear(clr:unpack())
 end
 
 function Graphics.blendMode(mode, alphamode)

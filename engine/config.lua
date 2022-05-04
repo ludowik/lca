@@ -7,7 +7,7 @@ function loadConfig()
         ok, chunk = pcall(love.filesystem.load, name) -- load the chunk safely
         if ok then
             ok, result = pcall(chunk)
-            if ok then
+            if ok and type(result) == 'table' then
                 return result
             end
         end

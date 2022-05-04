@@ -7,11 +7,6 @@ function Graphics:init()
     love2d.graphics.setLineStyle('smooth')
 end
 
-function Graphics.background(clr)
-    clr = clr or colors.black
-    love.graphics.clear(clr:unpack())
-end
-
 function Graphics.blendMode(mode, alphamode)
     if mode then
         _blendMode = mode
@@ -37,14 +32,6 @@ function Graphics.textRes(txt)
     end
 
     return res
-end
-
-function Graphics.fontSize(size)
-    _fontSize = size or _fontSize or 12
-    if size then
-        love2d.graphics.setNewFont(size)
-    end
-    return _fontSize
 end
 
 function Graphics.textSize(txt)
@@ -77,9 +64,12 @@ function Graphics.text(txt, x, y)
         y = y - h / 2
     end
 
-    love.graphics.setBlendMode('alpha')
-    love2d.graphics.setColor(textColor():unpack())
-    love2d.graphics.draw(res.text, x, y)
+    local clr = textColor() or stroke()
+    if clr then
+        love.graphics.setBlendMode('alpha')
+        love2d.graphics.setColor(clr:unpack())
+        love2d.graphics.draw(res.text, x, y)
+    end
 end
 
 function Graphics.point(x, y)

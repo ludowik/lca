@@ -9,11 +9,18 @@ amélioration du tracé des polylignes via projection de l'intersection sur un v
 rect round
 sphere
 
+lovejs : ajouter un logo
+lovejs : virer le fond
+
 config vsc
 projet iphone
 
 rechercher les todo dans les sources
 
-scene
+scene + node => minimum vital
 
-2048
+charger the2048
+
+récupérer quelques Creative Coding
+
+UI : interface de contrôle (Parameter)

@@ -1,0 +1,1 @@
+loadAppCodea('apps/cargo-bot')

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Buffer Order</key>
+	<array>
+		<string>main</string>
+		<string>config</string>
+		<string>engine</string>
+		<string>run</string>
+		<string>tools</string>
+		<string>cell</string>
+		<string>ship</string>
+		<string>weapon</string>
+		<string>menu</string>
+	</array>
+	<key>Dependencies</key>
+	<array/>
+</dict>
+</plist>

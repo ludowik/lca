@@ -8,7 +8,11 @@ require 'lua.string'
 require 'lua.vec2'
 require 'lua.vec3'
 require 'lua.vec4'
+require 'lua.rect'
 require 'lua.table'
+require 'lua.grid'
+require 'lua.require'
+require 'lua.log'
 
 require 'graphics.window'
 require 'graphics.transform'
@@ -21,3 +25,8 @@ require 'engine.app'
 require 'engine.love'
 require 'engine.config'
 require 'engine.engine'
+
+require 'engine.scene'
+require 'engine.parameter'
+
+implement = print

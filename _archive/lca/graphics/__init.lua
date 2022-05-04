@@ -1,0 +1,20 @@
+requireLib(
+    'color_ffi',
+    'colors',
+    'colorConvert',
+    'image',
+    'shape',
+    'model',
+    'modelLoader',
+    'geometry',
+    'meshRender',
+    'mesh',
+    'shader',
+    'material',
+    'graphics',
+    'graphics3d',
+    'drawing',
+    'render',
+    'camera',
+    'light'
+)

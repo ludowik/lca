@@ -1,10 +1,39 @@
 class 'Color'
 
+function Color.setup()
+    colors = {
+        white = Color(1, 1, 1),
+        black = Color(0, 0, 0),
+
+        gray = Color(0.5, 0.5, 0.5),
+
+        red = Color(210, 70, 50), -- 1, 0, 0),
+        green = Color(50, 170, 120), -- 0, 1, 0),
+        blue = Color(50, 120, 170), -- 0, 0, 1),
+
+        yellow = Color(245, 225, 50),
+        orange = Color(1, 165, 0),
+    }
+end
+
 function Color:init(r, g, b, a)
-    self.r = r or 0
-    self.g = g or r
-    self.b = b or r
-    self.a = a or 1
+    r = r or 0
+    g = g or r
+    b = b or r
+
+    if r > 1 or g > 1 or b > 1 then
+        r = r / 255
+        g = g / 255
+        b = b / 255
+        a = a and (a / 255) or 1
+    else        
+        a = a or 1
+    end
+
+    self.r = r
+    self.g = g
+    self.b = b
+    self.a = a
 end
 
 function Color:unpack()
@@ -21,9 +50,9 @@ end
 
 function Color:contrast()
     local lum = (
-        (0.2125 * self.r) +
-        (0.7154 * self.g) + 
-        (0.0721 * self.b))
+        0.2125 * self.r +
+        0.7154 * self.g + 
+        0.0721 * self.b)
 
     if lum < 0.3 then return
         colors.white
@@ -39,20 +68,26 @@ function Color:complementary()
         1)
 end
 
-function Color.setup()
-    colors = {
-        white = Color(1, 1, 1),
-        black = Color(0, 0, 0),
+function Color:grayscale()
+    local gray = (
+        0.299 * self.r +
+        0.587 * self.g +
+        0.114 * self.b)
+    return Color(gray, gray, gray)
+end
 
-        gray = Color(0.5, 0.5, 0.5),
+function Color.hexa(hexa)
+    local r, g, b
 
-        red = Color(210/255, 70/255, 50/255), -- 1, 0, 0),
-        green = Color(50/225, 170/255, 120/255), -- 0, 1, 0),
-        blue = Color(50/255, 120/255, 170/255), -- 0, 0, 1),
+    r = hexa % 256
+    hexa = (hexa - r) / 256
 
-        yellow = Color(245/255, 225/255, 50/255),
-        orange = Color(1, 165/255, 0),
-    }
+    g = hexa % 256
+    hexa = (hexa - g) / 256
+
+    b = hexa % 256
+
+    return Color(r/255, g/255, b/255)
 end
 
 function Color.hsl(hue, sat, lgt, alpha)
