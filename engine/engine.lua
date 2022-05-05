@@ -196,6 +196,8 @@ function mouseevent(state, x, y)
     if state == PRESSED then
         mouse.px = x
         mouse.py = y
+        mouse.sx = x
+        mouse.sy = y
     else
         mouse.px = mouse.x
         mouse.py = mouse.y

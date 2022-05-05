@@ -17,6 +17,16 @@ function Rect:__tostring()
     return tostring(self.position)..','..tostring(self.size)
 end
 
+function Rect:contains(x, y)
+    if type(x) == 'table' or type(x) == 'cdata' then x, y = x.x, x.y end
+    assert(type(x) == 'number')
+
+    return (
+        self.position.x <= x and x <= self.position.x + self.size.x and
+        self.position.y <= y and y <= self.position.y + self.size.y
+    )
+end
+
 function Rect:w()
     return self.size.w
 end
