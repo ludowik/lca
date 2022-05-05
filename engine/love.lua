@@ -10,7 +10,7 @@ function love2d.load()
 end
 
 function love2d.makelove()
-    local build_directory = "_build"
+    local build_directory = "build"
     if os.name == 'osx' then
         os.execute('makelove')    
         os.execute('unzip -o '..build_directory..'/lovejs/lca-lovejs.zip -d '..build_directory..'/lovejs')

@@ -31,5 +31,12 @@ require 'engine.engine'
 require 'engine.scene'
 require 'engine.parameter'
 
-io.read = love.filesystem.read
+io.read = function (name)
+    local info = love.filesystem.getInfo(name)
+    if info then
+        return love.filesystem.read(name)
+    end
+    return nil
+end
+
 io.write = love.filesystem.write
