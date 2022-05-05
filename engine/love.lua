@@ -44,6 +44,10 @@ function love2d.mousereleased(...)
     return Engine.mousereleased(...)
 end
 
+function isDown(key)
+    return love.keyboard.isDown(key)
+end
+
 function getSafeArea()
     local x, y, w, h = love.window.getSafeArea()
     x = 12

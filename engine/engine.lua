@@ -1,7 +1,7 @@
 class 'Engine'
 
 function Engine.load()
-    Engine.graphics = config.renderer == 'core' and GraphicsTemplate() or GraphicsLove()
+    Engine.graphics = config.renderer == 'core' and GraphicsCore() or GraphicsLove()
 
     deltaTime = 0
     elapsedTime = 0
@@ -26,7 +26,7 @@ function Engine.update(dt)
     if Engine.test then
         Engine.test.delay = Engine.test.delay - dt
         if Engine.test.delay <=0 then
-            randomApp()
+            nextApp()
             Engine.test.delay = 0.2
         end
     end
@@ -124,6 +124,7 @@ function Engine.draw()
             text(getFPS())
             text(elapsedTime)
             text(env.appName)
+            text(config.renderer)
             callApp('drawInfo')
         end, X, Y)
 end
@@ -135,7 +136,7 @@ function Engine.keyreleased(key)
     elseif key == 'r' then
         quit('restart')
 
-    elseif key == 'tab' then
+    elseif key == ',' then -- ?
         randomApp()
 
     elseif key == 'l' then
@@ -148,11 +149,12 @@ function Engine.keyreleased(key)
     elseif key == 't' then
         _G.env.autotest = not _G.env.autotest
 
-    elseif key == 'left' then
-        previousApp()
-
-    elseif key == 'right' then
-        nextApp()
+    elseif key == 'tab' then
+        if isDown('lctrl') then
+            previousApp()
+        else
+            nextApp()
+        end
 
     elseif key == 'w' then
         config.wireFrame = not config.wireFrame
@@ -160,10 +162,15 @@ function Engine.keyreleased(key)
     elseif key =='g' then
         _G.env.imageData = nil
         if point == GraphicsLove.point then
-            Engine.graphics = GraphicsTemplate()
+            config.renderer = 'core'
         else
-            Engine.graphics = GraphicsLove()
+            config.renderer = 'love'
         end
+
+        Engine.graphics = config.renderer == 'core' and GraphicsCore() or GraphicsLove()
+    else
+        callApp('keyboard', key)
+
     end
 end
 

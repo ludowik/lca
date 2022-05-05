@@ -80,7 +80,9 @@ function nextApp()
 end
 
 function randomApp()
-    setApp(random(#apps.listByIndex))
+    local index = random(#apps.listByIndex)
+    print(index)
+    setApp(index)
 end
 
 function callApp(fname, ...)

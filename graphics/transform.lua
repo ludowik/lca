@@ -17,7 +17,7 @@ function pvMatrix()
 end
 
 function pvmMatrix()
-    return (projection * view) * model
+    return projection * view * model
 end
 
 function modelMatrix()

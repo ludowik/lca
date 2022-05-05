@@ -110,7 +110,7 @@ function perspective(fovy, aspect, near, far)
     else
         fovy = fovy or 45
     end
-    
+
     local w = W or screen.W or 400
     local h = H or screen.H or 400
 
@@ -161,7 +161,7 @@ end
 
 function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
     local app = app.theapp or app
-    
+
     app.scene.camera = Camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
     app.scene.camera:setViewMatrix()
 

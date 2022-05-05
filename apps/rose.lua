@@ -1,21 +1,18 @@
 function setup()
     marge = 10
 
-    if WIDTH < HEIGHT then
-        diameter = (min(WIDTH, HEIGHT) - marge) / 10
-    else
-        diameter = (min(WIDTH, HEIGHT) - marge) / 10
-    end
-
+    diameter = (min(W, H) - marge) / 10
     radius = diameter / 2.5
-
+    
     roses = {}
 end
 
 function draw()
-    ortho()
-
     background(51)
+    
+    ortho()
+    
+    scale(W/2, H/2)
 
     translate(W/2, H/2)
 

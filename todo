@@ -1,5 +1,3 @@
-blendmode => styles
-mutualisation fonctions graphiques
 refactoring
 
 rotation quaternion
@@ -18,9 +16,4 @@ projet iphone
 rechercher les todo dans les sources
 
 scene + node => minimum vital
-
-charger the2048
-
-récupérer quelques Creative Coding
-
 UI : interface de contrôle (Parameter)

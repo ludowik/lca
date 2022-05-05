@@ -20,6 +20,8 @@ require 'graphics.styles'
 require 'graphics.color'
 require 'graphics.graphics2d'
 require 'graphics.graphics2d_love'
+require 'graphics.graphics2d_core'
+require 'graphics.shape'
 
 require 'engine.app'
 require 'engine.love'
@@ -29,4 +31,5 @@ require 'engine.engine'
 require 'engine.scene'
 require 'engine.parameter'
 
-implement = print
+io.read = love.filesystem.read
+io.write = love.filesystem.write

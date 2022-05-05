@@ -14,6 +14,16 @@ function resetStyles()
     circleMode(CENTER)
 end
 
+function blendMode(mode, alphamode)
+    if mode then
+        _blendMode = mode
+        _blendAlphaMode = alphamode
+
+        love.graphics.setBlendMode(mode, alphamode)
+    end
+    return _blendMode
+end
+
 CORNER = 'corner'
 CENTER = 'center'
 

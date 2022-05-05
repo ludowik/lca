@@ -196,7 +196,7 @@ function Grid2048:save()
 end
 
 function Grid2048:load()
-    local str = nil -- io.read(app.appName:replace('/', '.')..'.mydata')
+    local str = io.read(app.appName:replace('/', '.')..'.mydata')
     if str then
         local data = loadstring('return '..str)()
         if data then
