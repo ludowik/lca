@@ -62,7 +62,7 @@ function Engine.beginDraw()
                 depth = true,
             })
 
-        love.graphics.clear() -- 0, 0, 0, 1, true, true)
+        love.graphics.clear(0, 0, 0, 1, true, true)
     end
 
     love.graphics.setCanvas({
