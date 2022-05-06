@@ -27,6 +27,7 @@ require 'engine.app'
 require 'engine.love'
 require 'engine.config'
 require 'engine.engine'
+require 'engine.gesture'
 
 require 'engine.scene'
 require 'engine.parameter'

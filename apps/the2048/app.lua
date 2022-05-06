@@ -41,14 +41,18 @@ function keyboard(key)
     end
 end
 
-function action(x, y)
-    if x > math.abs(y) then
+function action(gesture)
+    print(gesture)
+    if gesture == DIR_RIGHT then
         keyboard('right')
-    elseif x < -math.abs(y) then
+        
+    elseif gesture == DIR_LEFT then
         keyboard('left')
-    elseif y > math.abs(x) then
+        
+    elseif gesture == DIR_BOTTOM then
         keyboard('down')
-    elseif y < -math.abs(x) then
+        
+    elseif gesture == DIR_TOP then
         keyboard('up')
     end
 end
@@ -56,7 +60,7 @@ end
 function touched(touch)
     if state == 'play' then
         if touch.state == RELEASED and gridRect:contains(touch.sx, touch.sy) then
-            action(touch.tx, touch.ty)
+            action(gestureDirection(touch))
         end
     else
         if touch.state == RELEASED and touch.y <= 100 then

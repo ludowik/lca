@@ -201,10 +201,14 @@ function mouseevent(state, x, y)
     mouse.state = state
 
     if state == PRESSED then
-        mouse.px = x
-        mouse.py = y
         mouse.sx = x
         mouse.sy = y
+        
+        mouse.px = x
+        mouse.py = y
+        
+        mouse.tx = 0
+        mouse.ty = 0
     else
         mouse.px = mouse.x
         mouse.py = mouse.y
@@ -215,6 +219,9 @@ function mouseevent(state, x, y)
 
     mouse.dx = mouse.x - mouse.px 
     mouse.dy = mouse.y - mouse.py
+    
+    mouse.tx = mouse.tx + mouse.dx
+    mouse.ty = mouse.ty + mouse.dy
 end
 
 local xBegin, yBegin
