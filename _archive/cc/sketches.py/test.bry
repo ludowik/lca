@@ -1,0 +1,8 @@
+from browser import console
+
+# def init():
+#     console.log('python : in init')
+#     pass
+
+console.log('python : load sketch')
+# window.initGo = init

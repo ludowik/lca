@@ -1,0 +1,376 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		821903052623664300D6E4A6 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 821903042623664300D6E4A6 /* libSDL2.a */; };
+		8219033E26236DC400D6E4A6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219032B26236B8900D6E4A6 /* AudioToolbox.framework */; };
+		8219034026236DCD00D6E4A6 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219033F26236DCD00D6E4A6 /* Metal.framework */; };
+		8219034326236DE100D6E4A6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219034126236DE100D6E4A6 /* AVFoundation.framework */; };
+		8219034426236DE100D6E4A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219034226236DE100D6E4A6 /* Foundation.framework */; };
+		8219034626236DF400D6E4A6 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219034526236DF400D6E4A6 /* CoreMotion.framework */; };
+		8219034826236DFB00D6E4A6 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219034726236DFB00D6E4A6 /* GameController.framework */; };
+		8219034A26236E1500D6E4A6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219034926236E1500D6E4A6 /* CoreGraphics.framework */; };
+		8219034C26236E1D00D6E4A6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219034B26236E1D00D6E4A6 /* QuartzCore.framework */; };
+		8219034F26236E3700D6E4A6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8219031526236ACC00D6E4A6 /* OpenGLES.framework */; };
+		8235021E26238E660075EC61 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8235021D26238E660075EC61 /* UIKit.framework */; };
+		824320DE262360CE009B7A94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 824320DD262360CE009B7A94 /* Assets.xcassets */; };
+		824320E4262360CE009B7A94 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 824320E3262360CE009B7A94 /* main.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		821903042623664300D6E4A6 /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = ../../../../Ludo/Projets/Xcode/Lca/Lca/Libs/libraries/SDL2/libSDL2.a; sourceTree = "<group>"; };
+		8219031526236ACC00D6E4A6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
+		8219032826236B5500D6E4A6 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/AudioUnit.framework; sourceTree = DEVELOPER_DIR; };
+		8219032B26236B8900D6E4A6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		8219033326236C7C00D6E4A6 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/CoreAudioKit.framework; sourceTree = DEVELOPER_DIR; };
+		8219033426236C7C00D6E4A6 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = DEVELOPER_DIR; };
+		8219033526236C7C00D6E4A6 /* CoreAudioTypes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioTypes.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/CoreAudioTypes.framework; sourceTree = DEVELOPER_DIR; };
+		8219033F26236DCD00D6E4A6 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
+		8219034126236DE100D6E4A6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		8219034226236DE100D6E4A6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		8219034526236DF400D6E4A6 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
+		8219034726236DFB00D6E4A6 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
+		8219034926236E1500D6E4A6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		8219034B26236E1D00D6E4A6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		8219035026236E3700D6E4A6 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
+		8235021D26238E660075EC61 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.4.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		824320CE262360CD009B7A94 /* Lca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lca.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		824320DD262360CE009B7A94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		824320E2262360CE009B7A94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		824320E3262360CE009B7A94 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		824320CB262360CD009B7A94 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8235021E26238E660075EC61 /* UIKit.framework in Frameworks */,
+				8219033E26236DC400D6E4A6 /* AudioToolbox.framework in Frameworks */,
+				8219034C26236E1D00D6E4A6 /* QuartzCore.framework in Frameworks */,
+				8219034A26236E1500D6E4A6 /* CoreGraphics.framework in Frameworks */,
+				8219034626236DF400D6E4A6 /* CoreMotion.framework in Frameworks */,
+				8219034826236DFB00D6E4A6 /* GameController.framework in Frameworks */,
+				8219034326236DE100D6E4A6 /* AVFoundation.framework in Frameworks */,
+				8219034426236DE100D6E4A6 /* Foundation.framework in Frameworks */,
+				8219034026236DCD00D6E4A6 /* Metal.framework in Frameworks */,
+				8219034F26236E3700D6E4A6 /* OpenGLES.framework in Frameworks */,
+				821903052623664300D6E4A6 /* libSDL2.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		824320C3262360C0009B7A94 = {
+			isa = PBXGroup;
+			children = (
+				824320D0262360CD009B7A94 /* Lca */,
+				824320CF262360CD009B7A94 /* Products */,
+				824320ED2623627F009B7A94 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		824320CF262360CD009B7A94 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				824320CE262360CD009B7A94 /* Lca.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		824320D0262360CD009B7A94 /* Lca */ = {
+			isa = PBXGroup;
+			children = (
+				824320DD262360CE009B7A94 /* Assets.xcassets */,
+				824320E2262360CE009B7A94 /* Info.plist */,
+				824320E3262360CE009B7A94 /* main.c */,
+			);
+			path = Lca;
+			sourceTree = "<group>";
+		};
+		824320ED2623627F009B7A94 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8235021D26238E660075EC61 /* UIKit.framework */,
+				8219035026236E3700D6E4A6 /* OpenAL.framework */,
+				8219034B26236E1D00D6E4A6 /* QuartzCore.framework */,
+				8219034926236E1500D6E4A6 /* CoreGraphics.framework */,
+				8219034726236DFB00D6E4A6 /* GameController.framework */,
+				8219034526236DF400D6E4A6 /* CoreMotion.framework */,
+				8219034126236DE100D6E4A6 /* AVFoundation.framework */,
+				8219034226236DE100D6E4A6 /* Foundation.framework */,
+				8219033F26236DCD00D6E4A6 /* Metal.framework */,
+				8219033426236C7C00D6E4A6 /* CoreAudio.framework */,
+				8219033326236C7C00D6E4A6 /* CoreAudioKit.framework */,
+				8219033526236C7C00D6E4A6 /* CoreAudioTypes.framework */,
+				8219032B26236B8900D6E4A6 /* AudioToolbox.framework */,
+				8219032826236B5500D6E4A6 /* AudioUnit.framework */,
+				8219031526236ACC00D6E4A6 /* OpenGLES.framework */,
+				821903042623664300D6E4A6 /* libSDL2.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		824320CD262360CD009B7A94 /* Lca */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 824320E5262360CE009B7A94 /* Build configuration list for PBXNativeTarget "Lca" */;
+			buildPhases = (
+				824320CA262360CD009B7A94 /* Sources */,
+				824320CB262360CD009B7A94 /* Frameworks */,
+				824320CC262360CD009B7A94 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Lca;
+			productName = Lca;
+			productReference = 824320CE262360CD009B7A94 /* Lca.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		824320C4262360C0009B7A94 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					824320CD262360CD009B7A94 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = 824320C7262360C0009B7A94 /* Build configuration list for PBXProject "Lca" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 824320C3262360C0009B7A94;
+			productRefGroup = 824320CF262360CD009B7A94 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				824320CD262360CD009B7A94 /* Lca */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		824320CC262360CD009B7A94 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				824320DE262360CE009B7A94 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		824320CA262360CD009B7A94 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				824320E4262360CE009B7A94 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		824320C8262360C0009B7A94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+			};
+			name = Debug;
+		};
+		824320C9262360C0009B7A94 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+			};
+			name = Release;
+		};
+		824320E6262360CE009B7A94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = M34KWJ4NCL;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Lca/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Lca/Libs/libraries/SDL2",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Lca.Lca;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		824320E7262360CE009B7A94 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = M34KWJ4NCL;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Lca/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Lca/Libs/libraries/SDL2",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Lca.Lca;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		824320C7262360C0009B7A94 /* Build configuration list for PBXProject "Lca" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				824320C8262360C0009B7A94 /* Debug */,
+				824320C9262360C0009B7A94 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		824320E5262360CE009B7A94 /* Build configuration list for PBXNativeTarget "Lca" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				824320E6262360CE009B7A94 /* Debug */,
+				824320E7262360CE009B7A94 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 824320C4262360C0009B7A94 /* Project object */;
+}

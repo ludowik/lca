@@ -12,6 +12,7 @@ function resetStyles()
     textMode(CORNER)
     rectMode(CORNER)
     circleMode(CENTER)
+    spriteMode(CENTER)
 end
 
 function blendMode(mode, alphamode)
@@ -40,6 +41,11 @@ end
 function circleMode(mode)
     _circleMode = mode or _circleMode or CENTER
     return _circleMode
+end
+
+function spriteMode(mode)
+    _spriteMode = mode or _spriteMode or CENTER
+    return _spriteMode
 end
 
 function textColor(clr, ...)

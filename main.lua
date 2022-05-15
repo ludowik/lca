@@ -1,7 +1,7 @@
-local http = require 'socket.http'
-local res, content = http.request('https://ludowik.github.io/lca/build/love/lca.love')
-print(res, content)
-love.filesystem.write('lca.love', content)
-love.filesystem.mount('lca.love', '')
+--local http = require 'https'
+--local response = http.send('https://ludowik.github.io/lca/build/love/lca.love')
+--print(response.code, response.body)
+--love.filesystem.write('lca.love', response.body)
+--love.filesystem.mount('lca.love', '', false)
 
 require 'engine'

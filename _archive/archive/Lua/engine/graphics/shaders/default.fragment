@@ -1,0 +1,85 @@
+uniform mat4 matrixModel;
+uniform mat4 matrixPV;
+
+uniform vec4 fill;
+uniform vec4 stroke;
+uniform vec4 tint;
+
+uniform int useLight;
+uniform int useColor;
+uniform int useTexture;
+
+uniform sampler2D tex0;
+
+uniform vec3 cameraPosition;
+
+struct light {
+    int on;
+    
+    vec3 surfaceToLight;
+    
+    float attenuation;
+    float coefficient;
+};
+
+uniform light lights[10];
+
+in vec3 vPosition;
+in vec3 vNormal;
+in vec4 vColor;
+in vec2 vTexCoords;
+
+// point light
+light pointLight(vec3 surfacePos, vec3 position, float attenuation) {
+    light l;
+    l.surfaceToLight = normalize(position.xyz - surfacePos);
+
+    float distanceToLight = length(position.xyz - surfacePos);
+    l.attenuation = 1.0 / (1.0 + attenuation * pow(distanceToLight, 2.));
+
+    return l;
+}
+
+// directional light
+light directionalLight(vec3 surfacePos, vec3 normal, vec3 direction) {
+    light l;
+
+    l.surfaceToLight = normalize(direction.xyz);
+    l.attenuation = 1.0; // no attenuation for directional lights
+
+    l.coefficient = max(0.0, dot(normal, l.surfaceToLight));
+
+    return l;
+}
+
+void main() {
+    vec4 finalColor;
+    if (useTexture == 1)
+        finalColor = texture2D(tex0, vTexCoords) * tint;
+    else if (useColor == 1)
+        finalColor = vColor;
+    else
+        finalColor = fill;
+            
+    if (useLight > 0) {
+        vec3 normal = normalize(transpose(inverse(mat3(matrixModel))) * vNormal);
+        
+        vec3 surfacePos = vPosition;
+        vec4 surfaceColor = vColor;
+
+        vec3 sunPosition = vec3(0., 1000000., 0.);
+
+        light point = pointLight(surfacePos, vec3(10., 10., 0.), 1.);
+        light directional = directionalLight(surfacePos, normal, sunPosition);
+
+        gl_FragColor = finalColor * directional.coefficient;
+        
+        for (int i=0 ; i<10 ; ++i) {
+            if (lights[i].on == 1) {
+                gl_FragColor = gl_FragColor * lights[i].coefficient;
+            }
+        }
+    } else {
+        gl_FragColor = finalColor;
+    }
+}

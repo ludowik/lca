@@ -1,0 +1,3 @@
+requireLib(
+    'app',
+    'shadertoy')

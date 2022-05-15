@@ -1,0 +1,41 @@
+uniform vec3 size;
+
+uniform vec4 fill;
+uniform vec4 stroke;
+
+uniform float strokeWidth;
+
+in vec2 vTexCoords;
+
+void main() {
+    float distance = length(vTexCoords);
+    if (distance > 1.) {
+        discard;
+    }
+    
+    float width = strokeWidth + 2.;
+
+    gl_FragColor = fill;
+    
+//    vec2 vSize = normalize(vTexCoords);
+//    vSize.x *= inst_size.x;
+//    vSize.y *= inst_size.y;
+    
+    float vLen = length(size);
+    
+    if (strokeWidth > 0.) {
+        float sEdge = smoothstep(
+            vLen - width - 2.,
+            vLen - width,
+            vLen * distance
+        );
+        
+        gl_FragColor = (stroke * sEdge) + ((1.0 - sEdge) * gl_FragColor);
+    }
+
+    gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(
+        vLen - 2.0,
+        vLen,
+        vLen * distance
+    ));
+}

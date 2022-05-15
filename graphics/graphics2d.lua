@@ -75,3 +75,27 @@ function Graphics.text(txt, x, y)
         love.graphics.draw(res.text, x, y)
     end
 end
+
+function Graphics.sprite(img, x, y, w, h)
+    x = x or 0
+    y = y or 0
+    
+    w = w or img.data:getWidth()
+    h = h or img.data:getHeight()
+    
+    if spriteMode() == CENTER then
+        x = x - w / 2
+        y = y - h / 2
+    end
+    
+    love.graphics.draw(img.data,
+        x, y,
+        0,
+        w/img.data:getWidth(), h/img.data:getHeight())
+end
+
+class 'Image'
+
+function Image:init(name)
+    self.data = love.graphics.newImage('_archive/lca/res/images/breakout/brique.png')
+end

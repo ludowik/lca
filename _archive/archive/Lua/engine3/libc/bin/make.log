@@ -1,0 +1,5 @@
+
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine>set PATH=C:\Program Files (x86)\LLVM\bin; 
+
+C:\Users\lmilhau\Documents\#Persos\Mes Projets Persos\Lua\engine>clang.exe -Wall -shared  -o libc/bin/surface.dll libc/bin/surface.c  
+   Cr‚ation de la bibliothŠque libc/bin/surface.lib et de l'objet libc/bin/surface.exp

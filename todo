@@ -11,16 +11,26 @@ lovejs : ajouter un logo
 lovejs : virer le fond
 
 config vsc
-projet iphone
+package lua via js
 
 rechercher les todo dans les sources
 
 scene + node => minimum vital
 UI : interface de contrôle (Parameter)
 
+tree generation
+chess
+Jeu de carte : solitaire
 
+Rendu en 1x pour waves
 
+Modéliser une fourmi en voxel
+Animer le skelette de la 🐜 
+Animer un skelette humain
+Récupérer un fichier d’animation de skelette
 
+Émuler Oric
+Emuler Calculatrice
 
 iOS
 In order to run LÖVE for iOS, it must first be compiled and installed. To do that, you’ll need Mac OS X, Xcode 7 or newer, and the LÖVE for iOS source code downloadable from the home page.
