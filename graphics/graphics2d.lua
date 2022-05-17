@@ -3,7 +3,8 @@ local Graphics = class 'GraphicsBase'
 function Graphics.background(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
     clr = clr or colors.black
-    love.graphics.clear(clr:unpack())
+    local r, g, b, a = clr:unpack(),
+    love.graphics.clear(r, g, b, a, true, true)
 end
 
 function Graphics.clip(...)

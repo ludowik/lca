@@ -12,10 +12,7 @@ function draw3d()
         angle = elapsedTime * 2
     }
 
-    isometric(self.zoom)
-    
---    depthMode(true)
---    cullingMode(true)
+    isometric(self.zoom)    
 
     local n = self.n * 2 + 1
 
@@ -46,6 +43,16 @@ function draw3d()
             fill(Color(r))
 
             box(0, 0, 0, w, h, w)
+
+--            local vertices = Model.box(0, 0, 0, w, h, w)
+--            local mesh = love.graphics.newMesh(vertices, 'triangles', 'static')
+--            GraphicsCore.createShader()
+--            love.graphics.setShader(Engine.graphics.shader3D)
+--            GraphicsCore.shader3D:send('pvm', {
+--                    pvmMatrix():getMatrix()
+--                })
+--            love.graphics.draw(mesh)
+--            love.graphics.setShader()
         end
         popMatrix()
     end

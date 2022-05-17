@@ -54,7 +54,7 @@ end
 
 function Graphics.polyline(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
-    
+
     love.graphics.setColor(stroke():unpack())
     love.graphics.setLineWidth(strokeSize())
 
@@ -79,7 +79,7 @@ function Graphics.polyline(t, ...)
 --        Graphics.line(x, y, t[i], t[i+1])
         x1, y1 = x2, y2
     end
-    
+
     Graphics.polylineMesh = Graphics.newMesh(vertices, 'triangles', 'static')
     love.graphics.setColor(stroke():unpack())        
     Graphics.drawMesh(Graphics.polylineMesh)
@@ -87,7 +87,7 @@ end
 
 function Graphics.polygon(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
-    
+
     love.graphics.setColor(stroke():unpack())
     love.graphics.setLineWidth(strokeSize())    
     local x, y = t[1], t[2]
@@ -171,82 +171,10 @@ function Graphics.ellipse(x, y, w, h)
     popMatrix()
 end
 
-function Graphics.box(x, y, z, w, h, d)
-    if not Graphics.boxMesh then
-        local vertices = {}
-        local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
-        local format = {
-            {"VertexPosition", "float", 3}, -- The x,y position of each vertex.
-            -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
-            {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
-        }
-
-        local function setColors(clr)
-            for i=#vertices-5,#vertices do
-                vertices[i][4] = clr.r
-                vertices[i][5] = clr.g
-                vertices[i][6] = clr.b
-                vertices[i][7] = clr.a
-            end
-        end
-
-        -- front
-        table.insert(vertices, {x-w, y-h, z-d})
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x+w, y+h, z-d})
-        table.insert(vertices, {x-w, y-h, z-d})
-        table.insert(vertices, {x+w, y+h, z-d})
-        table.insert(vertices, {x-w, y+h, z-d})
-        setColors(colors.green)
-
-        -- back
-        table.insert(vertices, {x+w, y-h, z+d})
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x-w, y+h, z+d})
-        table.insert(vertices, {x+w, y-h, z+d})
-        table.insert(vertices, {x-w, y+h, z+d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        setColors(colors.yellow)
-
-        -- left
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x-w, y-h, z-d})
-        table.insert(vertices, {x-w, y+h, z-d})
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x-w, y+h, z-d})
-        table.insert(vertices, {x-w, y+h, z+d})        
-        setColors(colors.orange)
-
-        -- right
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x+w, y-h, z+d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        table.insert(vertices, {x+w, y+h, z-d})
-        setColors(colors.red)
-
-        -- up
-        table.insert(vertices, {x-w, y+h, z-d})
-        table.insert(vertices, {x+w, y+h, z-d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        table.insert(vertices, {x-w, y+h, z-d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        table.insert(vertices, {x-w, y+h, z+d})
-        setColors(colors.white)
-
-        -- down
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x-w, y-h, z-d})
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x+w, y-h, z+d})
-        setColors(colors.blue)
-
-        Graphics.boxMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
-
-        local vertexcode = [[
+function Graphics.createShader()
+    if Graphics.shader3D then return end
+    
+    local vertexcode = [[
             uniform mat4 pvm;
             vec4 position( mat4 transform_projection, vec4 vertex_position )
             {
@@ -255,17 +183,32 @@ function Graphics.box(x, y, z, w, h, d)
             }
         ]]
 
-        local pixelcode = [[
+    local pixelcode = [[
             vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
             {
                 // vec4 texcolor = Texel(tex, texture_coords);
                 return /*texcolor * */ color;
             }
         ]]
-        Graphics.boxShader = love.graphics.newShader(pixelcode, vertexcode)
+    Graphics.shader3D = love.graphics.newShader(pixelcode, vertexcode)
+end
+
+function Graphics.box(x, y, z, w, h, d)
+    Graphics.createShader()
+    
+    if not Graphics.boxMesh then
+        local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
+        local format = {
+            {"VertexPosition", "float", 3}, -- The x,y position of each vertex.
+            {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
+            {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
+        }
+
+        local vertices = Model.box(x, y, z, w, h, d)
+        Graphics.boxMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
     end
 
-    love.graphics.setShader(Graphics.boxShader)
+    love.graphics.setShader(Graphics.shader3D)
 
     pushMatrix()
     do
@@ -278,7 +221,7 @@ function Graphics.box(x, y, z, w, h, d)
         end
 
         if fill() then
-            Graphics.boxShader:send('pvm', {
+            Graphics.shader3D:send('pvm', {
                     pvmMatrix():getMatrix()
                 })
 
@@ -292,100 +235,21 @@ function Graphics.box(x, y, z, w, h, d)
 end
 
 function Graphics.sphere(x, y, z, r)
+    Graphics.createShader()
+    
     if not Graphics.sphereMesh then
-            local vertices = {}
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
         local format = {
             {"VertexPosition", "float", 3}, -- The x,y position of each vertex.
-            -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
+            {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
             {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
         }
 
-        local function setColors(clr)
-            for i=#vertices-5,#vertices do
-                vertices[i][4] = clr.r
-                vertices[i][5] = clr.g
-                vertices[i][6] = clr.b
-                vertices[i][7] = clr.a
-            end
-        end
-
-        -- front
-        table.insert(vertices, {x-w, y-h, z-d})
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x+w, y+h, z-d})
-        table.insert(vertices, {x-w, y-h, z-d})
-        table.insert(vertices, {x+w, y+h, z-d})
-        table.insert(vertices, {x-w, y+h, z-d})
-        setColors(colors.green)
-
-        -- back
-        table.insert(vertices, {x+w, y-h, z+d})
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x-w, y+h, z+d})
-        table.insert(vertices, {x+w, y-h, z+d})
-        table.insert(vertices, {x-w, y+h, z+d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        setColors(colors.yellow)
-
-        -- left
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x-w, y-h, z-d})
-        table.insert(vertices, {x-w, y+h, z-d})
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x-w, y+h, z-d})
-        table.insert(vertices, {x-w, y+h, z+d})        
-        setColors(colors.orange)
-
-        -- right
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x+w, y-h, z+d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        table.insert(vertices, {x+w, y+h, z-d})
-        setColors(colors.red)
-
-        -- up
-        table.insert(vertices, {x-w, y+h, z-d})
-        table.insert(vertices, {x+w, y+h, z-d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        table.insert(vertices, {x-w, y+h, z-d})
-        table.insert(vertices, {x+w, y+h, z+d})
-        table.insert(vertices, {x-w, y+h, z+d})
-        setColors(colors.white)
-
-        -- down
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x-w, y-h, z-d})
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x+w, y-h, z-d})
-        table.insert(vertices, {x-w, y-h, z+d})
-        table.insert(vertices, {x+w, y-h, z+d})
-        setColors(colors.blue)
-
-        Graphics.boxMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
-
-        local vertexcode = [[
-            uniform mat4 pvm;
-            vec4 position( mat4 transform_projection, vec4 vertex_position )
-            {
-                // return transform_projection * vertex_position;
-                return pvm * vertex_position;
-            }
-        ]]
-
-        local pixelcode = [[
-            vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
-            {
-                // vec4 texcolor = Texel(tex, texture_coords);
-                return /*texcolor * */ color;
-            }
-        ]]
-        Graphics.boxShader = love.graphics.newShader(pixelcode, vertexcode)
+        local vertices = Model.box(x, y, z, w, h, d)
+        Graphics.sphereMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
     end
 
-    love.graphics.setShader(Graphics.boxShader)
+    love.graphics.setShader(Graphics.shader3D)
 
     pushMatrix()
     do
@@ -398,12 +262,12 @@ function Graphics.sphere(x, y, z, r)
         end
 
         if fill() then
-            Graphics.boxShader:send('pvm', {
+            Graphics.shader3D:send('pvm', {
                     pvmMatrix():getMatrix()
                 })
 
             love.graphics.setColor(fill():unpack())        
-            Graphics.drawMesh(Graphics.boxMesh)
+            Graphics.drawMesh(Graphics.sphereMesh)
         end
     end
     popMatrix()
@@ -474,11 +338,11 @@ Graphics.drawMesh_ = Graphics.drawMesh or function (mesh)
                 local offset = (t - 1) * 3
                 local v0, v1, v2 = vertices[offset + 1], vertices[offset + 2], vertices[offset + 3]
 
---                local clr = Color(v0[6], v0[7], v0[8]) -- mesh.colors[1]
+                --                local clr = Color(v0[6], v0[7], v0[8]) -- mesh.colors[1]
 
---                local c0 = Color(v0[6], v0[7], v0[8]) -- mesh.colors[offset + 1] or clr
---                local c1 = Color(v1[6], v1[7], v1[8]) -- mesh.colors[offset + 2] or clr
---                local c2 = Color(v2[6], v2[7], v2[8]) -- mesh.colors[offset + 3] or clr
+                --                local c0 = Color(v0[6], v0[7], v0[8]) -- mesh.colors[offset + 1] or clr
+                --                local c1 = Color(v1[6], v1[7], v1[8]) -- mesh.colors[offset + 2] or clr
+                --                local c2 = Color(v2[6], v2[7], v2[8]) -- mesh.colors[offset + 3] or clr
                 local c0, c1, c2 = colors.red, colors.green, colors.blue
 
                 local area = edgeFunction(v0, v1, v2)
@@ -521,7 +385,7 @@ function vertexShader(vt)
     local m = modelMatrix()
     --    local v = (pv*m):mulVector(vt)
     local v = matByVector((pv*m), vt)
---    v = v / v.w
+    --    v = v / v.w
     return v -- vec3((v.x + 1) * W / 2, (v.y + 1) * H / 2, v.z)
 end
 

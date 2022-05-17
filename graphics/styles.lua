@@ -1,18 +1,20 @@
 function resetStyles()
     textPosition = 0
     textColor(colors.white)
-    
+
     stroke(colors.red)
     strokeSize(1)
-    
+
     fill(colors.white)
-    
+
     fontSize(12)
-    
+
     textMode(CORNER)
     rectMode(CORNER)
     circleMode(CENTER)
     spriteMode(CENTER)
+
+    depthMode(false)
 end
 
 function blendMode(mode, alphamode)
@@ -78,3 +80,31 @@ function fill(clr, ...)
     _fillColor = clr or _fillColor
     return _fillColor
 end
+
+function depthMode(mode)
+    if mode ~= nil then
+        _depthMode = mode 
+
+        if _depthMode then
+            love.graphics.setDepthMode('lequal', true)
+        else
+            love.graphics.setDepthMode('always', false)
+        end
+    end
+    return _depthMode
+end
+
+function cullingMode(mode)
+    if mode ~= nil then
+        _cullingMode = mode
+        
+        if _cullingMode then
+            love.graphics.setMeshCullMode('back')
+            love.graphics.setFrontFaceWinding('ccw')
+        else
+            love.graphics.setMeshCullMode('none')
+        end
+    end
+    return _cullingMode
+end
+

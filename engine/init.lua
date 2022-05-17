@@ -22,6 +22,7 @@ require 'graphics.graphics2d'
 require 'graphics.graphics2d_love'
 require 'graphics.graphics2d_core'
 require 'graphics.shape'
+require 'graphics.model'
 
 require 'engine.app'
 require 'engine.love'

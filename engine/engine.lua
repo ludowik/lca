@@ -100,8 +100,11 @@ function Engine.draw()
     if _G.env.draw then
         Engine.beginDraw()
         do
-            love.graphics.setDepthMode('always', true)
-            Engine.render(_G.env.draw)
+            Engine.render(function ()
+                    depthMode(false)
+                    cullingMode(false)
+                    _G.env.draw()
+                end)
         end
         Engine.endDraw()
     end
@@ -109,11 +112,13 @@ function Engine.draw()
     if _G.env.draw3d then
         Engine.beginDraw()
         do
-            love.graphics.setMeshCullMode('back')
-            love.graphics.setFrontFaceWinding('ccw')
-            love.graphics.setDepthMode('lequal', true)
-            love.graphics.clear()
-            Engine.render(_G.env.draw3d)
+            Engine.render(function ()
+                    depthMode(true)
+                    cullingMode(true)
+                    love.graphics.clear()
+                    _G.env.draw3d()
+                end
+            )
         end
         Engine.endDraw(true)
     end
@@ -203,10 +208,10 @@ function mouseevent(state, x, y)
     if state == PRESSED then
         mouse.sx = x
         mouse.sy = y
-        
+
         mouse.px = x
         mouse.py = y
-        
+
         mouse.tx = 0
         mouse.ty = 0
     else
@@ -219,7 +224,7 @@ function mouseevent(state, x, y)
 
     mouse.dx = mouse.x - mouse.px 
     mouse.dy = mouse.y - mouse.py
-    
+
     mouse.tx = mouse.tx + mouse.dx
     mouse.ty = mouse.ty + mouse.dy
 end
