@@ -8,4 +8,7 @@
 --local response = http.request('http://ludowik.github.io/lca/build/love/lca.love')
 --print(response)
 
+love.filesystem.setRequirePath(love.filesystem.getRequirePath()..';?/__init.lua')
+print(love.filesystem.getRequirePath())
+
 require 'engine'

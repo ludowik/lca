@@ -3,7 +3,7 @@ function setup()
     colors = table()
     for i=1,6 do
         vertices:add(vec2.random(W, H))
-        colors:add(color.random())
+        colors:add(Color.random())
     end
 
     function nextPosition(i)
@@ -21,7 +21,7 @@ function setup()
     function nextColor(i)
         tween(random(0.8, 1.5),
             colors[i],
-            color.random(),
+            Color.random(),
             tween.easing[easing],
             function ()
                 nextColor(i)
@@ -40,14 +40,14 @@ function draw()
     fill(0, 0, 0, 0.02)
 
     rectMode(CORNER)
-    rect(0, 0, WIDTH, HEIGHT)
+    rect(0, 0, W, H)
 
     noFill()
 
     local function drawLines()
         translate(3, 3)
 
-        strokeWidth(2)
+        strokeSize(2)
 
         local n = #vertices
         for i=1,n-1 do

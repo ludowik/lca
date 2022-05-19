@@ -1,18 +1,7 @@
 if arg[#arg] == "-debug" then require("mobdebug").start() end
 
-require 'lua.os'
-require 'lua.class'
-require 'lua.math'
-require 'lua.random'
-require 'lua.string'
-require 'lua.vec2'
-require 'lua.vec3'
-require 'lua.vec4'
-require 'lua.rect'
-require 'lua.table'
-require 'lua.grid'
-require 'lua.require'
-require 'lua.log'
+require 'lua'
+require 'lua_collection'
 
 require 'graphics.window'
 require 'graphics.transform'

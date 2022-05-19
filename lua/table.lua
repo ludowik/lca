@@ -38,6 +38,37 @@ table.add = table.insert
 table.push = table.insert
 table.pop = table.remove
 
+function table:alloc(n)
+    return self
+end
+
+function table:resize(n)
+    return self
+end
+
+function table:reset()
+    for i=1,#self do
+        self[i] = nil
+    end
+    return self
+end
+
+function table:call(f, ...)
+    local typeof = type(f)
+    local n = #self
+    for i=1,n do
+        v = self[i]
+        if typeof == "string" then
+            if v[f] then
+                v[f](v, ...)
+            end
+        elseif typeof == "function" then
+            f(v, ...)
+        end
+    end
+    return self
+end
+
 function table:tolua(level)
     if not self then return '' end
 

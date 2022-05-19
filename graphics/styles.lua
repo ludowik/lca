@@ -108,3 +108,5 @@ function cullingMode(mode)
     return _cullingMode
 end
 
+function light()
+end

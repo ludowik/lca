@@ -3,3 +3,4 @@ class 'Scene' : extends(Node)
 
 class 'UI'
 class 'Expression' : extends(UI)
+class 'Slider'

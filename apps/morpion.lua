@@ -21,8 +21,6 @@ function setup()
         o = 0,
         n = 0
     }
-
-    parameter = Parameter()
     
     parameter.watch('x', "scores['x']")
     parameter.watch('o', "scores['o']")

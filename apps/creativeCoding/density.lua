@@ -3,22 +3,22 @@ function setup()
     density = Buffer('float'):resize(N*N)
     density_new = Buffer('float'):resize(N*N)
     
-    for i=0,N*N-1 do
+    for i=1,N*N do
         density[i] = 0
         density_new[i] = 0
     end
 
-    img = image(N)
+    img = Image(N)
     pixelSize = 24
 
     config.interpolate = false
-    parameter.boolean('config.interpolate')
     
+    parameter.boolean('config.interpolate')    
     parameter.watch('total')
 end
 
 function index(x, y)
-    return x + y * N
+    return x + y * N + 1
 end
 
 function touched(touch)
@@ -47,7 +47,7 @@ function update(dt)
     density_new, density = density, density_new
 
     total = 0
-    for i=0,N*N-1 do
+    for i=1,N*N do
         total = total + density[i]
     end
     

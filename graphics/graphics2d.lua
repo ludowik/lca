@@ -80,23 +80,50 @@ end
 function Graphics.sprite(img, x, y, w, h)
     x = x or 0
     y = y or 0
-    
+
     w = w or img.data:getWidth()
     h = h or img.data:getHeight()
-    
+
     if spriteMode() == CENTER then
         x = x - w / 2
         y = y - h / 2
     end
-    
-    love.graphics.draw(img.data,
-        x, y,
-        0,
-        w/img.data:getWidth(), h/img.data:getHeight())
+
+    img:draw(x, y, w/img.data:getWidth(), h/img.data:getHeight())
 end
 
 class 'Image'
 
-function Image:init(name)
-    self.data = love.graphics.newImage('_archive/lca/res/images/breakout/brique.png')
+function Image:init(name, ...)
+    if type(name) == 'string' then
+        self.data = love.graphics.newImage(name)
+    
+    else
+        local w, h = name, ...
+        h = h or w
+        self.imagedata = love.image.newImageData(w, h)
+        self.data = love.graphics.newImage(self.imagedata)
+            
+    end
+end
+
+function Image:getWidth()
+    return self.data:getWidth()
+end
+
+function Image:getHeight()
+    return self.data:getHeight()
+end
+
+function Image:draw(x, y, w, h)
+    w = w or self:getWidth()
+    h = h or self:getHeight()
+
+    love.graphics.draw(self.data,
+        x, y,
+        0,
+        w/self:getWidth(), h/self:getHeight())
+end
+
+function Image:set(x, y)
 end

@@ -70,7 +70,6 @@ function love.load()
     end
 
     log(os.name)
-
     log(safeArea.dx, safeArea.dy, safeArea.w, safeArea.h, screen.w, screen.h)
 
     love.window.setMode(screen.w, screen.h,

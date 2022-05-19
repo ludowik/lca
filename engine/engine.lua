@@ -12,9 +12,9 @@ function Engine.load()
     loadApps()
 
     if config.appName then
-        loadApp(config.appName)
+        loadApp(config.appPath, config.appName)
     else
-        loadApp('info')
+        loadApp('app', 'info')
     end
 end
 
@@ -33,6 +33,8 @@ function Engine.update(dt)
 
     deltaTime = dt
     elapsedTime = elapsedTime + dt
+    
+    TweensManager.update(dt)
 
     callApp('update', dt)
 end
@@ -266,4 +268,22 @@ function Engine.mousereleased(x, y, button, istouch, presses)
         callApp('mousereleased', mouse)
         callApp('touched', mouse)
     end
+end
+
+
+
+TOP_LEFT = 'top_left'
+BOTTOM_LEFT = 'bottom_left'
+
+function setOrigin(origin)
+    if _G.env then
+        _G.env = origin
+    end
+end
+
+function getOrigin()
+    if _G.env and _G.env then
+        return _G.env
+    end
+    return TOP_LEFT
 end

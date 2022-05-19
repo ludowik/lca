@@ -1,5 +1,21 @@
 local __max = math.max
 
+if true then 
+    class 'Buffer' : extends(table)
+    
+    function Buffer:init(dataType)
+        self.dataType = dataType
+    end
+    
+    function Buffer:alloc(n)
+        for i=1,n do
+            self[i] = _G[self.dataType]()
+        end
+    end
+    
+    return 
+end
+
 ffi = require 'ffi'
 
 ffi.cdef [[
@@ -220,17 +236,17 @@ function Buffer(ct, data, ...)
             sizeof_ctype = ffi.sizeof(ct),
 
             struct = [[
-                typedef struct {ctAsType} {
-                    const char* ct;
-                    int id;
-                    int available;
-                    int sizeof_ctype;
-                    int size;
-                    int n;
-                    int version;
-                    unsigned int idBuffer;
-                    {ct}* data;
-                    } {ctAsType};
+            typedef struct {ctAsType} {
+                const char* ct;
+                int id;
+                int available;
+                int sizeof_ctype;
+                int size;
+                int n;
+                int version;
+                unsigned int idBuffer;
+                {ct}* data;
+                } {ctAsType};
             ]]
         }
 

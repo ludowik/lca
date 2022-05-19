@@ -12,6 +12,7 @@ floor, ceil = math.floor, math.ceil
 round = math.floor
 
 pow = math.pow
+sqrt = math.sqrt
 
 PI = math.pi
 TAU = math.pi * 2

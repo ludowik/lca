@@ -36,14 +36,14 @@ function draw()
         yy = 0
     end
 
-    for y=-radius*4,HEIGHT+radius*4,radius*4 do
+    for y=-radius*4,H+radius*4,radius*4 do
         if dx == 0 then
             dx = radius*2
         else
             dx = 0
         end
 
-        for x=-radius*4+dx,WIDTH+radius*4,radius*4 do
+        for x=-radius*4+dx,W+radius*4,radius*4 do
             fill(red)
             circle(x+xx, y, radius)
 

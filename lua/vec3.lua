@@ -24,6 +24,19 @@ function vec3:__sub(v)
         self.z - v.z)
 end
 
+function vec3:__mul(coef)
+    return vec3(
+        self.x * coef,
+        self.y * coef,
+        self.z * coef)
+end
+
+function vec3:mul(coef)
+    self.x = self.x * coef
+    self.y = self.y * coef
+    self.z = self.z * coef
+end
+
 function vec3:len()
     return math.sqrt(
         self.x^2 +
