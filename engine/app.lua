@@ -12,7 +12,6 @@ end
 
 function loadApp(name)
     if not apps.listByName[name] then
-        print(name)
         local env = setmetatable({}, {__index = _G})
 
         local info = (
@@ -29,7 +28,6 @@ function loadApp(name)
             else
                 chunk = love.filesystem.load('apps/' .. name .. '/init.lua')
             end
-            
             assert(chunk)
 
             if chunk then
@@ -50,14 +48,9 @@ function loadApp(name)
     end
 
     if apps.listByName[name] then
-        local env = apps.listByName[name].env
-        
-        _G.env = env
-        setfenv(0, env)
-        
         for index=1,#apps.listByIndex do
             if apps.listByIndex[index] == apps.listByName[name] then
-                apps.current = index
+                setApp(index)
                 break
             end
         end
@@ -66,8 +59,14 @@ end
 
 function setApp(index)
     apps.current = index
-    _G.env = apps.listByIndex[apps.current].env
-    config.appName = apps.listByIndex[apps.current].name
+    
+    local env = apps.listByIndex[apps.current].env
+    _G.env = env
+    
+    local name = apps.listByIndex[apps.current].name
+    config.appName = name
+    love.window.setTitle(name)
+    
     saveConfig()
 end
 
