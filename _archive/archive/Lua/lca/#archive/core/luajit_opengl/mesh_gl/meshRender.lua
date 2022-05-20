@@ -255,7 +255,7 @@ function MeshRender:initDBO(N, from, to)
 
                 -- width
                 gl.glBufferSubData(gl.GL_ARRAY_BUFFER, offset, 1, 1, floatSize1, 'GLfloat',
-                    {instance.width or strokeWidth() or 1})
+                    {instance.width or strokeSize() or 1})
                 offset = offset + floatSize1
 
                 -- texture
@@ -279,7 +279,7 @@ function MeshRender:initDBO(N, from, to)
             offset = offset + floatSize4
 
             -- width
-            gl.glBufferSubData(gl.GL_ARRAY_BUFFER, offset, 1, 1, floatSize1, 'GLfloat', {strokeWidth() or 1})
+            gl.glBufferSubData(gl.GL_ARRAY_BUFFER, offset, 1, 1, floatSize1, 'GLfloat', {strokeSize() or 1})
             offset = offset + floatSize1
         end
 

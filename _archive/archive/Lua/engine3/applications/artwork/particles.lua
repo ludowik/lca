@@ -27,7 +27,7 @@ end
 
 function Particle:draw()
     stroke(blue)
-    strokeWidth(5)
+    strokeSize(5)
 
     point(self.body.position)
 end

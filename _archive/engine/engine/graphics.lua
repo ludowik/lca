@@ -82,7 +82,7 @@ function gx.text(txt, x, y, mode)
     yLast = y
 end
 
-function gx.strokeWidth(width)
+function gx.strokeSize(width)
     love.graphics.setLineWidth(width)
 end
 

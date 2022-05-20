@@ -33,7 +33,7 @@ function draw()
         local x = radius * cos(angle)
         local y = radius * sin(angle)
 
-        strokeWidth(size*2)    
+        strokeSize(size*2)    
         stroke(hsl(((deg(angle)-radius)%360)*255/360, 255, 128))
 
         point(x, y)

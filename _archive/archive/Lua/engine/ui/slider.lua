@@ -41,7 +41,7 @@ function Slider:draw()
     rect(0, 0, self.size.x, self.size.y)
 
     stroke(red)
-    strokeWidth(3)
+    strokeSize(3)
     line(x, 0, x, self.size.y)
 
     font(self:getFontName())

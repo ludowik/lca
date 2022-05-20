@@ -39,7 +39,7 @@ function graphics2d.line(x1, y1, x2, y2)
     uniforms.p1:set(x1, y1)
     uniforms.p2:set(x2, y2)
 
-    uniforms.strokeWidth = strokeWidth()
+    uniforms.strokeSize = strokeSize()
     uniforms.strokeColor = stroke()
 
     m:render()
@@ -85,7 +85,7 @@ function graphics2d.rect(x, y, w, h, mode)
     m.shader.uniforms.pos:set(x, y)
     m.shader.uniforms.size:set(w, h)
 
-    m.shader.uniforms.strokeWidth = strokeWidth()
+    m.shader.uniforms.strokeSize = strokeSize()
     m.shader.uniforms.strokeColor = stroke()
 
     m.shader.uniforms.fillColor = fill()
@@ -139,9 +139,9 @@ function graphics2d.ellipse(x, y, w, h, mode)
     m.shader.uniforms.size:set(w, h)
 
     if stroke().a == 0 then
-        m.shader.uniforms.strokeWidth = 0
+        m.shader.uniforms.strokeSize = 0
     else
-        m.shader.uniforms.strokeWidth = strokeWidth()
+        m.shader.uniforms.strokeSize = strokeSize()
     end
 
     m.shader.uniforms.strokeColor = stroke()
@@ -206,7 +206,7 @@ function graphics2d.drawVertices(m, close, ...)
         end
     end
 
-    m.shader.uniforms.strokeWidth = strokeWidth()
+    m.shader.uniforms.strokeSize = strokeSize()
     m.shader.uniforms.strokeColor = stroke()
 
     m:render()
@@ -229,14 +229,14 @@ function graphics2d.polygon(...)
 
     m.vertices = points
 
-    m.shader.uniforms.strokeWidth = strokeWidth()
+    m.shader.uniforms.strokeSize = strokeSize()
     m.shader.uniforms.strokeColor = stroke()
 
     m.shader.uniforms.fillColor = fill()
 
     m:render()
 
-    if m.shader.uniforms.strokeWidth > 0 and m.shader.uniforms.strokeColor.a > 0 then
+    if m.shader.uniforms.strokeSize > 0 and m.shader.uniforms.strokeColor.a > 0 then
         graphics2d.polylineProc(true, ...)
     end
 end

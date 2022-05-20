@@ -98,7 +98,7 @@ end
 function Graphics.ellipse(x, y, w, h)
     h = h or w
     
-    if circleMode() == CORNER then
+    if ellipseMode() == CORNER then
         x = x - r
         y = y - r
     end

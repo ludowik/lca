@@ -50,7 +50,7 @@ function appCubeWave:draw()
 
             translate(0, 0, w)
 
-            strokeWidth(2)
+            strokeSize(2)
             stroke(gray)
 
             fill(color(r))

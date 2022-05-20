@@ -52,7 +52,7 @@ function Cube:draw()
     camera(0, 0, -10)
     print(viewMatrix())
 
-    strokeWidth(2)
+    strokeSize(2)
     stroke(gray)
     
     box(1, 1, 1, app.aaa)

@@ -115,7 +115,7 @@ function Node:draw()
         end
     end
 
-    strokeWidth(1)
+    strokeSize(1)
     if self.hasFocus then
         stroke(red)
     else

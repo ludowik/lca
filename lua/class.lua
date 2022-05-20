@@ -3,6 +3,7 @@ local classes = {}
 function class(name)
     local k = {}
     k.__index = k
+    k.__className = name
 
     table.insert(classes, k)
 
@@ -52,4 +53,13 @@ function push2_G(meta)
             _G[k] = f
         end
     end
+end
+
+function classnameof(object)
+    return attributeof('__className', object)
+end
+
+function attributeof(attrName, object)
+    _G.__object__ = object
+    return evalExpression('_G.__object__.'..attrName)
 end

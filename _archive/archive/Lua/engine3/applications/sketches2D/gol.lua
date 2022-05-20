@@ -134,7 +134,7 @@ function GolGrid:draw()
     scale(self.scale, self.scale)
 
     stroke(red)
-    strokeWidth(1)
+    strokeSize(1)
 
     fill(red)
 

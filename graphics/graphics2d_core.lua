@@ -137,10 +137,6 @@ function Graphics.rect_(x, y, w, h, attr)
 end
 
 function Graphics.circle(x, y, radius)
-    Graphics.ellipse(x, y, 2*radius, 2*radius)
-end
-
-function Graphics.ellipse(x, y, w, h)
     if circleMode() == CORNER then
         x = x - w/2
         y = y - h/2
@@ -161,7 +157,7 @@ function Graphics.ellipse(x, y, w, h)
     pushMatrix()
     do
         translate(x, y)
-        scale(w/2, h/2)
+        scale(radius, radius)
 
         if fill() then
             love.graphics.setColor(fill():unpack())        
@@ -171,6 +167,38 @@ function Graphics.ellipse(x, y, w, h)
     popMatrix()
 end
 
+function Graphics.ellipse(x, y, w, h)
+    if ellipseMode() == CORNER then
+        x = x - w/2
+        y = y - h/2
+    end
+
+    if not Graphics.ellipseMesh then
+        local vertices = {}
+        local x, y, w, h = 0, 0, 1, 1 
+        local nstep = 32
+        table.insert(vertices, {x, y, 0, 0})
+        for step = 0, nstep do
+            local angle = TAU * step / nstep
+            table.insert(vertices, {x+cos(angle), y+sin(angle), cos(angle), sin(angle)})
+        end
+        Graphics.ellipseMesh = Graphics.newMesh(vertices, 'fan', 'static')
+    end
+
+    pushMatrix()
+    do
+        translate(x, y)
+        scale(w/2, h/2)
+
+        if fill() then
+            love.graphics.setColor(fill():unpack())        
+            Graphics.drawMesh(Graphics.ellipseMesh)
+        end
+    end
+    popMatrix()
+end
+
+shaders = {}
 function Graphics.createShader()
     if Graphics.shader3D then return end
     
@@ -191,6 +219,8 @@ function Graphics.createShader()
             }
         ]]
     Graphics.shader3D = love.graphics.newShader(pixelcode, vertexcode)
+    
+    shaders['shader3D'] = Graphics.shader3D
 end
 
 function Graphics.box(x, y, z, w, h, d)

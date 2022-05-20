@@ -115,7 +115,7 @@ function Love2dRenderer:render(shader, drawMode, img, x, y, z, w, h, d, nInstanc
     
     love.graphics.applyTransform(t)
 
-    love.graphics.setLineWidth(strokeWidth())
+    love.graphics.setLineWidth(strokeSize())
 
     local stroke = stroke()
     if stroke then

@@ -20,9 +20,9 @@ function draw()
         y = 50
         
         if withStroke then
-            strokeWidth(floor(i/5))
+            strokeSize(floor(i/5))
         else
-            strokeWidth(0)
+            strokeSize(0)
         end
 
 --        y = y + h

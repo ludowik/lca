@@ -3,8 +3,13 @@ local __max = math.max
 if true then 
     class 'Buffer' : extends(table)
     
-    function Buffer:init(dataType)
+    function Buffer:init(dataType, buf)
         self.dataType = dataType
+        if buf then
+            for i,v in ipairs(buf) do
+                self[i] = v
+            end
+        end
     end
     
     function Buffer:alloc(n)

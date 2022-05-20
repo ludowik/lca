@@ -7,7 +7,7 @@ void main() {
     
     v += vec4(p1.xy, 0.0, 0.0);
     
-    vec4 delta = normalize(vec4(size.y, -size.x, 0.0, 0.0)) * strokeWidth / 2.0;
+    vec4 delta = normalize(vec4(size.y, -size.x, 0.0, 0.0)) * strokeSize / 2.0;
     delta.x *= VertexTranslation.x;
     delta.y *= VertexTranslation.y;
     

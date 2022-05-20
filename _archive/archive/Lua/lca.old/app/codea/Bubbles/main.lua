@@ -66,7 +66,7 @@ function Bubbles:draw()
     -- Set up our bubble style
     ellipseMode(CENTER)
     stroke(255)
-    strokeWidth(4)
+    strokeSize(4)
     fill(153, 197, 210, 100)
     
     -- Loop through bubbles and draw them
@@ -93,7 +93,7 @@ function draw()
     background(40, 40, 50)
 
     -- This sets the line thickness
-    strokeWidth(5)
+    strokeSize(5)
 
     -- Do your drawing here
     fill(255)

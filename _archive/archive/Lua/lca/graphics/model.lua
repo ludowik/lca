@@ -385,7 +385,7 @@ function Model.lines(...)
     local gl_in = args
     local gl_out = Table()
 
-    local halfWidth = strokeWidth() / 2
+    local halfWidth = strokeSize() / 2
 
     function addExtreme(p0, p1, start)
         local line = p1 - p0

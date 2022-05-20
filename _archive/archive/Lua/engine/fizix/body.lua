@@ -269,7 +269,7 @@ end
 function Body:draw()
     noFill()
 
-    strokeWidth(2)
+    strokeSize(2)
     if self.contact then
         stroke(red)
     else
@@ -284,7 +284,7 @@ function Body:draw()
     circle(0, 0, 2)
 
     stroke(gray)
-    strokeWidth(2)
+    strokeSize(2)
     noFill()
 
     Body.computeSize(self)

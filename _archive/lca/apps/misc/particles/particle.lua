@@ -49,7 +49,7 @@ function Particle.initImage(n)
     setContext(img)
     background(0, 0, 0, 0)
     for i=1,n do
-        strokeWidth(1)
+        strokeSize(1)
         noFill()
         stroke(1, 1, 1, map(i, 1, n, 1, 0))
         ellipse(n/2, n/2, i, i)

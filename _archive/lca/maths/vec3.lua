@@ -252,12 +252,6 @@ function mt:unpack()
     return self.x, self.y, self.z
 end
 
-function mt:draw()
-    pushMatrix()
-    translate(self.x, self.y, self.z)
-    sphere(1)
-    popMatrix()
-end
 
 function xyz(x, y, z, coef)
     assert(coef == nil)

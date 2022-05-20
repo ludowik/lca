@@ -9,12 +9,12 @@ uniform mat4 model;
 in vec4 vColorG[];
 in vec3 vNormalG[];
 
-in float strokeWidthG[];
+in float strokeSizeG[];
 
 out vec4 vColor;
 out vec3 vNormal;
 
-float strokeWidth;
+float strokeSize;
 
 vec2 a,b,c,d;
 
@@ -22,7 +22,7 @@ void add(vec2 p0, vec2 p1, vec2 p2, int i, bool inner, bool start) {
     vec2 line = p1 - p0;
     vec2 perpendicular = vec2(-line.y, line.x);
     vec2 normal = normalize(perpendicular);
-    vec2 n = strokeWidth * normal;
+    vec2 n = strokeSize * normal;
 
     a = p0 - n;
     b = p0 + n;
@@ -31,7 +31,7 @@ void add(vec2 p0, vec2 p1, vec2 p2, int i, bool inner, bool start) {
         vec2 tangent = normalize(normalize(p2-p1) + normalize(p1-p0));
         vec2 miter = vec2(-tangent.y, tangent.x);
 
-        float len = strokeWidth / dot(miter, normal);
+        float len = strokeSize / dot(miter, normal);
         
         c = p1 - len * miter;
         d = p1 + len * miter;
@@ -57,7 +57,7 @@ void add(vec2 p0, vec2 p1, vec2 p2, int i, bool inner, bool start) {
 }
 
 void main() {
-    strokeWidth = strokeWidthG[0] / 2.;
+    strokeSize = strokeSizeG[0] / 2.;
     
     add(gl_in[0].gl_Position.xy,
         gl_in[1].gl_Position.xy,

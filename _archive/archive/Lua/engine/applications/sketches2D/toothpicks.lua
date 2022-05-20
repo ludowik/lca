@@ -43,7 +43,7 @@ function Toothpick:init(x, y, angle, from)
 end
 
 function Toothpick:draw()
-    strokeWidth(2)
+    strokeSize(2)
 
     if self.new then
         stroke(blue)

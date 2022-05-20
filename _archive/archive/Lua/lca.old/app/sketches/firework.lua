@@ -17,7 +17,7 @@ function Firework:draw()
     stroke(white)
     fill(white)
 
-    strokeWidth(5)
+    strokeSize(5)
 
     if random(10) < 1 then
         local particle = ParticleFirework(vector(random(WIDTH), 0), true)

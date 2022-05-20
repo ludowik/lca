@@ -115,7 +115,7 @@ end
 
 function drawTouch()
     local a = stroke(0, 240, 255)
-    strokeWidth(5)
+    strokeSize(5)
     noFill()
     ellipse(tX, tY, 2 * tRadius)
 end
@@ -123,7 +123,7 @@ end
 function drawBubble()
     fill(255)
     stroke(255)
-    strokeWidth(5)
+    strokeSize(5)
     for i = 1, n do
         line(x[i], y[i], x[i % n + 1], y[i % n + 1])
     end

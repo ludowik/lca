@@ -269,7 +269,7 @@ function TetrisGrid:draw()
     translate(-size, -size)
 
     stroke(110)
-    strokeWidth(1)
+    strokeSize(1)
 
     noFill()
 
@@ -313,7 +313,7 @@ function TetrisGrid:draw()
 
             if fillColor then
                 stroke(227, 222, 219)
-                strokeWidth(4)
+                strokeSize(4)
 
                 lineCapMode(ROUND)
 

@@ -60,7 +60,7 @@ function touched(touch)
 end
 
 function drawScene()
-    strokeWidth(2)
+    strokeSize(2)
     pushMatrix()
     translate(0,-200,0) rotate(90,1,0,0)
     for i = -5,5 do
@@ -71,7 +71,7 @@ end
 
 function imageSetup()
     pushStyle()
-    strokeWidth(4)
+    strokeSize(4)
     fill(0, 0, 0, 255)
     stroke(255, 255, 255, 255)
     ghostImg = image(50,50)
@@ -86,7 +86,7 @@ function imageSetup()
 end
 
 function rRect(w,h,r)
-    strokeWidth(0)
+    strokeSize(0)
     local img = image(w,h)
     fill(255, 255, 255, 255)
     setContext(img)

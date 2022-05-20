@@ -83,14 +83,14 @@ end
 styles = {
     function (self)
         stroke(white)
-        strokeWidth(10)
+        strokeSize(10)
         noFill()
         self.transformIndex = 1
         return 'stroke(white, 10)\nnofill\nrotate'
     end,
     function (self)
         stroke(white)
-        strokeWidth(5)
+        strokeSize(5)
         fill(red)
         self.transformIndex = 1
         return 'stroke(white, 5)\nfill(red)\nrotate'
@@ -103,7 +103,7 @@ styles = {
     end,
     function (self)
         stroke(green)
-        strokeWidth(5)
+        strokeSize(5)
         fill(blue)
         self.transformIndex = 2
         return 'stroke(green, 5)\nfill(blue)\nscale'
@@ -112,7 +112,7 @@ styles = {
         local c = map(cos(self.angle), -1, 1, 0, 1)
         local s = map(sin(self.angle), -1, 1, 0, 1)
         stroke(color(s))
-        strokeWidth(5)
+        strokeSize(5)
         fill(color(c))
         self.transformIndex = 0
         return 'stroke(gray, 5)\nfill(gray)\ncolor'

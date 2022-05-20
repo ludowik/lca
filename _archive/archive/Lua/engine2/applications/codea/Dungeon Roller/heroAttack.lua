@@ -25,7 +25,7 @@ function HeroAttack:draw()
 
     noFill()
     stroke(255, 0, 0, 255*(1-attackTime))
-    strokeWidth(10*(1-attackTime))
+    strokeSize(10*(1-attackTime))
 
     self.currentSize = self.blastSize * attackTime + (self.size * (1-attackTime))
     p = self.hero.position

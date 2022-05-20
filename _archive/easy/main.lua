@@ -27,7 +27,7 @@ require 'lua/global'
 global.ffi = require 'ffi'
 
 --------------------------------------------------------------------------------
-strokeWidth = lineWidth
+strokeSize = lineWidth
 Vec2 = vec2
 Vec3 = vec3
 color = Color
@@ -148,7 +148,7 @@ function draw()
 
             translate(0, 0, w)
 
-            strokeWidth(2)
+            strokeSize(2)
             stroke(gray)
 
             fill(color(r))

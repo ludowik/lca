@@ -42,7 +42,7 @@ function MeshManager:addInstance(m, primitiveMode, polygonMode)
             polygonMode = polygonMode,
             lightMode = light(),
             blendMode = blendMode(),
-            width = strokeWidth()
+            width = strokeSize()
         })
 end
 

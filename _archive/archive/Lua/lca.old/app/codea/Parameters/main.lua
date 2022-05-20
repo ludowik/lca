@@ -42,7 +42,7 @@ function setup()
     -- This is an integer parameter, similar to a number parameter
     -- but you don't get the decimal component
     -- Its range is -5 to 5
-    parameter.integer("StrokeWidth", -5, 5, 5)
+    parameter.integer("strokeSize", -5, 5, 5)
 end
 
 function colorChanged(c)
@@ -70,9 +70,9 @@ function draw()
     --  defined in setup()
     fill(CircleColor)
     
-    -- Use the integer parameter 'StrokeWidth' to control our
-    --  strokeWidth()
-    strokeWidth(StrokeWidth * 2)
+    -- Use the integer parameter 'strokeSize' to control our
+    --  strokeSize()
+    strokeSize(strokeSize * 2)
     
     -- Use the boolean parameter 'HasStroke' to disable
     --  the stroke

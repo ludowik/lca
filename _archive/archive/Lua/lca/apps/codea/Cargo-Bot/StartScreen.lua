@@ -211,7 +211,7 @@ end
 -- for debugging
 function StartScreen:drawBodies()
     noSmooth()
-    strokeWidth(1)
+    strokeSize(1)
     ellipseMode(CENTER)
     stroke(255, 255, 255, 255)
     noFill()

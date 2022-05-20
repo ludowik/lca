@@ -3,7 +3,7 @@ uniform vec3 size;
 uniform vec4 fill;
 uniform vec4 stroke;
 
-uniform float strokeWidth;
+uniform float strokeSize;
 
 uniform int useAngle;
 
@@ -29,13 +29,13 @@ void main() {
         discard;
     }
     
-    float width = strokeWidth + 2.;
+    float width = strokeSize + 2.;
 
     gl_FragColor = fill;
     
     float vLen = length(size);
     
-    if (stroke.a > 0. && strokeWidth > 0.) {
+    if (stroke.a > 0. && strokeSize > 0.) {
         float sEdge = smoothstep(
             vLen - width - 1.,
             vLen - width,

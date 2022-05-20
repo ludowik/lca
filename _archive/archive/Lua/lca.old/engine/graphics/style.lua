@@ -17,7 +17,7 @@ function resetStyle()
     styles = {}
 
     stroke(white)
-    strokeWidth(1)
+    strokeSize(1)
 
     fill(white)
 
@@ -119,7 +119,7 @@ function stroke(clr, ...)
 end
 
 function noStroke()
-    attribute(styles, 'strokeWidth', 0)
+    attribute(styles, 'strokeSize', 0)
     return resetAttribute(styles, 'strokeColor')
 end
 
@@ -171,8 +171,8 @@ function noLight()
     return resetAttribute(styles, 'lightMode')
 end
 
-function strokeWidth(width)
-    return attribute(styles, 'strokeWidth', width)
+function strokeSize(width)
+    return attribute(styles, 'strokeSize', width)
 end
 
 -- modes
@@ -244,7 +244,7 @@ function blendMode(mode)
 end
 
 function style(size, clr1, clr2)
-    strokeWidth(size)
+    strokeSize(size)
     if clr1 and clr1 ~= transparent then
         stroke(clr1)
     else

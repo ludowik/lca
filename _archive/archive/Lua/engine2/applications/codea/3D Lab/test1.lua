@@ -15,7 +15,7 @@ function Test1:draw()
 
     -- This sets the line thickness
     stroke(white)
-    strokeWidth(5)
+    strokeSize(5)
 
     smooth()
     rectMode(CENTER)

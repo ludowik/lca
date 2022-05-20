@@ -325,7 +325,7 @@ function Engine:draw(f)
                 reporting:draw()
             end
 
-            strokeWidth(1)
+            strokeSize(1)
             stroke(1, 0.25)
 
             line(0, screen.H/2, screen.W, screen.H/2)

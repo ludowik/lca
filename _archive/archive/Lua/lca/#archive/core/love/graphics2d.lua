@@ -23,7 +23,7 @@ function graphics2d.setShader(shader)
         uniforms.pvMatrix = pvMatrix()
         uniforms.modelMatrix = modelMatrix()
 
-        uniforms.strokeWidth = graphics.style.strokeWidth
+        uniforms.strokeSize = graphics.style.strokeSize
         uniforms.strokeColor = graphics.style.strokeColor
 
         uniforms.fillColor = graphics.style.fillColor
@@ -52,7 +52,7 @@ end
 function graphics2d.points(...)
     local points = {...}
     for i=1,#points,2 do
-        graphics2d.circle(points[i], points[i+1], graphics.style.strokeWidth)
+        graphics2d.circle(points[i], points[i+1], graphics.style.strokeSize)
     end
 end
 
@@ -75,7 +75,7 @@ function graphics2d.line(x1, y1, x2, y2)
         shader:send('p1', {x1, y1})
         shader:send('p2', {x2, y2})
 
-        --        shader:send('strokeWidth', graphics.style.strokeWidth)
+        --        shader:send('strokeSize', graphics.style.strokeSize)
         --        shader:send('strokeColor', {graphics.style.strokeColor:unpack()})
 
         --        shader:send('fillColor', {graphics.style.fillColor:unpack()})
@@ -158,7 +158,7 @@ function graphics2d.quad(x, y, w, h, img, mode)
         shader:send('pos', {x, y})        
         shader:send('size', {w, h})
 
-        --        shader:send('strokeWidth', graphics.style.strokeWidth)
+        --        shader:send('strokeSize', graphics.style.strokeSize)
         --        shader:send('strokeColor', {graphics.style.strokeColor:unpack()})
 
         if img then
@@ -202,7 +202,7 @@ function graphics2d.ellipse(x, y, w, h, mode)
         shader:send('pos', {x-w/2, y-h/2})
         shader:send('size', {w, h})
 
-        --        shader:send('strokeWidth', graphics.style.strokeWidth)
+        --        shader:send('strokeSize', graphics.style.strokeSize)
         --        shader:send('strokeColor', {graphics.style.strokeColor:unpack()})
 
         --        shader:send('fillColor', {graphics.style.fillColor:unpack()})
@@ -227,7 +227,7 @@ function graphics2d.arc(x, y, radius, a1, a2)
         love.graphics.arc('fill', x, y, radius, a1, a2)
     end
 
-    if stroke() and strokeWidth() then
+    if stroke() and strokeSize() then
         love.graphics.arc('line', x, y, radius, a1, a2)
     end
 

@@ -93,12 +93,12 @@ end
 function graphics.points(...)
     local points = {...}
 
-    local strokeWidth = strokeWidth()
+    local strokeSize = strokeSize()
 
     for i=1,#points,2 do
         circle(
             points[i], points[i+1],
-            strokeWidth,
+            strokeSize,
             CENTER)
     end
 end

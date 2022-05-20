@@ -83,7 +83,7 @@ function UIGrid2048:draw()
 
                 if cell.new then
                     stroke(blue)
-                    strokeWidth(2)
+                    strokeSize(2)
                     noFill()
                     circle(0, 0, l2/2)
                 end

@@ -34,7 +34,7 @@ end
 function Counter:draw()
     pushStyle()
 
-    strokeWidth(1)
+    strokeSize(1)
     stroke(74, 74, 74, 255)
     fill(self.c)
     ellipseMode(CENTER)

@@ -62,7 +62,7 @@ end
 function Fps:drawStats(x, y)
     local n = #self.fpsHisto
 
-    strokeWidth(1)
+    strokeSize(1)
 
     for i=1,n do
         local fps = self.fpsHisto[i]

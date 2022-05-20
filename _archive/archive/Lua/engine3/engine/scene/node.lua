@@ -123,7 +123,7 @@ function Node:draw()
         end
     end
 
-    strokeWidth(1)
+    strokeSize(1)
     if self.hasFocus then
         stroke(red)
     else
@@ -141,7 +141,7 @@ function Node:drawAbsolutePosition()
     if not self.absolutePosition then return end
 
     stroke(white)
-    strokeWidth(10)
+    strokeSize(10)
 
     for i,node in self.nodes:items() do
         if node.absolutePosition then

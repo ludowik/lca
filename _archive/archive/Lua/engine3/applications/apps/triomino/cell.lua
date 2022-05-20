@@ -20,7 +20,7 @@ function Cell:draw(grid)
     circleMode(CORNER)
 
     if self.state then
-        strokeWidth(2)
+        strokeSize(2)
         stroke(255)
 
         local color = hsl(self.state*30/360, .3, .6)
@@ -29,7 +29,7 @@ function Cell:draw(grid)
         circle(x, y, self.size.x/2)
 
     elseif grid.selectable then
-        strokeWidth(1)
+        strokeSize(1)
         stroke(255)
 
         if self.select then

@@ -16,7 +16,7 @@ const functions = [
     'frameRate', 'frameCount', 'loop', 'noLoop', 'isLooping', 'redraw',
     'colorMode', 'color', 'hsl',
     'background',
-    'noStroke', 'stroke', 'strokeWeight', 'strokeWidth', 'strokeCap',
+    'noStroke', 'stroke', 'strokeWeight', 'strokeSize', 'strokeCap',
     'noFill', 'fill',
     'noSmooth', 'smooth',
     'push', 'pop', 'scale', 'rotate', 'translate', 'resetMatrix', 'ortho', 'perspective',
@@ -108,7 +108,7 @@ function p5_setup(e) {
     fontSize = textWidth;
     textMode = textAlign;
 
-    strokeWidth = strokeWeight;
+    strokeSize = strokeWeight;
 
     circleMode = ellipseMode;
 

@@ -27,7 +27,7 @@ end
 local primitives = {
     function (attributes)
         local position, size, width, rotation = attributes.position, attributes.size, attributes.width, attributes.rotation
-        strokeWidth(width)
+        strokeSize(width)
         point(0, 0)
     end,
     function (attributes)
@@ -64,7 +64,7 @@ function primitive(attributes)
     
     fill(color.random())
     
-    strokeWidth(randomInt(6))
+    strokeSize(randomInt(6))
     stroke(color.random())
     
     primitives[i](attributes)

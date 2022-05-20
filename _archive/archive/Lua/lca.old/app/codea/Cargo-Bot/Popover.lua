@@ -54,7 +54,7 @@ function Popover:draw()
     rectMode(CORNER)
     stroke(0, 0, 0, 255)
     fill(0, 138, 255, 255)
-    strokeWidth(5)
+    strokeSize(5)
     rect(0,0,self.w,self.h)
     
     if self.arrowData then

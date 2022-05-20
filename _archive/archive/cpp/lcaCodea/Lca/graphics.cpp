@@ -32,7 +32,7 @@ struct CodeaStyle {
 
     BlendMode blendMode;
 
-    float strokeWidth;
+    float strokeSize;
     float textWrapWidth;
     float fontSize;
 
@@ -54,7 +54,7 @@ int l_resetStyle(lua_State *L) {
 
     style.blendMode = NORMAL;
 
-    style.strokeWidth = 1.1;
+    style.strokeSize = 1.1;
     style.textWrapWidth = WIDTH;
     style.fontSize = 12;
 
@@ -205,12 +205,12 @@ int l_blendMode(lua_State *L) {
     return 1;
 }
 
-int l_strokeWidth(lua_State *L) {
+int l_strokeSize(lua_State *L) {
     int narg = lua_gettop(L);
     if (narg == 1) {
-        style.strokeWidth = luaL_checknumber(L, 1);
+        style.strokeSize = luaL_checknumber(L, 1);
     }
-    lua_pushnumber(L, style.strokeWidth);
+    lua_pushnumber(L, style.strokeSize);
     return 1;
 }
 
@@ -308,7 +308,7 @@ static const luaL_Reg graphicsFunctions[] = {
 
     Function(blendMode)
 
-    Function(strokeWidth)
+    Function(strokeSize)
     Function(textWrapWidth)
 
     Function(fontSize)

@@ -74,7 +74,7 @@ function Bubbles:draw()
     ellipseMode(CENTER)
     
     stroke(255)
-    strokeWidth(4)
+    strokeSize(4)
     
     -- Loop through bubbles and draw them
     for k,v in pairs(self.bubbles) do
@@ -101,7 +101,7 @@ function draw()
     background(40, 40, 50)
 
     -- This sets the line thickness
-    strokeWidth(5)
+    strokeSize(5)
 
     -- Do your drawing here
     fill(255)

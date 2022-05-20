@@ -38,7 +38,7 @@ function draw()
     background(51)
 
     stroke(white)
-    strokeWidth(0.5)
+    strokeSize(0.5)
 
     noFill()
 
@@ -47,7 +47,7 @@ function draw()
     end
 
     stroke(red)
-    strokeWidth(5)
+    strokeSize(5)
 
     points(vertices)
 end

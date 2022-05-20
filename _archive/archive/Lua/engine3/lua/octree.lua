@@ -52,7 +52,7 @@ end
 
 function Octree:draw()
     stroke(gray)
-    strokeWidth(1)
+    strokeSize(1)
 
     if not self.buffer then
         local x, y, z, w, h, d = self.position.x, self.position.y, self.position.z, self.size.x, self.size.y, self.size.z

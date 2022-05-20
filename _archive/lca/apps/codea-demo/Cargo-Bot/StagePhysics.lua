@@ -235,7 +235,7 @@ function Stage:drawBodies()
     if not self.bodies then return nil end
     pushStyle()
     noSmooth()
-    strokeWidth(1)
+    strokeSize(1)
     stroke(255, 255, 255, 255)
     for body,info in pairs(self.bodies) do
         pushMatrix()

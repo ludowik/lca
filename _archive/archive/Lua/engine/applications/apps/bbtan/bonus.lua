@@ -21,12 +21,12 @@ function Bonus:draw()
     noFill()
 
     stroke(yellow)
-    strokeWidth(4)
+    strokeSize(4)
 
     circleMode(CENTER)
     circle(self.position.x, self.position.y, self.size.x/2)
 
-    strokeWidth(3)
+    strokeSize(3)
 
     line(
         self.position.x-self.size.x/4, self.position.y,

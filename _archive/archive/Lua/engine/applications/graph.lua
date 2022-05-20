@@ -16,7 +16,7 @@ function classItem:draw()
     zLevel(-1)
 
     stroke(white)
-    strokeWidth(2)
+    strokeSize(2)
 
     for i,v in ipairs(self.klassbases) do
         local klass = app.scene:ui(v.__className)

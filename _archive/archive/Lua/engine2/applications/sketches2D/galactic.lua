@@ -35,7 +35,7 @@ function draw()
         :normalizeInPlace(star.len)
 
         stroke(star.clr)
-        strokeWidth(star.width)
+        strokeSize(star.width)
 
         point(position)
 

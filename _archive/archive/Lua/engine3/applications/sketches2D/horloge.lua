@@ -72,7 +72,7 @@ function Horloge:graduation(x, y, r, l, p, size, draw_text, c)
     local r1 = r - l / 2
     local r2 = r + l / 2
 
-    strokeWidth(size)
+    strokeSize(size)
     stroke(c)
 
     draw_text = draw_text or false

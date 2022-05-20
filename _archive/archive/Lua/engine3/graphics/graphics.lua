@@ -172,7 +172,7 @@ function point(...)
     meshPoint.shader = shaders['point']
 
     point = function(x, y, z)
-        local diameter = max(strokeWidth(), 0)
+        local diameter = max(strokeSize(), 0)
         meshPoint.inst_pos = Buffer('vec3', {vec3(x,y,z or Z)})
         meshPoint:render(meshPoint.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, 0, diameter, diameter, 1)
     end
@@ -184,7 +184,7 @@ function points(vertices, ...)
     if type(vertices) == 'number' then vertices = {vertices, ...} end
 
     if stroke() then
-        local diameter = max(strokeWidth(), 0)
+        local diameter = max(strokeSize(), 0)
         meshPoints.inst_pos = vertices
         meshPoints:render(meshPoints.shader, renderer.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1, #meshPoints.inst_pos)
     end
@@ -293,7 +293,7 @@ end
 
 function bezier(x1, y1, x2, y2, x3, y3, x4, y4)
     local f = bezier_proc({x1,x2,x3,x4}, {y1,y2,y3,y4})
-    strokeWidth(5)
+    strokeSize(5)
     for i=0,1,0.01 do 
         point(f(i))
     end

@@ -99,7 +99,7 @@ function Board2048:draw()
 
                 if cell.new then
                     stroke(blue)
-                    strokeWidth(2)
+                    strokeSize(2)
 
                     noFill()
 

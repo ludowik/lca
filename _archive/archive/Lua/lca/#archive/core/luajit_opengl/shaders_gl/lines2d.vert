@@ -12,7 +12,7 @@ out vec3 vNormalG;
 out vec4 vColorG;
 out vec2 vTexCoordG;
 
-out float strokeWidthG;
+out float strokeSizeG;
 
 void process(vec3 position, vec3 normal) {
     mat4 mm = modelMatrix;
@@ -40,7 +40,7 @@ void process(vec3 position, vec3 normal) {
         vColorG = color;
     }
     
-    strokeWidthG = widthInstance;
+    strokeSizeG = widthInstance;
 }
 
 void main() {

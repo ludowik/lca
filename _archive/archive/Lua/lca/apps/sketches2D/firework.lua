@@ -33,7 +33,7 @@ function Firework:draw()
     stroke(white)
     fill(white)
 
-    strokeWidth(5)
+    strokeSize(5)
 
     self.particles:draw()
 end

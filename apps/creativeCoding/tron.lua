@@ -23,7 +23,7 @@ function draw(dt)
     fill(0, 0, 0, 0.05)
 
     rectMode(CORNER)
-    rect(0, 0, WIDTH, HEIGHT)
+    rect(0, 0, W, H)
 
     translate(W/2, H/2)
     
@@ -41,12 +41,12 @@ function draw(dt)
         :normalizeInPlace(star.len)
 
         stroke(star.clr)
-        strokeWidth(star.width)
+        strokeSize(star.width)
 
-        point(position)
+        point(position.x, position.y)
 
-        star.angle = star.angle + star.angularSpeed * speed * DeltaTime
-        star.len = star.len + star.linearSpeed * speed * DeltaTime
+        star.angle = star.angle + star.angularSpeed * speed * deltaTime
+        star.len = star.len + star.linearSpeed * speed * deltaTime
         
         if not area:contains(position) then
             star.len = 0

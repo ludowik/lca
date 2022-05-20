@@ -258,7 +258,7 @@ function MeshRender:sendUniforms(uniformsLocations)
     uniforms.fill = styles.attributes.fill or transparent
 
     uniforms.stroke = styles.attributes.stroke or transparent
-    uniforms.strokeWidth = self.strokeWidth or styles.attributes.strokeWidth or 0
+    uniforms.strokeSize = self.strokeSize or styles.attributes.strokeSize or 0
 
     uniforms.tint = styles.attributes.tint or transparent
 

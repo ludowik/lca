@@ -166,7 +166,7 @@ local function drawContactNormal(x, y, xn, yn)
     local scale = 50
 
     stroke(green)
-    strokeWidth(1)
+    strokeSize(1)
 
     xn = xn * scale
     yn = yn * scale

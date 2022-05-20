@@ -45,11 +45,11 @@ function classItem:draw()
             local to = direction * 0.9
 
             stroke(gray)
-            strokeWidth(1)
+            strokeSize(1)
             line(start.x, start.y, to.x, to.y)
 
             stroke(red)
-            strokeWidth(5)
+            strokeSize(5)
             point(to.x, to.y)
         end
     end

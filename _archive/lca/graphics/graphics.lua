@@ -31,8 +31,6 @@ function background(r, g, b, a)
     love.graphics.clear(clr.r, clr.g, clr.b, clr.a)
 end
 
-function zLevel(level)
-end
 
 CENTER = 'center'
 CORNER = 'corner'
@@ -64,7 +62,7 @@ end
 function style(size, clr1, clr2)
     assert(size)
 
-    strokeWidth(size)
+    strokeSize(size)
     if clr1 and clr1 ~= transparent then
         stroke(clr1)
     else
@@ -202,11 +200,11 @@ function text(str, x, y)
     return wt, ht
 end
 
-function strokeWidth(width)
+function strokeSize(width)
     if width then
-        styles.strokeWidth = width
+        styles.strokeSize = width
     end
-    return styles.strokeWidth
+    return styles.strokeSize
 end
 
 function stroke(clr, ...)
@@ -309,7 +307,7 @@ function points(vertices)
     if styles.stroke then
         vertices = decompose(vertices)
         setColor(styles.stroke)
-        love.graphics.setPointSize(styles.strokeWidth)
+        love.graphics.setPointSize(styles.strokeSize)
         love.graphics.points(vertices)
     end
 end
@@ -331,7 +329,7 @@ function line(x1, y1, x2, y2)
     setTransform()
     if styles.stroke then
         setColor(styles.stroke)
-        love.graphics.setLineWidth(styles.strokeWidth)
+        love.graphics.setLineWidth(styles.strokeSize)
         love.graphics.line(x1, y1, x2, y2)
     end
 end
@@ -342,7 +340,7 @@ function lines(vertices)
         vertices = decompose(vertices)
         if #vertices > 4 then
             setColor(styles.stroke)
-            love.graphics.setLineWidth(styles.strokeWidth)
+            love.graphics.setLineWidth(styles.strokeSize)
             love.graphics.line(vertices)
         end
     end
@@ -357,14 +355,14 @@ function polygon(vertices)
     if styles.stroke then
         vertices = decompose(vertices)
         setColor(styles.stroke)
-        love.graphics.setLineWidth(styles.strokeWidth)
+        love.graphics.setLineWidth(styles.strokeSize)
         love.graphics.polygon('line', vertices)
     end
 end
 
 function bezier(x1, y1, x2, y2, x3, y3, x4, y4)
     local f = bezier_proc({x1,x2,x3,x4}, {y1,y2,y3,y4})
-    strokeWidth(5)
+    strokeSize(5)
     for i=0,1,0.01 do 
         point(f(i))
     end
@@ -414,7 +412,7 @@ function rect(x, y, w, h, r)
 
     if styles.stroke then
         setColor(styles.stroke)
-        love.graphics.setLineWidth(styles.strokeWidth)
+        love.graphics.setLineWidth(styles.strokeSize)
         love.graphics.rectangle('line', x, y, w, h, r, r, r)
     end
 end
@@ -439,7 +437,7 @@ function circle(x, y, r)
 
     if styles.stroke then
         setColor(styles.stroke)
-        love.graphics.setLineWidth(styles.strokeWidth)
+        love.graphics.setLineWidth(styles.strokeSize)
         love.graphics.circle('line', x, y, r)
     end
 end
@@ -466,7 +464,7 @@ function ellipse(x, y, w, h)
 
     if styles.stroke then
         setColor(styles.stroke)
-        love.graphics.setLineWidth(styles.strokeWidth)
+        love.graphics.setLineWidth(styles.strokeSize)
         love.graphics.ellipse('line', x, y, w/2, h/2)
     end
 end
@@ -474,7 +472,7 @@ end
 function arc(x, y, r, a1, a2, n)
     local points = table()
     Geometry.arc(points, x, y, r, a1, a2, n)
-    Geometry.draw(points, strokeWidth(), stroke())
+    Geometry.draw(points, strokeSize(), stroke())
 end
 
 function spriteMode(mode)

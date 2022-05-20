@@ -39,35 +39,7 @@ function math.avg(a, b)
     return (a + b) / 2
 end
 
-function math.sign(value)
-    if value > 0 then
-        return 1
-    elseif value < 0 then
-        return -1
-    else
-        return 0
-    end
-end
-sign = math.sign
 
-function ceil(num, idp)
-    idp = idp or 0
-    local mult = 10^idp
-    return __ceil(num * mult) / mult
-end
-
-function floor(num, idp)
-    idp = idp or 0
-    local mult = 10^idp
-    return __floor(num * mult) / mult
-end
-
-function math.round(num, idp)
-    idp = idp or 0
-    local mult = 10^idp
-    return __floor(num * mult + 0.5) / mult
-end
-round = math.round
 
 function math.clamp(value, _min, _max)
     return __min(__max(value, _min), _max)

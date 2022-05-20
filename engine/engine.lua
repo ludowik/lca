@@ -8,6 +8,9 @@ function Engine.load()
 
     setupClasses()
     setupWindow()
+    
+    resetMatrix()
+    resetStyles()
 
     loadApps()
 
@@ -27,7 +30,7 @@ function Engine.update(dt)
         Engine.test.delay = Engine.test.delay - dt
         if Engine.test.delay <=0 then
             nextApp()
-            Engine.test.delay = 0.2
+            Engine.test.delay = 0.05
         end
     end
 
@@ -94,7 +97,7 @@ function Engine.endDraw(reverseY)
     if reverseY then
         love.graphics.draw(source, X, H+Y, 0, 1, -1)
     else
-        love.graphics.draw(source , X, Y)
+        love.graphics.draw(source, X, Y)
     end
 end
 
@@ -270,8 +273,6 @@ function Engine.mousereleased(x, y, button, istouch, presses)
     end
 end
 
-
-
 TOP_LEFT = 'top_left'
 BOTTOM_LEFT = 'bottom_left'
 
@@ -286,4 +287,9 @@ function getOrigin()
         return _G.env
     end
     return TOP_LEFT
+end
+
+LANDSCAPE_ANY = 'LANDSCAPE_ANY'
+function supportedOrientations()
+    -- TODO
 end

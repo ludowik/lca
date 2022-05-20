@@ -23,7 +23,7 @@ function appPrimitives:init()
     self.mesh = mesh(Model.triangulate(self.vectors))
     self.mesh.shader = Shader('polygon')
 
-    parameter.number('use_strokeWidth', 0, 50, 20)
+    parameter.number('use_strokeSize', 0, 50, 20)
 end
 
 function appPrimitives:update(dt)
@@ -88,19 +88,19 @@ end
 styles = {
     function (self)
         stroke(white)
-        strokeWidth(use_strokeWidth)
+        strokeSize(use_strokeSize)
         noFill()
         self.transformIndex = 1
-        return 'stroke(white, '..(use_strokeWidth)..')\nnofill\nrotate'
+        return 'stroke(white, '..(use_strokeSize)..')\nnofill\nrotate'
     end,
 
     function (self)
         stroke(white)
-        strokeWidth(use_strokeWidth/2)
+        strokeSize(use_strokeSize/2)
         fill(red)
         tint(red)
         self.transformIndex = 1
-        return 'stroke(white, '..(use_strokeWidth/2)..')\nfill(red)\nrotate'
+        return 'stroke(white, '..(use_strokeSize/2)..')\nfill(red)\nrotate'
     end,
 
     function (self)
@@ -113,22 +113,22 @@ styles = {
 
     function (self)
         stroke(green)
-        strokeWidth(use_strokeWidth/2)
+        strokeSize(use_strokeSize/2)
         fill(blue)
         tint(blue)
         self.transformIndex = 2
-        return 'stroke(green, '..(use_strokeWidth/2)..')\nfill(blue)\nscale'
+        return 'stroke(green, '..(use_strokeSize/2)..')\nfill(blue)\nscale'
     end,
 
     function (self)
         local c = map(cos(self.angle), -1, 1, 0, 1)
         local s = map(sin(self.angle), -1, 1, 0, 1)
         stroke(color(s))
-        strokeWidth(use_strokeWidth/2)
+        strokeSize(use_strokeSize/2)
         fill(color(c))
         tint(color(c))
         self.transformIndex = 0
-        return 'stroke(gray, '..(use_strokeWidth/2)..')\nfill(gray)\ncolor'
+        return 'stroke(gray, '..(use_strokeSize/2)..')\nfill(gray)\ncolor'
     end
 }
 

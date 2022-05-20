@@ -178,7 +178,7 @@ function Editor:draw()
     clip()
     
     noFill()
-    strokeWidth(2)
+    strokeSize(2)
     stroke(255)
     rectMode(CORNER)
     rect(x, y-h, w, h)

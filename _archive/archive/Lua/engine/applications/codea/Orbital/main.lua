@@ -106,7 +106,7 @@ function draw()
     textMode(CENTER)
     touchAction()
     background(0, 0, 0, 255)
-    strokeWidth(0)
+    strokeSize(0)
     if rocket then
         rocket:draw()
     end
@@ -184,7 +184,7 @@ function draw()
     -- draw bottom
     smooth()
     stroke(255, 255, 255, 255)
-    strokeWidth(5)
+    strokeSize(5)
     line(0,bottom,WIDTH,bottom)
 
     -- draw laser
@@ -195,7 +195,7 @@ function draw()
         else
             stroke(255, 0, 0, 255)
         end
-        strokeWidth(4)
+        strokeSize(4)
         lineCapMode(SQUARE)
         line(pos0.x, pos0.y, cur.x, cur.y)
     end
@@ -243,7 +243,7 @@ function Ball:draw()
         end
     end
 
-    strokeWidth(self.radius/30 + 3)
+    strokeSize(self.radius/30 + 3)
     stroke(self.r,self.g,self.b,255)
     fill(0, 0, 0, 0)
     ellipse(self.body.x,self.body.y,self.radius*2 + 2)
@@ -284,7 +284,7 @@ function Message:draw()
     else
         self.on = false
     end
-    strokeWidth(3)
+    strokeSize(3)
     stroke(255, 255, 255, self.alpha)
     fill(0, 0, 0, self.alpha/2)
     rectMode(CENTER)
@@ -329,7 +329,7 @@ function Rocket:init(x,y,vec)
 end
 
 function Rocket:draw()
-    strokeWidth(0)
+    strokeSize(0)
     fill(255, 255, 255, 255)
     ellipse(self.body.x,self.body.y,self.body.radius*2)
     self:forces()
@@ -398,7 +398,7 @@ function Explosion:init(x,y,r)
 end
 
 function Explosion:draw()
-    strokeWidth(10  * (1 - self.c/self.g))
+    strokeSize(10  * (1 - self.c/self.g))
     stroke(255, 255, 255, 255 * (1 - self.c/self.g))
     fill(0, 0, 0, 0)
     ellipse(self.x,self.y,(self.r + self.c)*2)

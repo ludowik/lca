@@ -38,7 +38,7 @@ function draw()
             len = radius * 8 * (-1)^((n-1)/2) / (n^2 * PI^2)
         end
 
-        strokeWidth(1)
+        strokeSize(1)
         noFill()
         circle(x, y, len)
 
@@ -46,7 +46,7 @@ function draw()
         local py = len * sin(n*angle)
 
         line(x, y, x+px, y+py)
-        strokeWidth(5)
+        strokeSize(5)
         points(x+px, y+py)
 
         x = x + px
@@ -55,7 +55,7 @@ function draw()
 
     vertices:queue(vec2(x, y))
 
-    strokeWidth(1)
+    strokeSize(1)
     line(x, y, 50 + radius*3, y)
 
     translate(50 + radius*3)

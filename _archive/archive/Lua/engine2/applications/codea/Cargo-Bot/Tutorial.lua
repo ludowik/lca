@@ -33,7 +33,7 @@ function Level:highlight(obj,extraZ)
     -- make a shade
     if not self.shade then
         local shadeMake = function()
-            strokeWidth(-1)
+            strokeSize(-1)
             fill(0,0,0,140)
             rectMode(CORNER)
             rect(0,0,WIDTH,HEIGHT)

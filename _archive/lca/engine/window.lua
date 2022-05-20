@@ -64,7 +64,7 @@ function Window:resetStyle()
         textAlign = LEFT,
 
         stroke = white,
-        strokeWidth = 1,
+        strokeSize = 1,
 
         fill = white,
 

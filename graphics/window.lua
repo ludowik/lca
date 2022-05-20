@@ -1,5 +1,6 @@
 function setupWindow()
     X, Y, W, H = initWindow()
+    WIDTH, HEIGHT = W, H
 end
 
 local love2d = love

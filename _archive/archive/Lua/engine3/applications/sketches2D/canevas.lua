@@ -19,7 +19,7 @@ function draw()
     end
     
     noFill()
-    strokeWidth(1)
+    strokeSize(1)
     stroke(gray)
     circle(0, 0, r)
 end

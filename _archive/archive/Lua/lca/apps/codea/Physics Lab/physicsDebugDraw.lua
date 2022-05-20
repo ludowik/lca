@@ -36,7 +36,7 @@ function PhysicsDebugDraw:draw()
     
     pushStyle()
     smooth()
-    strokeWidth(5)
+    strokeSize(5)
     stroke(128,0,128)
     
     local gain = 2.0
@@ -52,7 +52,7 @@ function PhysicsDebugDraw:draw()
     end
     
     stroke(0,255,0,255)
-    strokeWidth(5)
+    strokeSize(5)
     for k,joint in pairs(self.joints) do
         local a = joint.anchorA
         local b = joint.anchorB
@@ -77,7 +77,7 @@ function PhysicsDebugDraw:draw()
         end
     
         if body.shapeType == POLYGON then
-            strokeWidth(3.0)
+            strokeSize(3.0)
             local points = body.points
             for j = 1,#points do
                 a = points[j]
@@ -85,7 +85,7 @@ function PhysicsDebugDraw:draw()
                 line(a.x, a.y, b.x, b.y)
             end
         elseif body.shapeType == CHAIN or body.shapeType == EDGE then
-            strokeWidth(3.0)
+            strokeSize(3.0)
             local points = body.points
             for j = 1,#points-1 do
                 a = points[j]
@@ -93,7 +93,7 @@ function PhysicsDebugDraw:draw()
                 line(a.x, a.y, b.x, b.y)
             end      
         elseif body.shapeType == CIRCLE then
-            strokeWidth(3.0)
+            strokeSize(3.0)
             line(0,0,body.radius-3,0)            
             ellipse(0,0,body.radius*2)
         end

@@ -31,7 +31,7 @@ function Dashboard:draw()
 
     textMode(CORNER)
 
-    strokeWidth(1)
+    strokeSize(1)
     stroke(gray)
 
     local columnsName = self.columnsName

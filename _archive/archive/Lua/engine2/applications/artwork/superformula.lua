@@ -77,7 +77,7 @@ function draw3d()
     translate(W/2, H/2)
 
     stroke(white)
-    strokeWidth(5)
+    strokeSize(5)
 
     local index = 1
     local shape_size2 = shape_size * 2

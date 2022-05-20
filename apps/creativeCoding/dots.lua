@@ -44,13 +44,13 @@ function draw()
         end
 
         for x=-radius*4+dx,W+radius*4,radius*4 do
-            fill(red)
+            fill(colors.red)
             circle(x+xx, y, radius)
 
-            fill(green)
+            fill(colors.green)
             circle(x+yy/2, y+yy, radius)
 
-            fill(blue)
+            fill(colors.blue)
             circle(x, y, radius)
         end
     end

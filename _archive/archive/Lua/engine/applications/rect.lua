@@ -2,7 +2,7 @@ function setup()
     parameter.boolean('use_stroke', true)
     parameter.boolean('use_fill')
     
-    parameter.number('use_strokeWidth', 0, 50, 5)
+    parameter.number('use_strokeSize', 0, 50, 5)
     
     parameter.number('use_angle', 0, 360, 0)
 end
@@ -16,7 +16,7 @@ function draw()
         noStroke()
     end
     
-    strokeWidth(use_strokeWidth)
+    strokeSize(use_strokeSize)
 
     if use_fill then
         fill(magenta)

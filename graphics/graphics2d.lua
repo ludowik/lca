@@ -1,10 +1,16 @@
 local Graphics = class 'GraphicsBase'
 
+DEFAULT_FONT_NAME = 'Arial'
+
 function Graphics.background(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
     clr = clr or colors.black
     local r, g, b, a = clr:unpack(),
     love.graphics.clear(r, g, b, a, true, true)
+end
+
+function Graphics.zLevel(level)
+    -- TODO
 end
 
 function Graphics.clip(...)
@@ -90,40 +96,4 @@ function Graphics.sprite(img, x, y, w, h)
     end
 
     img:draw(x, y, w/img.data:getWidth(), h/img.data:getHeight())
-end
-
-class 'Image'
-
-function Image:init(name, ...)
-    if type(name) == 'string' then
-        self.data = love.graphics.newImage(name)
-    
-    else
-        local w, h = name, ...
-        h = h or w
-        self.imagedata = love.image.newImageData(w, h)
-        self.data = love.graphics.newImage(self.imagedata)
-            
-    end
-end
-
-function Image:getWidth()
-    return self.data:getWidth()
-end
-
-function Image:getHeight()
-    return self.data:getHeight()
-end
-
-function Image:draw(x, y, w, h)
-    w = w or self:getWidth()
-    h = h or self:getHeight()
-
-    love.graphics.draw(self.data,
-        x, y,
-        0,
-        w/self:getWidth(), h/self:getHeight())
-end
-
-function Image:set(x, y)
 end

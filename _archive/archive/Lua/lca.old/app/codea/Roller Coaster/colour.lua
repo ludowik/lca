@@ -220,7 +220,7 @@ colour.
 function ColourPicker:draw()
     if self.active then
     pushStyle()
-    strokeWidth(-1)
+    strokeSize(-1)
     local w = WIDTH/self.n
     local h = HEIGHT/self.m
     local s = math.min(w/4,h/4,10)

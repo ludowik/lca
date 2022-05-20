@@ -176,7 +176,7 @@ function draw()
 
     -- Draw score and lives
     stroke(255, 255, 255, 255)
-    strokeWidth(2)
+    strokeSize(2)
     number(10, HEIGHT - 10, score, 10)
     number(WIDTH - 30, HEIGHT - 10, "x"..lives, 8)
     noStroke()

@@ -111,7 +111,7 @@ function Rect:drawBorder(clr, size)
     local x, y = 0, 0 -- self.position.x, self.position.y
     
     stroke(clr or self.borderColor)
-    strokeWidth(ceil(size or self.borderWidth))
+    strokeSize(ceil(size or self.borderWidth))
 
     noFill()
     

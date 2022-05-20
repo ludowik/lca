@@ -12,7 +12,7 @@ function draw()
     background(127, 127, 127, 255)
 
     stroke(255, 255, 255, 255)
-    strokeWidth(15)
+    strokeSize(15)
 
     lineCapMode(ROUND)
 

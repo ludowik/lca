@@ -7,6 +7,7 @@ function resetStyles()
 
     fill(colors.white)
 
+    fontName(DEFAULT_FONT_NAME)
     fontSize(12)
 
     textMode(CORNER)
@@ -43,6 +44,11 @@ end
 function circleMode(mode)
     _circleMode = mode or _circleMode or CENTER
     return _circleMode
+end
+
+function ellipseMode(mode)
+    _ellipseMode = mode or _ellipseMode or CENTER
+    return _ellipseMode
 end
 
 function spriteMode(mode)
@@ -97,7 +103,7 @@ end
 function cullingMode(mode)
     if mode ~= nil then
         _cullingMode = mode
-        
+
         if _cullingMode then
             love.graphics.setMeshCullMode('back')
             love.graphics.setFrontFaceWinding('ccw')
@@ -109,4 +115,21 @@ function cullingMode(mode)
 end
 
 function light()
+    -- TODO
+end
+
+function loop()
+    -- TODO
+end
+
+function noLoop()
+    -- TODO
+end
+
+function tint()
+    -- TODO
+end
+
+function noTint()
+    -- TODO
 end

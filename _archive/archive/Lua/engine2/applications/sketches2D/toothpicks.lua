@@ -48,7 +48,7 @@ function Toothpick:line(buf)
 end
 
 function Toothpick:draw()
-    strokeWidth(2)
+    strokeSize(2)
 
     if self.new then
         stroke(blue)
@@ -153,7 +153,7 @@ function draw()
         end
     )
 
-    strokeWidth(2)
+    strokeSize(2)
     
     stroke(black)
     lines(buf_old)

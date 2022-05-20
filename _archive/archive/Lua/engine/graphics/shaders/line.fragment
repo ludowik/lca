@@ -1,5 +1,5 @@
 uniform vec4 stroke;
-uniform float strokeWidth;
+uniform float strokeSize;
 
 uniform int lineCapMode;
 
@@ -23,7 +23,7 @@ void main() {
                     discard;
                 }
             
-                float width = strokeWidth + 2.;
+                float width = strokeSize + 2.;
 
                 /*switch (gl_PrimitiveID) {
                     

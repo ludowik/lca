@@ -18,7 +18,7 @@ function Test7:draw()
     result = physics.raycast(self.point1, self.point2)
     pushStyle()
     stroke(0, 255, 0, 255)
-    strokeWidth(5)
+    strokeSize(5)
     if result then    
         line(self.point1.x, self.point1.y, result.point.x, result.point.y)
         result.body:applyForce(vec2(0,25))
@@ -35,7 +35,7 @@ function Test7:draw()
         v.body:applyForce(vec2(2,0))
     end
         
-    strokeWidth(5)
+    strokeSize(5)
     noFill()
     if #physics.queryAABB(self.aabb[1], self.aabb[2]) > 0 then
         stroke(255, 0, 255, 255)

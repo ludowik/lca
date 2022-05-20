@@ -35,7 +35,7 @@ uniform highp int useLight;
 uniform highp int useTexture;
 uniform highp int useColors;
 
-uniform highp float strokeWidth;
+uniform highp float strokeSize;
 uniform highp vec4 strokeColor;
 uniform highp vec4 fillColor;
 uniform highp vec4 tintColor;

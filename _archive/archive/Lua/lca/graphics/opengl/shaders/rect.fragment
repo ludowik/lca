@@ -9,10 +9,10 @@ void main() {
     highp float x = vTexCoord.x * size.x;
     highp float y = vTexCoord.y * size.y;
     
-    highp float dx = strokeWidth;
-    highp float dy = strokeWidth;
+    highp float dx = strokeSize;
+    highp float dy = strokeSize;
     
-    highp float delta = 2.0 * strokeWidth / size.x;
+    highp float delta = 2.0 * strokeSize / size.x;
     highp float rs = 0.15;
     
     if (x <= dx || x >= size.x-dx ||

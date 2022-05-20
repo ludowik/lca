@@ -138,64 +138,6 @@ function Model.computeIndices(vertices, texCoords, normals)
     return v, t, n, indices
 end
 
-function Model.computeNormals(vertices, indices, mode)
-    local normals = Buffer('vec3')
-
-    local n = indices and #indices or #vertices
-
-    local v12, v13 = vec3(), vec3()
-
-    local v1, v2, v3
-
-    if mode == nil then
-        for i=1,n,3 do
-            if indices then
-                v1 = vertices[indices[i]]
-                v2 = vertices[indices[i+1]]
-                v3 = vertices[indices[i+2]]
-            else
-                v1 = vertices[i]
-                v2 = vertices[i+1]
-                v3 = vertices[i+2]
-            end
-
-            v12:set(v2):sub(v1)
-            v13:set(v3):sub(v1)
-
-            local normal = v12:crossInPlace(v13):normalizeInPlace()
-
-            normals[i  ] = normal
-            normals[i+1] = normal
-            normals[i+2] = normal
-        end
-    else
-        for i=1,n-2 do
-            if indices then
-                v1 = vertices[indices[i]]
-                v2 = vertices[indices[i+1]]
-                v3 = vertices[indices[i+2]]
-            else
-                v1 = vertices[i]
-                v2 = vertices[i+1]
-                v3 = vertices[i+2]
-            end
-
-            v12:set(v2):sub(v1)
-            v13:set(v3):sub(v1)
-
-            local normal = v12:crossInPlace(v13):normalizeInPlace()
-            
-            if i%2 == 0 then
-                normals[i] = normal
-            else
-                normals[i] = normal:unm()
-            end
-        end
-    end
-
-    return normals
-end
-
 function Model.averageNormals(vertices, normals)
     local t = Buffer('vec3')
 

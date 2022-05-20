@@ -47,7 +47,7 @@ function draw()
     local function drawLines()        
         translate(3, 3)
 
-        strokeWidth(2)
+        strokeSize(2)
 
         local n = #vertices
         for i=1,n-1 do

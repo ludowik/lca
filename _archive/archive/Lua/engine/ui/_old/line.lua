@@ -10,7 +10,7 @@ function UILine:computeSize()
 end
 
 function UILine:draw()
-    strokeWidth(1)
+    strokeSize(1)
     stroke(white)
 
     line(0, 1, self.size.x, 1)

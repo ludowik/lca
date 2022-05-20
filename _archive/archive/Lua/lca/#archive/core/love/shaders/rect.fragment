@@ -11,22 +11,22 @@ vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
 uniform vec2 pos;
 uniform vec2 size;
 
-uniform float strokeWidth;
+uniform float strokeSize;
 uniform vec4 strokeColor;
 
 uniform vec4 fillColor;
 
 void use() {
     size;
-    strokeWidth;
+    strokeSize;
     fillColor;
 }
 
 vec4 effect(vec4 color, Image texture, vec2 vTexCoord, vec2 screen_coords) {
     vec4 texcolor = Texel(texture, vTexCoord);
     
-    float dx = strokeWidth / size.x;
-    float dy = strokeWidth / size.y;
+    float dx = strokeSize / size.x;
+    float dy = strokeSize / size.y;
     
     if (vTexCoord.x <= dx || vTexCoord.x >= 1.0-dx ||
         vTexCoord.y <= dy || vTexCoord.y >= 1.0-dy)

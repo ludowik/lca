@@ -34,7 +34,7 @@ end
 
 function Star:draw()
     stroke(white)
-    strokeWidth(math.floor(self.r * self.position:len() / MAX_DISTANCE))
+    strokeSize(math.floor(self.r * self.position:len() / MAX_DISTANCE))
     point(self.position)
 end
 
@@ -86,7 +86,7 @@ function Stars:draw()
     translate(W/2, H/2)
 
     stroke(white)
-    strokeWidth(5)
+    strokeSize(5)
 
     if Star.batchRendering then
         self.points:reset()

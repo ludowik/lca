@@ -129,7 +129,7 @@ function draw()
     local x, y = WIDTH/2, HEIGHT/2
 
     stroke(white)
-    strokeWidth(1)
+    strokeSize(1)
 
     fill(pastelRed)
 

@@ -92,7 +92,7 @@ end
 function point(x, y)
     setShader()
 
-    if setColor(stroke()) and setWidth(strokeWidth()) then
+    if setColor(stroke()) and setWidth(strokeSize()) then
         if type(x) == 'table' then
             x, y = x.x, x.y
         end
@@ -103,7 +103,7 @@ end
 function points(...)
     setShader()
 
-    if setColor(stroke()) and setWidth(strokeWidth()) then
+    if setColor(stroke()) and setWidth(strokeSize()) then
         graphics.points(...)
     end
 end
@@ -111,8 +111,8 @@ end
 function line(x1, y1, x2, y2)
     setShader()
 
-    local strokeWidth = strokeWidth()
-    if setColor(stroke()) and setWidth(strokeWidth) then
+    local strokeSize = strokeSize()
+    if setColor(stroke()) and setWidth(strokeSize) then
 
         local lineCapMode = lineCapMode()
 
@@ -123,8 +123,8 @@ function line(x1, y1, x2, y2)
             local dx = x2 - x1
             local dy = y2 - y1
 
-            local v1 = vec2(x1, y1) - vec2(dx, dy):normalize() * strokeWidth / 2
-            local v2 = vec2(x2, y2) + vec2(dx, dy):normalize() * strokeWidth / 2
+            local v1 = vec2(x1, y1) - vec2(dx, dy):normalize() * strokeSize / 2
+            local v2 = vec2(x2, y2) + vec2(dx, dy):normalize() * strokeSize / 2
 
             x1, y1 = v1.x, v1.y
             x2, y2 = v2.x, v2.y
@@ -135,7 +135,7 @@ function line(x1, y1, x2, y2)
             graphics.line(x1, y1, x2, y2)
 
         elseif lineCapMode == ROUND then
-            local radius = strokeWidth/2
+            local radius = strokeSize/2
 
             graphics.line(x1, y1, x2, y2)
 
@@ -156,8 +156,8 @@ function rect(x, y, w, h, rx, ry, segments)
     if setColor(fill()) then
         graphics.rectangle('fill', x, y, w, h, rx, ry, segments)
     end
-    if setColor(stroke()) and setWidth(strokeWidth()) then
-        local s = math.floor(strokeWidth() / 2)
+    if setColor(stroke()) and setWidth(strokeSize()) then
+        local s = math.floor(strokeSize() / 2)
         graphics.rectangle('line', x+s, y+s, w-s*2, h-s*2, rx, ry, segments)
     end
 end
@@ -176,7 +176,7 @@ function ellipse(x, y, w, h)
         graphics.ellipse('fill', x, y, rx, ry)
     end
 
-    if setColor(stroke()) and setWidth(strokeWidth()) then
+    if setColor(stroke()) and setWidth(strokeSize()) then
         graphics.ellipse('line', x, y, rx, ry)
     end
 
@@ -195,7 +195,7 @@ function circle(x, y, r)
         graphics.circle('fill', x, y, r)
     end
 
-    if setColor(stroke()) and setWidth(strokeWidth()) then
+    if setColor(stroke()) and setWidth(strokeSize()) then
         graphics.circle('line', x, y, r)
     end
 
@@ -216,7 +216,7 @@ function arc(x, y, radius, a1, a2)
         Graphics.arc('fill', x, y, radius, a1, a2)
     end
 
-    if setColor(stroke()) and setWidth(strokeWidth()) then
+    if setColor(stroke()) and setWidth(strokeSize()) then
         Graphics.arc('line', x, y, radius, a1, a2)
     end
 
@@ -228,7 +228,7 @@ function polyline(vectors)
 
     local vertices = vectors2vertices(vectors)
 
-    if setColor(stroke()) and setWidth(strokeWidth()) then
+    if setColor(stroke()) and setWidth(strokeSize()) then
         graphics.line(unpack(vertices))
     end    
 end
@@ -241,7 +241,7 @@ function polygon(vectors, closedPolygon)
     if setColor(fill()) then
         graphics.polygon('fill', vertices)
     end
-    if setColor(stroke()) and setWidth(strokeWidth()) then
+    if setColor(stroke()) and setWidth(strokeSize()) then
         graphics.polygon('line', vertices)
     end
 end

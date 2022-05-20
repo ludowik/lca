@@ -3,7 +3,7 @@ class('Style')
 function Style.setup()
     Style.backgroundColor = color(51)
     
-    Style.strokeWidth = 2
+    Style.strokeSize = 2
     Style.strokeColor = color(210)
     
     Style.fillColor = color(210)
@@ -25,7 +25,7 @@ end
 function Style:init()
     self.backgroundColor = Style.backgroundColor
     
-    self.strokeWidth = Style.strokeWidth
+    self.strokeSize = Style.strokeSize
     self.strokeColor = Style.strokeColor
     
     self.fillColor = Style.fillColor
@@ -58,7 +58,7 @@ function Style:clone()
     
     clone.backgroundColor = self.backgroundColor
     
-    clone.strokeWidth = self.strokeWidth
+    clone.strokeSize = self.strokeSize
     clone.strokeColor = self.strokeColor
     
     clone.fillColor = self.fillColor
@@ -100,7 +100,7 @@ end
 function style(size, clr1, clr2)
     assert(size)
     
-    strokeWidth(size)
+    strokeSize(size)
     if clr1 and clr1 ~= transparent then
         stroke(clr1)
     else

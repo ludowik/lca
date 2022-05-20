@@ -3,7 +3,7 @@ uniform vec3 size;
 uniform vec4 fill;
 uniform vec4 stroke;
 
-uniform float strokeWidth;
+uniform float strokeSize;
 
 in vec3 vPosition;
 in vec2 vTexCoords;
@@ -19,10 +19,10 @@ void main() {
     pos.x *= dx;
     pos.y *= dy;
     
-    float x = size.x - strokeWidth;
-    float y = size.y - strokeWidth;
+    float x = size.x - strokeSize;
+    float y = size.y - strokeSize;
  
-    if (stroke.a > 0. && strokeWidth > 0.) {
+    if (stroke.a > 0. && strokeSize > 0.) {
         float sEdge = 0.;
         if (pos.x >= x - 2. && pos.y < y) {
             sEdge += smoothstep(

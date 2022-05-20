@@ -6,7 +6,7 @@ function logo.reset()
     logo.pendown()
     logo.scale(1)
 
-    strokeWidth(1)
+    strokeSize(1)
 end
 
 function logo.home()

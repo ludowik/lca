@@ -23,7 +23,7 @@ function Styles:init()
         fill = white,
 
         stroke = white,
-        strokeWidth = 1,
+        strokeSize = 1,
 
         tint = white,
 
@@ -103,7 +103,7 @@ end
 function style(size, clr1, clr2)
     assert(size)
 
-    strokeWidth(size)
+    strokeSize(size)
     if clr1 and clr1 ~= transparent then
         stroke(clr1)
     else
@@ -133,8 +133,8 @@ function stroke(...)
     return styles:setAttributeColor('stroke', ...)
 end
 
-function strokeWidth(width)
-    return styles:setAttribute('strokeWidth', width)
+function strokeSize(width)
+    return styles:setAttribute('strokeSize', width)
 end
 
 function noStroke()

@@ -6,7 +6,7 @@ uniform mat4 model;
 uniform int useUniformColor;
 uniform vec4 uniformColor;
 
-uniform float strokeWidth;
+uniform float strokeSize;
 
 in vec3 position;
 in vec4 color;
@@ -15,7 +15,7 @@ in vec3 normal;
 out vec4 vColorG;
 out vec3 vNormalG;
 
-out float strokeWidthG;
+out float strokeSizeG;
 
 void main() {
     gl_Position = model * vec4(position, 1.0);
@@ -28,5 +28,5 @@ void main() {
     
     vNormalG = normal;
     
-    strokeWidthG = strokeWidth;
+    strokeSizeG = strokeSize;
 }

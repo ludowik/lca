@@ -33,7 +33,7 @@ function reset(i)
     vertices:chainIt()
 
     stroke(red)
-    strokeWidth(10)
+    strokeSize(10)
 
     vertices:draw()
 
@@ -126,7 +126,7 @@ function draw()
     end
 
     stroke(white)
-    strokeWidth(1)
+    strokeSize(1)
 
     for i = 1,1000 do
         local point = conf.rule()

@@ -72,7 +72,7 @@
 --	pushMatrix()
 --	translate(xm, ym)
 
---	strokeWidth(12)
+--	strokeSize(12)
 --	m:draw('line2D_strip')
 --	popMatrix()
 
@@ -160,7 +160,7 @@ function UIColor:draw()
     pushMatrix()
     translate(xm, ym)
 
-    strokeWidth(12)
+    strokeSize(12)
     m:draw('line_strip')
     popMatrix()
 

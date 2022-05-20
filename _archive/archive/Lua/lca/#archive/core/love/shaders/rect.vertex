@@ -10,7 +10,7 @@ uniform mat4 modelMatrix;
 uniform vec2 pos;
 uniform vec2 size;
 
-uniform float strokeWidth;
+uniform float strokeSize;
 
 vec4 position(mat4 transform_projection, vec4 vertex_position) {
     vec4 v = vertex_position;

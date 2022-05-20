@@ -193,7 +193,7 @@ function point(...)
     meshPoint.shader = shaders['point']
 
     point = function(x, y)
-        local diameter = max(strokeWidth(), 0)
+        local diameter = max(strokeSize(), 0)
         meshPoint.inst_pos = Buffer('vec3', {vec3(x,y)})
         meshPoint:render(meshPoint.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1)
     end
@@ -205,7 +205,7 @@ function points(vertices, ...)
     if type(vertices) == 'number' then vertices = {vertices, ...} end
 
     if stroke() then
-        local diameter = max(strokeWidth(), 0)
+        local diameter = max(strokeSize(), 0)
         meshPoints.inst_pos = vertices
         meshPoints:render(meshPoints.shader, gl.GL_TRIANGLE_STRIP, nil, 0, 0, Z, diameter, diameter, 1, #meshPoints.inst_pos)
     end

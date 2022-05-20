@@ -11,7 +11,7 @@ function draw()
     sprite('documents:joconde', W/2, H/2, 400, 400)
 
     stroke(red)
-    strokeWidth(2)
+    strokeSize(2)
 
     noFill()
 

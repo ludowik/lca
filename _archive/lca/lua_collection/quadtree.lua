@@ -40,7 +40,7 @@ end
 
 function Quadtree:draw()
     stroke(gray)
-    strokeWidth(1)
+    strokeSize(1)
     noFill()
     rectMode(CORNER)
     rect(self.position.x, self.position.y, self.size.x, self.size.y)

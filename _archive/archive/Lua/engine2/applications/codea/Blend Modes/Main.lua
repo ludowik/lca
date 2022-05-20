@@ -24,7 +24,7 @@ function draw()
     background(69, 80, 96, 255)
 
     -- This sets the line thickness
-    strokeWidth(5)
+    strokeSize(5)
 
     -- This sets the outline & fill colors
     stroke(206, 179, 179, 255)

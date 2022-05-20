@@ -134,7 +134,7 @@ function WinScreen:init(level,starTexs)
     -- stop button 1
     local drawStop = function()
         rectMode(CORNER)
-        strokeWidth(-1)
+        strokeSize(-1)
         fill(255,255,255,100)
         rect(0,0,30,30)
     end

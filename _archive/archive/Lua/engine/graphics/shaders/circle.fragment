@@ -3,7 +3,7 @@ uniform vec3 size;
 uniform vec4 fill;
 uniform vec4 stroke;
 
-uniform float strokeWidth;
+uniform float strokeSize;
 
 in vec2 vTexCoords;
 
@@ -13,7 +13,7 @@ void main() {
         discard;
     }
     
-    float width = strokeWidth + 2.;
+    float width = strokeSize + 2.;
 
     gl_FragColor = fill;
     
@@ -23,7 +23,7 @@ void main() {
     
     float vLen = length(size);
     
-    if (strokeWidth > 0.) {
+    if (strokeSize > 0.) {
         float sEdge = smoothstep(
             vLen - width - 2.,
             vLen - width,

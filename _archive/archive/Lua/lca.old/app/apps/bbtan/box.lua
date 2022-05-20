@@ -23,7 +23,7 @@ function Box:draw()
     clr.b = map(self.collision, 1, level, from.b, to.b)
 
     stroke(clr)
-    strokeWidth(3)
+    strokeSize(3)
 
     pushMatrix()
     do

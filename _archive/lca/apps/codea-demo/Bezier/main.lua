@@ -85,7 +85,7 @@ end
 function DrawBezier(xy_list, p)
     if #xy_list == 0 then return end
     stroke(white)
-    strokeWidth(3)
+    strokeSize(3)
     local x0, y0
     for i = 0, p, BEZIER_STEP do
         local x, y = ReduceChain(xy_list, i)
@@ -139,7 +139,7 @@ function DrawChain(xy_list, r)
     local x0
     local y0
     stroke(255, 100, 0)
-    strokeWidth(1)
+    strokeSize(1)
     fill(255, 100, 0)
     if n_coords == 1 then
     fill(100, 100, 100)

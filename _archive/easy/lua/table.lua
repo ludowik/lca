@@ -114,37 +114,7 @@ function table:random()
     end
 end
 
-function table:call(f, ...)
-    local typeof = type(f)
-    local n = #self
-    for i=1,n do
-        v = self[i]
-        if typeof == "string" then
-            if v[f] then
-                v[f](v, ...)
-            end
-        elseif typeof == "function" then
-            f(v, ...)
-        end
-    end
-    return self
-end
 
-function table:call_index(f, ...)
-    local typeof = type(f)
-    local n = #self
-    for i=1,n do
-        v = self[i]
-        if typeof == "string" then
-            if v[f] then
-                v[f](v, i, ...)
-            end
-        elseif typeof == "function" then
-            f(v, i, ...)
-        end
-    end
-    return self
-end
 
 function table:enumerate()
     local i = 0
@@ -234,13 +204,6 @@ function table:previous(currentItem)
     return table.navigate(self, currentItem, -1, #self)
 end
 
-function table:draw()
-    self:call("draw")
-end
-
-function table:update(dt)
-    self:call("update", dt)
-end
 
 --function table:concat(sep)
 --    assert(sep)

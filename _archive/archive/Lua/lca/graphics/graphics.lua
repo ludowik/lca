@@ -111,11 +111,11 @@ function graphics.stroke(strokeColor, ...)
     return graphics.style.strokeColor
 end
 
-function graphics.strokeWidth(strokeWidth)
-    if strokeWidth then
-        graphics.style.strokeWidth = strokeWidth
+function graphics.strokeSize(strokeSize)
+    if strokeSize then
+        graphics.style.strokeSize = strokeSize
     end
-    return graphics.style.strokeWidth
+    return graphics.style.strokeSize
 end
 
 function graphics.noStroke()

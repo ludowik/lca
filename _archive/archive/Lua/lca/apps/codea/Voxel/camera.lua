@@ -61,7 +61,7 @@ function CameraVoxel:drawCrosshair(w)
     local w = w or 50
     pushMatrix()pushStyle()
     translate(self.lat.x,self.lat.y, self.lat.z)
-    strokeWidth(2)
+    strokeSize(2)
     stroke(38, 255, 0, 255)
     line(-w/2,0,w/2,0)
     stroke(255, 187, 0, 255)

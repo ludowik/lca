@@ -42,12 +42,12 @@ function draw()
 
     function drawRaycast(raycast)
         if raycast then
-            strokeWidth(5)
+            strokeSize(5)
             stroke(red)
             line(
                 raycast.point.x, raycast.point.y,
                 raycast.point.x + raycast.normal.x*10, raycast.point.y + raycast.normal.y*10)
-            strokeWidth(10)
+            strokeSize(10)
             stroke(red)
             point(raycast.point)
         end
@@ -106,7 +106,7 @@ function draw()
 
     -- cursor position
     stroke(blue)
-    strokeWidth(2)
+    strokeSize(2)
     point(CurrentTouch.x, CurrentTouch.y)
 
     line(lmouse:x1(), lmouse:y1(), lmouse:x2(), lmouse:y2())

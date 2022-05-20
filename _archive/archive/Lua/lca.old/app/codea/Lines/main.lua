@@ -26,7 +26,7 @@ function draw()
     stroke(255)
 
     -- Update stroke width
-    strokeWidth(width)
+    strokeSize(width)
 
     if width < 3 or smoothCap == false then
         -- Disable smoothing for low widths

@@ -53,7 +53,7 @@ function Asteroid:draw()
     stroke(white)
 
     noFill()
-    strokeWidth(5)
+    strokeSize(5)
     
     lineCapMode(ROUND)
     

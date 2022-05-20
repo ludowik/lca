@@ -36,6 +36,11 @@ function Color:init(r, g, b, a)
     self.a = a
 end
 
+function Color:set(r, g, b, a)
+    self:init(r, g, b, a)
+    return self
+end
+
 function Color:unpack()
     return self.r, self.g, self.b, self.a
 end
@@ -74,6 +79,14 @@ function Color:grayscale()
         0.587 * self.g +
         0.114 * self.b)
     return Color(gray, gray, gray)
+end
+
+function Color:alpha(a)
+    return Color(
+        self.r,
+        self.g,
+        self.b,
+        a > 1 and a / 255 or a)
 end
 
 function Color.hexa(hexa)

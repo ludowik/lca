@@ -28,7 +28,7 @@ function setupLua(sketchName)
         'frameRate', 'frameCount', 'loop', 'noLoop', 'isLooping', 'redraw',
         'colorMode', 'color', 'hsl',
         'background',
-        'noStroke', 'stroke', 'strokeWeight', 'strokeWidth', 'strokeCap',
+        'noStroke', 'stroke', 'strokeWeight', 'strokeSize', 'strokeCap',
         'noFill', 'fill',
         'noSmooth', 'smooth',
         'push', 'pop', 'scale', 'rotate', 'translate', 'resetMatrix', 'ortho', 'perspective',

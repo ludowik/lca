@@ -37,7 +37,7 @@ function draw()
             len = radius * 8 * (-1)^((n-1)/2) / (n^2 * PI^2)
         end
 
-        strokeWidth(1)
+        strokeSize(1)
         noFill()
         circle(x, y, len)
 
@@ -45,7 +45,7 @@ function draw()
         local py = len * sin(n*angle)
 
         line(x, y, x+px, y+py)
-        strokeWidth(5)
+        strokeSize(5)
         point(x+px, y+py)
 
         x = x + px
@@ -54,7 +54,7 @@ function draw()
 
     vertices:insert(1, vec2(x, y))
 
-    strokeWidth(1)
+    strokeSize(1)
     beginShape()
     do
         vertex(x, y)

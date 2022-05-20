@@ -11,7 +11,7 @@ function setup()
     noFill()
 
     stroke(white)
-    strokeWidth(2)
+    strokeSize(2)
 
     translate(W/2, H/2)
 

@@ -14,7 +14,7 @@ end
 
 -- primitives
 function graphics2d.point(x, y)
-    local w = strokeWidth()
+    local w = strokeSize()
     x, y = center(CENTER, x, y, w, w)
 
     rect(x, y, w, w)    
@@ -24,7 +24,7 @@ function graphics2d.line(x1, y1, x2, y2)
     local dx = x2 - x1
     local dy = y2 - y1
 
-    local dw = strokeWidth()
+    local dw = strokeSize()
     local strokeColor = stroke()
     local mode = lineCapMode()
 
@@ -75,7 +75,7 @@ function graphics2d.rect(x, y, w, h)
         x, y = corner(mode, x, y, w, h)
     end
 
-    local dw = strokeWidth()
+    local dw = strokeSize()
     local dx = dw/2
 
     local strokeColor = stroke()
@@ -112,7 +112,7 @@ function graphics2d.ellipse(x, y, w, h, mode)
         x, y = corner(mode, x, y, w, h)
     end
 
-    local dw = strokeWidth()
+    local dw = strokeSize()
     local dx = dw/2
 
     local strokeColor = stroke()
@@ -148,7 +148,7 @@ function graphics2d.polyline(...)
         x, y = corner(polylineMode(), x, y, w, h)
     end
 
-    local dw = strokeWidth()
+    local dw = strokeSize()
     local dx = dw/2
 
     local strokeColor = stroke()
@@ -177,7 +177,7 @@ function graphics2d.polygon(...)
         x, y = corner(polylineMode(), x, y, w, h)
     end
 
-    local dw = strokeWidth()
+    local dw = strokeSize()
     local dx = dw/2
 
     local strokeColor = stroke()

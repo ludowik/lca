@@ -213,7 +213,7 @@ function initApplication()
             ortho()
 
             stroke(red)
-            strokeWidth(2)
+            strokeSize(2)
             noFill()
             rectMode(CORNER)
             rect(0, 0, w, h)

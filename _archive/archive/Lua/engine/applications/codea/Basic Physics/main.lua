@@ -70,14 +70,14 @@ function drawBody(body)
     pushStyle()
     pushMatrix()
 
-    strokeWidth(5)
+    strokeSize(5)
     stroke(148, 224, 135, 255)
     translate(body.x, body.y)
     rotate(body.angle)
 
     -- Draw body based on shape type
     if body.shapeType == POLYGON then
-        strokeWidth(3.0)
+        strokeSize(3.0)
         local points = body.points
         for j = 1,#points do
             a = points[j]
@@ -86,7 +86,7 @@ function drawBody(body)
         end
         
     elseif body.shapeType == CHAIN or body.shapeType == EDGE then
-        strokeWidth(3.0)
+        strokeSize(3.0)
         local points = body.points
         for j = 1,#points-1 do
             a = points[j]
@@ -95,7 +95,7 @@ function drawBody(body)
         end
         
     elseif body.shapeType == CIRCLE then
-        strokeWidth(3.0)
+        strokeSize(3.0)
         line(0, 0, body.radius-3, 0)
         ellipse(0, 0, body.radius*2)
     end
