@@ -1,5 +1,3 @@
-class 'Object'
-
 class 'Node'
 
 function Node:init()
@@ -80,6 +78,7 @@ function Node:update(dt)
     local items = self:items()
     for i=1,#items do
         local item = items[i]
+        assert(item.update, item.__className)
         item:update(dt)
     end
 end
@@ -97,11 +96,26 @@ class 'Scene' : extends(Node)
 
 class 'UI'
 
+function UI:update(dt)
+end
+
 function UI:draw()
 end
 
 class 'Expression' : extends(UI)
 class 'Slider' : extends(UI)
 class 'Button' : extends(UI)
+class 'ListBox' : extends(UI)
 
 class 'ToolBar' : extends(Node)
+class 'MenuBar' : extends(Node)
+
+class 'Object'
+
+function Object:update(dt)
+end
+
+function Object:draw()
+end
+
+class 'MeshObject' : extends(Object)

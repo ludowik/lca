@@ -259,7 +259,7 @@ function MeshRender:sendUniforms(uniformsLocations)
     uniforms.pos = self.meshPosition
     uniforms.size = self.meshSize
 
-    uniforms.time = ElapsedTime
+    uniforms.time = elapsedTime
 
     uniforms.useColor = self.colors and #self.colors > 0  and 1 or 0
 

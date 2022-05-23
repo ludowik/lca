@@ -24,7 +24,7 @@ function ScrollingTexture:init(imgName,screen,x,y,w,h,z)
 end
 
 function ScrollingTexture:tick()
-    self.texOffset = self.texOffset + DeltaTime * 0.2
+    self.texOffset = self.texOffset + deltaTime * 0.2
     for _,obj in ipairs(self.objs) do
         obj:setRectTex(self.texOffset,self.texOffset,1,1)
     end

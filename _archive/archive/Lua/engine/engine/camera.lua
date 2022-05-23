@@ -43,10 +43,10 @@ function processWheelMoveOnCamera(touch)
     local camera = getCamera()
     if camera then
         if isDown(KEY_FOR_MOUSE_MOVING) then
-            camera:moveSideward(touch.dx, DeltaTime)
-            camera:moveUp(touch.dy, DeltaTime)
+            camera:moveSideward(touch.dx, deltaTime)
+            camera:moveUp(touch.dy, deltaTime)
         else
-            camera:zoom(0, touch.dy, DeltaTime)
+            camera:zoom(0, touch.dy, deltaTime)
         end
     end
 end

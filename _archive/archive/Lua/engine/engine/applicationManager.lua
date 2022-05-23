@@ -147,7 +147,7 @@ function ApplicationManager:loopAppProc(delay)
             self:managerApp()
         end
     else
-        self.loopAppDelay = self.loopAppDelay - DeltaTime
+        self.loopAppDelay = self.loopAppDelay - deltaTime
     end
 end
 

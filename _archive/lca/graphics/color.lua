@@ -34,16 +34,6 @@ function color.hexa(hexa)
     return color(r/255, g/255, b/255)
 end
 
-function color.mix(clr1, clr2, dst)
-    dst = dst or 0.5
-    local src = 1 - dst
-
-    return Color(
-        max(0, clr1.r * src + clr2.r * dst),
-        max(0, clr1.g * src + clr2.g * dst),
-        max(0, clr1.b * src + clr2.b * dst),
-        max(0, clr1.a * src + clr2.a * dst))
-end
 
 function color:reverse()
     return color(

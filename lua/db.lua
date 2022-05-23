@@ -64,17 +64,17 @@ function saveLocalData(key, value)
 end
 
 function readProjectData(key, defaultValue)
-    local path = app.appName..'.data'
+    local path = config.appName..'.data'
     return db.get(path, key, defaultValue)
 end
 
 function clearProjectData()
-    local path = app.appName..'.data'
+    local path = config.appName..'.data'
     db.clear(path)
 end
 
 function saveProjectData(key, value)
-    local path = app.appName..'.data'
+    local path = config.appName..'.data'
     return db.set(path, key, value)
 end
 

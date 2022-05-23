@@ -105,7 +105,7 @@ function update(dt)
 end
 
 function draw()
-    update(DeltaTime)
+    update(deltaTime)
     background(0)
     
     scene:draw()

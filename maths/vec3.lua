@@ -1,5 +1,7 @@
 class 'vec3'
 
+local __sqrt = math.sqrt
+
 function vec3:init(x, y, z)
     if type(x) == 'table' then x, y, z = x.x, x.y, x.z end
     self.x = x or 0
@@ -100,7 +102,7 @@ end
 
 function vec3:__div(coef)
     local invcoef = 1 / coef
-    return vec2(
+    return vec3(
         self.x * invcoef,
         self.y * invcoef,
         self.z * invcoef)
@@ -112,6 +114,27 @@ function vec3:div(coef)
     self.y = self.y * invcoef
     self.z = self.z * invcoef
     return self
+end
+
+function vec3:len()
+    return __sqrt(
+        self.x^2 +
+        self.y^2 +
+        self.z^2)
+end
+
+function vec3:lenSquared()
+    return 
+        self.x^2 +
+        self.y^2 +
+        self.z^2
+end
+
+function vec3:dist(v)
+    return __sqrt(
+        (v.x - self.x)^2 +
+        (v.y - self.y)^2 +
+        (v.z - self.z)^2)
 end
 
 function vec3:normalize(norm)

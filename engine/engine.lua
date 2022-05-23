@@ -10,7 +10,7 @@ function Engine.load()
     setupWindow()
 
     resetMatrix()
-    resetStyles()
+    resetStyle()
 
     loadApps()
 
@@ -56,7 +56,7 @@ function Engine.render(f, x, y)
     if not f then return end
 
     resetMatrix()
-    resetStyles()
+    resetStyle()
 
     if x then
         translate(x, y)
@@ -217,7 +217,7 @@ mouse = {
     ty = 0,
 }
 
-function mouseevent(state, x, y)
+function mouseevent(state, x, y, button)
     mouse.state = state
 
     if state == PRESSED then
@@ -242,11 +242,13 @@ function mouseevent(state, x, y)
 
     mouse.tx = mouse.tx + mouse.dx
     mouse.ty = mouse.ty + mouse.dy
+
+    mouse.button = button or mouse.button or 0
 end
 
 local xBegin, yBegin
 function Engine.mousepressed(x, y, button, istouch, presses)
-    mouseevent(PRESSED, x, y)    
+    mouseevent(PRESSED, x, y, button)    
     xBegin, yBegin = x, y
 
     callApp('mousepressed', mouse)
@@ -257,7 +259,7 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
     mouseevent(MOVED, x, y)
 
     callApp('mousemoved', mouse)
-    if istouch then
+    if istouch or love.mouse.isDown(mouse.button) then
         callApp('touched', mouse)
     end
 end
@@ -311,4 +313,3 @@ end
 function displayMode()
     -- TODO
 end
-

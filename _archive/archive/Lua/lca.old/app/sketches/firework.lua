@@ -26,7 +26,7 @@ function Firework:draw()
         self.particles:add(particle)
     end
 
-    self.particles:update(DeltaTime)
+    self.particles:update(deltaTime)
     self.particles:draw()
 end
 

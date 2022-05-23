@@ -2,7 +2,14 @@ local __max = math.max
 
 if true then 
     class 'Buffer' : extends(table)
-    
+
+    function Buffer.setup()
+        Buffer.initializer = {
+            vec3 = vec3,
+            float = function () return 0 end
+        }
+    end
+
     function Buffer:init(dataType, buf)
         self.dataType = dataType
         if buf then
@@ -11,26 +18,21 @@ if true then
             end
         end
     end
-    
+
     function Buffer:alloc(n)
         for i=1,n do
-            self[i] = self[i] or initializer[self.dataType]()
+            self[i] = self[i] or Buffer.initializer[self.dataType]()
         end
         return self
     end
-    
+
     function Buffer:resize(n)
         for i=1,n do
-            self[i] = self[i] or initializer[self.dataType]()
+            self[i] = self[i] or Buffer.initializer[self.dataType]()
         end
         return self
     end
-    
-    initializer = {
-            vec3 = vec3,
-            float = function () return 0 end
-        }
-    
+
     return 
 end
 

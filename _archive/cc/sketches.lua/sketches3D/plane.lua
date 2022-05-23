@@ -31,7 +31,7 @@ function draw()
         plane:RollLevel() 
     end
     local p=plane:Move(vec3(0,0,-speed)) --velocity vector
-    pos=pos+p*DeltaTime --calculate new position
+    pos=pos+p*deltaTime --calculate new position
     plane:SetCamera(pos,camSettings[Camera][1],camSettings[Camera][2])
     sky:draw(pos)
     plane:draw(pos)
@@ -271,7 +271,7 @@ end
  
 function JoyStick:update()
     local p = self.target - self.position
-    if p:len() < DeltaTime * self.mspeed then
+    if p:len() < deltaTime * self.mspeed then
         self.position = self.target
         if not self.touch then
             if self.moving ~= 0 then
@@ -281,7 +281,7 @@ function JoyStick:update()
             self.moving = 2
         end
     else
-        self.position = self.position + p:normalize() * DeltaTime * self.mspeed
+        self.position = self.position + p:normalize() * deltaTime * self.mspeed
         self.moving = 2
     end
     local v=self.position/(self.radius - self.stick)

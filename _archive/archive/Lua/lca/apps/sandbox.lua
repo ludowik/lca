@@ -41,7 +41,7 @@ function draw()
     background()
 
     for i,star in ipairs(stars) do
-        star:update(DeltaTime)
+        star:update(deltaTime)
         if star:isOut() then
 --            stars:remove(i)
             star:init(random(W), random(H))

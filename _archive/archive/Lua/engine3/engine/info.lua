@@ -37,7 +37,7 @@ function Info:drawInfo()
     textMode(CORNER)
 
     self:info('fps', engine.frameTime.fps..' / '..engine.frameTime.fpsTarget)
-    self:info('fizix', formatPercent(env.physics.elapsedTime / ElapsedTime))
+    self:info('fizix', formatPercent(env.physics.elapsedTime / elapsedTime))
     self:info('os', jit.os)
     self:info('jit version', jit.version)
     self:info('debugging', debugging())

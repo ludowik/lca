@@ -158,7 +158,7 @@ main(int argc, char *argv[])
     done = 0;
     while (!done) {
         SDL_Event event;
-        double deltaTime = updateDeltaTime();
+        double deltaTime = updatedeltaTime();
 
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {

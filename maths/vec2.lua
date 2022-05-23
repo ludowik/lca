@@ -1,6 +1,6 @@
 class 'vec2'
 
-local __sqrt = math.sqrt
+local __cos, __sin, __sqrt, __atan2 = math.cos, math.sin, math.sqrt, math.atan2
 
 function vec2:init(x, y)
     if type(x) == 'table' then x, y, z = x.x, x.y end
@@ -30,6 +30,12 @@ function vec2.random(w, h)
     return vec2(
         random(w),
         random(h))
+end
+
+function vec2.randomInScreen()
+    return vec2(
+        random(W),
+        random(H))
 end
 
 function vec2:__tostring()
@@ -127,6 +133,28 @@ function vec2:normalizeInPlace(norm)
 end
 
 function vec2:rotate(phi, origin)
+    local v = self:clone()
+    local c, s = __cos(phi), __sin(phi)
+
+    if origin then
+        v:sub(origin)
+    end
+
+    local x, y
+    x = c * v.x - s * v.y
+    y = s * v.x + c * v.y
+
+    v.x = x
+    v.y = y
+
+    if origin then
+        v:add(origin)
+    end
+
+    return v
+end
+
+function vec2:rotateInPlace(phi, origin)
     local c, s = __cos(phi), __sin(phi)
 
     if origin then

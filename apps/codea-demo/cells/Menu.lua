@@ -8,8 +8,8 @@ end
 function Menu:layout()
     for i,command in ipairs(self) do
         command.target = vec2(
-            W-layout.safeArea.right-command.size.x/2, 
-            H/2+(command.size.y+20)*(0.5+#self/2-i))
+            W - safeArea.right - command.size.x / 2,
+            H / 2 + (command.size.y + 20) * (0.5 + #self / 2 - i))
     end  
 end
 
@@ -24,8 +24,8 @@ function Command:init(label, f)
 
     self.size = vec2(textSize(label)) * 2
     self.position = vec2(
-        W-layout.safeArea.right,
-        H/2)
+        W - safeArea.right,
+        H / 2)
 
     self.f = f
 end

@@ -110,8 +110,8 @@ function love.load()
     WindowsManager.menu.scene:add(Button('Test', function () app.autotest = true end))
     WindowsManager.menu.scene:add(Button('Debug', function () debugStop() end))
 
-    ElapsedTime = 0
-    DeltaTime = 0
+    elapsedTime = 0
+    deltaTime = 0
 
     loadApp(db.get('lca', 'appName', 'apps/apps'))
 
@@ -136,8 +136,8 @@ function love.update(dt)
     if app.loop == 'noloop' then return end
     if app.loop == 'redraw' then app.loop = 'noloop' end
 
-    ElapsedTime = ElapsedTime + dt
-    DeltaTime = dt
+    elapsedTime = elapsedTime + dt
+    deltaTime = dt
 
 --    TweensManager.update(dt)
 

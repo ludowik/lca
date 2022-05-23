@@ -1,4 +1,4 @@
-Collision = class()
+class 'Collision'
 
 function distFromPoint2Segment(x, y, x1, y1, x2, y2)
     local A = x - x1

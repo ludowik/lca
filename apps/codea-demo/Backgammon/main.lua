@@ -1,3 +1,6 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
+
 -- Project: Backgammon
 -- Author and (c): frosty
 -- Link: http://twolivesleft.com/Codea/Talk/discussion/835/backgammon/p1
@@ -9,25 +12,25 @@ CTYPE_BLACK = 1
 CTYPE_PLACEWHITE = 2
 CTYPE_PLACEBLACK = 3
 
-Counter = class('counter')
+Counter = class()
 
 function Counter:init(x, y, t)
     self.pos = vec2(x,y)
     self.selected = false
-    self.c = color(255, 0, 0, 255)
+    self.c = Color(255, 0, 0, 255)
     self:changeType(t)
 end
 
 function Counter:changeType(type)
     self.t = type
     if self.t == CTYPE_WHITE then
-        self.c = color(222, 222, 222, 255)
+        self.c = Color(222, 222, 222, 255)
     elseif self.t == CTYPE_BLACK then
-        self.c = color(21, 21, 21, 255)
+        self.c = Color(21, 21, 21, 255)
     elseif self.t == CTYPE_PLACEWHITE then
-        self.c = color(221, 221, 221, 37)
+        self.c = Color(221, 221, 221, 37)
     elseif self.t == CTYPE_PLACEBLACK then
-        self.c = color(21, 21, 21, 147)
+        self.c = Color(21, 21, 21, 147)
     end
 end
 
@@ -52,7 +55,7 @@ function Counter:touched(touch)
 end
 
 --# Dice
-Dice = class('dice')
+Dice = class()
 
 DICEWIDTH = 60
 
@@ -65,7 +68,7 @@ end
 
 function Dice:draw()
     if self.rolling then
-        self.delay = self.delay + DeltaTime
+        self.delay = self.delay + deltaTime
         if self.delay > 0.1 then
             self.value = math.random(1,6)
             self.delay = 0
@@ -135,7 +138,7 @@ function Dice:toggle()
 end
 
 --# Tri
-Tri = class('tri')
+Tri = class()
 
 function Tri:init(x, y, c, down)
     self.pos = vec2(x, y)
@@ -241,7 +244,7 @@ function Tri:draw()
     end
 
     if (self.selected) then
-        self.m:setColors(color(0,255,0,255))
+        self.m:setColors(Color(0,255,0,255))
         zLevel(100)
     else
         self.m:setColors(self.c)
@@ -271,7 +274,7 @@ function Tri:draw()
 end
 
 --# CenterRect
-CenterRect = class('centerrect', Tri)
+CenterRect = class(Tri)
 
 function CenterRect:init(x, y, c)
     self.pos = vec2(x, y)
@@ -324,38 +327,38 @@ function setup()
     dice1 = Dice((WIDTH/2)-50, HEIGHT/2)
     dice2 = Dice((WIDTH/2)+50, HEIGHT/2)
 
-    pool1 = CenterRect(WIDTH/4, HEIGHT/2, color(46, 46, 46, 255))
-    pool2 = CenterRect(3*(WIDTH/4), HEIGHT/2, color(232, 17, 7, 255))
+    pool1 = CenterRect(WIDTH/4, HEIGHT/2, Color(46, 46, 46, 255))
+    pool2 = CenterRect(3*(WIDTH/4), HEIGHT/2, Color(232, 17, 7, 255))
 
     trimesh = mesh()
     trimesh.vertices = {vec2(-0.5, 0), vec2(0.5, 0), vec2(0, 4) }
 
     tris = {}
     for i = 1,12,4 do
-        local t = Tri(40*i, 0, color(232, 17, 7, 255) )
+        local t = Tri(40*i, 0, Color(232, 17, 7, 255) )
         table.insert(tris, t)
 
-        local t2 = Tri((40*i)+80, 0, color(46, 46, 46, 255) )
+        local t2 = Tri((40*i)+80, 0, Color(46, 46, 46, 255) )
         table.insert(tris, t2)
 
-        local tt = Tri(40*i, HEIGHT, color(46, 46, 46, 255), true )
+        local tt = Tri(40*i, HEIGHT, Color(46, 46, 46, 255), true )
         table.insert(tris, tt)
 
-        local tt2 = Tri((40*i)+80, HEIGHT, color(232, 17, 7, 255), true )
+        local tt2 = Tri((40*i)+80, HEIGHT, Color(232, 17, 7, 255), true )
         table.insert(tris, tt2)
     end
 
     for i = 1,12,4 do
-        local t = Tri(544 + (40*i), 0, color(232, 17, 7, 255) )
+        local t = Tri(544 + (40*i), 0, Color(232, 17, 7, 255) )
         table.insert(tris, t)
 
-        local t2 = Tri(544 + (40*i)+80, 0, color(46, 46, 46, 255) )
+        local t2 = Tri(544 + (40*i)+80, 0, Color(46, 46, 46, 255) )
         table.insert(tris, t2)
 
-        local tt = Tri(544 + (40*i), HEIGHT, color(46, 46, 46, 255), true)
+        local tt = Tri(544 + (40*i), HEIGHT, Color(46, 46, 46, 255), true)
         table.insert(tris, tt)
 
-        local tt2 = Tri(544 + (40*i)+80, HEIGHT, color(232, 17, 7, 255) , true)
+        local tt2 = Tri(544 + (40*i)+80, HEIGHT, Color(232, 17, 7, 255) , true)
         table.insert(tris, tt2)
     end
 

@@ -1,4 +1,8 @@
-function setup()
+function setup()    
+    app = env
+    app.ui = Scene()
+    app.scene = Scene()
+    
     createUI()
 
     local modelName = readProjectData('modelName', 'teapot')
@@ -116,7 +120,7 @@ function setModelName(modelName)
 
 --    model.shader = model.shader or shaders['model3d']
 
-    setModel(model:normalize(2):center(), keepColor)
+    setModel(Mesh(model):normalize(2):center(), keepColor)
 
     saveProjectData('modelName', modelName)
 end

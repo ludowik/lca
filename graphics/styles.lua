@@ -1,6 +1,6 @@
 local styles
 
-function resetStyles()
+function resetStyle()
     styles = table()
     
     textPosition = 0
@@ -39,48 +39,67 @@ MULTIPLY = 'multiply'
 
 function blendMode(mode, alphamode)
     if mode then
-        styles._blendMode = mode
-        styles._blendAlphaMode = alphamode
+        styles.blendMode = mode
+        styles.blendAlphaMode = alphamode
 
         love.graphics.setBlendMode(mode,
             mode == MULTIPLY and 'premultiplied' or alphamode)
     end
-    return styles._blendMode
+    return styles.blendMode
 end
 
 CORNER = 'corner'
 CENTER = 'center'
 
+LEFT = 'left'
+
+ROUND = 'round'
+
 function textMode(mode)
-    styles._textMode = mode or styles._textMode or CORNER
-    return styles._textMode
+    styles.textMode = mode or styles.textMode or CORNER
+    return styles.textMode
+end
+
+function textAlign(alignMode)
+    styles.alignMode = alignMode or styles.alignMode or LEFT
+    return styles.alignMode
+end
+
+function textWrapWidth(wrapWidth)
+    styles.wrapWidth = wrapWidth or 1
+    return styles.wrapWidth
+end
+
+function lineCapMode(mode)
+    styles.lineCapMode = mode or styles.lineCapMode or ROUND
+    return styles.lineCapMode
 end
 
 function rectMode(mode)
-    styles._rectMode = mode or styles._rectMode or CORNER
-    return styles._rectMode
+    styles.rectMode = mode or styles.rectMode or CORNER
+    return styles.rectMode
 end
 
 function circleMode(mode)
-    styles._circleMode = mode or styles._circleMode or CENTER
-    return styles._circleMode
+    styles.circleMode = mode or styles.circleMode or CENTER
+    return styles.circleMode
 end
 
 function ellipseMode(mode)
-    styles._ellipseMode = mode or styles._ellipseMode or CENTER
-    return styles._ellipseMode
+    styles.ellipseMode = mode or styles.ellipseMode or CENTER
+    return styles.ellipseMode
 end
 
 function spriteMode(mode)
-    styles._spriteMode = mode or styles._spriteMode or CENTER
-    return styles._spriteMode
+    styles.spriteMode = mode or styles.spriteMode or CENTER
+    return styles.spriteMode
 end
 
 function textColor(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
     
-    styles._textColor = clr or styles._textColor or colors.white
-    return styles._textColor
+    styles.textColor = clr or styles.textColor or colors.white
+    return styles.textColor
 end
 
 function noStroke()
@@ -90,54 +109,58 @@ end
 function stroke(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
     
-    styles._strokeColor = clr or styles._strokeColor
-    return styles._strokeColor
+    styles.strokeColor = clr or styles.strokeColor
+    return styles.strokeColor
 end
 
 function strokeSize(size)
-    styles._strokeSize = size or styles._strokeSize or 1
-    return styles._strokeSize
+    styles.strokeSize = size or styles.strokeSize or 1
+    return styles.strokeSize
 end
 
 function noFill()
-    styles._fillColor = nil
+    styles.fillColor = nil
 end
 
 function fill(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
     
-    styles._fillColor = clr or styles._fillColor
-    return styles._fillColor
+    styles.fillColor = clr or styles.fillColor
+    return styles.fillColor
 end
 
 function depthMode(mode)
     if mode ~= nil then
-        styles._depthMode = mode 
+        styles.depthMode = mode 
 
-        if styles._depthMode then
+        if styles.depthMode then
             love.graphics.setDepthMode('lequal', true)
         else
             love.graphics.setDepthMode('always', false)
         end
     end
-    return styles._depthMode
+    return styles.depthMode
 end
 
 function cullingMode(mode)
     if mode ~= nil then
-        styles._cullingMode = mode
+        styles.cullingMode = mode
 
-        if styles._cullingMode then
+        if styles.cullingMode then
             love.graphics.setMeshCullMode('back')
             love.graphics.setFrontFaceWinding('ccw')
         else
             love.graphics.setMeshCullMode('none')
         end
     end
-    return styles._cullingMode
+    return styles.cullingMode
 end
 
 function light()
+    -- TODO
+end
+
+function noLight()
     -- TODO
 end
 
@@ -158,5 +181,13 @@ function tint()
 end
 
 function noTint()
+    -- TODO
+end
+
+function smooth()
+    -- TODO
+end
+
+function noSmooth()
     -- TODO
 end

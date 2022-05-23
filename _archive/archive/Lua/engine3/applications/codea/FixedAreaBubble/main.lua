@@ -46,11 +46,11 @@ end
 
 function draw()
     respondToEvents()
-    integrate(DeltaTime)
+    integrate(deltaTime)
     constrainEdges()
     collideWithWalls()
     collideWithTouch()
-    updateTouch(DeltaTime)
+    updateTouch(deltaTime)
 
     background(0)
     fill(255)

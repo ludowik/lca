@@ -11,7 +11,7 @@ function show(o, x, y)
     o[show] = true
 
     x = x or 10
-    y = y or (H-layout.safeArea.top)
+    y = y or (H - safeArea.top)
 
     fill(255)
     fontSize(12)

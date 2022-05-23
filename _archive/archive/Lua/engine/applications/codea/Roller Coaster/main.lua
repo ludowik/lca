@@ -82,7 +82,7 @@ function draw()
     perspective(45,WIDTH/HEIGHT)
     if paused ~= nil then
         if not paused then
-            time = time + speed*DeltaTime
+            time = time + speed*deltaTime
         end
 
         local pos = trackFunction(time)

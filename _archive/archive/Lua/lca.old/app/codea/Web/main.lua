@@ -270,7 +270,7 @@ function Sphere:move()
     -- self auto rotation
     if self.tRot then
         local ay
-        ay = self.ay + 360 * DeltaTime / self.tRot
+        ay = self.ay + 360 * deltaTime / self.tRot
         if ay >  180 then ay = ay - 360 end
         if ay < -180 then ay = ay + 360 end
         self.ay = ay
@@ -283,7 +283,7 @@ function Sphere:move()
             v1.y,0,0,0,
             v1.z,0,0,0,
             0,   0,0,0 )
-        local phi =  360 * DeltaTime / self.tRot2
+        local phi =  360 * deltaTime / self.tRot2
         m = m:rotate(phi,phiAxis[1],phiAxis[2],phiAxis[3])
         local x,y,z
         x = m[1]
@@ -441,7 +441,7 @@ end
 
 function FPS:draw()
     -- update FPS value with some smoothing
-    self.val = self.val*0.9+ 1/(DeltaTime)*0.1
+    self.val = self.val*0.9+ 1/(deltaTime)*0.1
     -- write the FPS on the screen
     fill(COLOR)
     fontSize(30)

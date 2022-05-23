@@ -174,49 +174,8 @@ function Model.gravityCenter(vertices)
     end
 end
 
-function Model.minmax(vertices)
-    local minVertex = vec3( math.MAX_INTEGER,  math.MAX_INTEGER)
-    local maxVertex = vec3(-math.MAX_INTEGER, -math.MAX_INTEGER)
 
-    for i=1,#vertices do
-        local v = vertices[i]
 
-        minVertex.x = min(minVertex.x, v.x)
-        minVertex.y = min(minVertex.y, v.y)
-        minVertex.z = min(minVertex.z, v.z or 0)
-
-        maxVertex.x = max(maxVertex.x, v.x)
-        maxVertex.y = max(maxVertex.y, v.y)
-        maxVertex.z = max(maxVertex.z, v.z or 0)
-    end
-
-    return minVertex, maxVertex, maxVertex-minVertex
-end
-
-function Model.center(vertices)
-    local minVertex, maxVertex, size = Model.minmax(vertices)
-
-    local v = minVertex + size / 2
-    for i=1,#vertices do
-        vertices[i] = vertices[i] - v
-    end
-
-    return vertices
-end
-
-function Model.normalize(vertices, norm)
-    norm = norm or 1
-
-    local minVertex, maxVertex, size = Model.minmax(vertices)
-
-    norm = norm / ((size.x + size.y + size.z) / 3)
-
-    for i=1,#vertices do
-        vertices[i] = vertices[i] * norm
-    end
-
-    return vertices
-end
 
 function Model.transform(vertices, matrix)
     for i=1,#vertices do
@@ -272,32 +231,6 @@ function Model.scaleAndTranslateAndRotate(vertices, x, y, z, w, h, e, ax, ay, az
     m5 = m:scale(w, h, e)
 
     return Model.transform(vertices:clone(), m1*m2*m3*m4*m5)
-end
-
-function meshAddVertex(vertices, v)
-    vertices:insert(v)
-end
-
-function meshAddTriangle(vertices, v1, v2, v3)
-    vertices:insert(v1)
-    vertices:insert(v2)
-    vertices:insert(v3)
-end
-
-function meshAddRect(vertices, v1, v2, v3, v4)
-    vertices:insert(v1)
-    vertices:insert(v2)
-    vertices:insert(v3)
-
-    vertices:insert(v1)
-    vertices:insert(v3)
-    vertices:insert(v4)
-end
-
-function meshSetTriangleColors(colors, clr)
-    meshAddVertex(colors, clr)
-    meshAddVertex(colors, clr)
-    meshAddVertex(colors, clr)
 end
 
 function Model.point(x, y)
@@ -478,88 +411,9 @@ function Model.tetrahedron(x, y, z, w, h, d)
         Model.computeNormals(vertices_tetra))
 end
 
-function positionAndSize(x, y, z, w, h, d, size)
-    if w then
-        x = x or 0
-        y = y or 0
-        z = z or 0
 
-        w = w or size
-        h = h or w
-        d = d or w
 
-    elseif x then
-        w = x or size
-        h = y or w
-        d = z or w
 
-        x = 0
-        y = 0
-        z = 0
-
-    else
-        x = 0
-        y = 0
-        z = 0
-
-        w = 1
-        h = 1
-        d = 1
-    end
-
-    return x, y, z, w, h, d
-end
-
-function Model.sphere(x, y, z, w, h, d)
-    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
-
-    local hw, hh, hd = w/2, h/2, d/2
-
-    local vertices = Buffer('vec3')
-
-    local function coord(x, y, z, w, h, d, phi, theta)
-        phi = rad(phi)
-        theta = rad(theta)
-
-        return vec3(
-            x + hw * cos(phi) * sin(theta),
-            y + hh * cos(phi) * cos(theta),
-            z + hd * sin(phi))
-    end
-
-    local faces = 0
-    local delta = (debugging() and 45) or 2
-
-    local v1, v2, v3, v4
-    for theta = 0, 360-delta, delta do
-        for phi = 90, 270-delta, delta do
-            v1 = coord(x, y, z, w, h, d, phi, theta)
-            v2 = coord(x, y, z, w, h, d, phi, theta+delta)
-            v3 = coord(x, y, z, w, h, d, phi+delta, theta+delta)
-            v4 = coord(x, y, z, w, h, d, phi+delta, theta)
-
-            meshAddRect(vertices,
-                v1,
-                v2,
-                v3,
-                v4)
-
-            faces = faces + 1
-        end
-    end
-
-    local texCoords = Buffer('vec2')
-    for s = 1, faces do
-        texCoords:addItems(texCoords_face)
-    end
-
-    local normals = Buffer('vec3')
-    for i = 1, #vertices do
-        normals[i] = vertices[i]:normalize()
-    end
-
-    return Model.mesh(vertices, texCoords, normals)
-end
 
 function Model.pyramid(w, h, d)
     w = w or 1
@@ -947,6 +801,7 @@ function Model.random.polygon(r, rmax)
 
     return vertices
 end
+
 function Model.load(fileName, normalize)
     local m = loadObj(fileName)
     if m then

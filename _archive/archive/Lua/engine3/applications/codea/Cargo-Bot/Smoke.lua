@@ -28,7 +28,7 @@ function Smoke:init(x,y,screen)
 end
 
 function Smoke:tick()
-    self.life = self.life + DeltaTime
+    self.life = self.life + deltaTime
     local l = self.life/self.maxLife
     local alpha = 1
     local startFade = 0.75
@@ -38,10 +38,10 @@ function Smoke:tick()
 
     if alpha > 0 then
         for _,obj in ipairs(self.particles) do
-            obj:setSize(obj:getW()+50*DeltaTime,obj:getH()+50*DeltaTime)
-            local dpos = obj.velocity * DeltaTime
+            obj:setSize(obj:getW()+50*deltaTime,obj:getH()+50*deltaTime)
+            local dpos = obj.velocity * deltaTime
             obj:translate(dpos.x,dpos.y)
-            obj:setAngle(obj:getAngle()+180*DeltaTime)
+            obj:setAngle(obj:getAngle()+180*deltaTime)
             obj:setTint(color(255,255,255,alpha*255))
         end
     else

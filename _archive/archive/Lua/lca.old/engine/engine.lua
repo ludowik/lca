@@ -136,8 +136,8 @@ function initEngine()
 
     ut:run()
 
-    DeltaTime = 0
-    ElapsedTime = 0
+    deltaTime = 0
+    elapsedTime = 0
 
     engine = engine or {}
 
@@ -303,8 +303,8 @@ function lca.update(dt)
     resetStyle()
     resetMatrix(true)
 
-    DeltaTime = dt
-    ElapsedTime = ElapsedTime + dt
+    deltaTime = dt
+    elapsedTime = elapsedTime + dt
 
     if config.profiling and Profiler then
         if Profiler.frame == nil then

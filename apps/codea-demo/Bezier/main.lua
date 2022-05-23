@@ -1,3 +1,6 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
+
 -- Project: Bezier
 -- Author : Codeslinger
 -- License: Public Domain

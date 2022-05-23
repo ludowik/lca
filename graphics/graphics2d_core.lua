@@ -223,6 +223,77 @@ function Graphics.createShader()
     shaders['shader3D'] = Graphics.shader3D
 end
 
+function Model_setColors(colors, clr)
+    for i=#colors-5,#colors do
+        colors[i][4+2] = clr.r
+        colors[i][5+2] = clr.g
+        colors[i][6+2] = clr.b
+        colors[i][7+2] = clr.a
+    end
+end
+
+function Model_box(x, y, z, w, h, d)
+    x, y, z, w, h, d = x or 0, y or 0, z or 0, w or 1, h or 1, d or 1
+    
+    local vertices = {}
+
+    -- front
+    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
+    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
+    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+    Model_setColors(vertices, colors.green)
+
+    -- back
+    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
+    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
+    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
+    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+    Model_setColors(vertices, colors.yellow)
+
+    -- left
+    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
+    Model_setColors(vertices, colors.orange)
+
+    -- right
+    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
+    Model_setColors(vertices, colors.red)
+
+    -- up
+    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
+    Model_setColors(vertices, colors.white)
+
+    -- down
+    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
+    Model_setColors(vertices, colors.blue)
+
+    return vertices
+end
+
 function Graphics.box(x, y, z, w, h, d)
     Graphics.createShader()
     
@@ -234,7 +305,7 @@ function Graphics.box(x, y, z, w, h, d)
             {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
         }
 
-        local vertices = Model.box(x, y, z, w, h, d)
+        local vertices = Model_box(x, y, z, w, h, d)
         Graphics.boxMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
     end
 
@@ -275,7 +346,7 @@ function Graphics.sphere(x, y, z, r)
             {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
         }
 
-        local vertices = Model.box(x, y, z, w, h, d)
+        local vertices = Model_box(x, y, z, w, h, d)
         Graphics.sphereMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
     end
 

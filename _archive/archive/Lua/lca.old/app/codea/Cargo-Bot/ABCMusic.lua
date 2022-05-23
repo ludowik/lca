@@ -790,7 +790,7 @@ function ABCMusic:play()
    ABCMusic:timer(0,"x=2")
     -- This normalises the tempo to smooth out lag between cumlative frames.  Meant to be the
     -- same idea for smoothing out animation under variable processing loads.
-    self.timeElapsedSinceLastNote = self.timeElapsedSinceLastNote + DeltaTime
+    self.timeElapsedSinceLastNote = self.timeElapsedSinceLastNote + deltaTime
     
     -- If there is still a tune and it's time for the next set of notes
     if gnDurationSeconds <= self.timeElapsedSinceLastNote 
@@ -1003,7 +1003,7 @@ function ABCMusic:preCachePlay()
     if cachedIdx >= #gPreCacheSoundTable then return true end
     
     -- is it time to cache a new sound?
-    if ElapsedTime > nextT then
+    if elapsedTime > nextT then
         cachedIdx = cachedIdx + 1
         --print("caching",self.cachedIdx)
         ABCMusic:adjustSoundBufferSize()
@@ -1053,7 +1053,7 @@ function ABCMusic:timer(seconds, code)
         end
         
         if self.timerSeconds ~= nil then  
-            self.time = self.time + DeltaTime
+            self.time = self.time + deltaTime
         end
 end
 

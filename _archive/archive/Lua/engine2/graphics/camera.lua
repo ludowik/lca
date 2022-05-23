@@ -226,10 +226,10 @@ end
 
 function Camera:processWheelMoveOnCamera(touch)
     if self:getMode() == CAMERA_MODEL then
-        self:moveSideward(touch.dx, DeltaTime)
-        self:moveUp(touch.dy, DeltaTime)
+        self:moveSideward(touch.dx, deltaTime)
+        self:moveUp(touch.dy, deltaTime)
     else
-        self:zoom(0, touch.dy, DeltaTime)
+        self:zoom(0, touch.dy, deltaTime)
     end
 end
 

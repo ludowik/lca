@@ -1,3 +1,6 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
+
 -- Blend Modes
 function setup()
     print("This demonstrates blending modes. Blend modes determine how drawing operations blend together on-screen.")

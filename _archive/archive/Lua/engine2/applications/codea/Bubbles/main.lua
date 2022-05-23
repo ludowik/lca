@@ -43,7 +43,7 @@ end
 
 -- This function updates all the bubbles in the system
 function Bubbles:update()
-    local dt = DeltaTime * 60
+    local dt = deltaTime * 60
     -- Loop through bubbles
     for k,v in pairs(self.bubbles) do
         -- Add direction of bubble to its

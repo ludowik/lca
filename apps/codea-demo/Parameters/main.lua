@@ -1,3 +1,6 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
+
 -- Parameters
 
 -- This example shows off the functionality of the viewer sidebar
@@ -44,7 +47,7 @@ function setup()
     -- This is an integer parameter, similar to a number parameter
     -- but you don't get the decimal component
     -- Its range is -5 to 5
-    parameter.number("strokeSize", 0, 10, 5)
+    parameter.number("strokeWidth", 0, 10, 5)
 end
 
 function colorChanged(c)
@@ -61,7 +64,7 @@ function draw()
     -- Set up a nice large white font
     fill(255)
     fontSize(40)
-    font("AmericanTypewriter-Bold")
+    fontName("AmericanTypewriter-Bold")
     textWrapWidth(WIDTH)
 
     -- Draw text using the 'TitleText' parameter exposed
@@ -72,9 +75,9 @@ function draw()
     --  defined in setup()
     fill(CircleColor)
 
-    -- Use the integer parameter 'strokeSize' to control our
+    -- Use the integer parameter 'strokeWidth' to control our
     --  strokeSize()
-    strokeSize(strokeSize * 2)
+    strokeSize(strokeWidth * 2)
 
     -- Use the boolean parameter 'HasStroke' to disable
     --  the stroke

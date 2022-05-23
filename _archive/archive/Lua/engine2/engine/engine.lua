@@ -75,8 +75,8 @@ function Engine:on(event, key, callback)
 end
 
 function Engine:initialize()
-    DeltaTime = 0
-    ElapsedTime = 0
+    deltaTime = 0
+    elapsedTime = 0
 
     FrameCount = 0
 
@@ -177,18 +177,18 @@ function Engine:frame(forceDraw)
 
         renderer:saveDefaultContext()
 
-        DeltaTime = self.frameTime.deltaTimeAccum
-        ElapsedTime = self.frameTime.elapsedTime
+        deltaTime = self.frameTime.deltaTimeAccum
+        elapsedTime = self.frameTime.elapsedTime
 
         FrameCount = FrameCount + 1
 
-        self:update(DeltaTime)
+        self:update(deltaTime)
         self:draw()
 
         self.frameTime:__update()
         self.frameTime:__draw()
 
-        self.frameTime.deltaTimeAccum = self.frameTime.deltaTimeAccum - DeltaTime
+        self.frameTime.deltaTimeAccum = self.frameTime.deltaTimeAccum - deltaTime
 
     end
 end

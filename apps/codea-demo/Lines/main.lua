@@ -1,3 +1,5 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
 
 function setup()
     -- Expose parameters to control our line

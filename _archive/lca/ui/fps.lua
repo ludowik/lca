@@ -17,7 +17,7 @@ function Fps:init()
 end
 
 function Fps:update(dt)
-    dt = dt or DeltaTime
+    dt = dt or deltaTime
 
     if self.count == config.framerate then
         self.deltaTime = self.deltaTime / self.count

@@ -24,7 +24,7 @@ local fade
 
 -- This function gets called once every frame
 function draw()
-    fps = 1/DeltaTime
+    fps = 1/deltaTime
     background(40, 40, 50)
     strokeSize(5)
 
@@ -110,7 +110,7 @@ function Player:draw()
     if self.hit == true then self:hurt() end
     pushMatrix()
     pushStyle()
-    self.bounce = math.sin(ElapsedTime*10)*3
+    self.bounce = math.sin(elapsedTime*10)*3
     translate(self.x+self.bounce,self.y+self.bounce)
     noFill()
     strokeSize(7)

@@ -1,9 +1,11 @@
 local classes = {}
 
 function class(className)
+    assert(className and type(className) == 'string')
+    
     local k = table()
     k.__index = k
-    k.__className = className or 'unknown'
+    k.__className = className
 
     table.insert(classes, k)
 

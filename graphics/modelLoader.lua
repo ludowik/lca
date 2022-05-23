@@ -1,3 +1,7 @@
+function getModelPath()
+    return 'res/model'
+end
+
 function loadObj(fileName)
     local filePath = getModelPath()..'/'..fileName..'.obj'
 

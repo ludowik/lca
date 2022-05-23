@@ -33,33 +33,6 @@ end
 table.len = table.maxn
 table.getn = table.maxn
 
-
-function table:clone()
-    local function clone(self)
-        if type(self) == 'table' then
-            local copy = table()
-            for i,v in ipairs(self) do
-                copy[i] = clone(v)
-            end
-            for k,v in pairs(self) do
-                copy[k] = clone(v)
-            end
-            return copy
-        else
-            return self
-        end
-    end
-    return clone(self)
-end
-
-function table:clear(value)
-    local n = #self
-    for i=n,1,-1 do
-        self[i] = value -- default is nil
-    end
-    return self
-end
-
 function table:get(i)
     return self[i]
 end

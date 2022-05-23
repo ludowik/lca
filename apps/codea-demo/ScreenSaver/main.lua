@@ -1,3 +1,5 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
 
 --# Main
 -- Screensaver
@@ -16,7 +18,7 @@ end
 -- This function gets called once every frame
 function draw()
     background(212, 228, 229, 255)
-    fps = 1/DeltaTime
+    fps = 1/deltaTime
 
     local x = -math.random(-350,350)
     local y = -math.random(100,350)
@@ -79,7 +81,7 @@ function Platform:draw()
     local h = self.height
 
     pushMatrix()
-    translate(x,y)
+    translate(x, y)
     rotate(self.body.angle)
 
     rectMode(CORNER)

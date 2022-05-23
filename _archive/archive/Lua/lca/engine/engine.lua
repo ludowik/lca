@@ -15,7 +15,7 @@ function Engine:run(f)
 end
 
 function Engine:loop(f)
-    ElapsedTime = 0
+    elapsedTime = 0
 
     self.currentTime = system.getTime()
     self.previousTime = self.currentTime

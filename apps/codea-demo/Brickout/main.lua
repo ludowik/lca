@@ -39,8 +39,8 @@ end
 function makeBG()
     bg:addRect(WIDTH/2,HEIGHT/2,WIDTH,HEIGHT)
 
-    local light = color(42, 47, 56, 255)
-    local dark = color(22, 23, 25, 255)
+    local light = Color(42, 47, 56, 255)
+    local dark = Color(22, 23, 25, 255)
 
     bg:color( 1, light )
     bg:color( 2, dark )
@@ -54,8 +54,8 @@ end
 function makeEmitter()
     emitter = Emitter( {
             tex = "Cargo Bot:Star",
-            startColor = color(255,255,255,255),
-            endColor = color(255,255,0,0),
+            startColor = Color(255,255,255,255),
+            endColor = Color(255,255,0,0),
             minSize = 4,
             maxSize = 8,
             minSpeed = 100,
@@ -82,13 +82,13 @@ end
 function getColourForRow(row)
     colChanger = row * 35
     if level % 4 == 1 then
-        c = color(colChanger,0,255,255)
+        c = Color(colChanger,0,255,255)
     elseif level % 4 == 2 then
-        c = color(255,colChanger,0,255)
+        c = Color(255,colChanger,0,255)
     elseif level % 4 == 3 then
-        c = color(255,0,colChanger,255)
+        c = Color(255,0,colChanger,255)
     else
-        c = color(0,255,colChanger,255)
+        c = Color(0,255,colChanger,255)
     end
     return c
 end

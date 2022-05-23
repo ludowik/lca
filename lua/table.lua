@@ -9,6 +9,8 @@ setmetatable(table, mt)
 
 table.__index = table
 
+table.unpack = unpack
+
 function table:clone()
     local function clone(self)
         if type(self) == 'table' then
@@ -27,6 +29,14 @@ function table:clone()
         end
     end
     return clone(self)
+end
+
+function table:clear(value)
+    local n = #self
+    for i=n,1,-1 do
+        self[i] = value -- default is nil
+    end
+    return self
 end
 
 function table:random()

@@ -1,3 +1,5 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
 
 -- Use this function to perform your initial setup
 function setup()

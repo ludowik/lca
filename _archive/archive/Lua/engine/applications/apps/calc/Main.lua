@@ -8,7 +8,7 @@ function setup()
 end
 
 function draw()
-    app:update(DeltaTime)
+    app:update(deltaTime)
     app:draw()
 end
 

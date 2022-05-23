@@ -20,6 +20,8 @@ TAU = math.pi * 2
 cos, sin = math.cos, math.sin
 rad, deg = math.rad, math.deg
 
+tan, atan, atan2 = math.tan, math.atan, math.atan2
+
 function ceil(num, idp)
     idp = idp or 0
     local mult = 10^idp

@@ -65,7 +65,7 @@ end
 
 function Dice:draw()
     if self.rolling then
-        self.delay = self.delay + DeltaTime
+        self.delay = self.delay + deltaTime
         if self.delay > 0.1 then
             self.value = math.random(1,6)
             self.delay = 0

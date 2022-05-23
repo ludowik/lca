@@ -157,8 +157,8 @@ function drawShader(shader, ui)
             ui.size.y,
             1)
 
-        shader.uniforms.iTime = shader.uniforms.iTime + DeltaTime
-        shader.uniforms.iTimeDelta = DeltaTime
+        shader.uniforms.iTime = shader.uniforms.iTime + deltaTime
+        shader.uniforms.iTimeDelta = deltaTime
 
         if false and Rect.contains(ui, mouse) then
             local x, y = mouse:unpack()

@@ -203,7 +203,7 @@ main(int argc, char *argv[])
     done = 0;
     /* enter main loop */
     while (!done) {
-        double deltaTime = updateDeltaTime();
+        double deltaTime = updatedeltaTime();
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {

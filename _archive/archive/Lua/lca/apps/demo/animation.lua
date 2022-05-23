@@ -83,7 +83,7 @@ function draw(dt)
     noFill()
 
 
-    n = (n + DeltaTime*10)
+    n = (n + deltaTime*10)
     sprite(animation[floor(n)%#animation+1], 0, 0)
 
     local dx = 0

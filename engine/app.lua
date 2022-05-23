@@ -5,12 +5,14 @@ local apps = {
 
 function loadApps(path)
     path = path or 'apps'
+    
     local files = love.filesystem.getDirectoryItems(path)
     for _,file in ipairs(files) do
         local info = (
             love.filesystem.getInfo(path..'/' .. file .. '/#.lua') or
             love.filesystem.getInfo(path..'/' .. file .. '/init.lua') or
             love.filesystem.getInfo(path..'/' .. file .. '/__init.lua') or
+            love.filesystem.getInfo(path..'/' .. file .. '/main.lua') or
             love.filesystem.getInfo(path..'/' .. file))
 
         if info.type == 'file' then
@@ -26,7 +28,7 @@ end
 function addApp(path, name)
     if not apps.listByName[name] then
         log('add app : '..path..'/'..name)
-        
+
         apps.listByName[name] = {
             loaded = false,
             path = path,
@@ -38,14 +40,13 @@ end
 
 function loadApp(path, name)
     log('load app : '..path..'/'..name)
-
     path = path or 'apps'
 
     assert(apps.listByName[name])
 
     if not apps.listByName[name].loaded then
         apps.listByName[name].loaded = true
-        
+
         path = apps.listByName[name].path
         name = apps.listByName[name].name
 
@@ -66,30 +67,26 @@ function loadApp(path, name)
                 chunk = (
                     love.filesystem.load(path..'/' .. name .. '/#.lua') or
                     love.filesystem.load(path..'/' .. name .. '/init.lua') or
-                    love.filesystem.load(path..'/' .. name .. '/__init.lua'))
+                    love.filesystem.load(path..'/' .. name .. '/__init.lua') or
+                    love.filesystem.load(path..'/' .. name .. '/main.lua'))
             end
             assert(chunk)
 
             if chunk then
-                assert(pcall(chunk, env))
+                chunk()
+--                assert(pcall(chunk, env))
 
---                env.app = env
                 env.appPath = path
                 env.appName = name
 
+                setupClasses()
+                
                 env.parameter = Parameter()
                 env.tweensManager = TweensManager()
 
                 callApp('setup')
 
                 apps.listByName[name].env = env
-
---                apps.listByName[name] = {
---                    path = path,
---                    name = name,
---                    env = env,
---                }
---                apps.listByIndex[#apps.listByIndex + 1] = apps.listByName[name]
             end
         end
     end
@@ -107,21 +104,21 @@ function loadApp(path, name)
 end
 
 function setApp(index)
-    loadApp(apps.listByIndex[index].path, apps.listByIndex[index].name)
+    local app = apps.listByIndex[index]
+    config.appPath = app.path
+    config.appName = app.name
+    
+    saveConfig()
+    
+    loadApp(app.path, app.name)
 
     apps.current = index
 
-    local env = apps.listByIndex[apps.current].env
-    _G.env = env
-
-    local app = apps.listByIndex[apps.current]
-    config.appPath = app.path
-    config.appName = app.name
+    local env = app.env
+    _G.env = env    
 
     love.window.setTitle(app.name)
     log('set active app : '..app.name)
-
-    saveConfig()
 end
 
 function previousApp()
@@ -145,6 +142,10 @@ function callApp(fname, ...)
 end
 
 class 'Application'
+
+function Application:init()
+    _G.env.app = self
+end
 
 function App(name)    
     local k = class(name)

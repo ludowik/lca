@@ -73,8 +73,8 @@ function Engine:on(event, key, callback)
 end
 
 function Engine:initialize()
-    DeltaTime = 0
-    ElapsedTime = 0
+    deltaTime = 0
+    elapsedTime = 0
 
     call('setup')
 
@@ -166,10 +166,10 @@ function Engine:frame(forceDraw)
 
     if self.frameTime.deltaTimeAccum >= self.frameTime.deltaTimeMax or forceDraw or sdl.SDL_GL_GetSwapInterval() == 0 then
 
-        DeltaTime = self.frameTime.deltaTimeAccum
-        ElapsedTime = self.frameTime.elapsedTime
+        deltaTime = self.frameTime.deltaTimeAccum
+        elapsedTime = self.frameTime.elapsedTime
 
-        self:update(DeltaTime)
+        self:update(deltaTime)
         self:draw()
 
         self.frameTime.deltaTimeAccum = (

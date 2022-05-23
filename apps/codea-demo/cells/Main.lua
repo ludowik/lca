@@ -1,7 +1,7 @@
-app.scale = 2
+env.scale = 2
 
 function setup()
-    viewer.mode = FULLSCREEN
+--    viewer.mode = FULLSCREEN
     
     state = "pause"
     
@@ -99,7 +99,7 @@ function update(dt)
 end
 
 function draw()
-    update(DeltaTime)
+    update(deltaTime)
     
     background(51)
     scene:draw()

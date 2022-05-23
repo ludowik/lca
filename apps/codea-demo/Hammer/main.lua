@@ -1,3 +1,6 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
+
 --# Main
 -- Hammer Jump
 
@@ -24,7 +27,7 @@ local fade
 
 -- This function gets called once every frame
 function draw()
-    fps = 1/DeltaTime
+    fps = 1/deltaTime
     background(40, 40, 50)
     strokeSize(5)
 
@@ -75,7 +78,7 @@ function makeTutorial()
     ellipse(WIDTH-100,tile*1.5,70)
     ellipse(150,tile*2,140)
     textMode(CENTER)
-    font("Futura-Medium")
+    fontName("Futura-Medium")
     fontSize(20)
     fill(216, 230, 213, 118)
     text("AVOID THE FALLING BLOCK",300,tile*7)
@@ -110,7 +113,7 @@ function Player:draw()
     if self.hit == true then self:hurt() end
     pushMatrix()
     pushStyle()
-    self.bounce = math.sin(ElapsedTime*10)*3
+    self.bounce = math.sin(elapsedTime*10)*3
     translate(self.x+self.bounce,self.y+self.bounce)
     noFill()
     strokeSize(7)

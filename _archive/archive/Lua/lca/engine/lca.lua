@@ -51,8 +51,8 @@ function lca.init()
 
     lca.frame = 0
 
-    DeltaTime = 0
-    ElapsedTime = 0
+    deltaTime = 0
+    elapsedTime = 0
 
     system.reset()
 end
@@ -173,8 +173,8 @@ end
 function lca.update(dt) 
     if meshManager then meshManager:update(dt) end
 
-    DeltaTime = dt
-    ElapsedTime = ElapsedTime + dt
+    deltaTime = dt
+    elapsedTime = elapsedTime + dt
 
     lca.reset()
     lca.gameObjects:update(dt)
@@ -314,10 +314,10 @@ end
 function processWheelMoveOnCamera(x, y)
     if lca.camera then
         if isDown(KEY_FOR_MOUSE_MOVING) then
-            lca.camera:moveSideward(x, DeltaTime)
-            lca.camera:moveUp(y, DeltaTime)
+            lca.camera:moveSideward(x, deltaTime)
+            lca.camera:moveUp(y, deltaTime)
         else
-            lca.camera:zoom(0, y, DeltaTime)
+            lca.camera:zoom(0, y, deltaTime)
         end
     end
 end

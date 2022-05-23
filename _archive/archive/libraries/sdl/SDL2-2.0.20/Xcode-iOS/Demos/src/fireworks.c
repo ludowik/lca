@@ -448,7 +448,7 @@ main(int argc, char *argv[])
     /* enter main loop */
     while (!done) {
         SDL_Event event;
-        double deltaTime = updateDeltaTime();
+        double deltaTime = updatedeltaTime();
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 done = 1;

@@ -13,7 +13,7 @@ function Block:init(x, y, col)
     self.mesh:addRect( self.pos.x, self.pos.y,
         self.size.x, self.size.y )
 
-    local dark = self.colour:mix( color(0,0,0), 0.8 )
+    local dark = self.colour:mix( Color(0,0,0), 0.8 )
 
     self.mesh:color( 1, self.colour )
     self.mesh:color( 2, dark )

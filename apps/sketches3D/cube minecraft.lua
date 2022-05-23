@@ -12,12 +12,12 @@ function Cube:init()
 
     self.chunks = table()
 
-    local n = 3
+    local n = 7
     for x=-n,n do
         for y=-n,n do
-            local chunk = Model.box()
+            local chunk = Mesh(Model.box())
             chunk.inst_pos = Buffer('vec3')
-            chunk.inst_pos:resize(1024^2)    
+            chunk.inst_pos:resize(32^2)    
             chunk.needUpdate = true
             chunk.position = vec3(x*chunkSize, 0, y*chunkSize)
             self.chunks:add(chunk)
@@ -30,7 +30,7 @@ function Cube:init()
 end
 
 function Cube:createTexture()
-    self.aaa = image(size*4, size*3)
+    self.aaa = Image(size*4, size*3)
 
     renderFunction(function ()
             noStroke()
@@ -43,19 +43,19 @@ function Cube:createTexture()
 
                 for x=0,size-tileSize,tileSize do
                     for y=0,size-tileSize,tileSize do
-                        fill(color.random(clr))
+                        fill(Color.random(clr))
                         rect(x, y, tileSize, tileSize)
                     end
                 end
                 popMatrix()
             end
 
-            face(size*0, size, brown)
-            face(size*1, size, brown)
-            face(size*2, size, brown)
-            face(size*3, size, brown)
-            face(size*1, size*2, rgb(58, 157, 35))
-            face(size*1, size*0, brown)
+            face(size*0, size, colors.brown)
+            face(size*1, size, colors.brown)
+            face(size*2, size, colors.brown)
+            face(size*3, size, colors.brown)
+            face(size*1, size*2, Color.rgb(58, 157, 35))
+            face(size*1, size*0, colors.brown)
         end,
         self.aaa)
 end

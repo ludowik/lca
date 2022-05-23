@@ -57,17 +57,17 @@ function Emitter:draw()
         if not p.dead then
             p.prevPos = p.pos
             
-            p.pos = p.pos + p.vel * DeltaTime
+            p.pos = p.pos + p.vel * deltaTime
             
             p.vel = p.vel + (self.accel + 
                              vec2(math.random(-self.rAccel.x, 
                                                self.rAccel.x), 
                                   math.random(-self.rAccel.y,
                                                self.rAccel.y)))
-                                            * DeltaTime
+                                            * deltaTime
                                             
-            p.life = math.max(0, p.life - DeltaTime)
-            p.size = p.size + DeltaTime * self.growth
+            p.life = math.max(0, p.life - deltaTime)
+            p.size = p.size + deltaTime * self.growth
             if p.life == 0 then p.dead = true end
             local interp = p.life / p.maxLife
            

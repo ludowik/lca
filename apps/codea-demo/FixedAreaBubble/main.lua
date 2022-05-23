@@ -1,3 +1,6 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
+
 -- Project: Fixed-area Bubble
 -- Author and (c): mpilgrem
 -- Link: http://twolivesleft.com/Codea/Talk/discussion/1572/fixed-area-bubble%3A-an-experiment-with-2d-soft-bodies/p1
@@ -46,11 +49,11 @@ end
 
 function draw()
     respondToEvents()
-    integrate(DeltaTime)
+    integrate(deltaTime)
     constrainEdges()
     collideWithWalls()
     collideWithTouch()
-    updateTouch(DeltaTime)
+    updateTouch(deltaTime)
 
     background(0)
     fill(255)

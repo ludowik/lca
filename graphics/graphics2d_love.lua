@@ -60,6 +60,8 @@ function Graphics.polygon(t, ...)
 end
 
 function Graphics.rect(x, y, w, h)
+    h = h or w
+    
     if rectMode() == CENTER then
         x = x - w / 2
         y = y - h / 2

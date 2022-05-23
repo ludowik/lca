@@ -188,7 +188,7 @@ function Stage:tick()
     if self.move == nil then return nil end
 
     -- otheriwse do the numarl simulation
-    local speed = math.floor(self.speed*DeltaTime*60)
+    local speed = math.floor(self.speed*deltaTime*60)
 
     if self.move == "pickup" then
         self.isWaiting = self:pickupAnimation(speed)

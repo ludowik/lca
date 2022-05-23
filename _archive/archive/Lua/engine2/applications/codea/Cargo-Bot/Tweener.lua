@@ -70,7 +70,7 @@ function Tweener:tick()
     if self.tickFunc then
         self.tickFunc(self.t/self.dt)
     end
-    self.t = self.t + DeltaTime
+    self.t = self.t + deltaTime
     if self.t >= self.dt then
         if self.tickFunc then
             self.tickFunc(1)

@@ -17,6 +17,10 @@ function Graphics.clip(...)
     love.graphics.setScissor(...)
 end
 
+function Graphics.noClip()
+    love.graphics.setScissor()
+end
+
 function Graphics.fontName(name)
 end
 
@@ -84,6 +88,11 @@ function Graphics.text(txt, x, y)
 end
 
 function Graphics.lines3D()
+end
+
+function Graphics.spriteSize(img)
+    img = Image.getImage(img)
+    return img.width, img.height
 end
 
 function Graphics.sprite(img, x, y, w, h)

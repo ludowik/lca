@@ -76,7 +76,7 @@ function draw()
     for i,v in pairs(objects) do
         v:draw()
     end
-    text(math.floor(1/DeltaTime),WIDTH-10,HEIGHT-10)
+    text(math.floor(1/deltaTime),WIDTH-10,HEIGHT-10)
     frame = frame + 1
 end
 

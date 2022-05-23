@@ -81,8 +81,8 @@ int lcaSetup(lua_State *L, int argc, char **argv) {
     
     commonBindEnumGlobal(L, enumsTouchState);
 
-    setGlobal(L, "DeltaTime", 0);
-    setGlobal(L, "ElapsedTime", 0);
+    setGlobal(L, "deltaTime", 0);
+    setGlobal(L, "elapsedTime", 0);
 
     setGlobal(L, "CurrentOrientation", LANDSCAPE_LEFT);
 
@@ -160,8 +160,8 @@ int lcaMain(lua_State *L) {
         float timeStep = deltaTime/1000.;
         b2Update(L, timeStep);
 
-        setGlobal(L, "DeltaTime", timeStep);
-        setGlobal(L, "ElapsedTime", elapsedTime/1000.);
+        setGlobal(L, "deltaTime", timeStep);
+        setGlobal(L, "elapsedTime", elapsedTime/1000.);
     }
 
     call(finish);

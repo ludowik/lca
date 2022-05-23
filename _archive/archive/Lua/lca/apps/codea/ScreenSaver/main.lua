@@ -16,7 +16,7 @@ end
 -- This function gets called once every frame
 function draw()
     background(212, 228, 229, 255)
-    fps = 1/DeltaTime
+    fps = 1/deltaTime
 
     local x = -math.random(-350,350)
     local y = -math.random(100,350)

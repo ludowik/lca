@@ -127,10 +127,10 @@ end
 function processWheelMoveOnCamera(x, y)
     if engine.camera then
         if isDown(KEY_FOR_MOUSE_MOVING) then
-            engine.camera:moveSideward(x, DeltaTime)
-            engine.camera:moveUp(y, DeltaTime)
+            engine.camera:moveSideward(x, deltaTime)
+            engine.camera:moveUp(y, deltaTime)
         else
-            engine.camera:zoom(0, y, DeltaTime)
+            engine.camera:zoom(0, y, deltaTime)
         end
     end
 end

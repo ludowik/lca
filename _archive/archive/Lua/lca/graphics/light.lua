@@ -38,7 +38,7 @@ function Light:init()
 end
 
 function Light:update(dt)
---    local time = ElapsedTime
+--    local time = elapsedTime
     
 --    self.color.r = (sin( time * 2.0 ) + 1) / 2
 --    self.color.g = (sin( time * 0.7 ) + 1) / 2

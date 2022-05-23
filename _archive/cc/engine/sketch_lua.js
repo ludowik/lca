@@ -92,7 +92,7 @@ class SketchLua extends Sketch {
         pushGlobal(this.L, 'gray', colors.gray);
         pushGlobal(this.L, 'red', colors.red);
         pushGlobal(this.L, 'white', colors.white);
-        pushGlobal(this.L, 'ElapsedTime', elapsedTime);
+        pushGlobal(this.L, 'elapsedTime', elapsedTime);
     }
 
     update(dt) {

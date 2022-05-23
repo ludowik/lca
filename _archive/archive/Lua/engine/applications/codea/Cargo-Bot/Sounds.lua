@@ -42,7 +42,7 @@ function Sounds:cache()
     if self.cachedIdx >= #self.toCache then return nil end
 
     -- is it time to cache a new sound?
-    if ElapsedTime > self.nextT then
+    if elapsedTime > self.nextT then
         self.cachedIdx = self.cachedIdx + 1
         --print("caching",self.cachedIdx)
         ABCMusic:adjustSoundBufferSize()

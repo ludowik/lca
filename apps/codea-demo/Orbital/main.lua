@@ -1,8 +1,11 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
+
 --# Main
 -- Orbital
 -- by Spirikoi
 
-local Ball = class('Ball')
+local Ball = class()
 
 function setup()
     displayMode(FULLSCREEN)
@@ -258,7 +261,7 @@ function Ball:damage()
     self.count = self.count - 1
 end
 
-Message = class('Message')
+Message = class()
 
 function Message:init(title,str,time)
     self.w = WIDTH
@@ -309,7 +312,7 @@ function Message:draw()
 end
 
 
-Rocket = class('Rocket')
+Rocket = class()
 
 function Rocket:init(x,y,vec)
     self.body = physics.body(CIRCLE,15)
@@ -385,7 +388,7 @@ function Rocket:collide(contact)
     end
 end
 
-Explosion = class('Explosion')
+Explosion = class()
 
 function Explosion:init(x,y,r)
     self.x = x

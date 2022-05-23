@@ -47,7 +47,7 @@ function setup()
     variableSetup()
     
     parameter.watch("ManCalcTime")
-    parameter.watch("DeltaTime")
+    parameter.watch("deltaTime")
     
     parameter.integer("RMode",1, 3,1)
     parameter.integer("Resolution",50,700,200)

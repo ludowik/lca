@@ -75,8 +75,8 @@ function drawShader(shader, ui)
             ui.size.y,
             1)
 
-        mesh.uniforms.iTime = mesh.uniforms.iTime + DeltaTime
-        mesh.uniforms.iTimeDelta = DeltaTime
+        mesh.uniforms.iTime = mesh.uniforms.iTime + deltaTime
+        mesh.uniforms.iTimeDelta = deltaTime
 
         mesh.uniforms.iFrame = mesh.uniforms.iFrame + 1
         mesh.uniforms.iFrameRate = 60
