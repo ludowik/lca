@@ -34,7 +34,7 @@ function classItem:draw()
     zLevel(-1)
 
     for i,v in ipairs(self.basesRef) do
-        local base = app.scene:ui(v.__className)
+        local base = env.scene:ui(v.__className)
         if base then
             local a = self.position
             local b = base.position
@@ -66,21 +66,21 @@ function classItem:draw()
 end
 
 function setup()
-    app.scene = Scene()
+    env.scene = Scene()
 
     for k,v in pairs(_G) do
         if type(v) == 'table' then
-            local item = app.scene:ui(v.__className)
+            local item = env.scene:ui(v.__className)
             if item == nil then
                 item = classItem(k, v)
-                app.scene:add(item)
+                env.scene:add(item)
             end
         end
     end
 
-    for _,item in app.scene:iter() do
+    for _,item in env.scene:iter() do
         for i,base in ipairs(item.basesRef) do
-            local node = app.scene:ui(base.__className)
+            local node = env.scene:ui(base.__className)
             if node then
                 node.childs[item] = true
                 item.parents[node] = true
@@ -95,7 +95,7 @@ end
 local map = math.map
 
 function constraints(dt)
-    local nodes = app.scene:items()
+    local nodes = env.scene:items()
     local n = #nodes
 
     local a, b, direction, dist, a_position, a_force
@@ -144,7 +144,7 @@ function rebase()
 
     local position
 
-    for _,item in app.scene:iter() do
+    for _,item in env.scene:iter() do
         position = item.position
         minx = min(minx, position.x)
         miny = min(miny, position.y)
@@ -158,7 +158,7 @@ function rebase()
     local rx = W/w
     local ry = H/h
 
-    for _,item in app.scene:iter() do
+    for _,item in env.scene:iter() do
         position = item.position
         position.x = (position.x - minx) * rx * 0.9 + 0.05 * W
         position.y = (position.y - miny) * ry * 0.9 + 0.05 * H
@@ -174,12 +174,12 @@ end
 
 function draw()
     background()
-    app.scene:draw()
+    env.scene:draw()
 end
 
 function keyboard(key)
     if key == 'return' then
-        for _,item in app.scene:iter() do
+        for _,item in env.scene:iter() do
             item.position = vec2.random(W, H)
         end
     end

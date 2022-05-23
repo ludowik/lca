@@ -8,7 +8,7 @@ function Engine.load()
 
     setupClasses()
     setupWindow()
-    
+
     resetMatrix()
     resetStyles()
 
@@ -25,6 +25,16 @@ function Engine.unload()
     saveConfig()
 end
 
+function Engine.needDraw()
+    if not env.__loop or env.__loop > 0 then
+        if env.__loop and env.__loop > 0 then
+            env.__loop = env.__loop - 1
+        end
+        return true
+    end
+    return false
+end
+
 function Engine.update(dt)
     if Engine.test then
         Engine.test.delay = Engine.test.delay - dt
@@ -36,8 +46,8 @@ function Engine.update(dt)
 
     deltaTime = dt
     elapsedTime = elapsedTime + dt
-    
-    TweensManager.update(dt)
+
+    _G.env.tweensManager:update(dt)
 
     callApp('update', dt)
 end
@@ -60,7 +70,7 @@ end
 function Engine.beginDraw()
     if not _G.env.canvas then
         _G.env.canvas = love.graphics.newCanvas(W, H)
---        _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
+        --        _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
 
         love.graphics.setCanvas({
                 _G.env.canvas,
@@ -104,7 +114,7 @@ end
 function Engine.draw()
     if _G.env.draw then
         Engine.beginDraw()
-        do
+        if Engine.needDraw() then
             Engine.render(function ()
                     depthMode(false)
                     cullingMode(false)
@@ -240,12 +250,16 @@ function Engine.mousepressed(x, y, button, istouch, presses)
     xBegin, yBegin = x, y
 
     callApp('mousepressed', mouse)
+    callApp('touched', mouse)
 end
 
 function Engine.mousemoved(x, y, dx, dy, istouch)
     mouseevent(MOVED, x, y)
 
     callApp('mousemoved', mouse)
+    if istouch then
+        callApp('touched', mouse)
+    end
 end
 
 function Engine.mousereleased(x, y, button, istouch, presses)
@@ -278,13 +292,13 @@ BOTTOM_LEFT = 'bottom_left'
 
 function setOrigin(origin)
     if _G.env then
-        _G.env = origin
+        _G.env.origin = origin
     end
 end
 
 function getOrigin()
-    if _G.env and _G.env then
-        return _G.env
+    if _G.env and _G.env.origin then
+        return _G.env.origin
     end
     return TOP_LEFT
 end
@@ -293,3 +307,8 @@ LANDSCAPE_ANY = 'LANDSCAPE_ANY'
 function supportedOrientations()
     -- TODO
 end
+
+function displayMode()
+    -- TODO
+end
+

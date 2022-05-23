@@ -13,6 +13,8 @@ function table:clone()
     local function clone(self)
         if type(self) == 'table' then
             local copy = table()
+            setmetatable(copy, getmetatable(self))
+                
             for i,v in ipairs(self) do
                 copy[i] = clone(v)
             end
@@ -27,10 +29,17 @@ function table:clone()
     return clone(self)
 end
 
-function table.random(array)
-    local n = #array
+function table:random()
+    local n = #self
     local r = math.random(n)
-    return array[r]
+    return self[r]
+end
+
+function table:attribs(attribs)
+    for k,v in pairs(attribs) do
+        self[k] = v
+    end
+    return self
 end
 
 function table:alloc(n)
@@ -69,6 +78,14 @@ function table:addKeys(items)
         self[k] = item
     end
     return self
+end
+
+function table:getnKeys()
+    local n = 0
+    for k,v in pairs(self) do
+        n = n + 1
+    end
+    return n
 end
 
 function table:call(f, ...)

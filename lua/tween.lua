@@ -1,17 +1,17 @@
 class 'TweensManager'
 
-function TweensManager.setup()
-    TweensManager.tweens = table()
+function TweensManager:init()
+    self.tweens = table()
 end
 
-function TweensManager.update(dt)
-    TweensManager.tweens:call('update', dt)
+function TweensManager:update(dt)
+    self.tweens:call('update', dt)
 end
 
 tween = class 'Tween'
 
 function Tween:init(delay, object, target, __easing, callback)
-    TweensManager.tweens:insert(self)
+    _G.env.tweensManager.tweens:insert(self)
 
     self.active = true
 
@@ -76,7 +76,7 @@ function Tween:stop()
 end
 
 function Tween.stopAll()
-    for _,tween in pairs(TweensManager.tweens) do
+    for _,tween in pairs(_G.env.tweensManager.tweens) do
         tween:stop()
     end
 end
@@ -96,16 +96,16 @@ function Tween:reset()
 end
 
 function Tween.resetAll()
-    for _,tween in pairs(TweensManager.tweens) do
+    for _,tween in pairs(_G.env.tweensManager.tweens) do
         tween:stop()
         tween:reset()
     end
 
-    TweensManager.tweens = table()
+    _G.env.tweensManager.tweens = table()
 end
 
 function Tween:remove()
-    TweensManager.tweens:removeItem(self)
+    _G.env.tweensManager.tweens:removeItem(self)
 end
 
 function Tween:update(dt)

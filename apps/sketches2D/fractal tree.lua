@@ -37,7 +37,7 @@ end
 function Branch:draw()
     pushMatrix()
 
-    stroke(white)
+    stroke(colors.white)
 
     translate(self.x, self.y)
     rotate(self.angle)

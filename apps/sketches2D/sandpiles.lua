@@ -91,18 +91,18 @@ function draw()
         for y=1,size do
             num = row[y]
 
-            clr:set(white)
+            clr:set(colors.white)
             if num == 1 then
-                clr:set(red)
+                clr:set(colors.red)
             elseif num == 2 then
-                clr:set(green)
+                clr:set(colors.green)
             elseif num == 3 then
-                clr:set(blue)
+                clr:set(colors.blue)
             elseif num > 3 then
-                clr:set(gray)
+                clr:set(colors.gray)
             end
 
-            img:set(x, y, clr.r, clr.g, clr.b, 1)
+            img:set(x-1, y-1, clr.r, clr.g, clr.b, 1)
         end
     end
 

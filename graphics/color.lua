@@ -17,6 +17,8 @@ function Color.setup()
 end
 
 function Color:init(r, g, b, a)
+    if type(r) == 'table' then r, g, b, a = r.r, r.g, r.b, r.a end
+    
     r = r or 0
     g = g or r
     b = b or r

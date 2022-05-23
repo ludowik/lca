@@ -83,7 +83,12 @@ function Graphics.text(txt, x, y)
     end
 end
 
+function Graphics.lines3D()
+end
+
 function Graphics.sprite(img, x, y, w, h)
+    img = Image.getImage(img)
+
     x = x or 0
     y = y or 0
 
@@ -95,5 +100,5 @@ function Graphics.sprite(img, x, y, w, h)
         y = y - h / 2
     end
 
-    img:draw(x, y, w/img.data:getWidth(), h/img.data:getHeight())
+    img:draw(x, y, w, h)
 end

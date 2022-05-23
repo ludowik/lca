@@ -21,7 +21,7 @@ function setup()
 
     fill(red)
 
-    img = Image(diameter, diameter)
+    img = Image(diameter+1, diameter+1)
 
     clr = Color.random():alpha(.2)
 end
@@ -46,14 +46,14 @@ function update(dt)
 
         throws = throws + 1
         
-        x = floor(rx*diameter) + 1
-        y = floor(ry*diameter) + 1
+        x = floor(rx*diameter)
+        y = floor(ry*diameter)
 
         if len <= 1 then
             inCircle = inCircle + 1
             img:set(x, y, clr)
         else
-            img:set(x, y, blue)
+            img:set(x, y, colors.blue)
         end
     end    
 end

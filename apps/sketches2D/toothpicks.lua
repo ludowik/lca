@@ -43,8 +43,9 @@ function Toothpick:init(x, y, angle, from)
 end
 
 function Toothpick:line(buf)
-    buf:add(vec3(self.xa, self.ya))
-    buf:add(vec3(self.xb, self.yb))
+--    buf:add(vec3(self.xa, self.ya))
+--    buf:add(vec3(self.xb, self.yb))
+    buf:add(self.xa, self.ya, self.xb, self.yb)
 end
 
 function Toothpick:draw()
@@ -76,14 +77,14 @@ function setup()
 end
 
 function touched(touch)
-    if touch.state == ENDED then
+    if touch.state == RELEASED then
         redraw()
     end
 end
 
 function update(dt)
     if #Toothpicks == 0 then
-        Toothpicks:add(Toothpick(0, 0, PI4, nil))
+        Toothpicks:add(Toothpick(0, 0, PI*4, nil))
         return
     end
 
@@ -116,13 +117,13 @@ function update(dt)
                 t.new = false
 
                 if not t.inContactA then
-                    Toothpicks:add(Toothpick(t.xa, t.ya, t.angle + PI + PI4, 'a'))
-                    Toothpicks:add(Toothpick(t.xa, t.ya, t.angle + PI - PI4, 'a'))
+                    Toothpicks:add(Toothpick(t.xa, t.ya, t.angle + PI + PI*4, 'a'))
+                    Toothpicks:add(Toothpick(t.xa, t.ya, t.angle + PI - PI*4, 'a'))
                     t.inContactA = true
                 end
                 if not t.inContactB then
-                    Toothpicks:add(Toothpick(t.xb, t.yb, t.angle + PI + PI4, 'b'))
-                    Toothpicks:add(Toothpick(t.xb, t.yb, t.angle + PI - PI4, 'b'))
+                    Toothpicks:add(Toothpick(t.xb, t.yb, t.angle + PI + PI*4, 'b'))
+                    Toothpicks:add(Toothpick(t.xb, t.yb, t.angle + PI - PI*4, 'b'))
                     t.inContactB = true
                 end
             end
@@ -130,17 +131,17 @@ function update(dt)
 end
 
 function draw()
-    background(white)
+    background(colors.white)
 
     translate(W/2, H/2)
 
     ratio = H / (maxY - minY)
     scale(ratio, ratio)
 
-    buf_new = buf_new or Buffer('vec3')
+    buf_new = buf_new or table() -- Buffer('vec3')
     buf_new:reset()
 
-    buf_old = buf_old or Buffer('vec3')
+    buf_old = buf_old or table() -- Buffer('vec3')
     buf_old:reset()
 
     Toothpicks:call(
@@ -155,10 +156,9 @@ function draw()
 
     strokeSize(2)
     
-    stroke(black)
+    stroke(colors.black)
     lines(buf_old)
     
-    stroke(blue)
+    stroke(colors.blue)
     lines(buf_new)
 end
-

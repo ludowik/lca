@@ -192,11 +192,11 @@ function Grid2048:save()
     str = str..NL..'    scoreMax = '..scoreMax..','
     str = str..NL..'}'
 
-    return io.write(app.appName:replace('/', '.')..'.mydata', str)
+    return io.write(env.appName:replace('/', '.')..'.mydata', str)
 end
 
 function Grid2048:load()
-    local str = io.read(app.appName:replace('/', '.')..'.mydata')
+    local str = io.read(env.appName:replace('/', '.')..'.mydata')
     if str then
         local data = loadstring('return '..str)()
         if data then

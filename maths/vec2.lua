@@ -17,6 +17,15 @@ function vec2:clone()
     return table.clone(self)
 end
 
+function vec2:__index(key)
+    if key == 'w' then
+        return self.x
+    elseif key == 'h' then
+        return self.y
+    end
+    return rawget(vec2, key)
+end
+
 function vec2.random(w, h)
     return vec2(
         random(w),

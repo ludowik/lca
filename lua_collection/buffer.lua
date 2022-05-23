@@ -14,9 +14,22 @@ if true then
     
     function Buffer:alloc(n)
         for i=1,n do
-            self[i] = _G[self.dataType]()
+            self[i] = self[i] or initializer[self.dataType]()
         end
+        return self
     end
+    
+    function Buffer:resize(n)
+        for i=1,n do
+            self[i] = self[i] or initializer[self.dataType]()
+        end
+        return self
+    end
+    
+    initializer = {
+            vec3 = vec3,
+            float = function () return 0 end
+        }
     
     return 
 end

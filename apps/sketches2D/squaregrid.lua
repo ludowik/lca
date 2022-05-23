@@ -38,7 +38,7 @@ function draw()
                 da = abs(da-45)
                 da = (da+45)/90
                 translate(x, y)
-                rotate(angle)
+                rotate(rad(angle))
                 rect(0, 0, w*da, w*da)
             end
             popMatrix()

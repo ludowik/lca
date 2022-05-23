@@ -4,13 +4,13 @@ function Parameter:init()
     self.scene = Scene()
 
     function self.default(name, min, max, default, notify)
-        local value = loadstring('return app.'..name)()
+        local value = loadstring('return env.'..name)()
 
         if value == nil or value == _G[name] then
             default = default or min
             if default ~= nil then
                 _G.__value__ = default
-                loadstring('app.'..name..'=_G.__value__')()
+                loadstring('env.'..name..'=_G.__value__')()
                 if notify then
                     notify(default)
                 end

@@ -20,11 +20,23 @@ function pvmMatrix()
     return projection * view * model
 end
 
-function modelMatrix()
+function matrix()
+    return love.math.newTransform()
+end
+
+function modelMatrix(m)
+    if m then 
+        model = m 
+        setTransformation()
+    end
     return model
 end
 
-function viewMatrix()
+function viewMatrix(m)
+    if m then 
+        view = m 
+        setTransformation()
+    end
     return view
 end
 
@@ -43,7 +55,11 @@ function matByVector(m, v)
     return vec4(values[1], values[5], values[9], values[13])
 end
 
-function projectionMatrix()
+function projectionMatrix(m)
+    if m then 
+        projection = m 
+        setTransformation()
+    end
     return projection
 end
 

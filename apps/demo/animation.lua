@@ -1,7 +1,7 @@
 function setup()
     parameter.integer('config.framerate', 1, 200, 30)
 
-    atlas = image('Animation:sheep')
+    atlas = Image('res/images/sheep.jpg')
 
     function loadSprites(img, ws, hs, n, x, y, ms)
         ms = ms or 0
@@ -67,7 +67,7 @@ end
 function draw(dt)
     background(51)
 
-    local img = image(50, 100)
+    local img = Image(50, 100)
     setContext(img)
     line(0, 0, 50, 100)
     setContext()
@@ -81,7 +81,7 @@ function draw(dt)
     noFill()
 
 
-    n = (n + DeltaTime*10)
+    n = (n + deltaTime*10)
     sprite(animation[floor(n)%#animation+1], 0, 0)
 
     local dx = 0

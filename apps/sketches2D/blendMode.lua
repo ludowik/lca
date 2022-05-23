@@ -4,13 +4,13 @@ function draw()
     function drawBlendMode(mode, x, y, r)
         blendMode(mode)
 
-        fill(red)
+        fill(colors.red)
         circle(x-r/2, y-r/2, r)
 
-        fill(green)
+        fill(colors.green)
         circle(x+r/2, y-r/2, r)
 
-        fill(blue)
+        fill(colors.blue)
         circle(x, y+r/2, r)
     end
 

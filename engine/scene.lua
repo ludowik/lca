@@ -15,6 +15,10 @@ function Node:items()
     return self.nodes
 end
 
+function Node:count()
+    return #self.nodes
+end
+
 function Node:get(i)
     return self:items()[i]
 end

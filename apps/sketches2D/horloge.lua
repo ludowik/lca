@@ -22,9 +22,9 @@ function Horloge:draw()
         ortho()
     end
 
-    self:graduation(self.x, self.y, self.rayon, 15,  4, 5, false, red)
-    self:graduation(self.x, self.y, self.rayon,  8, 12, 3, true , green)
-    self:graduation(self.x, self.y, self.rayon,  4, 60, 1, false, blue)
+    self:graduation(self.x, self.y, self.rayon, 15,  4, 5, false, colors.red)
+    self:graduation(self.x, self.y, self.rayon,  8, 12, 3, true , colors.green)
+    self:graduation(self.x, self.y, self.rayon,  4, 60, 1, false, colors.blue)
 
     local date = date()
     local ipart, fpart = math.modf(os.clock())
@@ -47,7 +47,7 @@ function Horloge:aiguille(clr, x, y, a, l, size)
     rotate(-a, 0, 0, 1)
 
     if self.m == nil then
-        self.m = mesh()
+        self.m = Mesh()
 --        self.m.shader = shaders['rect']
 
         self.m.vertices = Buffer('vec3', {

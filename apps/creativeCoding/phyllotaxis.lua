@@ -21,7 +21,7 @@ function draw()
     background(51)
 
     translate(W/2, H/2)
-    rotate(n/10)
+    rotate(rad(n/10))
 
     local size = spacing - 1
 

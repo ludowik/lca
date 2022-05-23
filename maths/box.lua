@@ -43,7 +43,7 @@ function Box:zmax()
 end
 
 function Box:draw()
-    box(self.position.x, self.position.y, self.position.z, self.size.w, self.size.g, self.size.d)
+    box(self.position.x, self.position.y, self.position.z, self.size.w, self.size.h, self.size.d)
 end
 
 function Box:intersect(cube)

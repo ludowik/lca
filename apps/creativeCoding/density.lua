@@ -59,8 +59,7 @@ function draw()
     for y=0,N-1 do
         for x=0,N-1 do
             local v = min(255, density[index(x, y)]) / 255
-            img:set(x+1, y+1, 
-                v,v,v,1)
+            img:set(x, y, v, v, v, 1)
             i = i + 4
         end
     end

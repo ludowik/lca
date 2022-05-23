@@ -1,12 +1,12 @@
-local grayScale = color.grayScaleIntensity
+local grayScale = Color.grayScaleIntensity
 
 function setup()
-    source = image('documents:joconde')
-    target = image(source.width, source.height)
+    source = Image('res/images/joconde.png')
+    target = Image(source.width, source.height)
 
     parameter.action('Reset',
         function ()
-            source = image('documents:joconde')
+            source = Image('res/images/joconde.png')
         end)
 
     parameter.action('Flip image',
@@ -26,13 +26,11 @@ function setup()
     parameter.action('Shader', function () setFilter(Image.Filter.Shader) end)
     parameter.action('Compose', function () setFilter(Image.Filter.Compose) end)
     parameter.action('Copy', function () setFilter(Image.Filter.Copy) end)
-    
+
     parameter.link('Url', 'https://medium.com/@aryamansharda/how-image-edge-detection-works-b759baac01e2')
 
     setFilter(Image.Filter.Grayscale)
 end
-
-class 'Image'
 
 class 'Image.Filter'
 
@@ -299,7 +297,7 @@ function Image.Filter.Copy:run(source, _)
 end
 
 function setFilter(filter)
-    app.thread = coroutine.create(
+    env.thread = coroutine.create(
         function ()
             filter():run(source, target)
         end)

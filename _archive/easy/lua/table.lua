@@ -101,12 +101,7 @@ function table:__add(t)
     return g
 end
 
-function table:attribs(attribs)
-    for k,v in pairs(attribs) do
-        self[k] = v
-    end
-    return self
-end
+
 
 function table:random()
     if #self > 0 then

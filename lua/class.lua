@@ -1,9 +1,9 @@
 local classes = {}
 
-function class(name)
-    local k = {}
+function class(className)
+    local k = table()
     k.__index = k
-    k.__className = name
+    k.__className = className or 'unknown'
 
     table.insert(classes, k)
 
@@ -17,6 +17,7 @@ function class(name)
     function k.init()
     end
 
+    -- extends
     function k.extends(...)
         local bases = {...}
         assert(#bases >= 1)
@@ -30,10 +31,58 @@ function class(name)
         return k
     end
 
-    if name then
-        _G[name] = k
+    --  attribs
+    k.attribs = table.attribs
+    
+    -- properties
+    k.properties = {
+        get = {},
+        set = {}
+    }
+
+    -- reference
+    if className then
+        local classNamePath = className.split and className:split('.') or {className}
+        local store = _G
+        for i=1,#classNamePath-1 do
+            store = store[classNamePath[i]]
+        end
+        store[classNamePath[#classNamePath]] = k
     end
+
     return k
+end
+
+function classWithProperties(proto)
+    local get = proto.properties.get
+    if table.getnKeys(get) > 0 then
+        proto.__index = function(tbl, key)
+            if proto[key] then
+                return proto[key]
+            elseif get[key] then
+                return get[key](tbl)
+            elseif type(key) == 'number' and get.index then
+                return get.index(tbl, key)
+            else
+                return rawget(tbl, key)
+            end
+        end
+    end
+
+    local set = proto.properties.set
+    if table.getnKeys(set) > 0 then
+        proto.__newindex = function(tbl, key, value)
+            if proto[key] then
+                proto[key] = value
+            elseif set[key] then
+                set[key](tbl, value)
+            elseif type(key) == 'number' and set.index then
+                set.index(tbl, key, value)
+            else
+                rawset(tbl, key, value)
+            end
+        end
+    end
 end
 
 function setupClasses()
@@ -44,6 +93,8 @@ function setupClasses()
             k.__setupDone = k.setup
             k.setup = nil
         end
+        
+        classWithProperties(k)
     end
 end
 

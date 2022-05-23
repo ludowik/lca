@@ -1,19 +1,37 @@
 class 'Image'
 
+function Image.setup()
+    Image.images = table()
+end
+
 function Image:init(name, ...)
     if type(name) == 'string' then
         self.data = love.graphics.newImage(name)
-    
+        self.imageData = love.image.newImageData(name)
+
     else
         local w, h = name, ...
         h = h or w
-        self.imagedata = love.image.newImageData(w, h)
-        self.data = love.graphics.newImage(self.imagedata)
-            
+        self.imageData = love.image.newImageData(w, h)
+        self.data = love.graphics.newImage(self.imageData)
+
     end
-    
+
     self.width = self.data:getWidth()
     self.height = self.data:getHeight()
+end
+
+function Image.getImage(res)
+    if type(res) == 'string' then
+        if not Image.images[res] then
+            if res:find(':') then
+                res = 'res/images/'..res:replace(':', '/')..'.png'
+            end
+            Image.images[res] = Image(res)
+        end
+        return Image.images[res]
+    end
+    return res
 end
 
 function Image:getWidth()
@@ -24,13 +42,31 @@ function Image:getHeight()
     return self.data:getHeight()
 end
 
+function Image:copy(x, y, w, h)
+    w = w or self:getWidth()
+    h = h or self:getHeight()
+
+    local copy = Image(w, h)
+    copy.imageData:paste(self.imageData, x, y, w, h)
+
+    return copy
+end
+
 function Image:background(clr)
     -- TODO
+end
+
+function Image:update()
+    if self.imageData then
+        self.data = love.graphics.newImage(self.imageData)
+    end
 end
 
 function Image:draw(x, y, w, h)
     w = w or self:getWidth()
     h = h or self:getHeight()
+
+    self:update()
 
     love.graphics.draw(self.data,
         x, y,
@@ -38,10 +74,21 @@ function Image:draw(x, y, w, h)
         w/self:getWidth(), h/self:getHeight())
 end
 
-function Image:set(x, y)
-    -- TODO
+function Image:set(x, y, clr, ...)
+    if type(clr) == 'number' then clr = Color(clr, ...) end
+    self.imageData:setPixel(x, y, clr:unpack())
 end
 
 function Image:get(x, y)
-    -- TODO
+    return self.imageData:getPixel(x, y)
+end
+
+function setContext(context)
+    if context then
+        push('context', love.graphics.getCanvas())
+        love.graphics.setCanvas(context)
+    else
+        local context = pop('context')
+        love.graphics.setCanvas(context)
+    end
 end

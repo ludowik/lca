@@ -71,7 +71,7 @@ function ParticleFirework:update(dt)
             local force = vec2.random(100)
             particle:applyForce(force)
 
-            app.theapp.particles:add(particle)
+            app.particles:add(particle)
         end
 
     elseif self.state == 'child' then

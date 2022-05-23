@@ -68,7 +68,7 @@ function Test2:init()
     }
 
     -- now we make our 3 different block types
-    self.ms = mesh()
+    self.ms = Mesh()
     self.ms.vertices = cubeverts
     self.ms.texture = "Planet Cute:Stone Block"
     self.ms.texCoords = cubetexCoords

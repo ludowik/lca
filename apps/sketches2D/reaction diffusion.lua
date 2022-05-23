@@ -32,7 +32,7 @@ function ReactionDiffusion:init()
         end
     end
 
-    renderImage = image(n, m)
+    renderImage = Image(n, m)
 
     da = 1.0
     db = .5
@@ -84,16 +84,14 @@ end
 function ReactionDiffusion:draw()
     background(51)
 
-    renderImage.imageData = renderImage.canvas:newImageData()
     renderImage.imageData:mapPixel(function (x, y, r, g, b, a)
             local cellIn = gridIn[x+1][y+1]
             local c = cellIn.a - cellIn.b
             return c, c, c, 1
         end)
-    renderImage:update(true)
 
     spriteMode(CENTER)
-    sprite(renderImage, WIDTH/2, HEIGHT/2)
+--    sprite(renderImage, WIDTH/2, HEIGHT/2)
 end
 
 function createGrid(n, m)

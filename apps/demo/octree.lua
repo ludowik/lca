@@ -7,7 +7,7 @@ function setup()
     parameter.number('AREA_SIZE', 100, 20000, W)
     parameter.number('BOX_SIZE', 1, 1000, 100)
     
-    camera(W/2, W/2, -W)
+    lookAt(vec3(W/2, W/2, -W))
 end
 
 function draw()

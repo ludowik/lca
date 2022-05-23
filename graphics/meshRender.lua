@@ -20,14 +20,13 @@ function MeshRender:draw()
     local m = love.graphics.newMesh(vertices)
 
     if type(self.texture) == 'string' then
-        self.texture = image.getImage(self.texture)
+        self.texture = Image.getImage(self.texture)
     end
 
     if self.texture then
         m:setTexture(self.texture.canvas)
     end
 
-    setTransform()
     love.graphics.draw(m)
 end
 

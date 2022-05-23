@@ -26,7 +26,6 @@ function table:tostring()
     return code
 end
 
-
 function table:maxn()
     return self and #self or 0
 end
@@ -34,13 +33,6 @@ end
 table.len = table.maxn
 table.getn = table.maxn
 
-function table:getnKeys()
-    local n = 0
-    for k,v in pairs(self) do
-        n = n + 1
-    end
-    return n
-end
 
 function table:clone()
     local function clone(self)
@@ -82,13 +74,6 @@ function table:__add(t)
     g:addItems(self)
     g:addItems(t)
     return g
-end
-
-function table:attribs(attribs)
-    for k,v in pairs(attribs) do
-        self[k] = v
-    end
-    return self
 end
 
 function table:random()

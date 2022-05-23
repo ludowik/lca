@@ -38,9 +38,9 @@ function draw()
             end
 
             if i == iteration_max then
-                img:set(x, y, black)
+                img:set(x-1, y-1, colors.black)
             else
-                img:set(x, y, 0, 0, i/iteration_max)
+                img:set(x-1, y-1, 0, 0, i/iteration_max)
             end
         -- end
     end

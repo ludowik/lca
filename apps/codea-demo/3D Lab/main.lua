@@ -32,7 +32,10 @@ function draw()
     perspective(FieldOfView, WIDTH/HEIGHT)
 
     -- Position the camera up and back, look at origin
-    camera(0,CamHeight,-300, 0,0,0, 0,1,0)
+    lookAt(
+        vec3(0, CamHeight, -300),
+        vec3(0, 0, 0),
+        vec3(0, 1, 0))
 
     -- Write this into a variable so we can watch() it
     -- at this point in time
@@ -52,7 +55,7 @@ function draw()
 
     -- Draw a label at the top of the screen
     fill(255)
-    font("Arial")
+    fontName("Arial")
     fontSize(30)
 
     text(currentTest:name(), WIDTH/2, HEIGHT - 30)

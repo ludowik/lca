@@ -58,7 +58,7 @@ function draw()
     for x=1,N do
         for y=1,N do
             local value = grid:get(x, y)
-            img:set(x, y, value, value, value)
+            img:set(x-1, y-1, value, value, value)
         end
     end
 

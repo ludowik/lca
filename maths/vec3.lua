@@ -16,6 +16,17 @@ function vec3:clone()
     return table.clone(self)
 end
 
+function vec3:__index(key)
+    if key == 'w' then
+        return self.x
+    elseif key == 'h' then
+        return self.y
+    elseif key == 'd' then
+        return self.z
+    end
+    return rawget(vec3, key)
+end
+
 function vec3.random(w, h, d)
     return vec3(
         random(w),
@@ -108,7 +119,7 @@ function vec3:normalize(norm)
 
     local len = self:len()
     if len == 0 then return vec3() end
-    
+
     local invlen = 1 / len
     return vec3(
         norm * self.x * invlen,
@@ -121,13 +132,13 @@ function vec3:normalizeInPlace(norm)
 
     local len = self:len()
     if len == 0 then return vec3() end
-    
+
     local invlen = 1 / len
-    
+
     self.x = norm * self.x * invlen
     self.y = norm * self.y * invlen
     self.z = norm * self.z * invlen
-    
+
     return self
 end
 

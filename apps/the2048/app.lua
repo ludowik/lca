@@ -1,5 +1,5 @@
 function setup()
-    app.commands = table{'down', 'up', 'left', 'right'}
+    env.commands = table{'down', 'up', 'left', 'right'}
 
     grid = newGrid()
     
@@ -23,7 +23,7 @@ end
 
 function keyboard(key)
     if state == 'play' then
-        if key:inList(app.commands) then
+        if key:inList(env.commands) then
             log(key)
 
             grid:action(key)
@@ -70,7 +70,7 @@ function touched(touch)
 end
 
 function update(dt)
-    if app.autotest then
+    if env.autotest then
         keyboard(table.random(commands))
     end
 end

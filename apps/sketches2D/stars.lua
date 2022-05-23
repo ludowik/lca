@@ -13,12 +13,14 @@ function Star:init()
 
     self.r = random(5)
 
-    local angle = random(math.tau)
+    local angle = random()*TAU
     self.velocity = vec3(
         math.cos(angle),
         math.sin(angle)):mul(random(40, 50))
 
     self.position:add(self.velocity:clone():normalize(random(MAX_DISTANCE)))
+
+    self.clr = Color.random()
 end
 
 function Star:reset()
@@ -46,6 +48,8 @@ function Stars:init()
     MAX_STARS = 10000
     MAX_DISTANCE = W / 2 -- vec2(W/2, H/2):len()
 
+    self.scene = Scene()
+
     self.scene.translate = vec2(W/2, H/2)
 
     self.stars = Node()
@@ -53,7 +57,7 @@ function Stars:init()
 
     self.points = Buffer('vec3')
 
-    self:addStars()
+    self:addStars(10^5)
 end
 
 function Stars:update(dt)
@@ -66,14 +70,23 @@ function Stars:update(dt)
 end
 
 function Stars:addStars(n)
-    n = n or (MAX_STARS - self.stars:len())
+    if not n then
+        if love.timer.getFPS() < 30 then
+            n = -100
+        else
+            n = 100
+        end
+    end
+
+--    n = n or (MAX_STARS - self.stars:count())
+
     if n > 0 then
         for i in range(n) do
             self.stars:add(Star())
         end
     else
         for i in range(-n) do
-            self.stars:remove(self.stars:len())
+            self.stars:remove(self.stars:count())
         end
     end
 end
@@ -85,20 +98,32 @@ function Stars:draw()
 
     translate(W/2, H/2)
 
-    stroke(white)
-    strokeSize(5)
+    stroke(colors.white)
+    strokeSize(4)
 
     if Star.batchRendering then
-        self.points:reset()
+        self.points = {} -- :reset()
 
         local ref = 1
         for i,v in self.stars:iter() do
-            self.points[ref] = v.position
+            self.points[ref] = {
+                v.position.x, v.position.y,
+                v.clr.r, v.clr.g, v.clr.b, v.clr.a
+            }
             ref = ref + 1
         end
 
         points(self.points)
     end
 
-    text(self.stars:len(), 0, 200)
+    fontSize(24)
+
+    textMode(CENTER)
+
+    local w, h = textSize(self.stars:count())
+    rectMode(CENTER)
+    rect(0, 0, w, h)
+    
+    textColor(colors.red)
+    text(self.stars:count(), 0, 0)
 end

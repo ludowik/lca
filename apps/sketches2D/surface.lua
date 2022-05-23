@@ -112,7 +112,7 @@ code = [[
 ]]
 
 function draw()
-    background(black)
+    background(colors.black)
 
     if not debugging() then
         local vertex
@@ -156,7 +156,8 @@ function draw()
 
                     minDistance = 255 + minDistance * ratio
 
-                    image:set(x, y, minDistance, minDistance, minDistance, 1)
+                    image:set(x-1, y-1, minDistance, minDistance, minDistance, 1)
+                    
 --                    pixels[i  ] = minDistance
 --                    pixels[i+1] = minDistance
 --                    pixels[i+2] = minDistance
@@ -175,7 +176,7 @@ function draw()
         sprite(image, 0, 0)
     end
 
-    stroke(red)
+    stroke(colors.red)
 
     for j=1,#vertices do
         vertex = vertices[j]
