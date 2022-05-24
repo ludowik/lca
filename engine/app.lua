@@ -5,7 +5,7 @@ local apps = {
 
 function loadApps(path)
     path = path or 'apps'
-    
+
     local files = love.filesystem.getDirectoryItems(path)
     for _,file in ipairs(files) do
         local info = (
@@ -58,6 +58,8 @@ function loadApp(path, name)
 
         if info then
             _G.env = env
+            loop()
+
             setfenv(0, env)
 
             local chunk
@@ -80,7 +82,7 @@ function loadApp(path, name)
                 env.appName = name
 
                 setupClasses()
-                
+
                 env.parameter = Parameter()
                 env.tweensManager = TweensManager()
 
@@ -107,9 +109,9 @@ function setApp(index)
     local app = apps.listByIndex[index]
     config.appPath = app.path
     config.appName = app.name
-    
+
     saveConfig()
-    
+
     loadApp(app.path, app.name)
 
     apps.current = index
@@ -154,18 +156,23 @@ function App(name)
     function setup()
         app = k()
         _G.env.app = app
-    end
 
-    function update(dt)
-        if app.update then
-            app:update(dt)
+        if k.update then
+            update = function (dt)
+                app:update(dt)
+            end
         end
-    end
-
-    function draw()
-        if app.draw then
-            app:draw()
+        
+        if k.draw then
+            draw = function ()
+                app:draw()
+            end
+        end
+        
+        if k.draw3d then
+            draw3d = function ()
+                app:draw3d()
+            end
         end
     end
 end
-

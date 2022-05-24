@@ -27,16 +27,16 @@ function draw()
 
     rectMode(CENTER)
 
-    translate(0, (HEIGHT-WIDTH)/2)
-
-    local w = 50
-    for x=0,WIDTH,w do
-        for y=0,WIDTH,w do
+    local w = W/10
+    translate(0+w/2, (HEIGHT-WIDTH)/2+w/2)
+    
+    for x=0,W,w do
+        for y=0,W,w do
             pushMatrix()
             do
-                da = angle%90
-                da = abs(da-45)
-                da = (da+45)/90
+                da = angle % 90
+                da = abs(da - 45)
+                da = (da + 45) / 90
                 translate(x, y)
                 rotate(rad(angle))
                 rect(0, 0, w*da, w*da)

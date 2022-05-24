@@ -9,14 +9,16 @@ function MeshRender:draw()
     if self.vertices[1].x then
         vertices = table()
         for i,v in ipairs(self.vertices) do
-            vertices:add(vec2(v.x, v.y))
+            vertices:add({v.x, v.y})
         end
     else
         vertices = self.vertices
     end
-    
+
     if #vertices < 3 then return end
 
+    love.graphics.setColor(colors.white:unpack())
+    
     local m = love.graphics.newMesh(vertices)
 
     if type(self.texture) == 'string' then
@@ -27,7 +29,11 @@ function MeshRender:draw()
         m:setTexture(self.texture.canvas)
     end
 
+    GraphicsCore.createShader()
+    assert(shaders['shader3D'])
+    love.graphics.setShader(shaders['shader3D'])
     love.graphics.draw(m)
+    love.graphics.setShader()
 end
 
 function MeshRender:drawInstanced()

@@ -16,7 +16,7 @@ function appCubeWave:update(dt)
     self.angle = self.angle + dt * self.speed
 end
 
-function appCubeWave:draw()
+function appCubeWave:draw3d()
     background(51)
 
     line(WIDTH/2, 0, WIDTH/2, HEIGHT)
@@ -24,9 +24,6 @@ function appCubeWave:draw()
     light(true)
 
     isometric(self.zoom)
-
-    depthMode(true)
-    cullingMode(true)
 
     local n = self.n * 2 + 1
 
@@ -56,7 +53,7 @@ function appCubeWave:draw()
 
             fill(Color(r))
 
-            box(w, h, w)
+            box(0, 0, 0, w, h, w)
         end
         popMatrix()
     end

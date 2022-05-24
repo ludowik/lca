@@ -46,7 +46,7 @@ function logo.back(n)
 end
 
 function logo.right(n)
-    rotate(n)
+    rotate(rad(n))
 end
 
 function logo.left(n)

@@ -117,20 +117,6 @@ function Graphics.ellipse(x, y, w, h)
     end
 end
 
-local shape
-function Graphics.beginShape()
-    shape = Shape()
-end
-
-function Graphics.vertex(x, y)
-    shape:vertex(x, y)
-end
-
-function Graphics.endShape()
-    shape:draw()
-    return shape
-end
-
 function Graphics.box(x, y, z, w, h, d)
     GraphicsCore.box(x, y, z, w, h, d)
 end

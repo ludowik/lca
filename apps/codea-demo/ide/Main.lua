@@ -1,4 +1,4 @@
-ListBox = class('ListBox') : extends(UI)
+ListBox = class(UI)
 
 function ListBox:init(list)
     UI.init(self)
@@ -26,10 +26,10 @@ end
 
 
 function setup()
-    viewer.mode = FULLSCREEN
+--    viewer.mode = FULLSCREEN
     
     scene = table()
-    scene:add(ListBox(asset.documents))
+--    scene:add(ListBox(asset.documents))
         
 --    content = love.filesystem.read(asset.documents.Ide.Main)
     

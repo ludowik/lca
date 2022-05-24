@@ -4,7 +4,9 @@ function setup()
     fizix.debug = true
 
     local ground = Rect(WIDTH/2, 0, WIDTH, 100)
-    app.scene:add(ground)
+    
+    env.scene = Scene()
+    env.scene:add(ground)
 
     fizix:add(ground, STATIC, RECT, ground.size.x, ground.size.y)
 
@@ -13,14 +15,15 @@ function setup()
             math.random(WIDTH),
             math.random(HEIGHT))
 
-        app.scene:add(object)
+        env.scene:add(object)
+        
         fizix:add(object, DYNAMIC, table.random({RECT, CIRCLE, POLYGON}))
     end
 
     parameter.watch("#fizix.bodies")
     parameter.watch("#fizix.contacts")
 
-    app.scene:add(fizix)
+    env.scene:add(fizix)
 end
 
 function touched(touch)

@@ -42,6 +42,8 @@ function draw()
     background(51)
 
     noFill()
+    
+    strokeSize(2)
     stroke(colors.white)
 
     shape:draw()

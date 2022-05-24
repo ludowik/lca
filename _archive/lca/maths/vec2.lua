@@ -290,54 +290,6 @@ function mt:unpack()
 end
 
 
-local ORDER = 'counter-clockwise'
-
-function mt.enclosedAngle(v1, v2, v3)
-    local a1 = __atan2(v1.y - v2.y, v1.x - v2.x)
-    local a2 = __atan2(v3.y - v2.y, v3.x - v2.x)
-
-    local da
-    if ORDER == 'clockwise' then
-        da = __degrees(a2 - a1)
-    else
-        da = __degrees(a1 - a2)
-    end
-
-    if da < -180 then
-        da = da + 360
-    elseif da > 180 then
-        da = da - 360
-    end
-
-    return da
-end
-
--- Determines if a vector |v| is inside a triangle described by the vectors
--- |v1|, |v2| and |v3|.
-function mt.isInsideTriangle(v, v1, v2, v3)
-    local a1
-    local a2
-
-    a1 = mt.enclosedAngle(v1, v2, v3)
-    a2 = mt.enclosedAngle(v, v2, v3)
-    if a2 > a1 or a2 < 0 then
-        return false
-    end
-
-    a1 = mt.enclosedAngle(v2, v3, v1)
-    a2 = mt.enclosedAngle(v, v3, v1)
-    if a2 > a1 or a2 < 0 then
-        return false
-    end
-
-    a1 = mt.enclosedAngle(v3, v1, v2)
-    a2 = mt.enclosedAngle(v, v1, v2)
-    if a2 > a1 or a2 < 0 then
-        return false
-    end
-
-    return true
-end
 
 function xy(x, y, coef)
     assert(coef == nil)

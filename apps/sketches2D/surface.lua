@@ -122,8 +122,6 @@ function draw()
         local minDistance
         local maxDistance = (W/4)^2
 
-        local maxInteger = math.maxinteger
-
         local n = #vertices
 
         local ratio = -255 / maxDistance
@@ -139,7 +137,7 @@ function draw()
             for y=1,h do
                 for x=1,w do
 
-                    minDistance = maxInteger
+                    minDistance = maxDistance
 
                     for j=1,n do
                         vertex = vertices[j]
@@ -156,7 +154,7 @@ function draw()
 
                     minDistance = 255 + minDistance * ratio
 
-                    image:set(x-1, y-1, minDistance, minDistance, minDistance, 1)
+                    image:set(x-1, y-1, minDistance/255, minDistance/255, minDistance/255, 1)
                     
 --                    pixels[i  ] = minDistance
 --                    pixels[i+1] = minDistance

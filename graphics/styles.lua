@@ -165,7 +165,7 @@ function noLight()
 end
 
 function loop()
-    env.__loop = nil
+    env.__loop = 1
 end
 
 function noLoop()
@@ -173,7 +173,7 @@ function noLoop()
 end
 
 function redraw()
-    env.__loop = 1
+    env.__loop = -1
 end
 
 function tint()

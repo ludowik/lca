@@ -16,9 +16,9 @@ require 'engine.love'
 require 'engine.config'
 require 'engine.engine'
 require 'engine.gesture'
-
 require 'engine.scene'
 require 'engine.parameter'
+require 'engine.physics'
 
 io.read = function (name)
     local info = love.filesystem.getInfo(name)

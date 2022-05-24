@@ -58,7 +58,7 @@ end
 
 function Image:update()
     if self.imageData then
-        self.data = love.graphics.newImage(self.imageData)
+        self.data:replacePixels(self.imageData)
     end
 end
 

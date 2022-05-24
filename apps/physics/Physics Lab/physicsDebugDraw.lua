@@ -1,3 +1,6 @@
+package.loaded['engine.codea'] = false
+require 'engine.codea'
+
 PhysicsDebugDraw = class()
 
 function PhysicsDebugDraw:init()

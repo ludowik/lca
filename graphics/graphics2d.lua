@@ -111,3 +111,18 @@ function Graphics.sprite(img, x, y, w, h)
 
     img:draw(x, y, w, h)
 end
+
+local shape
+function Graphics.beginShape()
+    shape = Shape()
+end
+
+function Graphics.vertex(x, y)
+    shape:vertex(x, y)
+end
+
+function Graphics.endShape(mode)
+    shape.mode = mode or shape.mode
+    shape:draw(mode)
+    return shape
+end

@@ -26,10 +26,14 @@ function Engine.unload()
 end
 
 function Engine.needDraw()
-    if not env.__loop or env.__loop > 0 then
-        if env.__loop and env.__loop > 0 then
-            env.__loop = env.__loop - 1
-        end
+    if env.__loop > 0 then
+        return true
+    end
+    if env.__loop == 0 then
+        return false
+    end    
+    if env.__loop < 0 then
+        env.__loop = env.__loop + 1
         return true
     end
     return false

@@ -7,12 +7,13 @@ function setup()
     camera(0, 0, 10)
 end
 
-function draw()
+function draw3d()
     background()
 
     light(true)
 
-    perspective()
+    perspective()    
+    lookAt(vec3(3,3,3))
 
     boxes:draw()
 end
