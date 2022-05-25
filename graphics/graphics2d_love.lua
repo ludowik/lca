@@ -6,6 +6,8 @@ function Graphics:init()
 end
 
 function Graphics.point(x, y)
+    if type(x) == 'table' then x, y = x.x, x.y end
+    
     love.graphics.setColor(stroke():unpack())
     love.graphics.setPointSize(strokeSize())
     love.graphics.points(x, y)

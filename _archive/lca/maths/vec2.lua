@@ -239,20 +239,6 @@ function mt:rotateInPlace(phi, origin, mode)
     return self
 end
 
-function mt:angleBetween(other)
-    local alpha1 = __atan2(self.y, self.x)
-    local alpha2 = __atan2(other.y, other.x)
-
-    return alpha2 - alpha1
-end
-
-function mt:dot(v)
-    return (
-        self.x * v.x +
-        self.y * v.y
-    )
-end
-
 function mt:tobytes()
     return self.values
 end

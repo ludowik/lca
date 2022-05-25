@@ -205,7 +205,7 @@ PRESSED = 'pressed'
 MOVED = 'moved'
 RELEASED = 'released'
 
-mouse = {
+mouse = table({
     state = MOVED,
 
     px = 0,
@@ -219,7 +219,9 @@ mouse = {
 
     tx = 0,
     ty = 0,
-}
+})
+
+CurrentTouch = mouse
 
 function mouseevent(state, x, y, button)
     mouse.state = state

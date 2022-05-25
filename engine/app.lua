@@ -58,9 +58,9 @@ function loadApp(path, name)
 
         if info then
             _G.env = env
-            loop()
-
             setfenv(0, env)
+            
+            loop()
 
             local chunk
             if info.type == 'file' then
@@ -118,6 +118,7 @@ function setApp(index)
 
     local env = app.env
     _G.env = env    
+    setfenv(0, env)
 
     love.window.setTitle(app.name)
     log('set active app : '..app.name)
@@ -158,19 +159,19 @@ function App(name)
         _G.env.app = app
 
         if k.update then
-            update = function (dt)
+            _G.env.update = function (dt)
                 app:update(dt)
             end
         end
-        
+
         if k.draw then
-            draw = function ()
+            _G.env.draw = function ()
                 app:draw()
             end
         end
-        
+
         if k.draw3d then
-            draw3d = function ()
+            _G.env.draw3d = function ()
                 app:draw3d()
             end
         end

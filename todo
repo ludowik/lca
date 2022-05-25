@@ -18,6 +18,8 @@ rechercher les todo dans les sources
 scene + node => minimum vital
 UI : interface de contrôle (Parameter)
 
+vertlet integration for physics
+
 tree generation
 chess
 Jeu de carte : solitaire

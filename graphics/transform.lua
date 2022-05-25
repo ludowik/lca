@@ -259,8 +259,3 @@ function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
         vec3(at_x, at_y, at_z),
         vec3(up_x, up_y, up_z))
 end
-
-CAMERA_FPS = 'camera_fps'
-function getCamera()
-    return {}
-end

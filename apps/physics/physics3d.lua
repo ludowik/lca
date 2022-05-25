@@ -11,7 +11,7 @@ function setup()
             random(-0.5, 0.5),
             4,
             0, r, r, r)
-        ball.color = color.random()
+        ball.color = Color.random()
         fizix:add(ball, DYNAMIC, SPHERE, r)
     end
 
@@ -19,17 +19,18 @@ function setup()
 
     parameter.action('add ball', function () addBall() end)
 
-    app.scene.camera = Camera(0, 8, 35, 0, 0, 0)
-    app.scene:add(fizix)
+    env.scene = Scene()
+    env.scene.camera = Camera(0, 8, 35, 0, 0, 0)
+    env.scene:add(fizix)
 
     fizix:draw()
 end
 
 function update(dt)
-    app.scene:update(dt)
+    env.scene:update(dt)
 
-    if app.scene.camera then
-        app.scene.camera:rotateY(1)
+    if env.scene.camera then
+        env.scene.camera:rotateY(1)
     end
 end
 

@@ -67,6 +67,9 @@ function vec2:sub(v)
 end
 
 function vec2:__mul(coef)
+    if type(self) == 'number' then
+        self, coef = coef, self
+    end
     return vec2(
         self.x * coef,
         self.y * coef)
@@ -180,6 +183,13 @@ function vec2:angleBetween(other)
     local alpha2 = __atan2(other.y, other.x)
 
     return alpha2 - alpha1
+end
+
+function vec2:dot(v)
+    return (
+        self.x * v.x +
+        self.y * v.y
+    )
 end
 
 function vec2.fx(p1, p2)

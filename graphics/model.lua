@@ -179,7 +179,8 @@ end
 
 function Model.transform(vertices, matrix)
     for i=1,#vertices do
-        vertices[i] = matrix:mulVector(vertices[i])
+--        vertices[i] = matrix:mulVector(vertices[i])
+        vertices[i] = matByVector(matrix, vertices[i])
     end
 
     return vertices
