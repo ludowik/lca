@@ -120,6 +120,18 @@ function Color.hexa(hexa)
     return Color(r/255, g/255, b/255)
 end
 
+function Color.darken(clr, pct)
+    pct = pct or -50
+    return Color.lighten(clr, pct)
+end
+
+function Color.lighten(clr, pct)
+    pct = pct or 50    
+    local h, s, l, a = Color.rgb2hsl(clr.r, clr.g, clr.b, clr.a)
+    l = l + l * pct / 100
+    return Color.hsl(h,s,l,a)
+end
+
 function Color.hsl(hue, sat, lgt, alpha)
     assert(hue)
     sat = sat or 0.5
@@ -197,4 +209,32 @@ function Color.hsb(hue, sat, val, alpha)
         b = tint1
     end
     return Color(r, g, b, alpha)
+end
+
+function Color.rgb2hsl(...)
+    local clr = Color(...)
+    local r, g, b, a = clr.r, clr.g, clr.b, clr.a
+
+    local max, min = math.max(r, g, b), math.min(r, g, b)
+    local h = (max + min)*.5
+    local s, l = h, h
+
+    if max == min then
+        h, s = 0, 0
+    else
+        local d = max - min
+        s = (l > 0.5) and d / (2 - max - min) or d / (max + min)
+
+        if max == r then
+            h = (g - b) / d + (g < b and 6 or 0)
+        elseif max == g then
+            h = (b - r) / d + 2
+        elseif max == b then
+            h = (r - g) / d + 4
+        end
+
+        h = h / 6
+    end
+
+    return h, s, l, a
 end

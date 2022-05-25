@@ -1,7 +1,7 @@
 function setup()
     start = 0
 
-    img = image(WIDTH, HEIGHT)
+    img = Image(WIDTH, HEIGHT)
 
     parameter.number('frequency', 0, 100, 50, function()
             generateImg()
@@ -18,8 +18,8 @@ end
 
 function generateImg()
     local r
-    for x=0,WIDTH do
-        for y=0,HEIGHT do
+    for x=0,WIDTH-1 do
+        for y=0,HEIGHT-1 do
             r = noise(
                 x / frequency,
                 y / frequency)

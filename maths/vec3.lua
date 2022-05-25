@@ -2,6 +2,7 @@ class 'vec3'
 
 local __sqrt = math.sqrt
 
+
 function vec3:init(x, y, z)
     if type(x) == 'table' then x, y, z = x.x, x.y, x.z end
     self.x = x or 0
@@ -38,6 +39,10 @@ end
 
 function vec3:__tostring()
     return self.x .. ',' .. self.y .. ',' .. self.z
+end
+
+function vec3:unpack()
+    return self.x, self.y, self.z
 end
 
 function vec3:__unm()
@@ -184,6 +189,14 @@ function vec3.dot(a, b)
         a.x * b.x +
         a.y * b.y +
         a.z * b.z)        
+end
+
+function xyz(x, y, z, coef)
+    assert(coef == nil)
+    if type(x) == 'table' or type(x) == 'cdata' then
+        return x.x, x.y, x.z or 0, y or 1
+    end
+    return x or 0, y or 0, z or 0, coef or 1
 end
 
 function vec3:draw()

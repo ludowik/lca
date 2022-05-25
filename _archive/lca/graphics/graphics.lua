@@ -40,54 +40,6 @@ LEFT = 'left'
 DEGREES = 'degrees'
 RADIANS = 'radians'
 
-s0 = 0.01
-s1 = 1.01
-for i = 2, 20 do
-    _G['s'..i] = i
-end
-
-
-function resetStyle()
-    app.win:resetStyle()
-end
-
-function pushStyle()
-    push('styles', app.win.styles)
-end
-
-function popStyle()
-    app.win.styles = pop('styles')
-end
-
-function style(size, clr1, clr2)
-    assert(size)
-
-    strokeSize(size)
-    if clr1 and clr1 ~= transparent then
-        stroke(clr1)
-    else
-        noStroke()
-    end
-
-    if clr2 and clr2 ~= transparent then
-        fill(clr2)
-    else
-        noFill()
-    end
-end
-
-function textStyle(size, clr, mode)
-    assert(size)
-
-    fontSize(size)
-    if clr and clr ~= transparent then
-        fill(clr)
-    else
-        noFill()
-    end
-    textMode(mode)
-end
-
 function angleMode(angleMode)
     if angleMode then
         styles.angleMode = angleMode
@@ -95,16 +47,6 @@ function angleMode(angleMode)
     return styles.angleMode or DEGREES
 end
 
-function fontName(fontName)
-    styles.fontName = fontName or styles.fontName
-    return styles.fontName
-end
-font = fontName -- alias
-
-function fontSize(fontSize)
-    styles.fontSize = fontSize or styles.fontSize
-    return styles.fontSize
-end
 
 local fonts = table()
 function getFont()

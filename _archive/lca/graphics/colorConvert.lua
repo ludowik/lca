@@ -53,33 +53,7 @@ function __hue2rgb(v1, v2, vH)
     return v1
 end
 
-function rgb2hsl(...)
-    local clr = Color(...)
-    local r, g, b, a = clr.r, clr.g, clr.b, clr.a
 
-    local max, min = math.max(r, g, b), math.min(r, g, b)
-    local h = (max + min)*.5
-    local s, l = h, h
-
-    if max == min then
-        h, s = 0, 0
-    else
-        local d = max - min
-        s = (l > 0.5) and d / (2 - max - min) or d / (max + min)
-
-        if max == r then
-            h = (g - b) / d + (g < b and 6 or 0)
-        elseif max == g then
-            h = (b - r) / d + 2
-        elseif max == b then
-            h = (r - g) / d + 4
-        end
-
-        h = h / 6
-    end
-
-    return h, s, l, a
-end
 
 function hexa2color(s)
     s = s:lower():replace("#", "")

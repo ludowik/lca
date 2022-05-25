@@ -16,7 +16,7 @@ function appMap:init()
 
     skybox = Model.skybox(100000)
     skybox.shader = Shader('default')
-    skybox.texture = image('documents:skybox')
+    skybox.texture = Image('res/images/skybox.png')
 
     self.s = 10
     local s = self.s
@@ -46,8 +46,8 @@ function appMap:init()
         end
     end
 
-    local hueGreen = rgb2hsl(green)
-    local hueBrown = rgb2hsl(brown)
+    local hueGreen = Color.rgb2hsl(green)
+    local hueBrown = Color.rgb2hsl(brown)
 
     terrain.vertices = Buffer('vec3')
     terrain.vertices:resize(w*h*3)
@@ -62,7 +62,7 @@ function appMap:init()
 
             local color
             if y > 0 then
-                color = hsl(map(y,
+                color = Color.hsl(map(y,
                         0, self.hmg.amplitudeMax/2,
                         hueGreen, hueBrown) , 0.5, 0.5)
             else
@@ -135,7 +135,7 @@ function appMap:draw()
 
     currentMaterial = Material.sea()
 
-    sea:setColors(blue:alpha(opacity))
+    sea:setColors(colors.blue:alpha(opacity))
     sea:draw()
 
     self.player.x = self.player.x + 0.1 --playerX

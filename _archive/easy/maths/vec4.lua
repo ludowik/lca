@@ -252,24 +252,6 @@ function mt:__pairs()
     return f, self, nil
 end
 
-function mt:unpack()
-    return self.x, self.y, self.z, self.w
-end
-
-function mt:draw()
-    pushMatrix()
-    translate(self.x, self.y, self.z)
-    sphere(1)
-    popMatrix()
-end
-
-function xyzw(x, y, z, w, coef)
-    assert(coef == nil)
-    if type(x) == 'table' or type(x) == 'cdata' then
-        return x.x, x.y, x.z or 0, x.w or 0, y or 1
-    end
-    return x or 0, y or 0, z or 0, w or 0, coef or 1
-end
 
 __vec4 = ffi.metatype('vec4', mt)
 

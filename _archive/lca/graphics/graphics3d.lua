@@ -38,23 +38,3 @@ end
 function light()
 end
 
-function MeshAxes(x, y, z)
-    x, y, z = xyz(x, y, z)
-
-    pushMatrix()
-    do
-        translate(x, y, z)
-
-        scale(0.01, 0.01, 0.01)
-
-        rotate(90, 0, 1, 0)
-        meshAxesX:draw()
-
-        rotate(-90, 1, 0, 0)
-        meshAxesY:draw()
-
-        rotate(90, 0, 1, 0)
-        meshAxesZ:draw()
-    end
-    popMatrix()
-end

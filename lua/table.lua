@@ -7,6 +7,7 @@ local mt = {
 }
 setmetatable(table, mt)
 
+Table = table
 table.__index = table
 
 table.unpack = unpack
@@ -45,6 +46,13 @@ function table:random()
     return self[r]
 end
 
+function table:__add(t)
+    local g = table()
+    g:addItems(self)
+    g:addItems(t)
+    return g
+end
+
 function table:attribs(attribs)
     for k,v in pairs(attribs) do
         self[k] = v
@@ -81,6 +89,15 @@ function table:addItems(items)
         table.insert(self, item)
     end
     return self
+end
+
+function table:get(i)
+    return self[i]
+end
+
+function table:set(i, item)
+    self[i] = item
+    return self, item
 end
 
 function table:addKeys(items)
@@ -225,4 +242,176 @@ function table:save(name)
 
     local code = 'return '..table.tolua(self)
     local file = io.write(name, code)
+end
+
+function table:enumerate()
+    local i = 0
+    local n = #self
+    return function ()
+        i = i + 1
+        if i <= n then
+            return i, self[i]
+        end
+        return nil
+    end
+end
+
+function table:enumerateBy2()
+    local i = 0
+    local n = #self
+    return function ()
+        i = i + 1
+        if i < n then
+            return i, self[i], self[i+1]
+        end
+        return nil
+    end
+end
+
+function table:enumerateBy3()
+    local i = 0
+    local n = #self
+    return function ()
+        i = i + 1
+        if i < n-1 then
+            return i, self[i], self[i+1], self[i+2]
+        end
+        return nil
+    end
+end
+
+function table:first(item)
+    if item then
+        self.currentItem = self[table.indexOf(self, item) or 1]
+    else
+        self.currentItem = self[1]
+    end
+    return self.currentItem
+end
+
+function table:last()
+    self.currentItem = self[#self]
+    return self.currentItem
+end
+
+function table:current()
+    return self.currentItem or self[1]
+end
+
+function table:navigate(currentItem, nextIndex, defaultIndex)
+    currentItem = currentItem or self.currentItem
+    nextIndex = nextIndex or 1
+    defaultIndex = defaultIndex or 1
+
+    local nextItem
+    if currentItem == nil then
+        nextItem = self[defaultIndex]
+    else
+        if type(currentItem) == 'table' and currentItem.nodes and #currentItem.nodes > 0 then
+            nextItem = currentItem.nodes[1]
+        else
+            self = type(currentItem) == 'table' and currentItem.parent and currentItem.parent.nodes or self
+            for i,v in ipairs(self) do
+                if v == currentItem then
+                    nextItem = self[(i+nextIndex-1)%#self+1] or self[defaultIndex]
+                    break
+                end
+            end
+        end
+    end
+
+    self.currentItem = nextItem
+    return self.currentItem
+end
+
+function table:next(currentItem)
+    return table.navigate(self, currentItem, 1, 1)
+end
+
+function table:previous(currentItem)
+    return table.navigate(self, currentItem, -1, #self)
+end
+
+
+function table:concat(sep)
+    assert(sep)
+    
+    local str
+    for i,v in ipairs(self) do
+        if not str then
+            str = tostring(v)
+        else
+            str = str..sep..tostring(v)
+        end
+    end
+    return str
+end
+
+function table:map(f, ...)
+    local map = table()
+    for i=1,#self do
+        map[i] = f(self, i, self[i], ...)
+    end
+    return map
+end
+
+function table.range(min, max, step)
+    step = step or 1
+
+    local t = Table()
+    for i=1,max-min,step do
+        t[i] = min+i-1
+    end
+    return t
+end
+
+function table:min(var)
+    local v = math.maxinteger
+
+    if var then
+        for i=1,#self do
+            v = __min(v, self[i][var])
+        end
+    else
+        for i=1,#self do
+            v = __min(v, self[i])
+        end
+    end
+
+    return v
+end
+
+function table:max(var)
+    local v = math.mininteger
+
+    if var then
+        for i=1,#self do
+            v = __max(v, self[i][var])
+        end
+    else
+        for i=1,#self do
+            v = __max(v, self[i])
+        end
+    end
+
+    return v
+end
+
+function table:avg(var)
+    local v = 0
+    local n = 0
+
+    if var then
+        for i=1,#self do
+            v = v + self[i][var]
+            n = n + 1
+        end
+    else
+        for i=1,#self do
+            v = v + self[i]
+            n = n + 1
+        end
+    end
+
+    return v / n
 end

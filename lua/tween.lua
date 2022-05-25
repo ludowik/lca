@@ -44,6 +44,10 @@ function Tween.sequence(...)
     args[1]:play()
 end
 
+function Tween.delay(delay, callback)
+    return tween(delay, {}, {}, tween.easing.none, callback)
+end
+
 function Tween.path(time, subject, targets, easingAndLoop, callback)
     local previous, current
 

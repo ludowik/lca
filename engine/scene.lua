@@ -1,11 +1,18 @@
-class 'Node'
+class 'Node' : extends(Rect)
 
 function Node:init()
     self:clear()
 end
 
 function Node:clear()
+    Rect.init(self)
+    
     self.nodes = table()
+    
+    return self
+end
+
+function Node:setLayoutFlow()
     return self
 end
 
@@ -94,7 +101,18 @@ end
 
 class 'Scene' : extends(Node)
 
-class 'UI'
+function Scene:init()
+    Node.init(self)
+end
+
+class 'UI' : extends(Rect)
+
+function UI:init()
+    Rect.init(self)
+end
+
+function UI:bind()    
+end
 
 function UI:update(dt)
 end
@@ -103,12 +121,29 @@ function UI:draw()
 end
 
 class 'Expression' : extends(UI)
+class 'Label' : extends(UI)
 class 'Slider' : extends(UI)
 class 'Button' : extends(UI)
+class 'ButtonColor' : extends(UI)
+class 'ButtonImage' : extends(UI)
+class 'ButtonIconFont' : extends(UI)
 class 'ListBox' : extends(UI)
-
+class 'CheckBox' : extends(UI)
+class 'UITimer' : extends(UI)
+class 'UILine' : extends(UI)
+class 'ColorPicker' : extends(UI)
 class 'ToolBar' : extends(Node)
+
+function ToolBar:init()
+    Node.init(self)
+end
+
+
 class 'MenuBar' : extends(Node)
+
+function MenuBar:init()
+    Node.init(self)
+end
 
 class 'Object'
 
@@ -118,4 +153,43 @@ end
 function Object:draw()
 end
 
-class 'MeshObject' : extends(Object)
+class 'Joystick' : extends(UI)
+
+
+class 'UIScene' : extends(Scene)
+
+function UIScene:init()
+    Scene.init(self)
+end
+
+function UIScene:setGridSize()
+end
+
+class 'Tabs' : extends(UIScene)
+
+function Tabs:init()
+    UIScene.init(self)
+end
+
+function Tabs:addTab()
+end
+
+class 'Tab' : extends(UIScene)
+
+function Tab:init()
+    UIScene.init(self)
+end
+
+class 'Layout'
+
+function Layout.setup()
+    Layout.column = function () end
+    Layout.row = function () end
+    
+    Layout.innerMarge = 2
+end
+
+
+class 'Dashboard' : extends(UI)
+
+class 'Editor' : extends(Node)

@@ -43,8 +43,13 @@ function Engine.update(dt)
     if Engine.test then
         Engine.test.delay = Engine.test.delay - dt
         if Engine.test.delay <=0 then
-            nextApp()
+            setApp(Engine.test.index)
+            gc()
             Engine.test.delay = 0.05
+            Engine.test.index = Engine.test.index + 1
+            if Engine.test.index > getnApps() then
+                quit()
+            end
         end
     end
 
@@ -167,7 +172,10 @@ function Engine.keyreleased(key)
         if Engine.test then
             Engine.test = nil
         else
-            Engine.test = {delay=0}
+            Engine.test = {
+                index=1,
+                delay=0
+            }
         end
 
     elseif key == 't' then
@@ -202,28 +210,37 @@ end
 -- MOUSE module
 
 PRESSED = 'pressed'
+BEGAN = PRESSED
+
 MOVED = 'moved'
+MOVING = MOVED
+
 RELEASED = 'released'
+ENDED = RELEASED
+
+CANCELLED = 'cancelled'
 
 mouse = table({
-    state = MOVED,
+        state = MOVED,
 
-    px = 0,
-    py = 0,
+        px = 0,
+        py = 0,
 
-    x = 0,
-    y = 0,
+        x = 0,
+        y = 0,
 
-    dx = 0,
-    dy = 0,
+        dx = 0,
+        dy = 0,
 
-    tx = 0,
-    ty = 0,
-})
+        tx = 0,
+        ty = 0,
+    })
 
 CurrentTouch = mouse
 
 function mouseevent(state, x, y, button)
+    mouse.id = 1
+
     mouse.state = state
 
     if state == PRESSED then

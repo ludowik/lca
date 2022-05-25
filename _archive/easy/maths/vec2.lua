@@ -266,9 +266,6 @@ function mt:__pairs()
     return f, self, nil
 end
 
-function mt:unpack()
-    return self.x, self.y
-end
 
 function mt:draw()
     point(self.x, self.y)

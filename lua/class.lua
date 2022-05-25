@@ -1,6 +1,6 @@
 local classes = {}
 
-function class(className)
+function class(className, ...)
     assert(className and type(className) == 'string')
     
     local k = table()
@@ -22,16 +22,18 @@ function class(className)
     -- extends
     function k.extends(...)
         local bases = {...}
-        assert(#bases >= 1)
+        --assert(#bases >= 1)
         for _,base in pairs(bases) do
             for name,f in pairs(base) do
-                if type(f) == 'function' then
+                if type(f) == 'function' and not k[name] then
                     k[name] = f
                 end
             end
         end
         return k
     end
+    
+    k.extends(...)
 
     --  attribs
     k.attribs = table.attribs

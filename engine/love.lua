@@ -44,6 +44,10 @@ function love2d.mousereleased(...)
     return Engine.mousereleased(...)
 end
 
+function love.wheelmoved(x, y)
+    return Engine.wheelmoved(x, y)
+end
+
 function isDown(key)
     return love.keyboard.isDown(key)
 end

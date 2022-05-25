@@ -11,18 +11,7 @@ love.filesystem.setRequirePath(
     '?/!.lua;'..
     love.filesystem.getRequirePath())
 
-function getFontPath()
-    return 'res/fonts'
-end
 
-function getHomePath()
-    if windows then
-        return os.getenv('USERPROFILE')
-    else
-        return '/Users/Ludo'
---        return os.getenv('HOME')
-    end
-end
 
 require 'lua'
 require 'lua_collection'

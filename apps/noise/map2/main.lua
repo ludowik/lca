@@ -1,5 +1,5 @@
 function release()
-    app.scene = Scene()
+    env.scene = Scene()
 end
 
 function resume()
@@ -40,9 +40,10 @@ function setup()
 
     fill(white)
 
-    app.scene.camera = Camera(50, 200, -50, 100, 0, 100)
+    env.scene = Scene()
+    env.scene.camera = Camera(50, 200, -50, 100, 0, 100)
     
-    app.scene:add(MeshObject(m))
+    env.scene:add(MeshObject(m))
 
     index = 0
     for i=0,n-1 do

@@ -69,3 +69,13 @@ function math.sign(value)
     end
 end
 sign = math.sign
+
+function math.quotient(dividend, divisor)
+    return __ceil(dividend / divisor)
+end
+quotient = math.quotient
+
+function math.fract(x)
+    return x - floor(x)
+end
+fract = math.fract

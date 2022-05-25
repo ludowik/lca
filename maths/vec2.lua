@@ -6,6 +6,7 @@ function vec2:init(x, y)
     if type(x) == 'table' then x, y, z = x.x, x.y end
     self.x = x or 0
     self.y = y or 0
+    self.z = 0
 end
 
 function vec2:set(...)
@@ -40,6 +41,21 @@ end
 
 function vec2:__tostring()
     return self.x .. ',' .. self.y
+end
+
+function vec2:unpack()
+    return self.x, self.y
+end
+
+function vec2:tovec3()
+    return vec3(self.x, self.y, 0)
+end
+
+function vec2:round()
+    self.x = round(self.x)
+    self.y = round(self.y)
+
+    return self
 end
 
 function vec2:__add(v)

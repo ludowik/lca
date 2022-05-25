@@ -3,7 +3,7 @@ local styles
 function resetStyle()
     styles = table()
     
-    textPosition = 0
+    textPosition(0)
     textColor(colors.white)
 
     stroke(colors.red)
@@ -28,6 +28,41 @@ end
 
 function popStyle()
     styles = pop('styles')
+end
+
+s0 = 0.01
+s1 = 1.01
+for i = 2, 20 do
+    _G['s'..i] = i
+end
+
+function style(size, clr1, clr2)
+    assert(size)
+
+    strokeSize(size)
+    if clr1 and clr1 ~= transparent then
+        stroke(clr1)
+    else
+        noStroke()
+    end
+
+    if clr2 and clr2 ~= transparent then
+        fill(clr2)
+    else
+        noFill()
+    end
+end
+
+function textStyle(size, clr, mode)
+    assert(size)
+
+    fontSize(size)
+    if clr and clr ~= transparent then
+        fill(clr)
+    else
+        noFill()
+    end
+    textMode(mode)
 end
 
 NORMAL = 'alpha'
@@ -55,6 +90,22 @@ LEFT = 'left'
 
 ROUND = 'round'
 
+function fontName(name)
+    styles.fontName = name or styles.fontName or DEFAULT_FONT_NAME
+    if name then
+        love.graphics.setNewFont(getFontPath() ..'/'.. fontName() .. '.ttf', fontSize())
+    end
+    return styles.fontName
+end
+
+function fontSize(size)
+    styles.fontSize = size or styles.fontSize or 12
+    if size then
+        love.graphics.setNewFont(getFontPath() ..'/'.. fontName() .. '.ttf', fontSize())
+    end
+    return styles.fontSize
+end
+
 function textMode(mode)
     styles.textMode = mode or styles.textMode or CORNER
     return styles.textMode
@@ -68,6 +119,11 @@ end
 function textWrapWidth(wrapWidth)
     styles.wrapWidth = wrapWidth or 1
     return styles.wrapWidth
+end
+
+function textPosition(pos)
+    styles.textPosition = pos or styles.textPosition or 0
+    return styles.textPosition
 end
 
 function lineCapMode(mode)

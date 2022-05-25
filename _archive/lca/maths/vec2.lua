@@ -41,16 +41,6 @@ function mt:clone()
     return vec2(self)
 end
 
-function mt:tovec3()
-    return vec3(self.x, self.y, 0)
-end
-
-function mt:round()
-    self.x = round(self.x)
-    self.y = round(self.y)
-
-    return self
-end
 
 function mt.random(w, h)
     if w and h then

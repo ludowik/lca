@@ -196,7 +196,7 @@ end
 
 function touched(touch)
     if touch.state == BEGAN or touch.state == MOVING then
-        lastDelta = touch.deltaX
+        lastDelta = touch.dx
 
         if gameover == false and won == false then
             -- If bat is touched launch ball

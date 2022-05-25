@@ -6,6 +6,8 @@ function Graphics:init()
 end
 
 function Graphics.point(x, y)
+    if type(x) == 'table' then x, y = x.x, x.y end
+    
     Graphics.rect(
         x - strokeSize() * .5,
         y - strokeSize() * .5,
@@ -17,6 +19,7 @@ end
 
 function Graphics.points(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
+    
     for i=1,#t do
         Graphics.point(t[i][1], t[i][2])
     end
@@ -103,6 +106,8 @@ function Graphics.rect(x, y, w, h)
 end
 
 function Graphics.rect_(x, y, w, h, attr)
+    h = h or w
+    
     if rectMode() == CENTER then
         x = x - w / 2
         y = y - h / 2
@@ -168,6 +173,8 @@ function Graphics.circle(x, y, radius)
 end
 
 function Graphics.ellipse(x, y, w, h)
+    h = h or w
+    
     if ellipseMode() == CORNER then
         x = x - w/2
         y = y - h/2
@@ -399,7 +406,7 @@ local function edgeFunction(a, b, c)
     return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x)
 end
 
-Graphics.drawMesh_ = Graphics.drawMesh or function (mesh)
+Graphics.drawMesh =     function (mesh)
     _G.env.imageData = _G.env.imageData or love.image.newImageData(W, H)
 
     local vertices = table()

@@ -1,13 +1,6 @@
 color = Color
 image = Image
 
-function sound()
-end
-
-function soundBufferSize()
-    return 0, 0
-end
-
 font = fontName
 
 local __class = class

@@ -21,22 +21,11 @@ function Graphics.noClip()
     love.graphics.setScissor()
 end
 
-function Graphics.fontName(name)
-end
-
-function Graphics.fontSize(size)
-    _fontSize = size or _fontSize or 12
-    if size then
-        love.graphics.setNewFont(size)
-    end
-    return _fontSize
-end
-
 local resources = {}
 function Graphics.textRes(txt)
     local font = love.graphics.getFont()
 
-    local resName = txt .. Graphics.fontSize()
+    local resName = txt .. fontSize()
     local res = resources[resName]
     if not res then
         resources[resName] = {
@@ -70,8 +59,8 @@ function Graphics.text(txt, x, y)
 
     x = x or 0
     if not y then
-        y = textPosition
-        textPosition = textPosition + h
+        y = textPosition()
+        textPosition(y + h)
     end
 
     if textMode() == CENTER then
@@ -85,6 +74,8 @@ function Graphics.text(txt, x, y)
         love.graphics.setColor(clr:unpack())
         love.graphics.draw(res.text, x, y)
     end
+    
+    return w, h
 end
 
 function Graphics.lines3D()

@@ -3,6 +3,10 @@ local apps = {
     listByIndex = {},
 }
 
+function getnApps()
+    return #apps.listByIndex
+end
+
 function loadApps(path)
     path = path or 'apps'
 
@@ -148,6 +152,14 @@ class 'Application'
 
 function Application:init()
     _G.env.app = self
+    
+    self.scene = Scene()
+    self.ui = Scene()
+    
+    self.scene.camera = Camera()
+end
+
+function Application:update(dt)
 end
 
 function App(name)    

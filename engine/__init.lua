@@ -19,6 +19,11 @@ require 'engine.gesture'
 require 'engine.scene'
 require 'engine.parameter'
 require 'engine.physics'
+require 'engine.fs'
+require 'engine.path'
+require 'engine.sound'
+
+utf8 = require 'lib.utf8'
 
 io.read = function (name)
     local info = love.filesystem.getInfo(name)

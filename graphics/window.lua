@@ -41,6 +41,7 @@ function initWindow()
             usedpiscale = true,
             msaa = 8,
             depth = 24,
+            vsync = 0
         })
 
     return getSafeArea()
