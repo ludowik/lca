@@ -17,7 +17,7 @@ function table:clone()
         if type(self) == 'table' then
             local copy = table()
             setmetatable(copy, getmetatable(self))
-                
+
             for i,v in ipairs(self) do
                 copy[i] = clone(v)
             end
@@ -42,8 +42,10 @@ end
 
 function table:random()
     local n = #self
-    local r = math.random(n)
-    return self[r]
+    if n > 0 then
+        local r = math.random(n)
+        return self[r]
+    end
 end
 
 function table:__add(t)
@@ -198,6 +200,18 @@ function table:chainIt()
     end
 end
 
+function table:tostring()
+    if not self then return 'nil' end
+
+    local code = ''
+    for _,iter in pairs({pairs, ipairs}) do
+        for k,v in iter(self) do
+            code = code..tostring(k)..' = '..tostring(v)..','..NL
+        end
+    end
+    return code
+end
+
 function table:tolua(level)
     if not self then return '' end
 
@@ -332,10 +346,9 @@ function table:previous(currentItem)
     return table.navigate(self, currentItem, -1, #self)
 end
 
-
 function table:concat(sep)
     assert(sep)
-    
+
     local str
     for i,v in ipairs(self) do
         if not str then
@@ -414,4 +427,21 @@ function table:avg(var)
     end
 
     return v / n
+end
+
+function table.load(name)
+    if love.filesystem.getInfo(name) == nil then return end
+
+    local content = io.read(name)
+    if content then
+        local ftables = loadstring(content)
+        return table(ftables and ftables() or nil)
+    end
+end
+
+function table:save(name)
+    assert(name)
+
+    local code = 'return '..table.tolua(self)
+    local file = io.write(name, code)
 end

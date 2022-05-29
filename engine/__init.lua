@@ -15,6 +15,7 @@ require 'engine.app'
 require 'engine.love'
 require 'engine.config'
 require 'engine.engine'
+require 'engine.event'
 require 'engine.gesture'
 require 'engine.scene'
 require 'engine.parameter'
@@ -34,3 +35,8 @@ io.read = function (name)
 end
 
 io.write = love.filesystem.write
+
+output = class 'Output'
+
+function Output.clear()
+end

@@ -110,6 +110,8 @@ function loadApp(path, name)
 end
 
 function setApp(index)
+    gc()
+    
     local app = apps.listByIndex[index]
     config.appPath = app.path
     config.appName = app.name

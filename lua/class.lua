@@ -1,8 +1,11 @@
 local classes = {}
 
+function nilf()
+end
+
 function class(className, ...)
     assert(className and type(className) == 'string')
-    
+
     local k = table()
     k.__index = k
     k.__className = className
@@ -16,8 +19,7 @@ function class(className, ...)
             end,
         })
 
-    function k.init()
-    end
+    k.init = nilf
 
     -- extends
     function k.extends(...)
@@ -25,19 +27,21 @@ function class(className, ...)
         --assert(#bases >= 1)
         for _,base in pairs(bases) do
             for name,f in pairs(base) do
-                if type(f) == 'function' and not k[name] then
-                    k[name] = f
+                if type(f) == 'function' then
+                    if not k[name] or (name == 'init' and k[name] == nilf) then
+                        k[name] = f
+                    end
                 end
             end
         end
         return k
     end
-    
+
     k.extends(...)
 
     --  attribs
     k.attribs = table.attribs
-    
+
     -- properties
     k.properties = {
         get = {},
@@ -97,7 +101,7 @@ function setupClasses()
             k.__setupDone = k.setup
             k.setup = nil
         end
-        
+
         classWithProperties(k)
     end
 end

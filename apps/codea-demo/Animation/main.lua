@@ -30,9 +30,8 @@ function setTest(index)
 end
 
 -- This function gets called once every frame
-function draw()
+function draw()    
     if currentTest then
         currentTest:drawTest()
     end
 end
-

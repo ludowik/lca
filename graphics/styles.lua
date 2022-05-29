@@ -2,7 +2,7 @@ local styles
 
 function resetStyle()
     styles = table()
-    
+
     textPosition(0)
     textColor(colors.white)
 
@@ -65,6 +65,7 @@ function textStyle(size, clr, mode)
     textMode(mode)
 end
 
+REPLACE = 'replace'
 NORMAL = 'alpha'
 ADDITIVE = 'add'
 MULTIPLY = 'multiply'
@@ -90,10 +91,20 @@ LEFT = 'left'
 
 ROUND = 'round'
 
+class 'Fonts'
+
+function Fonts.getFont(name, size)
+    local fontRef = name..'.'..size
+    if not Fonts[fontRef] then
+        Fonts[fontRef] = love.graphics.newFont(getFontPath() ..'/'.. name .. '.ttf', size)
+    end
+    return Fonts[fontRef]
+end
+
 function fontName(name)
     styles.fontName = name or styles.fontName or DEFAULT_FONT_NAME
     if name then
-        love.graphics.setNewFont(getFontPath() ..'/'.. fontName() .. '.ttf', fontSize())
+        love.graphics.setFont(Fonts.getFont(styles.fontName, fontSize()))
     end
     return styles.fontName
 end
@@ -101,7 +112,7 @@ end
 function fontSize(size)
     styles.fontSize = size or styles.fontSize or 12
     if size then
-        love.graphics.setNewFont(getFontPath() ..'/'.. fontName() .. '.ttf', fontSize())
+        love.graphics.setFont(Fonts.getFont(fontName(), styles.fontSize))
     end
     return styles.fontSize
 end
@@ -153,18 +164,18 @@ end
 
 function textColor(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
-    
+
     styles.textColor = clr or styles.textColor or colors.white
     return styles.textColor
 end
 
 function noStroke()
-    _strokeColor = nil
+    styles._strokeColor = nil
 end
 
 function stroke(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
-    
+
     styles.strokeColor = clr or styles.strokeColor
     return styles.strokeColor
 end
@@ -180,7 +191,7 @@ end
 
 function fill(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
-    
+
     styles.fillColor = clr or styles.fillColor
     return styles.fillColor
 end

@@ -1,0 +1,1 @@
+noise = love.math.noise

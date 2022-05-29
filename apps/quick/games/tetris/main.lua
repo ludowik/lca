@@ -198,10 +198,11 @@ end
 class('TetrisGrid', Grid, UI)
 
 function TetrisGrid:init(w, h, itemSize)
+    self.itemSize = itemSize
+    
     UI.init(self)
     Grid.init(self, w, h)
     
-    self.itemSize = itemSize
     self.alignMode = CORNER
 end
 
@@ -340,7 +341,7 @@ function Tetrimino:init(label, init, clr)
         end
     end
 
-    TetrisGrid.init(self, w, h, app.itemSize)
+    TetrisGrid.init(self, w, h, Tetris.itemSize)
 
     x, y = 0, 1
     for i=1,n do

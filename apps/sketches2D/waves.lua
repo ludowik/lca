@@ -33,13 +33,13 @@ function step()
                 ) * 0.5 - buf2[index]
 
             value = value * damping
-            
+
             buf2[index] = value
 
             brigthness = 128 + value * 128
-            
+
             offset = (index -1) * 4
-            
+
             img:set(x, y, brigthness, brigthness, brigthness)
 
             index = index + 1

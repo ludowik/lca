@@ -3,4 +3,4 @@ require 'engine.codea'
 
 vector = vec2
 
-loadAppCodea('apps/codea-demo/cells')
+loadAppCodea('apps/codea-demo/Cells')

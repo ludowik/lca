@@ -5,6 +5,34 @@ function Geometry.line(points, x1, y1, x2, y2)
     table.insert(points, vec2(x2, y2))
 end
 
+function Geometry.bresenhamLine(x1, y1, x2, y2, ...)
+    local dx = math.abs(x2 - x1)
+    local dy = math.abs(y2 - y1)
+
+    local sx = (x1 < x2) and 1 or -1
+    local sy = (y1 < y2) and 1 or -1
+
+    local err = dx - dy
+
+    while (true) do
+        point(x1, y1, ...)
+
+        if (math.abs(x2 - x1) < 1 and math.abs(y2 - y1) < 1) then break end
+
+        local e2 = 2 * err
+
+        if (e2 > -dy) then
+            err = err - dy
+            x1 = x1 + sx
+        end
+
+        if (e2 < dx) then
+            err = err + dx
+            y1 = y1 + sy
+        end
+    end
+end
+
 function Geometry.arc(points, x, y, r, a1, a2, n)
     x = x + r
     y = y + r

@@ -1,4 +1,4 @@
 package.loaded['engine.codea'] = false
 require 'engine.codea'
 
-loadAppCodea('apps/codea-demo/cargo-bot')
+loadAppCodea('apps/codea-demo/Cargo-Bot')

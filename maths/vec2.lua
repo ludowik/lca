@@ -51,10 +51,30 @@ function vec2:tovec3()
     return vec3(self.x, self.y, 0)
 end
 
+function vec2:floor()
+    return vec2(floor(self.x), floor(self.y))
+end
+
 function vec2:round()
     self.x = round(self.x)
     self.y = round(self.y)
 
+    return self
+end
+
+function vec2.__eq(v1, v2)
+    if v1 and v2 and v1.x == v2.x and v1.y == v2.y then
+        return true
+    end
+end
+
+function vec2:__unm()
+    return self:clone():unm()
+end
+
+function vec2:unm()
+    self.x = -self.x
+    self.y = -self.y
     return self
 end
 
@@ -142,12 +162,35 @@ function vec2:normalizeInPlace(norm)
 
     local len = self:len()
     if len == 0 then return vec2() end
-    
+
     local invlen = 1 / len
-    
+
     self.x = norm * self.x * invlen
     self.y = norm * self.y * invlen
-    
+
+    return self
+end
+
+
+function vec2:crossByScalar(s)
+    return vec2(s * self.y, -s * self.x)
+end
+
+function vec2:crossFromScalar(s)
+    return vec2(-s * self.y, s * self.x)
+end
+
+function vec2:cross(v)
+    return self:clone():crossInPlace(v)
+end
+
+function vec2:crossInPlace(v)
+    local x = self.y * v.z - self.z * v.y
+    local y = self.z * v.x - self.x * v.z
+
+    self.x = x
+    self.y = y
+
     return self
 end
 
@@ -221,10 +264,10 @@ end
 function vec2.intersection(line1, line2)
     local a1, b1 = vec2.fx(line1[1], line1[2])
     local a2, b2 = vec2.fx(line2[1], line2[2])
-    
+
     x = (b2 - b1) / (a1 - a2)
     y = a1 * x + b1
-    
+
     return x, y
 end
 

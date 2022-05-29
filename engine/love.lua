@@ -52,15 +52,6 @@ function isDown(key)
     return love.keyboard.isDown(key)
 end
 
-function getSafeArea()
-    local x, y, w, h = love.window.getSafeArea()
-    x = 12
-    y = 24
-    w = w - x * 2
-    h = h - y * 2
-    return x, y, w, h
-end
-
 function getFPS()
     return love2d.timer.getFPS()
 end

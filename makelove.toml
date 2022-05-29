@@ -3,11 +3,15 @@ default_targets = ["lovejs"]
 build_directory = "build"
 
 love_files = [
-    "./apps/*.lua",
+    "./apps/*.*",
     "./engine/*.lua",
     "./graphics/*.lua",
+    "./lib/*.lua",
     "./lua/*.lua",
     "./lua_collection/*.lua",
+    "./maths/*.lua",
+    "./res/fonts/*.*",
+    "./res/images/*.*",
     "./main.lua",,
     "./conf.lua",
 ]

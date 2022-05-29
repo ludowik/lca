@@ -2,6 +2,7 @@ class 'Parameter'
 
 function Parameter:init()
     self.scene = Scene()
+--    self.scene.position:set(X+W, Y)
 
     function self.default(name, min, max, default, notify)
         local value = loadstring('return env.'..name)()
@@ -19,7 +20,7 @@ function Parameter:init()
     end
 
     function self.watch(label, expression)
-        self.scene:add(Expression(label, expression))
+        self.scene:add(Expression(label, expression or label))
         implement('parameter watch')
     end
 
@@ -46,7 +47,11 @@ function Parameter:init()
 
     function self.number(variable, min, max, default, callback)
         self.default(variable, min, max, default, callback)
-        self.scene:add(Slider(variable, min, max, default, callback))
+        self.scene:add(Slider(variable, min, max, default,
+                function (self, ...)
+                    if callback then callback(...) end
+                end
+            ))
         implement('parameter watch')
     end
 
@@ -60,12 +65,9 @@ function Parameter:init()
     end
 
     function self.draw()
-        resetMatrix(true)
-        resetStyle()
-
         self.scene:draw()
     end
-    
+
     function self.touched(touch)
         self.scene:touched(touch)
     end

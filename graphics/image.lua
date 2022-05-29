@@ -17,6 +17,18 @@ function Image:init(name, ...)
 
     end
 
+    if ffi then
+        self.ptr = ffi.cast('uint8_t*', self.imageData:getFFIPointer())
+        assert(self.ptr)
+
+        self.ptrr = self.ptr + 0
+        self.ptrg = self.ptr + 1
+        self.ptrb = self.ptr + 2
+        self.ptra = self.ptr + 3
+    end
+    
+    self.depths = {}
+
     self.width = self.data:getWidth()
     self.height = self.data:getHeight()
 end

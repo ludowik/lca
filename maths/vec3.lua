@@ -45,6 +45,28 @@ function vec3:unpack()
     return self.x, self.y, self.z
 end
 
+function vec3:tovec3()
+    return self
+end
+
+function vec3:floor()
+    return vec3(
+        __floor(self.x),
+        __floor(self.y),
+        __floor(self.z))
+end
+
+function vec3.__eq(v1, v2)
+    if (v1 and
+        v2 and
+        v1.x == v2.x and
+        v1.y == v2.y and
+        v1.z == v2.z)
+    then
+        return true
+    end
+end
+
 function vec3:__unm()
     return self:clone():unm()
 end
@@ -96,13 +118,6 @@ function vec3:mul(coef)
     self.y = self.y * coef
     self.z = self.z * coef
     return self
-end
-
-function vec3:len()
-    return math.sqrt(
-        self.x^2 +
-        self.y^2 +
-        self.z^2)
 end
 
 function vec3:__div(coef)

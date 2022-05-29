@@ -7,7 +7,7 @@ end
 
 function Graphics.point(x, y)
     if type(x) == 'table' then x, y = x.x, x.y end
-    
+
     Graphics.rect(
         x - strokeSize() * .5,
         y - strokeSize() * .5,
@@ -19,7 +19,7 @@ end
 
 function Graphics.points(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
-    
+
     for i=1,#t do
         Graphics.point(t[i][1], t[i][2])
     end
@@ -107,7 +107,7 @@ end
 
 function Graphics.rect_(x, y, w, h, attr)
     h = h or w
-    
+
     if rectMode() == CENTER then
         x = x - w / 2
         y = y - h / 2
@@ -174,7 +174,7 @@ end
 
 function Graphics.ellipse(x, y, w, h)
     h = h or w
-    
+
     if ellipseMode() == CORNER then
         x = x - w/2
         y = y - h/2
@@ -208,7 +208,7 @@ end
 shaders = {}
 function Graphics.createShader()
     if Graphics.shader3D then return end
-    
+
     local vertexcode = [[
             uniform mat4 pvm;
             vec4 position( mat4 transform_projection, vec4 vertex_position )
@@ -226,7 +226,7 @@ function Graphics.createShader()
             }
         ]]
     Graphics.shader3D = love.graphics.newShader(pixelcode, vertexcode)
-    
+
     shaders['shader3D'] = Graphics.shader3D
 end
 
@@ -241,7 +241,7 @@ end
 
 function Model_box(x, y, z, w, h, d)
     x, y, z, w, h, d = x or 0, y or 0, z or 0, w or 1, h or 1, d or 1
-    
+
     local vertices = {}
 
     -- front
@@ -303,7 +303,7 @@ end
 
 function Graphics.box(x, y, z, w, h, d)
     Graphics.createShader()
-    
+
     if not Graphics.boxMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
         local format = {
@@ -344,7 +344,7 @@ end
 
 function Graphics.sphere(x, y, z, r)
     Graphics.createShader()
-    
+
     if not Graphics.sphereMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
         local format = {
@@ -406,8 +406,8 @@ local function edgeFunction(a, b, c)
     return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x)
 end
 
-Graphics.drawMesh =     function (mesh)
-    _G.env.imageData = _G.env.imageData or love.image.newImageData(W, H)
+Graphics.drawMesh = function (mesh)
+    _G.env.imageData = _G.env.imageData or Image(W, H)
 
     local vertices = table()
 
@@ -478,6 +478,61 @@ Graphics.drawMesh =     function (mesh)
     end
 end
 
+function rasterTriangle()
+    function drawLine(x1, y1, x2, y2)
+        for x = x1, x2 do
+            fragmentShader(x, y, 1, colors.white)
+        end
+    end
+
+    function fillBottomFlatTriangle(v1, v2, v3)
+        invslope1 = (v2.x - v1.x) / (v2.y - v1.y);
+        invslope2 = (v3.x - v1.x) / (v3.y - v1.y);
+
+        curx1 = v1.x;
+        curx2 = v1.x;
+
+        for scanlineY = v1.y, v2.y - 1 do
+            drawLine(curx1, scanlineY, curx2, scanlineY);
+            curx1 = curx1 + invslope1;
+            curx2 = curx2 + invslope2;
+        end
+    end
+
+    function fillTopFlatTriangle(v1, v2, v3)
+        invslope1 = (v3.x - v1.x) / (v3.y - v1.y);
+        invslope2 = (v3.x - v2.x) / (v3.y - v2.y);
+
+        curx1 = v3.x;
+        curx2 = v3.x;
+
+        for scanlineY = v3.y, v1.y + 1, -1 do
+            drawLine(curx1, scanlineY, curx2, scanlineY);
+            curx1 = curx1 - invslope1;
+            curx2 = curx2 - invslope2;
+        end
+    end
+
+    -- at first sort the three vertices by y-coordinate ascending so v1 is the topmost vertice
+    sortVerticesAscendingByY();
+
+    -- here we know that v1.y <= v2.y <= v3.y
+    -- check for trivial case of bottom-flat triangle
+    if (v2.y == v3.y) then
+        fillBottomFlatTriangle(v1, v2, v3);
+
+        -- check for trivial case of top-flat triangle
+    elseif (vt1.y == vt2.y) then
+        fillTopFlatTriangle(g, vt1, vt2, vt3);
+    else
+        -- general case - split the triangle in a topflat and bottom-flat one
+        v4 = vec4((int)(vt1.x + ((float)(vt2.y - vt1.y) / (float)(vt3.y - vt1.y)) * (vt3.x - vt1.x)), vt2.y);
+
+        fillBottomFlatTriangle(g, vt1, vt2, v4);
+        fillTopFlatTriangle(g, vt2, v4, vt3);
+    end
+end
+
 -- shaders
 local function keepsafe(v)
     if v > 255 then
@@ -486,6 +541,19 @@ local function keepsafe(v)
         return 0
     end
     return v
+end
+
+function _REPLACE(s, t, a) return s end
+
+function _ALPHA(s, t, a) return s * a + (1 - a) * t end
+
+function _ADD(s, t, a) return s + t end
+
+local function __blendMode()
+    local mode = blendMode()
+    if mode == REPLACE then return _REPLACE end
+    if mode == ALPHA then return _ALPHA end
+    if mode == ADD then return _ADD end
 end
 
 function vertexShader(vt)
@@ -500,10 +568,12 @@ end
 function fragmentShader(x, y, z, clr)
     local r, g, b, a = clr.r, clr.g, clr.b, clr.a
 
-    local _blendMode = blendMode()
+    local _blendMode = __blendMode()
 
     if x >= 0 and x <= W - 1 and y >= 0 and y <= H - 1 then
-        if usePtr then
+        if _G.env.imageData.ptr then
+            local context = _G.env.imageData
+            
             x, y = floor(x), floor(y)
 
             local offset = (x + y * W) * 4
@@ -518,7 +588,7 @@ function fragmentShader(x, y, z, clr)
             context.ptrb[offset] = keepsafe(_blendMode(b * 255, context.ptrb[offset], a))
             context.ptra[offset] = keepsafe(_blendMode(a * 255, context.ptra[offset], a))
         else
-            _G.env.imageData:setPixel(x, y, r, g, b, a)
+            _G.env.imageData.imageData:setPixel(x, y, r, g, b, a)
         end
     end
 end

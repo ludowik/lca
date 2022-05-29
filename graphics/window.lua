@@ -12,7 +12,8 @@ end
 
 local love2d = love
 function initWindow()
-    local w, h
+    local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
+
     if os.name == 'web' then
         local w1, h1 = love2d.window.getDesktopDimensions()
         local w2, h2 = love2d.graphics.getDimensions()        
@@ -21,22 +22,32 @@ function initWindow()
         else
             w, h = w2, h2
         end
+        wt, ht = w, h
 
-    elseif os.name == 'osx' then
-        w = 1024
-        h = w -- * 9/16
+    elseif os.name == 'ios' then
+        x, y = love.window.getSafeArea()
+        wt, ht = love.window.getMode()
+        w = wt - 2*x
+        h = ht - 2*y
 
-    else -- if os.name == 'windows' then
-        w = 900
-        h = w * 9/16
+    else
+        x = 150
+        y = 24
+        h = 900
+        w = h * 9/16
+        wt, ht = w+x*2, h+y*2
     end
 
-    w = love2d.window.toPixels(w)
-    h = love2d.window.toPixels(h)
+    w = round(love2d.window.toPixels(w))
+    h = round(love2d.window.toPixels(h))
 
-    w, h = min(w,h), max(w,h)
+    if w > h then
+        w, h, wt, ht, x, y = h, w, ht, wt, y, x
+    end
 
-    love2d.window.setMode(w, h, {
+    love2d.window.setMode(
+        wt,
+        ht, {
             highdpi = true,
             usedpiscale = true,
             msaa = 8,
@@ -44,5 +55,5 @@ function initWindow()
             vsync = 0
         })
 
-    return getSafeArea()
+    return x, y, w, h
 end

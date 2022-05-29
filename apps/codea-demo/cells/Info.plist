@@ -4,15 +4,15 @@
 <dict>
 	<key>Buffer Order</key>
 	<array>
-		<string>main</string>
-		<string>config</string>
-		<string>engine</string>
-		<string>run</string>
-		<string>tools</string>
-		<string>cell</string>
-		<string>ship</string>
-		<string>weapon</string>
-		<string>menu</string>
+		<string>Main</string>
+		<string>Config</string>
+		<string>Engine</string>
+		<string>Run</string>
+		<string>Tools</string>
+		<string>Cell</string>
+		<string>Ship</string>
+		<string>Weapon</string>
+		<string>Menu</string>
 	</array>
 	<key>Dependencies</key>
 	<array/>

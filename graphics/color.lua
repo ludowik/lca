@@ -12,13 +12,21 @@ function Color.setup()
         blue = Color(50, 120, 170), -- 0, 0, 1),
 
         yellow = Color(245, 225, 50),
+        magenta = Color(1, 0, 1),
+        cyan = Color(0, 1, 1),
         orange = Color(1, 165, 0),
+
+        brown = Color(165,  42,  42),
+        beige = Color(245, 245, 220),
+        azure = Color(240, 255, 255),
+        
+        transparent = Color(0, 0, 0, 0)
     }
 end
 
 function Color:init(r, g, b, a)
     if type(r) == 'table' then r, g, b, a = r.r, r.g, r.b, r.a end
-    
+
     r = r or 0
     g = g or r
     b = b or r

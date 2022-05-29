@@ -232,7 +232,7 @@ function Card:makeImage(x, y)
 --        self:yc()-y)
 
     spriteMode(CENTER)
-    sprite('cards:'..suitLabels[self.suit],
+    sprite('cards:'..suitLabels[self.suit]:lower(),
         self:xc()-x,
         self:yc()-y, 25, 25)
 end

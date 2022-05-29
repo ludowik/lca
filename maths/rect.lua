@@ -9,6 +9,10 @@ function Rect:init(x, y, w, h)
     self.rotation = 0
 end
 
+function Rect:__tostring()
+    return tostring(self.position)..'/'..tostring(self.size)
+end
+
 function Rect.random(w, h, size)
     return Rect(
         random(w),
