@@ -31,8 +31,8 @@ function AppMap:init()
 
         local size = 10
 
-        local vectorsArray = ffi.typeof('vec3[?]')
-        local colorsArray = ffi.typeof('color[?]')
+--        local vectorsArray = ffi.typeof('vec3[?]')
+--        local colorsArray = ffi.typeof('color[?]')
 
         for ib=0,n-1 do
             for jb=0,n-1 do
@@ -41,7 +41,7 @@ function AppMap:init()
 
                 map:add(block)
 
-                block.vectorsArray = vectorsArray(4*(w+1)*(h+1))
+                block.vectorsArray = Buffer('vec3', 4*(w+1)*(h+1)) -- vectorsArray(4*(w+1)*(h+1))
 
                 local iVector, vec = 0
                 local function vector(x, y, z)
@@ -53,7 +53,7 @@ function AppMap:init()
                     return vec
                 end
 
-                block.colorsArray = colorsArray(4*(w+1)*(h+1))
+                block.colorsArray = Buffer('color', 4*(w+1)*(h+1)) -- colorsArray(4*(w+1)*(h+1))
 
                 local iColor = 0
                 local function color(r, g, b, a)
@@ -128,7 +128,7 @@ function AppMap:init()
         generate(batchMode, self.map, noise, green, dt)
     end
 
-    local batchMode = true
+    local batchMode = false
     if batchMode then
         self.thread = coroutine.create(function (dt)
                 generateAll(true)

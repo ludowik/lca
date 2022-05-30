@@ -2,6 +2,19 @@ class 'vec3'
 
 local __cos, __sin, __sqrt, __atan2, __degrees = math.cos, math.sin, math.sqrt, math.atan2, math.deg
 
+if ffi then
+    ffi.cdef [[
+        typedef union vec3 {
+            struct {
+                float x;
+                float y;
+                float z;
+            };
+            float values[3];
+        } vec3;
+    ]]
+end
+
 function vec3:init(x, y, z)
     if type(x) == 'table' then x, y, z = x.x, x.y, x.z end
     self.x = x or 0

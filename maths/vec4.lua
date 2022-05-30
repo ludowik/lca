@@ -2,6 +2,20 @@ class 'vec4'
 
 local __cos, __sin, __sqrt, __atan2, __degrees = math.cos, math.sin, math.sqrt, math.atan2, math.deg
 
+if ffi then
+    ffi.cdef [[
+        typedef union vec4 {
+            struct {
+                float x;
+                float y;
+                float z;
+                float w;
+            };
+            float values[4];
+        } vec4;
+    ]]
+end
+
 function vec4:init(x, y, z, w)
     if type(x) == 'table' then x, y, z, w = x.x, x.y, x.z, x.w end
     self.x = x or 0

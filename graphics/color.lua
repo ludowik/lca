@@ -24,6 +24,20 @@ function Color.setup()
     }
 end
 
+if ffi then
+    ffi.cdef [[
+        typedef union color {
+            struct {
+                float r;
+                float g;
+                float b;
+                float a;
+            };
+            float values[4];
+        } color;
+    ]]
+end
+
 function Color:init(r, g, b, a)
     if type(r) == 'table' then r, g, b, a = r.r, r.g, r.b, r.a end
 
