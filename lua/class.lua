@@ -122,3 +122,18 @@ function attributeof(attrName, object)
     _G.__object__ = object
     return evalExpression('_G.__object__.'..attrName)
 end
+
+function typeof(object)
+    local typeof = type(object)
+    if typeof == 'table' then
+        return classnameof(object) or 'table'
+
+    elseif typeof == 'cdata' then
+        typeof = ffi.typeof(object)
+        if typeof then
+            return typeof
+        end
+        return 'cdata'
+    end
+    return typeof
+end

@@ -1,7 +1,7 @@
-BBTan = class(App)
+App('BBTan')
 
 function BBTan:init()
-    App.init(self, 'BBTan')
+    Application.init(self, 'BBTan')
     
     BBTan.tileSize = 20
     
@@ -41,12 +41,12 @@ function BBTan:update(dt)
 end
 
 function BBTan:draw()
-    gx.background(black)
+    background(black)
     
     translate(BBTan.position.x, BBTan.position.y)
     self.scene:draw()
     
-    gx.rect(0, 0, BBTan.size.w, BBTan.size.h, CORNER)
+    rect(0, 0, BBTan.size.w, BBTan.size.h, CORNER)
     
     self.physics:draw()
 end
@@ -55,7 +55,9 @@ function BBTan:mouse(x, y)
     self.text = table{x=x,y=y}
 end
 
-Ball = class(Entity)
+Entity = class('Entity', Rect)
+
+Ball = class('Ball', Entity)
 
 function Ball:init(physics)
     Entity.init(self)
@@ -73,7 +75,7 @@ function Ball:draw()
     circle(self.position.x, self.position.y, self.size.w)
 end
 
-Block = class(Entity)
+Block = class('Block', Entity)
 
 function Block:init(physics, i, j, count)
     Entity.init(self)
@@ -96,9 +98,9 @@ function Block:init(physics, i, j, count)
 end
 
 function Block:draw()
-    gx.stroke(white)
+    stroke(white)
     local x, y = self.position.x, self.position.y
-    gx.rect(x, y, self.size.w, self.size.h, CENTER)
-    gx.text(self.count, x, y)
+    rect(x, y, self.size.w, self.size.h, CENTER)
+    text(self.count, x, y)
 end
     

@@ -67,6 +67,67 @@ function Color.random()
         1)
 end
 
+function Color.__add(clr1, clr2)
+    return Color(
+        min(1, clr1.r + clr2.r),
+        min(1, clr1.g + clr2.g),
+        min(1, clr1.b + clr2.b),
+        min(1, clr1.a + clr2.a))
+end
+
+function Color:__mul(coef)
+    return Color(self):mul(coef)
+end
+
+function Color:mul(coef)
+    self.r = self.r * coef
+    self.g = self.g * coef
+    self.b = self.b * coef
+    self.a = self.a * coef
+    return self
+end
+
+function Color:__sub(clr)
+    return Color(
+        ( self.r - clr.r ),
+        ( self.g - clr.g ),
+        ( self.b - clr.b ),
+        ( self.a - clr.a )
+    )
+end
+
+function Color.__div(p, coef)
+    return Color.__mul(p, 1/coef)
+end
+
+function Color.__eq(clr1, clr2)
+    if (clr1 and
+        clr2 and
+        clr1.r == clr2.r and
+        clr1.g == clr2.g and
+        clr1.b == clr2.b and
+        clr1.a == clr2.a)
+    then
+        return true
+    end
+end
+
+function Color.min(a, b)
+    return Color(
+        min(a.r, b.r),
+        min(a.g, b.g),
+        min(a.b, b.b),
+        1)
+end
+
+function Color.max(a, b)
+    return Color(
+        max(a.r, b.r),
+        max(a.g, b.g),
+        max(a.b, b.b),
+        1)
+end
+
 function Color.mix(clr1, clr2, dst)
     dst = dst or 0.5
     local src = 1 - dst
@@ -98,13 +159,51 @@ function Color:complementary()
         1)
 end
 
-function Color:grayscale()
-    local gray = (
-        0.299 * self.r +
-        0.587 * self.g +
-        0.114 * self.b)
-    return Color(gray, gray, gray)
+function Color.grayScaleLightness(clr, to)
+    local r,g,b = clr.r, clr.g, clr.b
+    local c = (max(r,g,b) + min(r,g,b)) / 2
+    if to then
+        to.r, to.g, to.b, to.a = c, c, c, clr.a
+        return to
+    else
+        return Color(c,c,c,clr.a)
+    end
 end
+
+function Color.grayScaleAverage(clr, to)
+    local r,g,b = clr.r, clr.g, clr.b
+    local c = (r+g+b) / 3
+    if to then
+        to.r, to.g, to.b, to.a = c, c, c, clr.a
+        return to
+    else
+        return Color(c,c,c,clr.a)
+    end
+end
+
+function Color.grayScaleLuminosity(clr, to)
+    local r,g,b = clr.r, clr.g, clr.b
+    local c = 0.21*r + 0.72*g + 0.07*b
+    if to then
+        to.r, to.g, to.b, to.a = c, c, c, clr.a
+        return to
+    else
+        return Color(c,c,c,clr.a)
+    end
+end
+
+function Color.grayScaleIntensity(clr, to)
+    local r,g,b = clr.r, clr.g, clr.b
+    local c = 0.299*r + 0.587*g + 0.114*b
+    if to then
+        to.r, to.g, to.b, to.a = c, c, c, clr.a
+        return to
+    else
+        return Color(c,c,c,clr.a)
+    end
+end
+
+Color.grayscale = Color.grayScaleIntensity
 
 function Color:alpha(a)
     return Color(
@@ -138,6 +237,24 @@ function Color.lighten(clr, pct)
     local h, s, l, a = Color.rgb2hsl(clr.r, clr.g, clr.b, clr.a)
     l = l + l * pct / 100
     return Color.hsl(h,s,l,a)
+end
+
+function Color.visibleColor(clr)
+    local cm = ( clr.r + clr.g + clr.b ) / 3
+
+    local m
+
+    if cm < 128 then
+        m = 255
+    else
+        m = 0
+    end
+
+    return Color(
+        m,
+        m,
+        m,
+        clr.a)
 end
 
 function Color.hsl(hue, sat, lgt, alpha)

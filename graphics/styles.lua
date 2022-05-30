@@ -89,8 +89,6 @@ CENTER = 'center'
 
 LEFT = 'left'
 
-ROUND = 'round'
-
 class 'Fonts'
 
 function Fonts.getFont(name, size)
@@ -136,6 +134,10 @@ function textPosition(pos)
     styles.textPosition = pos or styles.textPosition or 0
     return styles.textPosition
 end
+
+ROUND = 0
+SQUARE = 1
+PROJECT = 2
 
 function lineCapMode(mode)
     styles.lineCapMode = mode or styles.lineCapMode or ROUND

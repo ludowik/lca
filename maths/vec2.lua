@@ -52,18 +52,23 @@ function vec2:tovec3()
 end
 
 function vec2:floor()
-    return vec2(floor(self.x), floor(self.y))
+    return vec2(
+        __floor(self.x),
+        __floor(self.y))
 end
 
 function vec2:round()
-    self.x = round(self.x)
-    self.y = round(self.y)
-
-    return self
+    return vec2(
+        __round(self.x),
+        __round(self.y))
 end
 
 function vec2.__eq(v1, v2)
-    if v1 and v2 and v1.x == v2.x and v1.y == v2.y then
+    if (v1 and
+        v2 and
+        v1.x == v2.x and
+        v1.y == v2.y)
+    then
         return true
     end
 end
@@ -138,11 +143,15 @@ function vec2:len()
 end
 
 function vec2:lenSquared()
-    return self.x ^ 2 + self.y ^ 2
+    return (
+        self.x ^ 2 +
+        self.y ^ 2)
 end
 
 function vec2:dist(v)
-    return __sqrt((v.x - self.x) ^ 2 + (v.y - self.y) ^ 2)
+    return __sqrt(
+        (v.x - self.x) ^ 2 +
+        (v.y - self.y) ^ 2)
 end
 
 function vec2:normalize(norm)

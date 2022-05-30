@@ -1,3 +1,0 @@
-requireLib(
-    'main',
-    'heightMap')

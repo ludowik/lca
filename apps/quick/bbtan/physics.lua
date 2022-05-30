@@ -1,4 +1,4 @@
-Physics = class()
+Physics = class('Physics')
 
 function Physics.setup()
     CIRCLE = 'circle'
@@ -14,8 +14,8 @@ function Physics:body(entity, shapeType)
     local body = Body('dynamic', shapeType)
     self.bodies:add(body)
     
-    body.position:copy(entity.position)
-    body.size:copy(entity.size)
+    body.position:set(entity.position)
+    body.size:set(entity.size)
     
     body.r = entity.size.w
     
@@ -55,7 +55,7 @@ end
 function Physics:draw()
 end
 
-Body = class()
+Body = class('Body')
 
 function Body:init(bodyType, shapeType)
     self.bodyType = bodyType

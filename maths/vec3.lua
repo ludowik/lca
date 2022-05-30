@@ -1,7 +1,6 @@
 class 'vec3'
 
-local __sqrt = math.sqrt
-
+local __cos, __sin, __sqrt, __atan2, __degrees = math.cos, math.sin, math.sqrt, math.atan2, math.deg
 
 function vec3:init(x, y, z)
     if type(x) == 'table' then x, y, z = x.x, x.y, x.z end
@@ -37,6 +36,14 @@ function vec3.random(w, h, d)
         random(d))
 end
 
+function vec3.randomInScreen()
+    local size = min(W, H)
+    return vec3(
+        random(size),
+        random(size),
+        random(size))
+end
+
 function vec3:__tostring()
     return self.x .. ',' .. self.y .. ',' .. self.z
 end
@@ -54,6 +61,13 @@ function vec3:floor()
         __floor(self.x),
         __floor(self.y),
         __floor(self.z))
+end
+
+function vec3:round()
+    return vec3(
+        __round(self.x),
+        __round(self.y),
+        __round(self.z))
 end
 
 function vec3.__eq(v1, v2)
@@ -107,6 +121,9 @@ function vec3:sub(v)
 end
 
 function vec3:__mul(coef)
+    if type(self) == 'number' then
+        self, coef = coef, self
+    end
     return vec3(
         self.x * coef,
         self.y * coef,
@@ -144,10 +161,10 @@ function vec3:len()
 end
 
 function vec3:lenSquared()
-    return 
+    return ( 
         self.x^2 +
         self.y^2 +
-        self.z^2
+        self.z^2)
 end
 
 function vec3:dist(v)

@@ -1,4 +1,0 @@
-requireLib(
-    'appCalc',
-    'calc',
-    'unit')

@@ -1,2 +1,3 @@
-require 'app.bbtan.bbtan'
-require 'app.bbtan.physics'
+requireLib(
+    'bbtan',
+    'physics')

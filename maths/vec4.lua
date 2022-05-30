@@ -1,14 +1,26 @@
 class 'vec4'
 
+local __cos, __sin, __sqrt, __atan2, __degrees = math.cos, math.sin, math.sqrt, math.atan2, math.deg
+
 function vec4:init(x, y, z, w)
+    if type(x) == 'table' then x, y, z, w = x.x, x.y, x.z, x.w end
     self.x = x or 0
     self.y = y or 0
     self.z = z or 0
     self.w = w or 0
 end
 
+function vec4:set(...)
+    self:init(...)
+    return self
+end
+
 function vec4:clone()
     return table.clone(self)
+end
+
+function vec4:__index(key)
+    return rawget(vec4, key)
 end
 
 function vec4.random(w, h, d)
@@ -28,8 +40,13 @@ function vec4.random(w, h, d)
     end
 end
 
-function vec4:tovec3()
-    return vec3(self.x, self.y, self.z)
+function vec4.randomInScreen()
+    local size = min(W, H)
+    return vec4(
+        random(size),
+        random(size),
+        random(size),
+        1)
 end
 
 function vec4:__tostring()
@@ -38,6 +55,18 @@ end
 
 function vec4:unpack()
     return self.x, self.y, self.z, self.w
+end
+
+function vec4:tovec3()
+    return vec3(self.x, self.y, self.z)
+end
+
+function vec4:floor()
+    return vec4(
+        __floor(self.x),
+        __floor(self.y),
+        __floor(self.z),
+        1)
 end
 
 function vec4.__eq(v1, v2)
@@ -50,35 +79,6 @@ function vec4.__eq(v1, v2)
     then
         return true
     end
-end
-
-function vec4:floor()
-    return vec4(
-        __floor(self.x),
-        __floor(self.y),
-        __floor(self.z),
-        1)
-end
-
-function vec4:len()
-    return __sqrt(
-        self.x^2 +
-        self.y^2 +
-        self.z^2)
-end
-
-function vec4:lenSquared()
-    return 
-        self.x^2 +
-        self.y^2 +
-        self.z^2
-end
-
-function vec4:dist(v)
-    return __sqrt(
-        (v.x - self.x)^2 +
-        (v.y - self.y)^2 +
-        (v.z - self.z)^2)
 end
 
 function vec4:__unm()
@@ -148,6 +148,27 @@ end
 
 function vec4:div(coef)
     return self:mul(1/coef)
+end
+
+function vec4:len()
+    return __sqrt(
+        self.x^2 +
+        self.y^2 +
+        self.z^2)
+end
+
+function vec4:lenSquared()
+    return 
+        self.x^2 +
+        self.y^2 +
+        self.z^2
+end
+
+function vec4:dist(v)
+    return __sqrt(
+        (v.x - self.x)^2 +
+        (v.y - self.y)^2 +
+        (v.z - self.z)^2)
 end
 
 function vec4:normalize(coef)

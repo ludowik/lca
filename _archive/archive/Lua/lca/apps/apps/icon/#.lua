@@ -1,1 +1,0 @@
-requireLib('icon')
