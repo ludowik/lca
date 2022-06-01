@@ -46,3 +46,4 @@ output = class 'Output'
 
 function Output.clear()
 end
+

@@ -8,6 +8,12 @@ function Engine.keyreleased(key)
     elseif key == ',' then -- ?
         randomApp()
 
+    elseif key == 'a' then
+        loadApp('', 'app')
+
+    elseif key == 'i' then
+        loadApp('', 'info')
+
     elseif key == 'l' then
         if Engine.test then
             Engine.test = nil

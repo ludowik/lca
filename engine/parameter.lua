@@ -10,8 +10,8 @@ function Parameter:init()
         if value == nil or value == _G[name] then
             default = default or min
             if default ~= nil then
-                _G.__value__ = default
-                loadstring('env.'..name..'=_G.__value__')()
+                global.__value__ = default
+                loadstring('env.'..name..'=global.__value__')()
                 if notify then
                     notify(default)
                 end

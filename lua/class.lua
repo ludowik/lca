@@ -51,7 +51,7 @@ function class(className, ...)
     -- reference
     if className then
         local classNamePath = className.split and className:split('.') or {className}
-        local store = _G
+        local store = getfenv(0)
         for i=1,#classNamePath-1 do
             store = store[classNamePath[i]]
         end

@@ -1,6 +1,6 @@
 class 'vec2'
 
-local __cos, __sin, __sqrt, __atan2, __degrees = math.cos, math.sin, math.sqrt, math.atan2, math.deg
+local __cos, __sin, __sqrt, __atan2, __degrees, __round = math.cos, math.sin, math.sqrt, math.atan2, math.deg, math.round
 
 if ffi then
     ffi.cdef [[
@@ -15,7 +15,7 @@ if ffi then
 end
 
 function vec2:init(x, y)
-    if type(x) == 'table' then x, y, z = x.x, x.y end
+    if type(x) == 'table' then x, y = x.x, x.y end
     self.x = x or 0
     self.y = y or 0
     self.z = 0

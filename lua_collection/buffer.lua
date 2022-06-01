@@ -8,6 +8,7 @@ if true then
             vec2 = vec2,
             vec3 = vec3,
             vec4 = vec4,
+            color = Color,
             float = function () return 0 end
         }
     end

@@ -1,7 +1,7 @@
 function evalExpression(expression)
     local src = (
-        "_G.__temp__ = "..tostring(expression)..NL..
-        "return _G.__temp__")
+        "global.__temp__ = "..tostring(expression)..NL..
+        "return global.__temp__")
     return evalCode(src)
 end
 

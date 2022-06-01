@@ -201,7 +201,7 @@ function isometric(n)
     setTransformation()
 end
 
-function perspective(fov, width, height, zNear, zFar)
+function perspective(fovy, width, height, near, far)
     local camera = nil -- getCamera()
     if camera then
         fovy = camera.fovy or fovy or 45
@@ -212,7 +212,7 @@ function perspective(fov, width, height, zNear, zFar)
     local w = W or 400
     local h = H or 400
 
-    aspect = aspect or (w / h)
+    local aspect = aspect or (w / h)
 
     near = near or 0.1
     far = far or 100000

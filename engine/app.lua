@@ -123,7 +123,7 @@ function setApp(index)
     apps.current = index
 
     local env = app.env
-    _G.env = env    
+    _G.env = env
     setfenv(0, env)
 
     love.window.setTitle(app.name)

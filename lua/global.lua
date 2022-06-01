@@ -12,7 +12,7 @@ setmetatable(global, {
 })
 
 -- disable create unexpected global variable
-function disable_global()
+function disableGlobal()
     setmetatable(__g, {
         __newindex = function(_, name, value)-- Once the global environment is assigned, it will call the... Set here __newindex Metamethod , Prompt error , Assignment is not performed 
             print(string.format("Use 'global.%s = value' instead of set global variable", name))
@@ -20,5 +20,3 @@ function disable_global()
         end
     })
 end
-
-disable_global()

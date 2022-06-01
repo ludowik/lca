@@ -11,6 +11,8 @@ function Engine.load()
 
     resetMatrix()
     resetStyle()
+    
+    disableGlobal()
 
     loadApps()
 

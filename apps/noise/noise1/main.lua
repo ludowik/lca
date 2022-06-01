@@ -12,7 +12,7 @@ function AppMap:init()
     self.imageSize = 512
 
     function generate(batchMode, map, f, clr, dt)
-        clr = clr or white
+        clr = clr or colors.white
 
         local clockStart = os.clock()
 
@@ -26,8 +26,8 @@ function AppMap:init()
 
         local n = 10
 
-        local w = self.imageSize / n
-        local h = self.imageSize / n
+        local w = round(self.imageSize / n)
+        local h = round(self.imageSize / n)
 
         local size = 10
 
@@ -41,19 +41,19 @@ function AppMap:init()
 
                 map:add(block)
 
-                block.vectorsArray = Buffer('vec3', 4*(w+1)*(h+1)) -- vectorsArray(4*(w+1)*(h+1))
+                block.vectorsArray = Buffer('vec3'):alloc(6*w*h) -- vectorsArray(4*(w+1)*(h+1))
 
                 local iVector, vec = 0
                 local function vector(x, y, z)
-                    local vec = block.vectorsArray[iVector]
                     iVector = iVector + 1
+                    local vec = block.vectorsArray[iVector]
                     vec.x = x
                     vec.y = y
                     vec.z = z
                     return vec
                 end
 
-                block.colorsArray = Buffer('color', 4*(w+1)*(h+1)) -- colorsArray(4*(w+1)*(h+1))
+                block.colorsArray = Buffer('color'):alloc(6*w*h) -- colorsArray(4*(w+1)*(h+1))
 
                 local iColor = 0
                 local function color(r, g, b, a)
@@ -69,12 +69,12 @@ function AppMap:init()
                 local i = 1
 
                 local x, xp = ib*w*size, ib*w*variation
-                for xi=0,w do
+                for xi=0,w-1 do
                     x = x + size
                     xp = xp + variation
 
                     local y, yp = jb*h*size, jb*h*variation
-                    for yi=0,h do
+                    for yi=0,h-1 do
                         y = y + size
                         yp = yp + variation
 
@@ -83,10 +83,10 @@ function AppMap:init()
                         h3 = f(xp+variation, yp+variation)
                         h4 = f(xp, yp+variation)
 
-                        clr1 = color(h1 * clr.r, h1 * clr.g, h1 * clr.b)
-                        clr2 = color(h2 * clr.r, h2 * clr.g, h2 * clr.b)
-                        clr3 = color(h3 * clr.r, h3 * clr.g, h3 * clr.b)
-                        clr4 = color(h4 * clr.r, h4 * clr.g, h4 * clr.b)
+                        clr1 = Color(h1 * clr.r, h1 * clr.g, h1 * clr.b)
+                        clr2 = Color(h2 * clr.r, h2 * clr.g, h2 * clr.b)
+                        clr3 = Color(h3 * clr.r, h3 * clr.g, h3 * clr.b)
+                        clr4 = Color(h4 * clr.r, h4 * clr.g, h4 * clr.b)
 
                         block.vertices[i+0] = vector(x     , h1, y)
                         block.vertices[i+1] = vector(x+size, h3, y+size)

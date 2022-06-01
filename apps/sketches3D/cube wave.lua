@@ -44,7 +44,7 @@ function appCubeWave:draw3d()
             local s = sin(self.angle + offset)
 
             local h = map(s, -1, 1, w*2, w*8)
-            local r = map(s, -1, 1, 0, 1)
+            local r = map(s, -1, 1, 0.4, 1)
 
             translate(0, 0, w)
 
