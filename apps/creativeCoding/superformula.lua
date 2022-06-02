@@ -130,7 +130,7 @@ function draw3d()
 
     local ratio = (W/4)/(maxr*shape_size2)
     for i=1,#array do
-        v = array[i]
+        local v = array[i]
         if v == vec3() then assert() end
         v:mul(ratio)
     end

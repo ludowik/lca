@@ -52,14 +52,6 @@ function Node:iter(reverse)
     return ipairs(self:items())
 end
 
-function Node:update(dt)
-    for i,v in self:iter() do
-        if v.update then
-            v:update(dt)
-        end
-    end
-end
-
 function Node:ui(label, level)
     level = level or 0
 
@@ -171,4 +163,7 @@ function Node:draw()
         local item = items[i]
         item:draw()
     end
+end
+
+function Node:touched(touch)
 end

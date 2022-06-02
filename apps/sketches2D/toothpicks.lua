@@ -73,7 +73,7 @@ function setup()
     minY = -H/2
     maxY =  H/2
 
-    noLoop()
+--    noLoop()
 end
 
 function touched(touch)
@@ -117,13 +117,13 @@ function update(dt)
                 t.new = false
 
                 if not t.inContactA then
-                    Toothpicks:add(Toothpick(t.xa, t.ya, t.angle + PI + PI*4, 'a'))
-                    Toothpicks:add(Toothpick(t.xa, t.ya, t.angle + PI - PI*4, 'a'))
+                    Toothpicks:add(Toothpick(t.xa, t.ya, t.angle + PI/2 + PI*4, 'a'))
+                    Toothpicks:add(Toothpick(t.xa, t.ya, t.angle + PI/2 - PI*4, 'a'))
                     t.inContactA = true
                 end
                 if not t.inContactB then
-                    Toothpicks:add(Toothpick(t.xb, t.yb, t.angle + PI + PI*4, 'b'))
-                    Toothpicks:add(Toothpick(t.xb, t.yb, t.angle + PI - PI*4, 'b'))
+                    Toothpicks:add(Toothpick(t.xb, t.yb, t.angle + PI/2 + PI*4, 'b'))
+                    Toothpicks:add(Toothpick(t.xb, t.yb, t.angle + PI/2 - PI*4, 'b'))
                     t.inContactB = true
                 end
             end

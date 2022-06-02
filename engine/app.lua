@@ -61,7 +61,7 @@ function loadApp(path, name)
             love.filesystem.getInfo(path..'/' .. name))
 
         if info then
-            _G.env = env
+            global.env = env
             setfenv(0, env)
             
             loop()

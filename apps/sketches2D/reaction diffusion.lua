@@ -53,7 +53,7 @@ function ReactionDiffusion:init()
 end
 
 function ReactionDiffusion:update(dt)
-    for i=1,500 do
+    for i=1,50 do
         self:updateImage(0.05)
     end
 end
@@ -91,7 +91,7 @@ function ReactionDiffusion:draw()
         end)
 
     spriteMode(CENTER)
---    sprite(renderImage, WIDTH/2, HEIGHT/2)
+    sprite(renderImage, WIDTH/2, HEIGHT/2)
 end
 
 function createGrid(n, m)

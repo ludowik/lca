@@ -1,4 +1,4 @@
-function draw3d()
+function draw3d()    
     perspective()
     
     lookAt(vec3(3,3,3))
@@ -13,7 +13,7 @@ function draw3d()
 --    sphere()
 end
 
-function drawInfo()
+function drawInfo()    
     text(love.filesystem.getSaveDirectory())
     text(table.tolua(config))
     text(table.tolua({love.window.getSafeArea()}))

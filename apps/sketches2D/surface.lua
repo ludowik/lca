@@ -2,7 +2,7 @@ function setup()
     image = Image(W, H)
 
     vertices = {}
-    for i=1,10 do
+    for i=1,50 do
         local v = vec2(
             randomInt(W),
             randomInt(H)

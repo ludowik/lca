@@ -6,7 +6,7 @@ function resetStyle()
     textPosition(0)
     textColor(colors.white)
 
-    stroke(colors.red)
+    stroke(colors.white)
     strokeSize(1)
 
     fill(colors.white)

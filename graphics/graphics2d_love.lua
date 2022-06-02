@@ -37,6 +37,7 @@ end
 
 function Graphics.lines(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
+    if #t == 0 then return end
 
     love.graphics.setColor(stroke():unpack())
     love.graphics.setLineWidth(strokeSize())    

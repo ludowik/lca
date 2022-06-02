@@ -5,7 +5,7 @@ DEFAULT_FONT_NAME = 'Arial'
 function Graphics.background(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
     clr = clr or colors.black
-    local r, g, b, a = clr:unpack(),
+    local r, g, b, a = clr:unpack()
     love.graphics.clear(r, g, b, a, true, true)
 end
 

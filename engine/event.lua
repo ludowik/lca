@@ -140,8 +140,8 @@ function Engine.mousereleased(x, y, button, istouch, presses)
 
     local xEnd, yEnd = x, y
 
-    dx = abs(xEnd - xBegin)
-    dy = abs(yEnd - yBegin)
+    local dx = abs(xEnd - xBegin)
+    local dy = abs(yEnd - yBegin)
 
     if xBegin > 0.85 * W and yBegin < 0.15 * H then
         quit()
