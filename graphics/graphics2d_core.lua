@@ -552,7 +552,7 @@ function _ADD(s, t, a) return s + t end
 local function __blendMode()
     local mode = blendMode()
     if mode == REPLACE then return _REPLACE end
-    if mode == ALPHA then return _ALPHA end
+    if mode == NORMAL then return _ALPHA end
     if mode == ADD then return _ADD end
 end
 

@@ -26,7 +26,7 @@ require 'engine.fs'
 require 'engine.path'
 require 'engine.sound'
 require 'engine.keyboard'
-require 'engine.package'
+--require 'engine.package'
 
 json = require 'lib/json'
 utf8 = require 'lib/utf8'
