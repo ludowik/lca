@@ -2,6 +2,7 @@ local snowflakes = table() -- array to hold snowflake objects
 
 function setup()
     setOrigin(BOTTOM_LEFT)
+    setVSync(1)
 end
 
 function update(dt)

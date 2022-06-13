@@ -60,3 +60,8 @@ function quit(...)
     Engine.unload()
     return love2d.event.quit(...)
 end
+
+function exit()
+    os.exit()
+end
+

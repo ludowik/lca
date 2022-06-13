@@ -25,7 +25,7 @@ function update(dt)
                             break
                         end
                     end
-                    
+
                     love.graphics.present()
                 end
             end
@@ -37,6 +37,8 @@ end
 
 function draw()
     background(gray)
+
+    scene.position = vec2(100, 100)
     scene:draw()
 end
 
@@ -44,6 +46,7 @@ function touched(touch)
     if touch.state == RELEASED then
         touch.y = touch.y - scene.position.y
         scene:touched(touch)
+
     elseif touch.state == MOVING then
         scene.position.y = scene.position.y + touch.dy
     end
@@ -54,18 +57,20 @@ function browse(path, previousPath)
     scene:clear()
 
     if previousPath then
-        scene:add(UI('..', function () browse(previousPath) end))
+        scene:add(UI('..', function ()
+                    browse(previousPath)
+                end))
     end
 
     local list = dir(path)
-    list:sort(function (a,b) return a < b end)
+    list:sort(function (a, b) return a < b end)
 
     for i,item in ipairs(list) do
         local path, name, ext = splitFilePath(item)
         scene:add(UI(name,
                 function (_)
                     if isApp(item) then
-                        loadApp(item)
+                        loadApp(path, name)
                     else
                         browse(item, path)
                     end

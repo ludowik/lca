@@ -119,6 +119,7 @@ function Graphics.rect(x, y, w, h)
     end
 end
 
+local SEGMENTS = 32
 function Graphics.circle(x, y, r)
     if circleMode() == CORNER then
         x = x - r
@@ -127,13 +128,13 @@ function Graphics.circle(x, y, r)
 
     if fill() then
         love.graphics.setColor(fill():unpack())
-        love.graphics.circle('fill', x, y, r)
+        love.graphics.circle('fill', x, y, r, SEGMENTS)
     end
 
     if stroke() then
         love.graphics.setColor(stroke():unpack())
         love.graphics.setLineWidth(strokeSize())
-        love.graphics.circle('line', x, y, r)
+        love.graphics.circle('line', x, y, r, SEGMENTS)
     end
 end
 
@@ -147,13 +148,13 @@ function Graphics.ellipse(x, y, w, h)
 
     if fill() then
         love.graphics.setColor(fill():unpack())
-        love.graphics.ellipse('fill', x, y, w/2, h/2)
+        love.graphics.ellipse('fill', x, y, w/2, h/2, SEGMENTS)
     end
 
     if stroke() then
         love.graphics.setColor(stroke():unpack())
         love.graphics.setLineWidth(strokeSize())
-        love.graphics.ellipse('line', x, y, w/2, h/2)
+        love.graphics.ellipse('line', x, y, w/2, h/2, SEGMENTS)
     end
 end
 

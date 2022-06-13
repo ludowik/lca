@@ -2,7 +2,7 @@ function dir(path, fileType)
     local list = table()
     for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do
         if not item:lower():contains('.ds_store') and 
-           not item:lower():contains('.git') then
+        not item:lower():contains('.git') then
             local info = love.filesystem.getInfo(path..'/'..item)
             if fileType == nil or info.type == fileType then
                 list:add(path..'/'..item)
@@ -49,7 +49,12 @@ function splitFilePath(strFilename)
 end
 
 function isApp(path)
-    if isFile(path..'/'..'Info.plist') then
+    if (isFile(path..'/'..'Info.plist') or
+        isFile(path..'/'..'#.lua') or
+        isFile(path..'/'..'init.lua') or
+        isFile(path..'/'..'__init.lua') or
+        isFile(path..'/'..'main.lua'))
+    then
         return true
     end
 
@@ -61,7 +66,9 @@ function isApp(path)
         return false
     end
 
-    return moduleExist(path)
+    return false
+    -- TODEL ?
+--    return moduleExist(path)
 end
 
 function isDirectory(path)

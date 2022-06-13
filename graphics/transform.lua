@@ -183,6 +183,10 @@ function ortho(left, right, bottom, top, near, far)
     setTransformation()
 end
 
+function ortho3D()
+    isometric(10)
+end
+
 function isometric(n)
     ortho()
 
@@ -202,15 +206,15 @@ function isometric(n)
 end
 
 function perspective(fovy, width, height, near, far)
-    local camera = nil -- getCamera()
+    local camera = getCamera()
     if camera then
         fovy = camera.fovy or fovy or 45
     else
         fovy = fovy or 45
     end
 
-    local w = W or 400
-    local h = H or 400
+    local w = width or W or 400
+    local h = height or H or 400
 
     local aspect = aspect or (w / h)
 
@@ -254,9 +258,6 @@ function lookAt(eye, target, up)
 end
 
 function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
-    lookAt(
-        vec3(eye_x, eye_y, eye_z),
-        vec3(at_x, at_y, at_z),
-        vec3(up_x, up_y, up_z))
-    return Camera()
+    _G.env.__camera = Camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
+    return _G.env.__camera
 end

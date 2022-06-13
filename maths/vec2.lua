@@ -101,9 +101,10 @@ function vec2:__add(v)
         self.y + v.y)
 end
 
-function vec2:add(v)
-    self.x = self.x + v.x
-    self.y = self.y + v.y
+function vec2:add(v, coef)
+    coef = coef or 1
+    self.x = self.x + v.x * coef
+    self.y = self.y + v.y * coef
     return self
 end
 
@@ -113,9 +114,10 @@ function vec2:__sub(v)
         self.y - v.y)
 end
 
-function vec2:sub(v)
-    self.x = self.x - v.x
-    self.y = self.y - v.y
+function vec2:sub(v, coef)
+    coef = coef or 1
+    self.x = self.x - v.x * coef
+    self.y = self.y - v.y * coef
     return self
 end
 
@@ -286,8 +288,8 @@ function vec2.intersection(line1, line2)
     local a1, b1 = vec2.fx(line1[1], line1[2])
     local a2, b2 = vec2.fx(line2[1], line2[2])
 
-    x = (b2 - b1) / (a1 - a2)
-    y = a1 * x + b1
+    local x = (b2 - b1) / (a1 - a2)
+    local y = a1 * x + b1
 
     return x, y
 end

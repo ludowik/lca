@@ -74,7 +74,7 @@ function draw()
                 rect(0, 0, w*0.9, h*0.9)
                 
                 textColor(clr:contrast())
-                text(('LCA'):random(), 0, 0)
+                text(('BON ANNIVERSAIRE LOU'):random(), 0, 0)
             end
             popMatrix()
         end

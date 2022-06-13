@@ -689,7 +689,7 @@ end
 function Model.skybox(w, h, d)
     w = w or 1
     h = w
-    e = w
+    d = w
 
     local vertices = Buffer('vec3', {
             f1, f2, f3, f1, f3, f4, -- front
@@ -701,7 +701,7 @@ function Model.skybox(w, h, d)
         })
 
     return Model.mesh(
-        Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, -e),
+        Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, -d),
         texCoords_box,
         Model.computeNormals(vertices))
 end

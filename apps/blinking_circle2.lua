@@ -26,7 +26,7 @@ function drawCircles(n, a)
         for y = 0,n+1 do
             local radius = w / 2 * sin(elapsedTime+100*noise(x, y))
 
-            local r = 0.5+cos(rad(elapsedTime*10*noise(x, y)))/2
+            local r = 0.5+cos(elapsedTime*10*noise(x, y))/2
 
             fill(1-r, 0.25, 0.5, a)
             

@@ -37,11 +37,15 @@ function Body:init()
             y = 0,
             z = 0,
             angle = 0,
-            points = {}
+            radius = 0,
+            points = {},
         })
 end
 
 function Body:destroy()
+end
+
+function Body:applyForce(v)
 end
 
 class 'Fizix' : extends(Physics)

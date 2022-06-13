@@ -39,8 +39,8 @@ function Parameter:init()
         implement('parameter action')
     end
 
-    function self.boolean(variable, min, max, default, callback)
-        self.default(variable, min, max, default, callback)
+    function self.boolean(variable, default, callback)
+        self.default(variable, false, true, default, callback)
         self.scene:add(UI(variable, callback))
         implement('parameter watch')
     end

@@ -1,13 +1,16 @@
 function setup()
-    size = W
+    sizeW = W
+    sizeH = H
 
-    buf1 = Buffer('float'):resize(size^2)
-    buf2 = Buffer('float'):resize(size^2)
+    buf1 = Buffer('float'):resize(sizeW*sizeH)
+    buf2 = Buffer('float'):resize(sizeW*sizeH)
 
     damping = 0.95
 
-    img = Image(size, size)
+    img = Image(sizeW, sizeH)
     img:background(colors.black)
+    
+    setVSync(1)
 end
 
 function update(dt)
@@ -15,7 +18,7 @@ function update(dt)
         step()
     end
 
-    waterDrop(random(size), random(size))
+    waterDrop(random(sizeW), random(sizeH))
 end
 
 function step()
@@ -23,13 +26,13 @@ function step()
 
     index = getOffset(2, 2-1)
 
-    for y=2,size-1 do        
-        for x=2,size-1 do
+    for y=2,sizeH-1 do        
+        for x=2,sizeW-1 do
             value = (
                 buf1[index-1] +
                 buf1[index+1] +
-                buf1[index-size] +
-                buf1[index+size]
+                buf1[index-sizeW] +
+                buf1[index+sizeW]
                 ) * 0.5 - buf2[index]
 
             value = value * damping
@@ -52,7 +55,7 @@ function step()
 end
 
 function getOffset(x, y)
-    return round(x) + round(y) * size
+    return round(x) + round(y) * sizeW
 end
 
 function draw()
@@ -64,7 +67,7 @@ function draw()
     noFill()
 
     rectMode(CORNER)
-    rect(0, 0 , size, size)
+    rect(0, 0 , sizeW, sizeH)
 end
 
 function touched(touch)

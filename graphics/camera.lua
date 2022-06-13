@@ -1,16 +1,14 @@
 class('Camera')
 
-local cos, sin, acos, asin = math.cos, math.sin, math.acos, math.asin
+local __cos, __sin, __acos, __asin = math.cos, math.sin, math.acos, math.asin
 
 function getCamera()
-    return Camera.camera
+    return _G.env.__camera
 end
 
 function Camera.setup()
     CAMERA_FPS = 'fps'
     CAMERA_MODEL = 'model'
-    
-    Camera.camera = Camera()
 end
 
 function Camera:init(...)
@@ -258,9 +256,9 @@ function Camera:zoom(x, y)
 end
 
 function Camera:computeVectors(direction, yaw, pitch)
-    self.vTemp.x = cos(rad(yaw)) * cos(rad(pitch))
-    self.vTemp.y = sin(rad(pitch))
-    self.vTemp.z = sin(rad(yaw)) * cos(rad(pitch))
+    self.vTemp.x = __cos(rad(yaw)) * __cos(rad(pitch))
+    self.vTemp.y = __sin(rad(pitch))
+    self.vTemp.z = __sin(rad(yaw)) * __cos(rad(pitch))
 
     return self.vTemp:normalizeInPlace(direction:len())
 end
@@ -271,8 +269,8 @@ function Camera:updateVectors()
 end
 
 function Camera:computeAngles(front)
-    local pitch = deg(asin(front.y))
-    local yaw = deg(acos(clamp(front.x / cos(rad(pitch)), -1, 1)))
+    local pitch = deg(__asin(front.y))
+    local yaw = deg(__acos(clamp(front.x / __cos(rad(pitch)), -1, 1)))
 
     if front.z < 0 then
         yaw = -yaw
@@ -305,6 +303,6 @@ function Camera:matrix()
         0, 0, 0, 1)
 end
 
-function Camera:setViewMatrix()
-    viewMatrix(self:matrix())
+function Camera:lookAt()
+    lookAt(eye, at, up)
 end

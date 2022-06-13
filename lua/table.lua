@@ -1,3 +1,6 @@
+function nilf()
+end
+
 local mt = {
     __call = function (_, t)
         t = t or {}
@@ -137,7 +140,7 @@ function table:call_index(f, ...)
     local typeof = type(f)
     local n = #self
     for i=1,n do
-        v = self[i]
+        local v = self[i]
         if typeof == "string" then
             if v[f] then
                 v[f](v, i, ...)

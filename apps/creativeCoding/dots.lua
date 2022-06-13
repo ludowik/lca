@@ -1,6 +1,8 @@
 function setup()
     setOrigin(BOTTOM_LEFT)
     
+    setVSync(1)
+    
     xx = 0
     yy = 0
 

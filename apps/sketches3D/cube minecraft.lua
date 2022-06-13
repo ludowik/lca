@@ -15,7 +15,7 @@ function Cube:init()
     local n = 7
     for x=-n,n do
         for y=-n,n do
-            local chunk = Mesh(Model.box())
+            local chunk = Model.box()
             chunk.inst_pos = Buffer('vec3')
             chunk.inst_pos:resize(32^2)    
             chunk.needUpdate = true
@@ -97,7 +97,7 @@ function Cube:draw()
     background(51)
 
     perspective()
-
+    
     for i,chunk in ipairs(self.chunks) do
         chunk.texture = self.aaa
         chunk:drawInstanced(#chunk.inst_pos)

@@ -24,12 +24,12 @@ function setup()
 
     parameter.boolean('scale_shape', true)
 
-    parameter.boolean('_3d', true, function ()
+    parameter.boolean('_3d', false, function ()
             if not _3d then
-                draw = draw2d
+                draw = __draw2d
             else
                 ortho3D()
-                draw = draw3d
+                draw = __draw3d
             end
         end)
 end
@@ -37,9 +37,12 @@ end
 function update(dt)
 end
 
-function draw2d()
+function __draw2d()
     background(0)
 
+    stroke(colors.white)
+    strokeSize(5)
+    
     translate(W/2, H/2)
 
     local len, maxLen = 0, 0
@@ -67,7 +70,7 @@ function draw2d()
     endShape()
 end
 
-function draw3d()
+function __draw3d()
     background(51)
     
     light(true)
@@ -76,7 +79,7 @@ function draw3d()
 
     translate(W/2, H/2)
 
-    stroke(white)
+    stroke(colors.white)
     strokeSize(5)
 
     local index = 1

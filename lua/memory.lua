@@ -6,6 +6,7 @@ function gc()
     collectgarbage('collect')
 end
 
-function format_ram(ram)
-    return string.format('%.2f mo', ram / 1024 / 1024)
+function format_ram(__ram)
+    __ram = __ram or ram()
+    return string.format('%.2f mo', __ram / 1024 / 1024)
 end

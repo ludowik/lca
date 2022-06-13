@@ -10,7 +10,9 @@ function Scene:layout(x, y)
     x, y = x or 0, y or 0
     for i,node in ipairs(nodes) do
         if node.position then
+            node.position.x = x
             node.position.y = y
+            
             y = y + node.size.h
         end
     end
@@ -23,12 +25,12 @@ function Scene:draw()
 --        background()
     end    
 
-    translate(self.position.x, self.position.y)
+--    translate(self.position.x, self.position.y)
 
     local nodes = self:items()
     for i,node in ipairs(nodes) do
         pushMatrix()
-        if node.position then
+        if node.position and node.items == nil then
             translate(node.position.x, node.position.y)
         end
         node:draw()
@@ -37,10 +39,11 @@ function Scene:draw()
 end
 
 function Scene:touched(touch)
+    print(touch)
+    
     local x, y = 0, 0
     local nodes = self:items()
     for i,node in ipairs(nodes) do
-        print(Rect.__tostring(node))
         if node:contains(touch) then
             if touch.state == RELEASED then
                 if touch.tx == 0 and touch.ty == 0 then
@@ -51,6 +54,7 @@ function Scene:touched(touch)
             end
             break
         end
+        print('not in '..node.label)
     end
 end
 
@@ -102,7 +106,7 @@ class 'Label' : extends(UI)
 class 'Slider' : extends(UI)
 function Slider:init(variable, min, max, default, callback)
     UI.init(self, variable, callback)
-    
+
     self.value = min
     self.min = min
     self.max = max
@@ -111,7 +115,7 @@ end
 
 function Slider:touched(touch)
     self.value = self.value + 1
-    
+
     if self.callback then
         self.callback(self.value)
     end

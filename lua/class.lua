@@ -1,6 +1,21 @@
-local classes = {}
+classes = {
+    list = {}
+}
 
-function nilf()
+function classes.setup()
+    for i=1,#classes.list do
+        local k = classes.list[i]
+        classWithProperties(k)
+        
+        if k.setup then
+            k.setup()
+        end
+        
+        if k.test then
+            k.test()
+        end
+    end
+    classes.list = table()
 end
 
 function class(className, ...)
@@ -10,7 +25,7 @@ function class(className, ...)
     k.__index = k
     k.__className = className
 
-    table.insert(classes, k)
+    table.insert(classes.list, k)
 
     setmetatable(k, { 
             __call = function(_, ...)
@@ -24,7 +39,6 @@ function class(className, ...)
     -- extends
     function k.extends(...)
         local bases = {...}
-        --assert(#bases >= 1)
         for _,base in pairs(bases) do
             for name,f in pairs(base) do
                 if type(f) == 'function' then
@@ -64,6 +78,7 @@ end
 function classWithProperties(proto)
     local get = proto.properties.get
     if table.getnKeys(get) > 0 then
+        print(proto.__className..' have properties')
         proto.__index = function(tbl, key)
             if proto[key] then
                 return proto[key]
@@ -93,23 +108,10 @@ function classWithProperties(proto)
     end
 end
 
-function setupClasses()
-    for i=1,#classes do
-        local k = classes[i]
-        if k.setup then
-            k.setup()
-            k.__setupDone = k.setup
-            k.setup = nil
-        end
-
-        classWithProperties(k)
-    end
-end
-
 function push2_G(meta)
     for k,f in pairs(meta) do
         if k ~= 'setup' and k ~= 'init' and type(f) == 'function' then 
-            _G[k] = f
+            (global or _G)[k] = f
         end
     end
 end
@@ -119,8 +121,8 @@ function classnameof(object)
 end
 
 function attributeof(attrName, object)
-    _G.__object__ = object
-    return evalExpression('_G.__object__.'..attrName)
+    global.__object__ = object
+    return evalExpression('global.__object__.'..attrName)
 end
 
 function typeof(object)

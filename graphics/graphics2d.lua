@@ -2,6 +2,14 @@ local Graphics = class 'GraphicsBase'
 
 DEFAULT_FONT_NAME = 'Arial'
 
+function Graphics.setup()
+    Graphics.resources = {}
+end
+
+function Graphics.release()
+    Graphics.resources = nil
+end
+
 function Graphics.background(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
     clr = clr or colors.black
@@ -21,25 +29,24 @@ function Graphics.noClip()
     love.graphics.setScissor()
 end
 
-local resources = {}
-function Graphics.textRes(txt)
+function Graphics.textResource(txt)
     local font = love.graphics.getFont()
 
     local resName = txt .. fontSize()
-    local res = resources[resName]
+    local res = Graphics.resources[resName]
     if not res then
-        resources[resName] = {
+        Graphics.resources[resName] = {
             text = love.graphics.newText(font, txt),
         }
-        resources[resName].w, resources[resName].h = resources[resName].text:getDimensions()
-        res = resources[resName]
+        Graphics.resources[resName].w, Graphics.resources[resName].h = Graphics.resources[resName].text:getDimensions()
+        res = Graphics.resources[resName]
     end
 
     return res
 end
 
 function Graphics.textSize(txt)
-    local res = Graphics.textRes(txt)
+    local res = Graphics.textResource(txt)
     return res.w, res.h
 end
 
@@ -54,7 +61,7 @@ function Graphics.text(txt, x, y)
         txt = tostring(txt)
     end
 
-    local res = Graphics.textRes(txt)    
+    local res = Graphics.textResource(txt)    
     local w, h = res.w, res.h
 
     x = x or 0
@@ -74,7 +81,7 @@ function Graphics.text(txt, x, y)
         love.graphics.setColor(clr:unpack())
         love.graphics.draw(res.text, x, y)
     end
-    
+
     return w, h
 end
 
@@ -110,6 +117,10 @@ end
 
 function Graphics.vertex(x, y)
     shape:vertex(x, y)
+end
+
+function Graphics.scaleShape(n)
+    shape:scale(n)
 end
 
 function Graphics.endShape(mode)

@@ -4,6 +4,10 @@ function Image.setup()
     Image.images = table()
 end
 
+function Image.release()
+    Image.images = nil
+end
+
 function Image:init(name, ...)
     if type(name) == 'string' then
         self.data = love.graphics.newImage(name)

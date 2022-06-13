@@ -6,7 +6,7 @@ function introspection()
     
     app.ui:setLayoutFlow(Layout.row)
 
-    function addGroup(filterType)
+    local function addGroup(filterType)
         local group = app.ui:ui(filterType)
         if group == nil then
             group = UIScene(filterType, Layout.column)

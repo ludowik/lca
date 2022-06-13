@@ -21,7 +21,7 @@ function getFullPath(path, directory)
 end
 
 function validatePath(path, directory, absolute)
-    fullPath = getFullPath(path, directory)
+    local fullPath = getFullPath(path, directory)
 
     if not isDirectory(fullPath) then
         makeDir(path)

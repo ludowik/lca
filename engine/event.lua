@@ -9,7 +9,7 @@ function Engine.keyreleased(key)
         randomApp()
 
     elseif key == 'a' then
-        loadApp('', 'app')
+        loadApp('', 'apps')
 
     elseif key == 'i' then
         loadApp('', 'info')
@@ -85,6 +85,10 @@ mouse = table({
 CurrentTouch = mouse
 
 function mouseevent(state, x, y, button)
+    __mouseevent(state, x-X, y-Y, button)
+end
+
+function __mouseevent(state, x, y, button)
     mouse.id = 1
 
     mouse.state = state
@@ -143,19 +147,19 @@ function Engine.mousereleased(x, y, button, istouch, presses)
     local dx = abs(xEnd - xBegin)
     local dy = abs(yEnd - yBegin)
 
-    if xBegin > 0.85 * W and yBegin < 0.15 * H then
-        quit()
+--    if xBegin > 0.85 * W and yBegin < 0.15 * H then
+--        quit()
 
-    elseif xBegin > .5 * W and xEnd < .5 * W and dx > .4 * W and dy < .1 * dx then
-        nextApp()
+--    elseif xBegin > .5 * W and xEnd < .5 * W and dx > .4 * W and dy < .1 * dx then
+--        nextApp()
 
-        -- TODO : slide function
+--        -- TODO : slide function
 
-    elseif xBegin < .5 * W and xEnd > .5 * W and dx > .4 * W and dy < .1 * dx then
-        previousApp()
+--    elseif xBegin < .5 * W and xEnd > .5 * W and dx > .4 * W and dy < .1 * dx then
+--        previousApp()
 
-    else
+--    else
         callApp('mousereleased', mouse)
         callApp('touched', mouse)
-    end
+--    end
 end

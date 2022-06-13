@@ -1,14 +1,16 @@
 local logs = table()
 
-__print = __print or print
+local __print = __print or print
+
 function print(...)
     __log(...)
     __print(...)
+    
+    io.flush()
 end
 
 function log(...)
-    __log(...)
-    __print(...)
+    print(...)
 end
 
 function __log(...)

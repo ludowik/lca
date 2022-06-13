@@ -6,15 +6,16 @@ function Engine.load()
     deltaTime = 0
     elapsedTime = 0
 
-    setupClasses()
+    classes.setup()
+
     setupWindow()
 
     resetMatrix()
     resetStyle()
-    
+
     disableGlobal()
 
-    loadApps()
+    addApps()
 
     if config.appName then
         loadApp(config.appPath, config.appName)
@@ -43,15 +44,39 @@ end
 
 function Engine.update(dt)
     if Engine.test then
+
         Engine.test.delay = Engine.test.delay - dt
         if Engine.test.delay <=0 then
-            setApp(Engine.test.index)
+
+            if Engine.test.index == 1 then
+                Engine.test.ram = format_ram()
+                
+            elseif Engine.test.index > getnApps() then
+                print('début du test')
+                print(Engine.test.ram)
+                
+                print('fin du test')
+                print(format_ram())
+
+                gc()
+                print(format_ram())
+
+                resetApps()
+                
+                GraphicsBase.release()
+                Image.release()
+                
+                gc()
+                print(format_ram())
+
+                exit()
+            end
+
+            setApp(Engine.test.index, false)
+
             Engine.test.delay = 0.05
             Engine.test.index = Engine.test.index + 1
-            if Engine.test.index > getnApps() then
-                print('fin du test')
-                quit()
-            end
+
         end
     end
 
@@ -130,6 +155,7 @@ function Engine.draw()
             Engine.render(function ()
                     depthMode(false)
                     cullingMode(false)
+                    if getCamera() then getCamera():lookAt() end
                     _G.env.draw()
                 end)
         end
@@ -143,6 +169,7 @@ function Engine.draw()
                     depthMode(true)
                     cullingMode(true)
                     love.graphics.clear()
+                    if getCamera() then getCamera():lookAt() end
                     _G.env.draw3d()
                 end
             )
@@ -157,7 +184,7 @@ function Engine.draw()
             text(os.name)
             text(env.appName)
             text(W..'x'..H)
-            
+
             text(string.format('%d,%d,%d,%d', love.window.getSafeArea()))
             text(config.renderer)
 

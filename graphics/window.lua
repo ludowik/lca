@@ -57,3 +57,8 @@ function initWindow()
 
     return x, y, w, h
 end
+
+function setVSync(vsync)
+    _G.env.__vsync = vsync or 1
+end
+
