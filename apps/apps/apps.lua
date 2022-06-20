@@ -44,7 +44,7 @@ end
 
 function touched(touch)
     if touch.state == RELEASED then
-        touch.y = touch.y - scene.position.y
+--        touch.y = touch.y - scene.position.y
         scene:touched(touch)
 
     elseif touch.state == MOVING then

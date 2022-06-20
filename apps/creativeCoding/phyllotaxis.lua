@@ -6,6 +6,7 @@ function setup()
 
     local function setTheta(btn)
         theta = tonumber(btn.label)
+        n = 0
     end
     
     parameter.action('137.3', setTheta)

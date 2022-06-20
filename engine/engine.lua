@@ -192,8 +192,9 @@ function Engine.draw()
         end, X, Y)
 
     Engine.render(function()
+            env.parameter.scene.position:set(W, 0)
             env.parameter:draw()
-        end, X+W, Y)
+        end, X, Y)
 end
 
 TOP_LEFT = 'top_left'

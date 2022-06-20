@@ -12,7 +12,7 @@ function Scene:layout(x, y)
         if node.position then
             node.position.x = x
             node.position.y = y
-            
+
             y = y + node.size.h
         end
     end
@@ -40,18 +40,18 @@ end
 
 function Scene:touched(touch)
     print(touch)
-    
+
     local x, y = 0, 0
     local nodes = self:items()
     for i,node in ipairs(nodes) do
         if node:contains(touch) then
-            if touch.state == RELEASED then
-                if touch.tx == 0 and touch.ty == 0 then
-                    node:callback()
-                end
-            else
-                node:touched(touch)
-            end
+--            if touch.state == RELEASED then
+--                if touch.tx == 0 and touch.ty == 0 then
+--                    node:callback()
+--                end
+--            else
+            node:touched(touch)
+--            end
             break
         end
         print('not in '..node.label)
@@ -88,7 +88,7 @@ end
 
 function UI:touched(touch)
     if self.callback then
-        self.callback()
+        self.callback(self)
     end
 end
 
@@ -104,20 +104,40 @@ end
 
 class 'Label' : extends(UI)
 class 'Slider' : extends(UI)
-function Slider:init(variable, min, max, default, callback)
+function Slider:init(variable, min, max, default, integer, callback)
     UI.init(self, variable, callback)
 
     self.value = min
     self.min = min
     self.max = max
     self.default = default
+    self.integer = integer
+end
+
+function Slider:computeSize()
+    UI.computeSize(self)
+    self.size.x = max(self.size.x, 100) 
+end
+
+function Slider:draw()
+    local x = map(self.value, self.min, self.max, 0, self.size.x)
+    stroke(colors.red)
+    strokeSize(2)
+    line(x, 0, x, self.size.y)
+    UI.draw(self)
 end
 
 function Slider:touched(touch)
-    self.value = self.value + 1
+    self.value = map(touch.x-self.position.x,
+        0, self.size.x,
+        self.min, self.max)
+
+    if self.integer then
+        self.value = round(self.value)
+    end
 
     if self.callback then
-        self.callback(self.value)
+        self.callback(self, self.value)
     end
 end
 

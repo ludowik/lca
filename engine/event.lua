@@ -136,6 +136,7 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
     callApp('mousemoved', mouse)
     if istouch or love.mouse.isDown(mouse.button) then
         callApp('touched', mouse)
+        _G.env.parameter.touched(mouse)
     end
 end
 
@@ -159,7 +160,9 @@ function Engine.mousereleased(x, y, button, istouch, presses)
 --        previousApp()
 
 --    else
-        callApp('mousereleased', mouse)
-        callApp('touched', mouse)
+    callApp('mousereleased', mouse)
+    callApp('touched', mouse)
 --    end
+
+    _G.env.parameter.touched(mouse)
 end

@@ -9,8 +9,6 @@ function setup()
 
     img = Image(sizeW, sizeH)
     img:background(colors.black)
-    
-    setVSync(1)
 end
 
 function update(dt)

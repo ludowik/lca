@@ -66,7 +66,7 @@ function loadApp(path, name)
         name = apps.listByName[name].name
 
         local env = {
-            __vsync = 0
+            __vsync = 1
         }
 
         setmetatable(env, {__index = _G})
