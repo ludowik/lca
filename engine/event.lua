@@ -9,10 +9,10 @@ function Engine.keyreleased(key)
         randomApp()
 
     elseif key == 'a' then
-        loadApp('', 'apps')
+        loadApp('apps')
 
     elseif key == 'i' then
-        loadApp('', 'info')
+        loadApp('info')
 
     elseif key == 'l' then
         if Engine.test then

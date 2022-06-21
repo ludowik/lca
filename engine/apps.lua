@@ -49,15 +49,26 @@ function resetApps()
     for k,_ in pairs(apps.listByName) do
         apps.listByName[k] = nil
     end
-    
+
     apps = nil
 end
 
-function loadApp(path, name)
+function loadApp(path, name, garbage)
+    if garbage then
+        gc()
+    end
+    
+    if not name then
+        path, name = 'apps', path 
+    end
     log('load app : '..path..'/'..name)
-    path = path or 'apps'
 
     assert(apps.listByName[name])
+    
+    config.appPath = path
+    config.appName = name
+    
+    saveConfig()
 
     if not apps.listByName[name].loaded then
         apps.listByName[name].loaded = true
@@ -103,6 +114,7 @@ function loadApp(path, name)
 
                 env.parameter = Parameter()
                 env.tweensManager = TweensManager()
+                env.physics = physics()
 
                 callApp('setup')
 
@@ -117,34 +129,22 @@ function loadApp(path, name)
                 apps.current = index
                 local env = apps.listByIndex[apps.current].env
                 _G.env = env
+                setfenv(0, env)
                 love.window.setVSync(_G.env.__vsync)
                 break
             end
         end
+        
+        love.window.setTitle(name)
+        log('set active app : '..name)
     end
 end
 
 function setApp(index, garbage)
-    if garbage then
-        gc()
-    end
-
     local app = apps.listByIndex[index]
-    config.appPath = app.path
-    config.appName = app.name
-
-    saveConfig()
-
-    loadApp(app.path, app.name)
-
-    apps.current = index
-
-    local env = app.env
-    _G.env = env
-    setfenv(0, env)
-
-    love.window.setTitle(app.name)
-    log('set active app : '..app.name)
+    if app then
+        loadApp(app.path, app.name, garbage)
+    end
 end
 
 function previousApp()
@@ -157,7 +157,6 @@ end
 
 function randomApp()
     local index = random(#apps.listByIndex)
-    print(index)
     setApp(index)
 end
 
@@ -166,4 +165,3 @@ function callApp(fname, ...)
         return _G.env[fname](...)
     end
 end
-

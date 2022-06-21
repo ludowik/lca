@@ -1,6 +1,6 @@
-physics = class 'Physics'
+class 'Physics'
 
-function physics.setup()
+function Physics.setup()
     SPHERE = 'sphere'
     POLYGON = 'polygon'
 
@@ -10,23 +10,50 @@ function physics.setup()
     Gravity = vec2()
 end
 
-function physics:init()
+function Physics:init()
     self.bodies = table()
 end
 
-function physics.gravity(g)
-    physics.g = g or physics.g
+function Physics:gravity(g)
+    self.g = g or self.g
 end
 
-function physics.pause()
+function Physics:setArea()
 end
 
-function physics.resume()
+function Physics:add(object, ...)
+    object.body = self:body(...)
 end
 
-function physics.body()
+function Physics:body()
     return Body()
 end
+
+function Physics:addItems()
+end
+
+function Physics:pause()
+end
+
+function Physics:resume()
+end
+
+function Physics:update(dt)
+end
+
+function Physics:draw()
+end
+
+physics = function ()
+    local physics = Physics()
+    return {
+        gravity = function (...) return physics:gravity(...) end,
+        body = function (...) return physics:body(...) end,
+        pause = function (...) return physics:pause(...) end,
+        resume = function (...) return physics:resume(...) end
+    }
+end
+
 
 class 'Body'
 
@@ -48,28 +75,6 @@ end
 function Body:applyForce(v)
 end
 
-class 'Fizix' : extends(Physics)
-
-function Fizix:init()
-    physics.init(self)
-end
-
-function Fizix:setArea()
-end
-
-function Fizix:add(object, ...)
-    object.body = physics.body(...)
-end
-
-function Fizix:addItems()
-end
-
-function Fizix:update(dt)
-end
-
-function Fizix:draw()
-end
-
 class 'Object' : extends(Rect)
 
 function Object:init()
@@ -77,7 +82,7 @@ function Object:init()
 end
 
 function Object:addToPhysics(...)
-    self.body = physics.body(...)
+    self.body = env.physics.body(...)
     return self
 end
 

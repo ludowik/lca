@@ -8,6 +8,8 @@
 --local response = http.request('http://ludowik.github.io/lca/build/love/lca.love')
 --print(response)
 
+print(love.filesystem.getAppdataDirectory())
+
 if false then
     function love.setup()
         love.window.setMode(100, 200, {

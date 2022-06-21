@@ -1,22 +1,21 @@
-local fizix
 function setup()
-    fizix = Fizix()
+    physics = Physics()
 
     local marge = 25
 
-    fizix:setArea(marge, marge, WIDTH-marge*2, HEIGHT-marge*2)
+    physics:setArea(marge, marge, WIDTH-marge*2, HEIGHT-marge*2)
 
     function addBall()
         r = 10
         ball = Object2D('ball', 150, 250, r, r)
-        fizix:add(ball, DYNAMIC, CIRCLE)
+        physics:add(ball, DYNAMIC, CIRCLE)
     end
 
     addBall()
 
     local y = 100 + 10
     local size = 20
-    fizix:addItems({
+    physics:addItems({
             Object2D('ball', 200, y, size,  size),
             Object2D('ball', 200+size, y, size,  size),
             Object2D('ball', 200+2*size, y, size,  size),
