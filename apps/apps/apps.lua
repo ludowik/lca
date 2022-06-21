@@ -67,6 +67,7 @@ function browse(path, previousPath)
 
     for i,item in ipairs(list) do
         local path, name, ext = splitFilePath(item)
+        print(path, name, ext)
         scene:add(UI(name,
                 function (_)
                     if isApp(item) then

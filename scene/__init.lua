@@ -1,0 +1,4 @@
+requireLib(
+    'node',
+    'scene',
+    'slider')

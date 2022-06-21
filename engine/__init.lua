@@ -11,8 +11,7 @@ require 'lua_collection'
 require 'maths'
 require 'graphics'
 
-require 'scene.node'
-require 'scene.scene'
+require 'scene'
 
 require 'engine.apps'
 require 'engine.application'

@@ -20,7 +20,7 @@ function setup()
     parameter.watch("currentTest.name")
 end
 
-function setTest(index)
+function setTest(ui, index)
     if currentTest ~= nil then
         currentTest:cleanup()
     end

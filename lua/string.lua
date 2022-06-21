@@ -105,8 +105,8 @@ function string.tab(level)
 end
 
 function string.trim(s)
-    while string.find(s, "  ") do
-        s = string.gsub(s, "  ", " ")
+    while string.find(s, '  ') do
+        s = string.gsub(s, '  ', ' ')
     end
     return s:match'^()%s*$' and '' or s:match'^%s*(.*%S)'
 end

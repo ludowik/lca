@@ -41,11 +41,12 @@ function splitFilePath(strFilename)
     -- Returns the Path, Filename, and Extension as 3 values
     local info = love.filesystem.getInfo(strFilename)
     if info and info.type == 'directory' then
-        local directory, name = splitPath(strFilename)
-        return directory, name, ''
+        local path, name = splitPath(strFilename)
+        return path:gsub('/$', ''), name, ''
     end
     strFilename = strFilename..'.'
-    return strFilename:match('^(.-)([^\\/]-)%.([^\\/%.]-)%.?$')
+    local path, name, extension = strFilename:match('^(.-)([^\\/]-)%.([^\\/%.]-)%.?$')
+    return path:gsub('/$', ''), name, extension
 end
 
 function isApp(path)
