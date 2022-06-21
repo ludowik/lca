@@ -10,7 +10,7 @@ function Engine.load()
 
     setupWindow()
 
-    resetMatrix()
+    resetMatrix(true)
     resetStyle()
 
     disableGlobal()
@@ -91,7 +91,7 @@ end
 function Engine.render(f, x, y)
     if not f then return end
 
-    resetMatrix()
+    resetMatrix(true)
     resetStyle()
 
     if x then

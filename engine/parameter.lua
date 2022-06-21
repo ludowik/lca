@@ -24,7 +24,7 @@ function Parameter:init()
 
     function self.notify(ui, value, notify)
         if notify then
-            notify(ui, value)
+            notify(value) -- notify(ui, value)
         end
     end
 

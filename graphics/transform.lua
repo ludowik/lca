@@ -63,10 +63,13 @@ function projectionMatrix(m)
     return projection
 end
 
-function resetMatrix()
+function resetMatrix(resetAll)
     model = love.math.newTransform()
-    view = love.math.newTransform()
-    projection = love.math.newTransform()
+
+    if resetAll then
+        view = love.math.newTransform()
+        projection = love.math.newTransform()
+    end
 
     setTransformation()
 end
