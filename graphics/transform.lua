@@ -26,7 +26,7 @@ end
 
 function modelMatrix(m)
     if m then 
-        model = m 
+        model = m:clone()
         setTransformation()
     end
     return model
@@ -34,7 +34,7 @@ end
 
 function viewMatrix(m)
     if m then 
-        view = m 
+        view = m:clone()
         setTransformation()
     end
     return view
@@ -57,7 +57,7 @@ end
 
 function projectionMatrix(m)
     if m then 
-        projection = m 
+        projection = m:clone()
         setTransformation()
     end
     return projection
@@ -76,7 +76,7 @@ end
 
 function pushMatrix()
     table.insert(matrices, model)
-    model = model:clone()    
+    model = model:clone()
     setTransformation()
 end
 

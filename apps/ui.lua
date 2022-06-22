@@ -1,6 +1,6 @@
 function setup()
     app = env
-    
+
     parameter.watch('parameter')
     parameter.watch('yesno')
 
@@ -33,8 +33,8 @@ function setup()
 
     tab = Tab()
     tabs:addTab(tab)
-    
-    tab:add(ButtonColor(red))
+
+    tab:add(ButtonColor(colors.red))
     tab:add(ColorPicker('Couleur', red, function (clr) print('new color : '..tostring(clr)) end))
     tab:add(CheckBox('yesno'))
     tab:add(Editor('Editor'))
@@ -69,4 +69,14 @@ function reset()
                 })
         end
     end
+end
+
+function draw()
+    background()
+    app.uiScene.position:set(100, 100)
+    app.uiScene:draw()
+end
+
+function touched(touch)
+    app.uiScene:touched(touch)
 end

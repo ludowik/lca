@@ -7,34 +7,53 @@ end
 function Scene:layout(x, y)
     local nodes = self:items()
 
+    local w, h = 0, 0
+
     x, y = x or 0, y or 0
     for i,node in ipairs(nodes) do
-        if node.position then
-            node.position.x = x
-            node.position.y = y
+        assert(node.position)
 
-            y = y + node.size.h
+        node.position.x = x
+        node.position.y = y
+
+        if node.items then 
+            node:layout(x, y)
+        else
+            node:computeSize()
         end
+
+        y = y + node.size.h
+
+        w = max(w, node.size.w)
+        h = y - self.position.y
     end
+
+    self.size:set(w, h)
 end
 
 function Scene:draw()
-    self:layout(self.position.x, self.position.y)
-
     if self.parent == nil then
 --        background()
     end    
 
+    self:layout(self.position.x, self.position.y)
+    
+    self.modelMatrix = modelMatrix():clone()
+    Node.draw(self)
+end
+
+function Node:draw()
 --    translate(self.position.x, self.position.y)
 
     local nodes = self:items()
     for i,node in ipairs(nodes) do
-        pushMatrix()
-        if node.position and node.items == nil then
+        modelMatrix(self.modelMatrix)
+        
+        if node.position then
             translate(node.position.x, node.position.y)
         end
         node:draw()
-        popMatrix()
+        
     end    
 end
 
@@ -55,156 +74,3 @@ function Scene:touched(touch)
     end
 end
 
-class 'UI' : extends(Rect)
-
-function UI:init(label, callback)
-    Rect.init(self)
-
-    self.label = label or ''
-    self.callback = callback
-    
-    self.textColor = colors.white
-    self.fontSize = 16
-end
-
-function UI:bind()    
-end
-
-function UI:computeSize()
-    self.size:set(textSize(self:getLabel()))
-end
-
-function UI:getLabel()
-    return tostring(self.label or '')
-end
-
-function UI:update(dt)
-end
-
-function UI:draw()
-    self:computeSize()
-    
-    textColor(self.textColor or colors.white)    
-    fontSize(self.fontSize or 16)
-    
-    text(self:getLabel(), 0, 0)
-end
-
-function UI:touched(touch)
-    if self.callback and touch.state == RELEASED then
-        self.callback(self)
-    end
-end
-
-class 'Expression' : extends(UI)
-
-function Expression:init(label, expression)
-    UI.init(self, label)
-    self.expression = expression or label
-end
-
-function Expression:getLabel()
-    return self.label..' = '..tostring(evalExpression(self.expression) or '?')
-end
-
-class 'Label' : extends(UI)
-
-
-
-class 'Button' : extends(UI)
-class 'ButtonColor' : extends(UI)
-class 'ButtonImage' : extends(UI)
-class 'ButtonIconFont' : extends(UI)
-class 'ListBox' : extends(UI)
-
-class 'CheckBox' : extends(UI)
-
-function CheckBox:init(label, value, callback)
-    UI.init(self, label, callback)
-    self.value = value
-end
-
-function CheckBox:touched(touch)
-    if self.callback and touch.state == RELEASED then
-        self.value = not self.value
-        self.callback(self, self.value)
-    end
-end
-
-function CheckBox:draw()
-    if self.value then
-        self.textColor = colors.green
-    else
-        self.textColor = colors.red
-    end
-    
-    UI.draw(self)
-end
-
-
-class 'UITimer' : extends(UI)
-class 'UILine' : extends(UI)
-
-class 'ColorPicker' : extends(UI)
-
-function ColorPicker:init(label, clr, callback)
-    UI.init(self, label, callback)
-    self.clr = clr
-end
-
-class 'ToolBar' : extends(Node)
-
-function ToolBar:init()
-    Node.init(self)
-end
-
-
-class 'MenuBar' : extends(Node)
-function MenuBar:init()
-    Node.init(self)
-end
-
-class 'Object'
-function Object:update(dt)
-end
-
-function Object:draw()
-end
-
-class 'Joystick' : extends(UI)
-
-
-class 'UIScene' : extends(Scene)
-
-function UIScene:init()
-    Scene.init(self)
-end
-
-function UIScene:setGridSize()
-end
-
-class 'Tabs' : extends(UIScene)
-function Tabs:init()
-    UIScene.init(self)
-end
-
-function Tabs:addTab()
-end
-
-class 'Tab' : extends(UIScene)
-function Tab:init()
-    UIScene.init(self)
-end
-
-class 'Layout'
-function Layout.setup()
-    Layout.column = function () end
-    Layout.row = function () end
-
-    Layout.innerMarge = 2
-end
-
-
-class 'Dashboard' : extends(UI)
-
-class 'Editor' : extends(Node)

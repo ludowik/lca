@@ -1,4 +1,7 @@
 requireLib(
     'node',
     'scene',
-    'slider')
+    'ui',
+    'expression',
+    'slider',
+    'tabs')
