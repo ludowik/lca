@@ -4,11 +4,11 @@ function appCubeWave:init()
     Application.init(self)
     self.angle = 0
 
-    parameter.integer('theapp.n', 1, 20, 5)
-    parameter.integer('theapp.size', 1, 20, 4)
+    parameter.integer('app.n', 1, 20, 5)
+    parameter.integer('app.size', 1, 20, 4)
 
-    parameter.number('theapp.zoom', 1, 20, 8)
-    parameter.number('theapp.speed', 1, 10, 2)
+    parameter.number('app.zoom', 1, 20, 8)
+    parameter.number('app.speed', 1, 10, 2)
 end
 
 function appCubeWave:update(dt)

@@ -13,7 +13,7 @@ function Tabs:draw()
     
     stroke(colors.red)
     noFill()
-    rect(0, 0, self.size.w, self.size.h)
+    rect(self.position.x, self.position.y, self.size.w, self.size.h)
 end
 
 class 'Tab' : extends(UIScene)
@@ -27,5 +27,5 @@ function Tab:draw()
     
     stroke(colors.blue)
     noFill()
-    rect(0, 0, self.size.w, self.size.h)
+    rect(self.position.x, self.position.y, self.size.w, self.size.h)
 end

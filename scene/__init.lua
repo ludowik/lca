@@ -4,4 +4,6 @@ requireLib(
     'ui',
     'expression',
     'slider',
-    'tabs')
+    'tabs',
+    'button',
+    'checkbox')

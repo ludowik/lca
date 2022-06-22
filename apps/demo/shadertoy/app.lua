@@ -1,4 +1,4 @@
-appPath = 'apps/quick/misc/shadertoy'
+appPath = scriptPath(2)
 
 function setup()
     supportedOrientations(LANDSCAPE_ANY)

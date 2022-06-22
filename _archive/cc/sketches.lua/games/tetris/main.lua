@@ -17,11 +17,11 @@ function Tetris:init()
 
     self.ui:add(UIScene(Layout.column):add(
             Label('level'),
-            Expression('app.theapp.level'),
+            Expression('app.level'),
             Label('score'),
-            Expression('app.theapp.score'),
+            Expression('app.score'),
             Label('line'),
-            Expression('app.theapp.lines'),
+            Expression('app.lines'),
             ButtonIconFont('burst_new', callback(self, self.newGame)),
             ButtonIconFont('pause', function ()
                     if self.active then
@@ -234,20 +234,20 @@ end
 
 function TetrisGrid:touched(touch)
     local x, y =
-    touch.x - app.theapp.grid.parent.absolutePosition.x,
-    touch.y - app.theapp.grid.parent.absolutePosition.y
+    touch.x - app.grid.parent.absolutePosition.x,
+    touch.y - app.grid.parent.absolutePosition.y
 
-    if y > app.theapp.grid.size.y * 2 / 3 then
-        app.theapp.mino:rotate()
+    if y > app.grid.size.y * 2 / 3 then
+        app.mino:rotate()
 
-    elseif y > 0 and y < app.theapp.grid.size.y / 3 then
-        app.theapp.mino:down()
+    elseif y > 0 and y < app.grid.size.y / 3 then
+        app.mino:down()
 
     else
-        if x > 0 and x < app.theapp.grid.size.x / 2 then
-            app.theapp.mino:left()
+        if x > 0 and x < app.grid.size.x / 2 then
+            app.mino:left()
         else
-            app.theapp.mino:right()
+            app.mino:right()
         end
     end
 end
@@ -340,7 +340,7 @@ function Tetrimino:init(label, init, clr)
         end
     end
 
-    TetrisGrid.init(self, w, h, app.theapp.itemSize)
+    TetrisGrid.init(self, w, h, app.itemSize)
 
     x, y = 0, 1
     for i=1,n do
@@ -359,14 +359,14 @@ end
 function Tetrimino:reset()
     self.time = 1
     self.gridPosition = vec2(
-        floor(app.theapp.gridSize.x/2) - floor(self.w/2),
-        app.theapp.gridSize.y)
+        floor(app.gridSize.x/2) - floor(self.w/2),
+        app.gridSize.y)
 
     self:computePosition()
 end
 
 function Tetrimino:moveIsAllowed(move, array)
-    local grid = app.theapp.grid
+    local grid = app.grid
     local gridPosition = self.gridPosition:clone() + move
     array = array or self
 
@@ -376,7 +376,7 @@ function Tetrimino:moveIsAllowed(move, array)
                 if x + gridPosition.x - 1 < 1 then
                     return false
                 end
-                if x + gridPosition.x - 1 > app.theapp.gridSize.x then
+                if x + gridPosition.x - 1 > app.gridSize.x then
                     return false
                 end
                 if y + gridPosition.y - 1 < 1 then
@@ -403,7 +403,7 @@ end
 function Tetrimino:down(n)
     n = n or -1
     if self:gravity(n) then
-        app.theapp.lastMove = 'down'
+        app.lastMove = 'down'
         return true
     end
 end
@@ -425,7 +425,7 @@ end
 function Tetrimino:left(n)
     n = n or -1
     if self:move(n, 0) then
-        app.theapp.lastMove = 'left'
+        app.lastMove = 'left'
         return true
     end
 end
@@ -433,7 +433,7 @@ end
 function Tetrimino:right(n)
     n = n or 1
     if self:move(n, 0) then
-        app.theapp.lastMove = 'right'
+        app.lastMove = 'right'
         return true
     end
 end
@@ -444,7 +444,7 @@ function Tetrimino:rotate()
         for i=1,#array.cells do
             self.cells[i] = array.cells[i]
         end
-        app.theapp.lastMove = 'rotate'
+        app.lastMove = 'rotate'
         return true
     end
 end

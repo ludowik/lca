@@ -27,21 +27,21 @@ function setup()
     tabs:addTab(tab)
 
     tab:add(Label('Label'))
-    tab:add(Button('Button'))
-    tab:add(ButtonImage('documents:joconde'))
+    tab:add(Button('Button', function () print('button clicked') end))
+    tab:add(ButtonImage('res/images/joconde.png'))
     tab:add(UILine())
 
     tab = Tab()
     tabs:addTab(tab)
 
-    tab:add(ButtonColor(colors.red))
+    tab:add(Button():setstyles{bgColor=colors.red})
+    tab:add(Button():setstyles{bgColor=colors.blue})
     tab:add(ColorPicker('Couleur', red, function (clr) print('new color : '..tostring(clr)) end))
     tab:add(CheckBox('yesno'))
     tab:add(Editor('Editor'))
 
     parameter.integer('env.app.uiScene.innerMarge' , 0, 20, 5, reset)
     parameter.integer('env.app.uiScene.outerMarge' , 0, 20, 5, reset)
-
 end
 
 function reset()

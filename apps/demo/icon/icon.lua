@@ -70,13 +70,13 @@ end
 function Icon:touched(touch)
     ui:touched(touch)
 
-    local h = self.drawing.icon.height * theapp.ratio
+    local h = self.drawing.icon.height * app.ratio
     local y = HEIGHT - self.drawing.absolutePosition.y
 
     touch.x = touch.x - self.drawing.absolutePosition.x
     touch.y = touch.y - y
 
-    touch = touch.position / theapp.ratio
+    touch = touch.position / app.ratio
 
     local i, j
     i = math.floor(touch.x / self.pixelSize) * self.pixelSize
@@ -115,7 +115,7 @@ function Drawing:reset()
 end
 
 function Drawing:computeSize()
-    self.size.x, self.size.y = self.icon.width * theapp.ratio, self.icon.height * theapp.ratio
+    self.size.x, self.size.y = self.icon.width * app.ratio, self.icon.height * app.ratio
 end
 
 function Drawing:draw()

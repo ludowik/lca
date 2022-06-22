@@ -86,9 +86,9 @@ function AppCalc:initUI()
 
     local Button = function (label, textColor, bgColor, w, h, object, f)
         local button = Button(label, object, f)
-        button.bgColor = bgColor
-        button.textColor = textColor
-        button.fontSize = 65
+        button.styles.bgColor = bgColor
+        button.styles.textColor = textColor
+        button.styles.fontSize = 65
 --        button.fixedSize = vec2(w, h)
         return button
     end

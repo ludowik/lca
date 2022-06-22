@@ -28,7 +28,7 @@ function loadAppCodea(path, isDependencies)
     if block then
         for v in block:gfind('<string>(.-)</string>') do
             v = v:gsub('Documents:', '')
-            loadAppCodea('apps/codea-demo'..'/'..v, true)
+            loadAppCodea('apps/codea_demo'..'/'..v, true)
         end
     end
 

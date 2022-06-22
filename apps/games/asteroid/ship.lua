@@ -70,12 +70,12 @@ end
 function Ship:updateUserAction(dt)
     self.countSinceLastBullet = self.countSinceLastBullet + 1
 
-    if theapp.joystick1:getForce() > 0 then
-        self.body.angle = theapp.joystick1:getAngle()
-        self:applyForce(theapp.joystick1:getForce())
+    if app.joystick1:getForce() > 0 then
+        self.body.angle = app.joystick1:getAngle()
+        self:applyForce(app.joystick1:getForce())
     end
 
-    if theapp.joystick2:getForce() > 0 and self.countSinceLastBullet > 10 then
+    if app.joystick2:getForce() > 0 and self.countSinceLastBullet > 10 then
         self.bullets:add(Bullet(self))
         self.countSinceLastBullet = 0
     end

@@ -14,17 +14,26 @@ function UI:init(label, callback)
 
     self.label = label or ''
     self.callback = callback
-    
-    self.textColor = colors.white
-    self.fontSize = 16
+
+    self.styles = table({
+            fontSize = 16,
+        })
 end
 
 function UI:bind()    
 end
 
+function UI:setstyles(...)
+    self.styles:attribs(...)
+    return self
+end
+
 function UI:computeSize()
-    fontSize(self.fontSize or 16)
+    fontSize(self.styles.fontSize or 16)
     self.size:set(textSize(self:getLabel()))
+    
+    self.size.x = max(self.size.x, 16)
+    self.size.y = max(self.size.y, 16)
 end
 
 function UI:getLabel()
@@ -36,10 +45,14 @@ end
 
 function UI:draw()
     self:computeSize()
-    
-    textColor(self.textColor or colors.white)    
-    fontSize(self.fontSize or 16)
-    
+
+    if self.styles.bgColor then
+        fill(self.styles.bgColor)
+        rect(0, 0, self.size.w, self.size.h)
+    end
+
+    textColor(self.styles.textColor or colors.white)
+    fontSize(self.styles.fontSize or 16)
     text(self:getLabel(), 0, 0)
 end
 
@@ -50,35 +63,8 @@ function UI:touched(touch)
 end
 
 class 'Label' : extends(UI)
-class 'Button' : extends(UI)
-class 'ButtonColor' : extends(UI)
-class 'ButtonImage' : extends(UI)
-class 'ButtonIconFont' : extends(UI)
+
 class 'ListBox' : extends(UI)
-
-class 'CheckBox' : extends(UI)
-
-function CheckBox:init(label, value, callback)
-    UI.init(self, label, callback)
-    self.value = value
-end
-
-function CheckBox:touched(touch)
-    if self.callback and touch.state == RELEASED then
-        self.value = not self.value
-        self.callback(self, self.value)
-    end
-end
-
-function CheckBox:draw()
-    if self.value then
-        self.textColor = colors.green
-    else
-        self.textColor = colors.red
-    end
-    
-    UI.draw(self)
-end
 
 class 'UITimer' : extends(UI)
 class 'UILine' : extends(UI)

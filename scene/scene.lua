@@ -11,21 +11,21 @@ function Scene:layout(x, y)
 
     x, y = x or 0, y or 0
     for i,node in ipairs(nodes) do
-        assert(node.position)
+        if node.position then
+            node.position.x = x
+            node.position.y = y
 
-        node.position.x = x
-        node.position.y = y
+            if node.items then
+                if node.layout then node:layout(x, y) end
+            else
+                if node.computeSize then node:computeSize() end
+            end
 
-        if node.items then 
-            node:layout(x, y)
-        else
-            node:computeSize()
+            y = y + node.size.h
+
+            w = max(w, node.size.w)
+            h = y - self.position.y
         end
-
-        y = y + node.size.h
-
-        w = max(w, node.size.w)
-        h = y - self.position.y
     end
 
     self.size:set(w, h)
@@ -37,8 +37,13 @@ function Scene:draw()
     end    
 
     self:layout(self.position.x, self.position.y)
-    
-    self.modelMatrix = modelMatrix():clone()
+--    print(self.__className)
+
+--    if self.parent == nil then
+--        self.modelMatrix = matrix():clone()
+--    else
+--        self.modelMatrix = modelMatrix():clone()
+--    end
     Node.draw(self)
 end
 
@@ -47,13 +52,17 @@ function Node:draw()
 
     local nodes = self:items()
     for i,node in ipairs(nodes) do
-        modelMatrix(self.modelMatrix)
-        
-        if node.position then
+--        modelMatrix(self.modelMatrix)
+
+        if node.position and node.items == nil then
+            pushMatrix()
             translate(node.position.x, node.position.y)
         end
         node:draw()
-        
+        if node.position and node.items == nil then
+            popMatrix()
+        end
+
     end    
 end
 

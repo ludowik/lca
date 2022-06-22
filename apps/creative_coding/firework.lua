@@ -6,7 +6,7 @@ function Firework:init()
     setOrigin(BOTTOM_LEFT)
 
     self.particles = table()
-    parameter.watch('#theapp.particles')
+    parameter.watch('#app.particles')
 
     gravity = vec2(0, -1)
 end

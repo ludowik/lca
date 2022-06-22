@@ -80,11 +80,14 @@ function browse(path, previousPath)
                     textColor = colors.white,
                     fontSize = 18})
         else
-            scene:add(UI(name,
+            scene:add(
+                UI(name,
                     function (_)
                         browse(item, path)
-                    end):attribs{
-                    info = item,
+                    end)
+                :attribs{
+                    info = item}
+                :setstyles{
                     textColor = colors.blue,
                     fontSize = 22})
         end

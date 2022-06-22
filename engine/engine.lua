@@ -186,10 +186,12 @@ function Engine.draw()
             text(W..'x'..H)
 
             text(string.format('%d,%d,%d,%d', love.window.getSafeArea()))
+            text(string.format('%d,%d', mouse.x, mouse.y))
+            
             text(config.renderer)
 
             callApp('drawInfo')
-        end, X, Y)
+        end, 10, Y)
 
     Engine.render(function()
             env.parameter.scene.position:set(W, 0)

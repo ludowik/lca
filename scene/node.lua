@@ -29,12 +29,15 @@ function Node:get(i)
 end
 
 function Node:add(...)
-    self:items():addItems{...}
+    self:addItems{...}
     return self
 end
 
-function Node:addItems(items)
-    self:items():addItems(items)
+function Node:addItems(items)    
+    for _,item in ipairs(items) do
+        item.parent = self
+        table.insert(self:items(), item)
+    end
     return self
 end
 
@@ -131,7 +134,7 @@ function Node:computeNavigation(previousUpNode, nextUpNode)
         local nextNode = self.nodes[i+1] or nextUpNode
 
         currentNode.previous, previousUpNode = previousUpNode, currentNode
-        
+
         currentNode.parent = self
 
         if currentNode.nodes and #currentNode.nodes > 0 then
@@ -154,14 +157,6 @@ function Node:update(dt)
         local item = items[i]
         assert(item.update, item.__className)
         item:update(dt)
-    end
-end
-
-function Node:draw()
-    local items = self:items()
-    for i=1,#items do
-        local item = items[i]
-        item:draw()
     end
 end
 

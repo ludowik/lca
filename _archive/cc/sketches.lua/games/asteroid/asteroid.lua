@@ -6,7 +6,7 @@ function Asteroid:init(asteroid, part)
     if asteroid then
         self.radius = asteroid.radius / 2
     else
-        self.radius = random(theapp.objectSize, theapp.objectSize*2)
+        self.radius = random(app.objectSize, app.objectSize*2)
     end
 
     local n = randomInt(5, 7)

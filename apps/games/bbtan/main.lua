@@ -13,11 +13,9 @@ function setup()
     AREA_WIDTH  = CELL_SIZE * 7
     AREA_HEIGHT = CELL_SIZE * 9
 
-    fizix = Fizix()
-    fizix:gravity(vec2())
-    fizix:setArea(0, 0, AREA_WIDTH, AREA_HEIGHT)
-
-    physics = fizix
+    physics = Physics()
+    physics:gravity(vec2())
+    physics:setArea(0, 0, AREA_WIDTH, AREA_HEIGHT)
 
     areaPosition = vec2(
         (WIDTH - AREA_WIDTH) / 2,
@@ -38,7 +36,7 @@ function setup()
     loadGame()
 
     env.scene = Scene()
-    env.scene:add(balls, bricks, bonuses, fizix)
+    env.scene:add(balls, bricks, bonuses, physics)
 
     parameter.watch('#emitter')
     parameter.watch('#emitterCart')
@@ -215,7 +213,7 @@ function draw()
     TEXT_NEXT_Y = H / 2
 
     textMode(CORNER)
-    for i,body in ipairs(fizix.bodies) do
+    for i,body in ipairs(physics.bodies) do
         local info = (classnameof(body.item)..' '..
             body.shapeType..' at:'..
             body.position:tostring()..' r:'..
@@ -276,7 +274,7 @@ function collide(contact)
             box.collision = box.collision - 1
             if box.collision <= 0 then
                 bricks:removeItem(box)
-                fizix:removeItem(box)
+                physics:removeItem(box)
             end
 
         elseif bonus and ball then
@@ -284,7 +282,7 @@ function collide(contact)
                 ballsToAdd = ballsToAdd + 1
 
                 bonuses:removeItem(bonus)
-                fizix:removeItem(bonus)
+                physics:removeItem(bonus)
             end
         end
     end

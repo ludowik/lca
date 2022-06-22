@@ -5,7 +5,7 @@ function Ball:init(size)
 
     self.id = id('ball')
 
-    fizix:add(self, DYNAMIC, CIRCLE, size)
+    physics:add(self, DYNAMIC, CIRCLE, size)
 
     self.size = vec2(
         size,
