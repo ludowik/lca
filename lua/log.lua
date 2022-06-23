@@ -52,3 +52,9 @@ function Log.draw(x, y)
     end
     popMatrix()
 end
+
+output = class 'Output'
+
+function Output.clear()
+    logs = table()
+end

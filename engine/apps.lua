@@ -31,8 +31,6 @@ end
 
 function addApp(path, name)
     if not apps.listByName[name] then
-        log('add app : '..path..'/'..name)
-
         apps.listByName[name] = {
             loaded = false,
             path = path,
@@ -57,20 +55,27 @@ function loadApp(path, name, garbage)
     if garbage then
         gc()
     end
-    
+
     if not name then
         path, name = 'apps', path 
     end
-    log('load app : '..path..'/'..name)
 
-    assert(apps.listByName[name])
-    
+    if not apps.listByName[name] then
+        return loadApp('apps', 'apps')
+    end
+
     config.appPath = path
     config.appName = name
-    
+
     saveConfig()
 
     if not apps.listByName[name].loaded then
+        log('load app : '..path..'/'..name)
+    else
+        log('set active app : '..name)
+    end
+
+    if not apps.listByName[name].loaded then        
         apps.listByName[name].loaded = true
 
         path = apps.listByName[name].path
@@ -134,9 +139,8 @@ function loadApp(path, name, garbage)
                 break
             end
         end
-        
+
         love.window.setTitle(name)
-        log('set active app : '..name)
     end
 end
 

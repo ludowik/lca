@@ -27,6 +27,14 @@ function Parameter:init()
             notify(value) -- notify(ui, value)
         end
     end
+    
+    function self.action(name, callback)
+        self.scene:add(
+            Button(name,
+                function (ui)
+                    self.notify(ui, nil, callback)
+                end))
+    end
 
     function self.watch(name, expression)
         self.scene:add(
@@ -36,22 +44,6 @@ function Parameter:init()
     function self.text(name, text, callback)
         self.scene:add(
             UI(name,
-                function (ui)
-                    self.notify(ui, nil, callback)
-                end))
-    end
-
-    function self.color(name, clr, callback)
-        self.scene:add(
-            ColorPicker(name, clr,
-                function (ui, value)
-                    self.set(ui, name, value, callback)
-                end))
-    end
-
-    function self.action(name, callback)
-        self.scene:add(
-            Button(name,
                 function (ui)
                     self.notify(ui, nil, callback)
                 end))
@@ -83,6 +75,15 @@ function Parameter:init()
                     self.set(ui, name, value, callback)
                 end))
     end
+    
+    function self.color(name, clr, callback)
+        self.default(name, colors.white, colors.black, clr, callback)
+        self.scene:add(
+            ColorPicker(name, clr,
+                function (ui, value)
+                    self.set(ui, name, value, callback)
+                end))
+    end
 
     function self.link(text, url)
     end
@@ -93,9 +94,5 @@ function Parameter:init()
 
     function self.touched(touch)
         self.scene:touched(touch)
-        for i,v in ipairs(self.scene:items()) do
-            print(v.position.x, v.position.y)
-        end
-
     end
 end

@@ -10,7 +10,7 @@ function UI_grid:init(grid)
     self.outerMarge = 0
     self.innerMarge = 0
 
-    for j = 1, grid.h do
+    for j = 1, grid.m do
         local ui_line = UIScene()
         ui_line:setLayoutFlow(Layout.column)
 
@@ -19,7 +19,7 @@ function UI_grid:init(grid)
 
         self:add(ui_line)
 
-        for i = 1, grid.w do
+        for i = 1, grid.n do
             ui_line:add(UI_cell(grid, i, j))
         end
     end

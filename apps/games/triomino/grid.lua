@@ -3,18 +3,17 @@ class('TrioGrid', UI)
 TrioGrid.selectable = true
 TrioGrid.selectColor = Color(230, 224, 224, 133)
 
-function TrioGrid:init(w, h, state)
+function TrioGrid:init(n, m, state)
     UI.init(self)
 
     self.alignment = 'h-center'
 
     self.cellSize = min(ws(0.75), hs(0.75))
 
-    -- x, y == m, n == c, r
-    self.w = w or 10
-    self.h = h or self.w
+    self.n = n or 10
+    self.m = m or self.n
 
-    self.fixedSize = vec3(self.w, self.h):mul(self.cellSize)
+    self.fixedSize = vec3(self.n, self.m):mul(self.cellSize)
 
     self.bgColor = colors.red
 
@@ -25,8 +24,8 @@ end
 
 function TrioGrid:reset()
     self.cells = {}
-    for r = 1, self.h do
-        for c = 1, self.w do
+    for r = 1, self.m do
+        for c = 1, self.n do
             self:cell(c, r, self:newCell(c, r, self.cellSize, state))
         end
     end
@@ -38,22 +37,22 @@ end
 
 function TrioGrid:cell(x, y, cell)
     if cell then
-        self.cells[(y-1)*self.w+x] = cell
+        self.cells[(y-1)*self.n+x] = cell
     end
-    return self.cells[(y-1)*self.w+x]
+    return self.cells[(y-1)*self.n+x]
 end
 
 function TrioGrid:rotate(clockwise)
-    local m, n = self.w, self.h
+    local n, m = self.n, self.m
 
-    local grid = TrioGrid(n, m)
+    local grid = TrioGrid(m, n)
 
     for c, r, _ in self:ipairs() do
         local cell = grid:cell(r, c, grid:newCell(r, c, self.cellSize))
         if clockwise then
-            cell.state = self:cell(c, n-r+1).state
+            cell.state = self:cell(c, m-r+1).state
         else
-            cell.state = self:cell(m-c+1, r).state
+            cell.state = self:cell(n-c+1, r).state
         end
     end
 
@@ -101,7 +100,7 @@ function TrioGrid:isSelectable(pos, grid)
     local x = pos.x - 1
     local y = pos.y - 1
 
-    if x + grid.w > self.w or y + grid.h > self.h then
+    if x + grid.n > self.n or y + grid.m > self.m then
         return false
     end
 
@@ -138,8 +137,8 @@ end
 
 function TrioGrid:computeSize()
     self.size = vec3(
-        min(4, self.w) * self.cellSize,
-        min(4, self.h) * self.cellSize)
+        min(4, self.n) * self.cellSize,
+        min(4, self.m) * self.cellSize)
 end
 
 function TrioGrid:draw()
@@ -154,11 +153,11 @@ function TrioGrid:check()
     local columns = Table()
     local rows = Table()
 
-    for i=1,self.w do
+    for i=1,self.n do
         columns[i] = 0
     end
 
-    for i=1,self.h do
+    for i=1,self.m do
         rows[i] = 0
     end
 
@@ -171,11 +170,11 @@ function TrioGrid:check()
 
     for x, y, cell in self:ipairs() do
         if cell.state then
-            if columns[x] == self.h then
+            if columns[x] == self.m then
                 cell.state = nil
                 score = score + 1
             end
-            if rows[y] == self.w then
+            if rows[y] == self.n then
                 cell.state = nil
                 score = score + 1
             end
@@ -202,11 +201,11 @@ function TrioGrid:ipairs()
 
     return function ()
         c = c + 1
-        if c > self.w then
+        if c > self.n then
             c = 1
             r = r + 1
         end
-        if r > self.h then
+        if r > self.m then
             return nil
         end
         return c, r, self:cell(c, r)

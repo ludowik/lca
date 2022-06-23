@@ -41,9 +41,3 @@ io.read = function (name)
 end
 
 io.write = love.filesystem.write
-
-output = class 'Output'
-
-function Output.clear()
-end
-

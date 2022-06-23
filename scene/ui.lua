@@ -7,7 +7,7 @@ end
 function UIScene:setGridSize()
 end
 
-class 'UI' : extends(Rect)
+class 'UI' : extends(Rect, Bind)
 
 function UI:init(label, callback)
     Rect.init(self)
@@ -20,7 +20,12 @@ function UI:init(label, callback)
         })
 end
 
-function UI:bind()    
+function UI.properties.set:value(value)
+    self:setValue(value)
+end
+
+function UI.properties.get:value()
+    return self:getValue()
 end
 
 function UI:setstyles(...)

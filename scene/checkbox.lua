@@ -2,6 +2,7 @@ class 'CheckBox' : extends(UI)
 
 function CheckBox:init(label, value, callback)
     UI.init(self, label, callback)
+    Bind.init(self, label, value, callback)
     self.value = value
 end
 

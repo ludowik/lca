@@ -84,11 +84,11 @@ mouse = table({
 
 CurrentTouch = mouse
 
-function mouseevent(state, x, y, button)
-    __mouseevent(state, x-X, y-Y, button)
+function mouseevent(state, x, y, button, presses)
+    __mouseevent(state, x-X, y-Y, button, presses)
 end
 
-function __mouseevent(state, x, y, button)
+function __mouseevent(state, x, y, button, presses)
     mouse.id = 1
 
     mouse.state = state
@@ -116,53 +116,54 @@ function __mouseevent(state, x, y, button)
     mouse.tx = mouse.tx + mouse.dx
     mouse.ty = mouse.ty + mouse.dy
 
+    if state == RELEASED then
+        mouse.tapCount = presses
+        if mouse.tapCount == 1 then
+            if mouse.tx > 1 or mouse.ty > 1 then
+                mouse.tapCount = 0
+            end            
+        end
+    else
+        mouse.tapCount = 0
+    end
+    print(mouse.tapCount)
+
     mouse.button = button or mouse.button or 0
 end
 
-local xBegin, yBegin
 function Engine.mousepressed(x, y, button, istouch, presses)
-    mouseevent(PRESSED, x, y, button)    
-    xBegin, yBegin = x, y
+    mouseevent(PRESSED, x, y, button, 0)
 
-    callApp('mousepressed', mouse)
-    callApp('touched', mouse)
+    if Rect(X, Y, W, H):contains(x, y) then
+        callApp('mousepressed', mouse)
+        callApp('touched', mouse)
+    end
 
     _G.env.parameter.touched(mouse)
 end
 
 function Engine.mousemoved(x, y, dx, dy, istouch)
-    mouseevent(MOVED, x, y)
+    mouseevent(MOVED, x, y, mouse.button, 0)
 
-    callApp('mousemoved', mouse)
+    if Rect(X, Y, W, H):contains(x, y) then
+        callApp('mousemoved', mouse)
+        if istouch or love.mouse.isDown(mouse.button) then
+            callApp('touched', mouse)
+        end
+    end
+
     if istouch or love.mouse.isDown(mouse.button) then
-        callApp('touched', mouse)
         _G.env.parameter.touched(mouse)
     end
 end
 
-function Engine.mousereleased(x, y, button, istouch, presses)
-    mouseevent(RELEASED, x, y)
+function Engine.mousereleased(x, y, button, istouch, presses)    
+    mouseevent(RELEASED, x, y, button, presses)
 
-    local xEnd, yEnd = x, y
-
-    local dx = abs(xEnd - xBegin)
-    local dy = abs(yEnd - yBegin)
-
---    if xBegin > 0.85 * W and yBegin < 0.15 * H then
---        quit()
-
---    elseif xBegin > .5 * W and xEnd < .5 * W and dx > .4 * W and dy < .1 * dx then
---        nextApp()
-
---        -- TODO : slide function
-
---    elseif xBegin < .5 * W and xEnd > .5 * W and dx > .4 * W and dy < .1 * dx then
---        previousApp()
-
---    else
-    callApp('mousereleased', mouse)
-    callApp('touched', mouse)
---    end
+    if Rect(X, Y, W, H):contains(x, y) then
+        callApp('mousereleased', mouse)
+        callApp('touched', mouse)
+    end
 
     _G.env.parameter.touched(mouse)
 end

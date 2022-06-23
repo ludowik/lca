@@ -6,8 +6,8 @@ function UI_cell:init(grid, i, j)
     self.i = i
     self.j = j
 
-    self.im = quotient(i, grid.w)
-    self.jm = quotient(j, grid.h)
+    self.im = quotient(i, grid.n)
+    self.jm = quotient(j, grid.m)
 
     local size = min(ws(), hs())
     self.fixedSize = vec2(size, size)
