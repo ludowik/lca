@@ -8,3 +8,15 @@ else
     random = math.random
     noise = math.random
 end
+
+function random(min, max)
+    if not max then
+        if not min then
+            return love.math.random()
+        else
+            min, max = 0, min
+        end
+    end
+
+    return love.math.random() * (max - min) + min
+end

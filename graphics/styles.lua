@@ -172,7 +172,7 @@ function textColor(clr, ...)
 end
 
 function noStroke()
-    styles._strokeColor = nil
+    styles.strokeColor = nil
 end
 
 function stroke(clr, ...)

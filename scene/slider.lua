@@ -3,10 +3,13 @@ class 'Slider' : extends(UI)
 function Slider:init(variable, min, max, default, integer, callback)
     UI.init(self, variable, callback)
 
-    self.value = min
+    self.value = default
+    
     self.min = min
     self.max = max
+    
     self.default = default
+    
     self.integer = integer
 end
 

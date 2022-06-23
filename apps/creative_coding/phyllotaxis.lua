@@ -4,8 +4,8 @@ function setup()
     parameter.integer('spacing', 2, 20, 4)
     parameter.number('theta', 130, 145, 137.5)
 
-    local function setTheta(btn)
-        theta = tonumber(btn.label)
+    local function setTheta(label)
+        theta = tonumber(label)
         n = 0
     end
     

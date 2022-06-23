@@ -32,7 +32,7 @@ function Parameter:init()
         self.scene:add(
             Button(name,
                 function (ui)
-                    self.notify(ui, nil, callback)
+                    self.notify(ui, ui.label, callback)
                 end))
     end
 
