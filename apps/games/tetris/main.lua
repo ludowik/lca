@@ -170,22 +170,22 @@ function Tetris:hasLines()
 end
 
 function Tetris:hasLine()
-    for y=1,self.grid.h do
+    for y=1,self.grid.m do
         local countMinos = 0
-        for x=1,self.grid.w do
+        for x=1,self.grid.n do
             if self.grid:get(x, y) then
                 countMinos = countMinos + 1
             end
         end
 
-        if countMinos == self.grid.w then
-            for y1=y+1,self.grid.h do
-                for x1=1,self.grid.w do
+        if countMinos == self.grid.n then
+            for y1=y+1,self.grid.m do
+                for x1=1,self.grid.n do
                     self.grid:set(x1, y1-1, self.grid:get(x1, y1))
                 end
             end
-            for x1=1,self.grid.w do
-                self.grid:set(x1, self.grid.h, nil)
+            for x1=1,self.grid.n do
+                self.grid:set(x1, self.grid.m, nil)
             end
 
             self.lines = self.lines + 1
@@ -221,8 +221,8 @@ function TetrisGrid:loadValue(value)
 end
 
 function TetrisGrid:computeSize()
-    self.size.x = self.itemSize * self.w
-    self.size.y = self.itemSize * self.h
+    self.size.x = self.itemSize * self.n
+    self.size.y = self.itemSize * self.m
 end
 
 function TetrisGrid:computePosition()
@@ -263,8 +263,8 @@ function TetrisGrid:draw()
 
     noFill()
 
-    for y=1,self.h do
-        for x=1,self.w do
+    for y=1,self.m do
+        for x=1,self.n do
             rectMode(CORNER)
             rect(x*size, y*size, size, size)
         end
@@ -272,8 +272,8 @@ function TetrisGrid:draw()
 
     noStroke()
 
-    for y=1,self.h do
-        for x=1,self.w do
+    for y=1,self.m do
+        for x=1,self.n do
             local fillColor = self:get(x, y)
 
             if fillColor then
@@ -297,8 +297,8 @@ function TetrisGrid:draw()
         end
     end
 
-    for y=1,self.h do
-        for x=1,self.w do
+    for y=1,self.m do
+        for x=1,self.n do
             local fillColor = self:get(x, y)
 
             if fillColor then
@@ -360,7 +360,7 @@ end
 function Tetrimino:reset()
     self.time = 1
     self.gridPosition = vec2(
-        floor(app.gridSize.x/2) - floor(self.w/2),
+        floor(app.gridSize.x/2) - floor(self.n/2),
         app.gridSize.y)
 
     self:computePosition()
@@ -371,8 +371,8 @@ function Tetrimino:moveIsAllowed(move, array)
     local gridPosition = self.gridPosition:clone() + move
     array = array or self
 
-    for x=1,array.w do
-        for y=1,array.h do
+    for x=1,array.n do
+        for y=1,array.m do
             if array:get(x, y) then
                 if x + gridPosition.x - 1 < 1 then
                     return false

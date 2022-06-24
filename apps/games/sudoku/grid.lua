@@ -29,8 +29,8 @@ end
 
 function GridSudoku:loadFromString(str)
     local index = 1
-    for i = 1, self.w do
-        for j = 1, self.h do
+    for i = 1, self.n do
+        for j = 1, self.m do
             local value = tonumber(str:mid(index, 1))
             if value >= 1 and value <= 9 then
                 self:set(i, j, value)
@@ -53,8 +53,8 @@ function GridSudoku:for_cells(f)
 
     local one = false
 
-    for i = 1, self.w do
-        for j = 1, self.h do
+    for i = 1, self.n do
+        for j = 1, self.m do
             local result = f(self, i, j)
             all = all and result
             one = one or result
@@ -110,7 +110,7 @@ end
 
 function GridSudoku:check_grid()
     self.numbersCount = {}
-    for i = 1, self.w do
+    for i = 1, self.n do
         self.numbersCount[i] = 0
     end
 
@@ -122,7 +122,7 @@ function GridSudoku:check_cell(i, j)
 
     local numbers = current_cell.numbers
 
-    if current_cell.value and current_cell.value > 0 and current_cell.value <= self.w then
+    if current_cell.value and current_cell.value > 0 and current_cell.value <= self.n then
         self.numbersCount[current_cell.value] = self.numbersCount[current_cell.value] + 1
     end
 
@@ -131,12 +131,12 @@ function GridSudoku:check_cell(i, j)
         return
     end
 
-    for i = 1, self.w do
+    for i = 1, self.n do
         numbers[i] = true
     end
 
     -- dans la ligne
-    for i = 1, self.w do
+    for i = 1, self.n do
         local cell = self:cell(i, j)
         if cell ~= current_cell and cell.value then
             numbers[cell.value] = nil
@@ -144,7 +144,7 @@ function GridSudoku:check_cell(i, j)
     end
 
     -- dans la colonne
-    for j = 1, self.h do
+    for j = 1, self.m do
         local cell = self:cell(i, j)
         if cell ~= current_cell and cell.value then
             numbers[cell.value] = nil
@@ -152,11 +152,11 @@ function GridSudoku:check_cell(i, j)
     end
 
     -- dans le bloc
-    local ib = math.modf( (i - 1) / self.w ) * self.w + 1
-    local jb = math.modf( (j - 1) / self.h ) * self.h + 1
+    local ib = math.modf( (i - 1) / self.n ) * self.n + 1
+    local jb = math.modf( (j - 1) / self.m ) * self.m + 1
 
-    for i = ib, ib+(self.w-1) do
-        for j = jb, jb+(self.h-1) do
+    for i = ib, ib+(self.n-1) do
+        for j = jb, jb+(self.m-1) do
             local cell = self:cell(i, j)
             if cell ~= current_cell and cell.value then
                 numbers[cell.value] = nil
@@ -173,7 +173,7 @@ function GridSudoku:check_cell_1candidate(i, j)
     local only_one_candidate = false
     local value = nil
 
-    for i = 1, self.w do
+    for i = 1, self.n do
         if numbers[i] then
             if only_one_candidate then
                 return false, nil
@@ -197,15 +197,15 @@ function GridSudoku:generate()
     self:clear()
     self:check_grid()
 
-    for k = 1, self.w * self.h * self.w * self.h do
-        local i = math.random(1, self.w)
-        local j = math.random(1, self.h)
+    for k = 1, self.n * self.m * self.n * self.m do
+        local i = math.random(1, self.n)
+        local j = math.random(1, self.m)
 
         local cell = self:cell(i, j)
 
         if cell.value == nil then
 
-            local value = math.random(1, self.w)
+            local value = math.random(1, self.n)
 
             if cell.numbers[value] then
                 self:set(i, j, value, true)
@@ -216,7 +216,7 @@ function GridSudoku:generate()
                     self:check_grid()
                 end
             else
-                for value = 1, self.w do
+                for value = 1, self.n do
                     if cell.numbers[value] then
                         self:set(i, j, value, true)
                         self:check_grid()

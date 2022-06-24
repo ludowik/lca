@@ -16,8 +16,8 @@ function initShape(l)
 
     grid = Grid(W/len, H/len)
 
-    for i=1,grid.w do
-        for j=1,grid.h do
+    for i=1,grid.n do
+        for j=1,grid.m do
             grid:set(i, j, randomInt(1, 4))
         end
     end

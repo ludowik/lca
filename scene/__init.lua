@@ -1,6 +1,7 @@
 requireLib(
     'node',
     'scene',
+    'bind',
     'ui',
     'expression',
     'slider',

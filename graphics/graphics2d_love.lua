@@ -7,10 +7,12 @@ end
 
 function Graphics.point(x, y)
     if type(x) == 'table' then x, y = x.x, x.y end
-    
-    love.graphics.setColor(stroke():unpack())
-    love.graphics.setPointSize(strokeSize())
-    love.graphics.points(x, y)
+
+    if stroke() then
+        love.graphics.setColor(stroke():unpack())
+        love.graphics.setPointSize(strokeSize())
+        love.graphics.points(x, y)
+    end
 end
 
 function Graphics.points(t, ...)
@@ -101,7 +103,7 @@ end
 
 function Graphics.rect(x, y, w, h)
     h = h or w
-    
+
     if rectMode() == CENTER then
         x = x - w / 2
         y = y - h / 2
@@ -140,7 +142,7 @@ end
 
 function Graphics.ellipse(x, y, w, h)
     h = h or w
-    
+
     if ellipseMode() == CORNER then
         x = x - r
         y = y - r

@@ -35,6 +35,9 @@ function setup()
 end
 
 function update(dt)
+    if autotest then
+        m = m + 0.1
+    end    
 end
 
 function __draw2d()

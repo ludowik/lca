@@ -50,11 +50,11 @@ function Engine.update(dt)
 
             if Engine.test.index == 1 then
                 Engine.test.ram = format_ram()
-                
+
             elseif Engine.test.index > getnApps() then
                 print('début du test')
                 print(Engine.test.ram)
-                
+
                 print('fin du test')
                 print(format_ram())
 
@@ -62,10 +62,10 @@ function Engine.update(dt)
                 print(format_ram())
 
                 resetApps()
-                
+
                 GraphicsBase.release()
                 Image.release()
-                
+
                 gc()
                 print(format_ram())
 
@@ -131,7 +131,6 @@ function Engine.endDraw(reverseY)
     love.graphics.setScissor()
     love.graphics.setBlendMode('replace')
     love.graphics.setWireframe(false)
-    love.graphics.clear(.5, .5, .5, 1)
 
     local source
     if _G.env.imageData then
@@ -149,19 +148,37 @@ function Engine.endDraw(reverseY)
 end
 
 function Engine.draw()
-    if _G.env.draw then
+    love.graphics.clear(.5, .5, .5, 1)
+
+    local x, y = love.mouse.getPosition()
+    if x < X then
+        Engine.draw2d()
+        Engine.draw3d()    
+        Engine.drawInfo()
+    else
+        Engine.drawInfo()
+        Engine.draw2d()
+        Engine.draw3d()
+    end
+
+end
+
+function Engine.draw2d()
+    if _G.env.draw or _G.env.draw2d then
         Engine.beginDraw()
         if Engine.needDraw() then
             Engine.render(function ()
                     depthMode(false)
                     cullingMode(false)
                     if getCamera() then getCamera():lookAt() end
-                    _G.env.draw()
+                    (_G.env.draw or _G.env.draw2d)()
                 end)
         end
         Engine.endDraw(getOrigin() == BOTTOM_LEFT)
     end
+end
 
+function Engine.draw3d()
     if _G.env.draw3d then
         Engine.beginDraw()
         do
@@ -176,7 +193,9 @@ function Engine.draw()
         end
         Engine.endDraw(true)
     end
+end
 
+function Engine.drawInfo()
     love.graphics.setDepthMode('always', true)
 
     Engine.render(function()
@@ -187,10 +206,12 @@ function Engine.draw()
 
             text(string.format('%d,%d,%d,%d', love.window.getSafeArea()))
             text(string.format('%d,%d', mouse.x, mouse.y))
-            
+
             text(config.renderer)
 
             callApp('drawInfo')
+
+            Log.draw()
         end, 10, Y)
 
     Engine.render(function()

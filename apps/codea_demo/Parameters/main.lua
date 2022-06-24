@@ -24,7 +24,7 @@ function setup()
     -- Here is a color parameter, you can tap the color sample to
     --  adjust it live, in the viewer. colorChanged is an optional callback
     --  functio we are using
-    parameter.color("CircleColor", color(255,128,0,128), colorChanged)
+    parameter.color("CircleColor", Color.rgb(255,128,0,128), colorChanged)
 
     -- This is a boolean parameter, represented by a switch interface
     --  it defaults to 'true' and we use it to determine whether to draw

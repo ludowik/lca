@@ -1,10 +1,10 @@
 class 'Grid'
 
-function Grid:init(w, h)
-    assert(w)
+function Grid:init(n, m)
+    assert(n)
     
-    self.w = w
-    self.h = h or w
+    self.n = n
+    self.m = m or n
 
     self.cells = table()
 end
@@ -14,14 +14,14 @@ function Grid:clear()
 end
 
 function Grid:randomCell()
-    local x = randomInt(1, self.w)
-    local y = randomInt(1, self.h)
+    local x = randomInt(1, self.n)
+    local y = randomInt(1, self.m)
     return self:cell(x, y)
 end
 
 function Grid:offset(i, j)
-    if (i>=1 and i<=self.w) and (j>=1 and j<=self.h) then
-        return i + (j-1) * self.w
+    if (i>=1 and i<=self.n) and (j>=1 and j<=self.m) then
+        return i + (j-1) * self.n
     end
     return -1
 end
@@ -58,8 +58,8 @@ end
 
 function Grid:countCellsWithNoValue()
     local count = 0
-    for j=1,self.h do
-        for i=1,self.w do
+    for j=1,self.m do
+        for i=1,self.n do
             if self:get(i, j) == nil then
                 count = count + 1
             end
@@ -70,8 +70,8 @@ end
 
 function Grid:countCellsWithValue(value)
     local count = 0
-    for j=1,self.h do
-        for i=1,self.w do
+    for j=1,self.m do
+        for i=1,self.n do
             if self:get(i, j) == value then
                 count = count + 1
             end
@@ -81,8 +81,8 @@ function Grid:countCellsWithValue(value)
 end
 
 function Grid:applyFunction(f)
-    for j=1,self.h do
-        for i=1,self.w do
+    for j=1,self.m do
+        for i=1,self.n do
             f(i, j, self:cell(i, j))
         end
     end
@@ -94,11 +94,11 @@ function Grid:ipairs()
 
     return function ()
         x = x + 1
-        if x > self.w then
+        if x > self.n then
             x = 1
             y = y + 1
         end
-        if y > self.h then
+        if y > self.m then
             return nil
         end
         return x, y, self:cell(x, y)
@@ -106,28 +106,28 @@ function Grid:ipairs()
 end
 
 function Grid:draw(draw)
-    for x=1,self.w do
-        for y=1,self.h do
+    for x=1,self.n do
+        for y=1,self.m do
             draw(x, y, self:get(x, y))
         end
     end
 end
 
 function Grid:rotate()
-    local array = Grid(self.h, self.w)
-    for i=1,self.w do
-        for j=1,self.h do
-            array:set(i, j, self:get(j, self.h-i+1))
+    local array = Grid(self.m, self.n)
+    for i=1,self.n do
+        for j=1,self.m do
+            array:set(i, j, self:get(j, self.m-i+1))
         end
     end
     return array
 end
 
 function Grid:duplicate()
-    local array = Grid(self.w, self.h, self.defaultValue)
+    local array = Grid(self.n, self.m, self.defaultValue)
 
-    for i=1,array.w do
-        for j=1,array.h do
+    for i=1,array.n do
+        for j=1,array.m do
             local value = self:get(i, j)
             if value then
                 array:set(i, j, value)
@@ -139,8 +139,8 @@ function Grid:duplicate()
 end
 
 function Grid:copy(array, xt, yt)
-    for i=1,array.w do
-        for j=1,array.h do
+    for i=1,array.n do
+        for j=1,array.m do
             local value = array:get(i, j)
             if value then
                 self:set(xt+i-1, yt+j-1, value)
@@ -179,10 +179,10 @@ function Grid:load()
 end
 
 function Grid:asText()
-    local text = string.rep('-', self.w)..NL
+    local text = string.rep('-', self.n)..NL
     for x,y,cell in self:ipairs() do
         text = text..(cell.value or ' ')
-        if x == self.w and y ~= self.h then
+        if x == self.n and y ~= self.m then
             text = text..NL
         end
     end

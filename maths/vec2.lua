@@ -40,9 +40,12 @@ function vec2:__index(key)
 end
 
 function vec2.random(w, h)
+    w = w or 1
+    h = h or w
+    
     return vec2(
-        random(w),
-        random(h))
+        random(w)-w/2,
+        random(h)-h/2)
 end
 
 function vec2.randomInScreen()

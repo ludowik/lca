@@ -14,7 +14,7 @@ function test()
     local currentApp = env
     currentApp.autotest = false
 
-    local apps = enum('apps')
+    local apps = enum('apps')    
     for i,path in ipairs(apps) do
         if isApp(path) then
             local newApp = loadApp(path)
@@ -66,33 +66,40 @@ function browse(path, previousPath)
     end
 
     local list = dir(path)
-    list:sort(function (a, b) return a < b end)
+    list:sort(
+        function (a, b)
+            if isApp(a) == isApp(b) then
+                return a < b
+            end
+            return not isApp(a) --and isApp(b)
+        end)
 
-    for i,item in ipairs(list) do
+    for i,item in ipairs(list) do        
         local path, name, ext = splitFilePath(item)
 
-        if isApp(item) then
-            scene:add(UI(name,
-                    function (_)
-                        loadApp(path, name)
-                    end):attribs{
-                    info = item,
-                    textColor = colors.white,
-                    fontSize = 18})
-        else
-            scene:add(
-                UI(name,
-                    function (_)
-                        browse(item, path)
-                    end)
-                :attribs{
-                    info = item}
-                :setstyles{
-                    textColor = colors.blue,
-                    fontSize = 22})
+        if name ~= 'apps' then
+            if isApp(item) then
+                scene:add(UI(name,
+                        function (_)
+                            loadApp(path, name)
+                        end):attribs{
+                        info = item,
+                        textColor = colors.white,
+                        fontSize = 22})
+            else
+                scene:add(
+                    UI(name,
+                        function (_)
+                            browse(item, path)
+                        end)
+                    :attribs{
+                        info = item}
+                    :setstyles{
+                        textColor = colors.blue,
+                        fontSize = 26})
+            end
         end
     end
 
     scene:add(UI('quit', quit))
-    scene:add(UI('exit', exit))
 end

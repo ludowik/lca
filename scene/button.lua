@@ -10,11 +10,10 @@ end
 
 class 'ButtonColor' : extends(UI)
 
-function ButtonColor:init(clr, callback)
+function ButtonColor:init(bgColor, callback)
     UI.init(self, '', callback)
     self.styles:attribs{
-        bgColor = clr,
-        textColor = colors.white,
+        bgColor = bgColor
     }
 end
 

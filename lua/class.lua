@@ -6,11 +6,15 @@ function classes.setup()
     for i=1,#classes.list do
         local k = classes.list[i]
         classWithProperties(k)
-        
+
+--        for _,base in ipairs(k.bases) do
+--            classWithProperties(k, base)
+--        end
+
         if k.setup then
             k.setup()
         end
-        
+
         if k.test then
             k.test()
         end
@@ -38,8 +42,8 @@ function class(className, ...)
 
     -- extends
     function k.extends(...)
-        local bases = {...}
-        for _,base in pairs(bases) do
+        k.bases = {...}
+        for _,base in pairs(k.bases) do
             for name,f in pairs(base) do
                 if type(f) == 'function' then
                     if not k[name] or (name == 'init' and k[name] == nilf) then
@@ -75,8 +79,11 @@ function class(className, ...)
     return k
 end
 
-function classWithProperties(proto)
-    local get = proto.properties.get
+function classWithProperties(proto, base)
+    base = base or proto
+    if base.properties == nil then return end
+    
+    local get = base.properties.get
     if table.getnKeys(get) > 0 then
         print(proto.__className..' have properties')
         proto.__index = function(tbl, key)
@@ -92,7 +99,7 @@ function classWithProperties(proto)
         end
     end
 
-    local set = proto.properties.set
+    local set = base.properties.set
     if table.getnKeys(set) > 0 then
         proto.__newindex = function(tbl, key, value)
             if proto[key] then

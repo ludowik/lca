@@ -119,8 +119,8 @@ function GolGrid:draw()
     self.scale = 1
 
     self.size = vec2(
-        grid.w * w * self.scale,
-        grid.h * h * self.scale)
+        grid.n * w * self.scale,
+        grid.m * h * self.scale)
 
     self.position = vec2(
         (WIDTH  - self.size.x) / 2,
@@ -138,12 +138,12 @@ function GolGrid:draw()
 
     fill(red)
 
-    for i=0,grid.w do
-        line(w*i, 0, w*i, h*grid.h)
+    for i=0,grid.n do
+        line(w*i, 0, w*i, h*grid.m)
     end
 
-    for j=0,grid.h do
-        line(0, h*j, w*grid.w, h*j)
+    for j=0,grid.m do
+        line(0, h*j, w*grid.n, h*j)
     end
 
     rectMode(CORNER)

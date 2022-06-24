@@ -83,6 +83,8 @@ function ParticleFirework:update(dt)
 end
 
 function ParticleFirework:draw()
+    noStroke()
     fill(self.clr)
+    
     circle(self.position.x, self.position.y, self.life*3)
 end
