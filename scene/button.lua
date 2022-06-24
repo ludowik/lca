@@ -1,9 +1,19 @@
 class 'Button' : extends(UI)
 
-function Button:init(...)
-    UI.init(self, ...)
+function Button:init(label, callback)
+    UI.init(self, label, callback)
     self.styles:attribs{
         bgColor = colors.blue,
+        textColor = colors.white,
+    }
+end
+
+class 'ButtonColor' : extends(UI)
+
+function ButtonColor:init(clr, callback)
+    UI.init(self, '', callback)
+    self.styles:attribs{
+        bgColor = clr,
         textColor = colors.white,
     }
 end

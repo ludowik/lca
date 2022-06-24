@@ -3,6 +3,8 @@ image = Image
 
 font = fontName
 
+setOrigin(BOTTOM_LEFT)
+
 local __class = class
 class = function (...)
     local k = __class('Codea'..id())

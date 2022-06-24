@@ -159,7 +159,7 @@ function Engine.draw()
                     _G.env.draw()
                 end)
         end
-        Engine.endDraw()
+        Engine.endDraw(getOrigin() == BOTTOM_LEFT)
     end
 
     if _G.env.draw3d then

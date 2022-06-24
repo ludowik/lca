@@ -79,7 +79,12 @@ function Graphics.text(txt, x, y)
     if clr then
         love.graphics.setBlendMode('alpha')
         love.graphics.setColor(clr:unpack())
-        love.graphics.draw(res.text, x, y)
+
+        if getOrigin() == BOTTOM_LEFT then
+            love.graphics.draw(res.text, x, y, 0, 1, -1)
+        else
+            love.graphics.draw(res.text, x, y, 0, 1, 1)
+        end
     end
 
     return w, h

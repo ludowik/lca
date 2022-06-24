@@ -85,7 +85,14 @@ mouse = table({
 CurrentTouch = mouse
 
 function mouseevent(state, x, y, button)
-    __mouseevent(state, x-X, y-Y, button)
+    x = x - X
+    y = y - Y
+    
+    if getOrigin() == BOTTOM_LEFT then
+        y = H - y
+    end
+    
+    __mouseevent(state, x, y, button)
 end
 
 function __mouseevent(state, x, y, button)
