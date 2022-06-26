@@ -136,7 +136,13 @@ end
 -- This function gets called once every frame
 function draw()
     background(0, 0, 0, 255)
+    
+    translate(-W/2, -H/2)
+    scale(1/W,1/H)
+    box()
+    
     bg:draw()
+    
     noSmooth()
 
     -- Update the ball

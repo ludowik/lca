@@ -87,11 +87,7 @@ CurrentTouch = mouse
 function mouseevent(state, x, y, button)
     x = x - X
     y = y - Y
-    
-    if getOrigin() == BOTTOM_LEFT then
-        y = H - y
-    end
-    
+
     __mouseevent(state, x, y, button)
 end
 
@@ -133,7 +129,6 @@ function __mouseevent(state, x, y, button, presses)
     else
         mouse.tapCount = 0
     end
-    print(mouse.tapCount)
 
     mouse.button = button or mouse.button or 0
 end
@@ -142,8 +137,13 @@ function Engine.mousepressed(x, y, button, istouch, presses)
     mouseevent(PRESSED, x, y, button, 0)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        callApp('mousepressed', mouse)
-        callApp('touched', mouse)
+        local mouse2 = mouse
+        if getOrigin() == BOTTOM_LEFT then
+            mouse2 = mouse:clone()
+            mouse2.y = H - mouse2.y
+        end
+        callApp('mousepressed', mouse2)
+        callApp('touched', mouse2)
     end
 
     _G.env.parameter.touched(mouse)
@@ -153,9 +153,14 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
     mouseevent(MOVED, x, y, mouse.button, 0)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        callApp('mousemoved', mouse)
+        local mouse2 = mouse
+        if getOrigin() == BOTTOM_LEFT then
+            mouse2 = mouse:clone()
+            mouse2.y = H - mouse2.y
+        end
+        callApp('mousemoved', mouse2)
         if istouch or love.mouse.isDown(mouse.button) then
-            callApp('touched', mouse)
+            callApp('touched', mouse2)
         end
     end
 
@@ -168,8 +173,13 @@ function Engine.mousereleased(x, y, button, istouch, presses)
     mouseevent(RELEASED, x, y, button, presses)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        callApp('mousereleased', mouse)
-        callApp('touched', mouse)
+        local mouse2 = mouse
+        if getOrigin() == BOTTOM_LEFT then
+            mouse2 = mouse:clone()
+            mouse2.y = H - mouse2.y
+        end
+        callApp('mousereleased', mouse2)
+        callApp('touched', mouse2)
     end
 
     _G.env.parameter.touched(mouse)

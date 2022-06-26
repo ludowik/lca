@@ -221,8 +221,8 @@ function Graphics.createShader()
     local pixelcode = [[
             vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
             {
-                // vec4 texcolor = Texel(tex, texture_coords);
-                return /*texcolor * */ color;
+                vec4 texcolor = Texel(tex, texture_coords);
+                return texcolor * color;
             }
         ]]
     Graphics.shader3D = love.graphics.newShader(pixelcode, vertexcode)
@@ -316,6 +316,7 @@ function Graphics.box(x, y, z, w, h, d)
         Graphics.boxMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
     end
 
+    local shader = love.graphics.getShader()
     love.graphics.setShader(Graphics.shader3D)
 
     pushMatrix()
@@ -339,7 +340,7 @@ function Graphics.box(x, y, z, w, h, d)
     end
     popMatrix()
 
-    love.graphics.setShader()
+    love.graphics.setShader(shader)
 end
 
 function Graphics.sphere(x, y, z, r)
@@ -357,6 +358,7 @@ function Graphics.sphere(x, y, z, r)
         Graphics.sphereMesh = Graphics.newMesh(format, vertices, 'triangles', 'static')
     end
 
+    local shader = love.graphics.getShader()
     love.graphics.setShader(Graphics.shader3D)
 
     pushMatrix()
@@ -380,7 +382,7 @@ function Graphics.sphere(x, y, z, r)
     end
     popMatrix()
 
-    love.graphics.setShader()
+    love.graphics.setShader(shader)
 end
 
 function Graphics.newMesh(...)
@@ -406,7 +408,7 @@ local function edgeFunction(a, b, c)
     return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x)
 end
 
-Graphics.drawMesh = function (mesh)
+Graphics._drawMesh = function (mesh)
     _G.env.imageData = _G.env.imageData or Image(W, H)
 
     local vertices = table()

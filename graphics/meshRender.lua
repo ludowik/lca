@@ -47,6 +47,8 @@ function MeshRender:draw()
 
     GraphicsCore.createShader()
     assert(shaders['shader3D'])
+    
+    local shader = love.graphics.getShader()
     love.graphics.setShader(shaders['shader3D'])
     shaders['shader3D']:send('pvm', {
             pvmMatrix():getMatrix()
@@ -54,7 +56,7 @@ function MeshRender:draw()
 
     love.graphics.draw(m)
 
-    love.graphics.setShader()
+    love.graphics.setShader(shader)
 end
 
 function MeshRender:drawInstanced(n)

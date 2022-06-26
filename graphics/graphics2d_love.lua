@@ -32,9 +32,11 @@ function Graphics.points(t, ...)
 end
 
 function Graphics.line(x1, y1, x2, y2)
-    love.graphics.setColor(stroke():unpack())
-    love.graphics.setLineWidth(strokeSize())
-    love.graphics.line(x1, y1, x2, y2)
+    if stroke() then
+        love.graphics.setColor(stroke():unpack())
+        love.graphics.setLineWidth(strokeSize())
+        love.graphics.line(x1, y1, x2, y2)
+    end
 end
 
 function Graphics.lines(t, ...)

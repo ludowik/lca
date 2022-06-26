@@ -103,7 +103,8 @@ function Engine.render(f, x, y)
     f()
 end
 
-function Engine.beginDraw()
+function Engine.beginDraw(origin)
+    Engine.origin = origin
     if not _G.env.canvas then
         _G.env.canvas = love.graphics.newCanvas(W, H)
         --        _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
@@ -122,10 +123,15 @@ function Engine.beginDraw()
         })
 
     love.graphics.setWireframe(config.wireFrame and true or false)
+    
+    GraphicsCore.createShader()
+    assert(shaders['shader3D'])
+    love.graphics.setShader(shaders['shader3D'])
 end
 
-function Engine.endDraw(reverseY)
+function Engine.endDraw()
     love.graphics.setCanvas()
+    love.graphics.setShader()
     love.graphics.origin()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.setScissor()
@@ -139,6 +145,8 @@ function Engine.endDraw(reverseY)
     else
         source = _G.env.canvas
     end
+    
+    local reverseY = Engine.origin == BOTTOM_LEFT
 
     if reverseY then
         love.graphics.draw(source, X, H+Y, 0, 1, -1)
@@ -165,7 +173,7 @@ end
 
 function Engine.draw2d()
     if _G.env.draw or _G.env.draw2d then
-        Engine.beginDraw()
+        Engine.beginDraw(getOrigin())
         if Engine.needDraw() then
             Engine.render(function ()
                     depthMode(false)
@@ -174,7 +182,7 @@ function Engine.draw2d()
                     (_G.env.draw or _G.env.draw2d)()
                 end)
         end
-        Engine.endDraw(getOrigin() == BOTTOM_LEFT)
+        Engine.endDraw()
     end
 end
 
@@ -197,6 +205,8 @@ end
 
 function Engine.drawInfo()
     love.graphics.setDepthMode('always', true)
+    
+    Engine.origin = TOP_LEFT
 
     Engine.render(function()
             text(getFPS())

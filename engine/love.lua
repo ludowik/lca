@@ -1,7 +1,7 @@
 local love2d = love
 
 function love2d.load()
-    love2d.makelove()
+--    love2d.makelove()
 
     local major, minor, revision, codename = love2d.getVersion()
     version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
