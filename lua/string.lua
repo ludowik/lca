@@ -127,24 +127,24 @@ end
 class('__string')
 
 __string.test = function ()
-    ut.assert('lower', string.lower('TEST') == 'test')
-    ut.assert('upper', string.upper('test') == 'TEST')
+    assert(string.lower('TEST') == 'test')
+    assert(string.upper('test') == 'TEST')
 
-    ut.assert('left', string.left('test', 2) == 'te')
-    ut.assertEqual('right', string.right('right', 2), 'ht')
+    assert(string.left('test', 2) == 'te')
+    assert(string.right('right', 2) == 'ht')
 
-    ut.assert('rep', string.rep('t', 4) == 'tttt')
+    assert(string.rep('t', 4) == 'tttt')
 
-    ut.assert('proper', string.proper('test test') == 'Test test')
+    assert(string.proper('test test') == 'Test test')
 
-    ut.assert('startWith=true', string.startWith('test', 'te') == true)
-    ut.assert('startWith=false', string.startWith('test', 'et') == false)
+    assert(string.startWith('test', 'te') == true)
+    assert(string.startWith('test', 'et') == false)
 
-    ut.assert('contains=true', string.contains('test', 'es') == true)
-    ut.assert('contains=false', string.contains('test', 'et') == false)
+    assert(string.contains('test', 'es') == true)
+    assert(string.contains('test', 'et') == false)
 
-    ut.assert('replace', string.replace('test', 'e', 'E') == 'tEst')
+    assert(string.replace('test', 'e', 'E') == 'tEst')
     
-    ut.assert('repeat', string.rep('a', 5) == 'aaaaa')
-    ut.assert('repeat', string.rep('ab', 2) == 'abab')
+    assert(string.rep('a', 5) == 'aaaaa')
+    assert(string.rep('ab', 2) == 'abab')
 end

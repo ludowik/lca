@@ -39,13 +39,18 @@ function Engine.keyreleased(key)
 
     elseif key =='g' then
         _G.env.imageData = nil
-        if point == GraphicsLove.point then
+
+        if config.renderer == 'love' then
             config.renderer = 'core'
+        
+        elseif config.renderer == 'core' then
+            config.renderer = 'soft'
+        
         else
             config.renderer = 'love'
         end
 
-        Engine.graphics = config.renderer == 'core' and GraphicsCore() or GraphicsLove()
+        Engine.setGraphicsLibrary()
     else
         callApp('keyboard', key)
 

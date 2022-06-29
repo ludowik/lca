@@ -385,7 +385,7 @@ function Model.box(w, h, d)
 
     local texCoords = Buffer('vec2')
 
-    function add(coords, dx, dy)
+    local function add(coords, dx, dy)
         for i=0,5 do
             texCoords:insert(vec2(coords[i*2+1] + dx, coords[i*2+2] + dy))
         end
@@ -411,10 +411,6 @@ function Model.tetrahedron(x, y, z, w, h, d)
         nil,
         Model.computeNormals(vertices_tetra))
 end
-
-
-
-
 
 function Model.pyramid(w, h, d)
     w = w or 1
@@ -975,68 +971,67 @@ function positionAndSize(x, y, z, w, h, d, size)
     return x, y, z, w, h, d
 end
 
-function Model.box(x, y, z, w, h, d)
-    x, y, z, w, h, d = x or 0, y or 0, z or 0, w or 1, h or 1, d or 1
-    
-    local vertices = {}
-    local clrs = {}
+--function Model.box(x, y, z, w, h, d)
+--    x, y, z, w, h, d = x or 0, y or 0, z or 0, w or 1, h or 1, d or 1
 
-    -- front
-    table.insert(vertices, vec3(x-w, y-h, z-d))
-    table.insert(vertices, vec3(x+w, y-h, z-d))
-    table.insert(vertices, vec3(x+w, y+h, z-d))
-    table.insert(vertices, vec3(x-w, y-h, z-d))
-    table.insert(vertices, vec3(x+w, y+h, z-d))
-    table.insert(vertices, vec3(x-w, y+h, z-d))
-    Model.setColors(clrs, colors.green)
+--    local vertices = {}
 
-    -- back
-    table.insert(vertices, vec3(x+w, y-h, z+d))
-    table.insert(vertices, vec3(x-w, y-h, z+d))
-    table.insert(vertices, vec3(x-w, y+h, z+d))
-    table.insert(vertices, vec3(x+w, y-h, z+d))
-    table.insert(vertices, vec3(x-w, y+h, z+d))
-    table.insert(vertices, vec3(x+w, y+h, z+d))
-    Model.setColors(clrs, colors.yellow)
+--    -- front
+--    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
+--    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
+--    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+--    Model_setColors(vertices, colors.green)
 
-    -- left
-    table.insert(vertices, vec3(x-w, y-h, z+d))
-    table.insert(vertices, vec3(x-w, y-h, z-d))
-    table.insert(vertices, vec3(x-w, y+h, z-d))
-    table.insert(vertices, vec3(x-w, y-h, z+d))
-    table.insert(vertices, vec3(x-w, y+h, z-d))
-    table.insert(vertices, vec3(x-w, y+h, z+d))
-    Model.setColors(clrs, colors.orange)
+--    -- back
+--    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
+--    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+--    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
+--    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
+--    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+--    Model_setColors(vertices, colors.yellow)
 
-    -- right
-    table.insert(vertices, vec3(x+w, y-h, z-d))
-    table.insert(vertices, vec3(x+w, y-h, z+d))
-    table.insert(vertices, vec3(x+w, y+h, z+d))
-    table.insert(vertices, vec3(x+w, y-h, z-d))
-    table.insert(vertices, vec3(x+w, y+h, z+d))
-    table.insert(vertices, vec3(x+w, y+h, z-d))
-    Model.setColors(clrs, colors.red)
+--    -- left
+--    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+--    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+--    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+--    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+--    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
+--    Model_setColors(vertices, colors.orange)
 
-    -- up
-    table.insert(vertices, vec3(x-w, y+h, z-d))
-    table.insert(vertices, vec3(x+w, y+h, z-d))
-    table.insert(vertices, vec3(x+w, y+h, z+d))
-    table.insert(vertices, vec3(x-w, y+h, z-d))
-    table.insert(vertices, vec3(x+w, y+h, z+d))
-    table.insert(vertices, vec3(x-w, y+h, z+d))
-    Model.setColors(clrs, colors.white)
+--    -- right
+--    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+--    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
+--    Model_setColors(vertices, colors.red)
 
-    -- down
-    table.insert(vertices, vec3(x+w, y-h, z-d))
-    table.insert(vertices, vec3(x-w, y-h, z-d))
-    table.insert(vertices, vec3(x-w, y-h, z+d))
-    table.insert(vertices, vec3(x+w, y-h, z-d))
-    table.insert(vertices, vec3(x-w, y-h, z+d))
-    table.insert(vertices, vec3(x+w, y-h, z+d))
-    Model.setColors(clrs, colors.blue)
+--    -- up
+--    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+--    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
+--    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
+--    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
+--    Model_setColors(vertices, colors.white)
 
-    return Mesh(vertices, clrs)
-end
+--    -- down
+--    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+--    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
+--    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
+--    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
+--    Model_setColors(vertices, colors.blue)
+
+--    return Mesh(vertices)
+--end
 
 function Model.sphere(x, y, z, w, h, d)
     x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
@@ -1086,7 +1081,7 @@ function Model.sphere(x, y, z, w, h, d)
         normals[i] = vertices[i]:normalize()
     end
 
-    return Model.mesh(vertices, texCoords, normals)
+    return Mesh(vertices, texCoords, normals)
 end
 
 function meshAddVertex(vertices, v)

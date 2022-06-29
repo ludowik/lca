@@ -11,24 +11,29 @@ local format = {
 }
 
 function MeshRender:draw()
-    local vertices
-    if self.vertices[1].x then
-        vertices = table()
-        local clr = colors.red
-        for i,v in ipairs(self.vertices) do
-            vertices:add({
-                    v.x,
-                    v.y,
-                    v.z,
-                    #self.texCoords > 0 and self.texCoords[i].x or 0,
-                    #self.texCoords > 0 and self.texCoords[i].y or 0,
-                    clr.r,
-                    clr.g,
-                    clr.b,
-                    clr.a})
+    local vertices = self.__vertices
+    if not vertices then
+        if self.vertices[1].x then
+            vertices = table()
+            for i,v in ipairs(self.vertices) do
+                local clr = self.colors[i] or colors.white
+                vertices:add({
+                        v.x,
+                        v.y,
+                        v.z,
+                        #self.texCoords > 0 and self.texCoords[i].x or 0,
+                        #self.texCoords > 0 and self.texCoords[i].y or 0,
+                        clr.r,
+                        clr.g,
+                        clr.b,
+                        clr.a})
+            end
+        else
+            vertices = self.vertices
         end
-    else
-        vertices = self.vertices
+        self.__vertices = vertices
+
+        print('init mesh')
     end
 
     if #vertices < 3 then return end
@@ -47,7 +52,7 @@ function MeshRender:draw()
 
     GraphicsCore.createShader()
     assert(shaders['shader3D'])
-    
+
     local shader = love.graphics.getShader()
     love.graphics.setShader(shaders['shader3D'])
     shaders['shader3D']:send('pvm', {

@@ -8,9 +8,13 @@ function draw3d()
     else
         rotate(elapsedTime, 0, 1, 0)
     end
+    
+    fill(colors.white)
 
-    box(0, 0, 0, 1, 1, 1)
---    sphere()
+    local s = 1
+    
+    box(0, 0, 0, s, s, s)
+    sphere(0, 0, 0, s, s, s)
 end
 
 function drawInfo()    
