@@ -104,6 +104,3 @@ function Object3D:init()
     Object.init(self)
 end
 
-class 'MeshObject' : extends(Object)
-
-class 'PolygonObject' : extends(Object)

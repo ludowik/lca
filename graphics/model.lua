@@ -7,15 +7,15 @@ local p2 = vec3( v, -v, 0)
 local p3 = vec3( v,  v, 0)
 local p4 = vec3(-v,  v, 0)
 
-local f1 = vec3(-v,-v, v)
-local f2 = vec3( v,-v, v)
-local f3 = vec3( v, v, v)
-local f4 = vec3(-v, v, v)
+local f1 = vec3(-v,-v,-v)
+local f2 = vec3( v,-v,-v)
+local f3 = vec3( v, v,-v)
+local f4 = vec3(-v, v,-v)
 
-local b1 = vec3(-v,-v,-v)
-local b2 = vec3( v,-v,-v)
-local b3 = vec3( v, v,-v)
-local b4 = vec3(-v, v,-v)
+local b1 = vec3(-v,-v, v)
+local b2 = vec3( v,-v, v)
+local b3 = vec3( v, v, v)
+local b4 = vec3(-v, v, v)
 
 local u5 = vec3(v, v, v)
 
@@ -69,9 +69,10 @@ function Model.mesh(vertices, texCoords, normals, indices)
         m.normals = Model.computeNormals(m.vertices)
     end
 
-    if m.indices == nil or #m.indices == 0 then
-        m.vertices, m.texCoords, m.normals, m.indices = Model.computeIndices(m.vertices, m.texCoords, m.normals)
-    end
+    -- TODO
+--    if m.indices == nil or #m.indices == 0 then
+--        m.vertices, m.texCoords, m.normals, m.indices = Model.computeIndices(m.vertices, m.texCoords, m.normals)
+--    end
 
     return m
 end
@@ -374,10 +375,10 @@ function Model.box(w, h, d)
     local vertices = Buffer('vec3', {
             f1, f2, f3, f1, f3, f4, -- front
             b2, b1, b4, b2, b4, b3, -- back
-            f2, b2, b3, f2, b3, f3, -- right
             b1, f1, f4, b1, f4, b4, -- left
+            f2, b2, b3, f2, b3, f3, -- right
             f4, f3, b3, f4, b3, b4, -- top
-            b1, b2, f2, b1, f2, f1, -- bottom
+            f2, f1, b1, f2, b1, b2, -- bottom
         })
 
     local wt = 1/4-1/100
@@ -970,68 +971,6 @@ function positionAndSize(x, y, z, w, h, d, size)
 
     return x, y, z, w, h, d
 end
-
---function Model.box(x, y, z, w, h, d)
---    x, y, z, w, h, d = x or 0, y or 0, z or 0, w or 1, h or 1, d or 1
-
---    local vertices = {}
-
---    -- front
---    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
---    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
---    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
---    Model_setColors(vertices, colors.green)
-
---    -- back
---    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
---    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
---    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
---    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
---    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
---    Model_setColors(vertices, colors.yellow)
-
---    -- left
---    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
---    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
---    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
---    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
---    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
---    Model_setColors(vertices, colors.orange)
-
---    -- right
---    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
---    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
---    Model_setColors(vertices, colors.red)
-
---    -- up
---    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z-d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
---    table.insert(vertices, {x-w, y+h, z-d, 0, 0})
---    table.insert(vertices, {x+w, y+h, z+d, 0, 0})
---    table.insert(vertices, {x-w, y+h, z+d, 0, 0})
---    Model_setColors(vertices, colors.white)
-
---    -- down
---    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x-w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
---    table.insert(vertices, {x+w, y-h, z-d, 0, 0})
---    table.insert(vertices, {x-w, y-h, z+d, 0, 0})
---    table.insert(vertices, {x+w, y-h, z+d, 0, 0})
---    Model_setColors(vertices, colors.blue)
-
---    return Mesh(vertices)
---end
 
 function Model.sphere(x, y, z, w, h, d)
     x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)

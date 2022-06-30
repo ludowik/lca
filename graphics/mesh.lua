@@ -1,11 +1,15 @@
 mesh = class 'Mesh' : extends(MeshRender)
 
-function Mesh:init(vertices, colors)
+function Mesh:init(...)
     MeshRender.init(self)
-    self:clear(vertices, colors)
+    self:clear(...)
 end
 
 function Mesh:clear(vertices, colors)
+    if vertices and vertices.vertices then 
+        vertices, colors = vertices.vertices, vertices.colors
+    end
+    
     self.vertices = vertices or Buffer('vec3')
     self.colors = colors or Buffer('color')
 

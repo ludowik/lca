@@ -10,14 +10,17 @@ local format = {
     {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
 }
 
-function MeshRender:draw()
+function MeshRender:update()
+    if not self.needUpdate and self.__vertices and #self.__vertices == #self.vertices then return end    
+    self.needUpdate = false
+
     local vertices = self.__vertices
     if not vertices then
         if self.vertices[1].x then
             vertices = table()
             for i,v in ipairs(self.vertices) do
                 local clr = self.colors[i] or colors.white
-                vertices:add({
+                vertices:insert({
                         v.x,
                         v.y,
                         v.z,
@@ -36,18 +39,23 @@ function MeshRender:draw()
         print('init mesh')
     end
 
+    self.m = love.graphics.newMesh(format, vertices, 'triangles', 'static')
+end
+
+function MeshRender:draw()
+    self:update()
+
+    local vertices = self.__vertices
     if #vertices < 3 then return end
 
     love.graphics.setColor(colors.white:unpack())
-
-    local m = love.graphics.newMesh(format, vertices)
 
     if type(self.texture) == 'string' then
         self.texture = Image.getImage(self.texture)
     end
 
     if self.texture then
-        m:setTexture(self.texture.canvas)
+        self.m:setTexture(self.texture.canvas)
     end
 
     GraphicsCore.createShader()
@@ -59,7 +67,7 @@ function MeshRender:draw()
             pvmMatrix():getMatrix()
         })
 
-    love.graphics.draw(m)
+    love.graphics.draw(self.m)
 
     love.graphics.setShader(shader)
 end
