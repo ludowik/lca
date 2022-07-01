@@ -99,6 +99,10 @@ function Engine.update(dt)
 
     _G.env.tweensManager:update(dt)
 
+    if _G.env.__autotest then
+        callApp('autotest', dt)
+    end    
+
     callApp('update', dt)
 end
 
@@ -204,7 +208,7 @@ end
 
 function Engine.draw3d()
     if _G.env.draw3d then
-        Engine.beginDraw()
+        Engine.beginDraw(BOTTOM_LEFT)
         do
             Engine.render(function ()
                     depthMode(true)

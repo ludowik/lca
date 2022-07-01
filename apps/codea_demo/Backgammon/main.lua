@@ -236,6 +236,7 @@ end
 function Tri:draw()
     pushMatrix()
     pushStyle()
+    
     translate(self.pos.x, self.pos.y)
     if self.down then
         scale(80,-80)

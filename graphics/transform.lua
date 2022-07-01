@@ -1,7 +1,10 @@
 local __tan, __atan, __rad, __deg, __sqrt, __cos, __sin = math.tan, math.atan, math.rad, math.deg, math.sqrt, math.cos, math.sin
 local love2d = love
 
-local matrices = {}
+local model_matrices = {}
+local view_matrices = {}
+local projection_matrices = {}
+
 local model, view, projection
 
 local function setTransformation()
@@ -86,14 +89,29 @@ function resetMatrix(resetAll)
     setTransformation()
 end
 
-function pushMatrix()
-    table.insert(matrices, model)
+function pushMatrix(all)
+    table.insert(model_matrices, model)
     model = model:clone()
+    
+    if all then
+        table.insert(view_matrices, view)
+        view = view:clone()
+        
+        table.insert(projection_matrices, projection)
+        projection = projection:clone()
+    end
+    
     --    setTransformation()
 end
 
-function popMatrix()
-    model = table.remove(matrices)
+function popMatrix(all)
+    model = table.remove(model_matrices)
+    
+    if all then
+        view = table.remove(view_matrices)        
+        projection = table.remove(projection_matrices)
+    end
+    
     setTransformation()
 end
 
@@ -124,7 +142,7 @@ end
 function scale_matrix(m, w, h, d)
     assert(w)
     h = h or w
-    d = d or 0    
+    d = d or 1
 
     local scale = love.math.newTransform()
     setMatrix(scale, nil,

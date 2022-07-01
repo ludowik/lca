@@ -32,7 +32,8 @@ end
 function Graphics.textResource(txt)
     local font = love.graphics.getFont()
 
-    local resName = txt .. fontSize()
+    local fontRef = fontName()..'.'..fontSize()
+    local resName = fontRef..':'..txt
     local res = Graphics.resources[resName]
     if not res then
         Graphics.resources[resName] = {
@@ -90,7 +91,10 @@ function Graphics.text(txt, x, y)
     return w, h
 end
 
-function Graphics.lines3D()
+function Graphics.lines3D(t)
+    local m = Mesh(t)
+    m.drawMode = 'points'
+    m:draw()
 end
 
 function Graphics.spriteSize(img)

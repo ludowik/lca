@@ -25,10 +25,10 @@ function Engine.keyreleased(key)
         end
 
     elseif key == 't' then
-        _G.env.autotest = not _G.env.autotest
+        _G.env.__autotest = not _G.env.__autotest
 
     elseif key == 'tab' then
-        if isDown('lctrl') then
+        if isDown('lshift') then
             previousApp()
         else
             nextApp()

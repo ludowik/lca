@@ -13,7 +13,7 @@ function draw3d()
 
     local s = 1
     
---    box(0, 0, 0, s, s, s)
+    box(0, 0, 0, s, s, s)
     sphere(0, 0, 0, s, s, s)
 end
 

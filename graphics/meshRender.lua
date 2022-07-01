@@ -39,7 +39,7 @@ function MeshRender:update()
         print('init mesh')
     end
 
-    self.m = love.graphics.newMesh(format, vertices, 'triangles', 'static')
+    self.m = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
 end
 
 function MeshRender:draw()
@@ -61,13 +61,23 @@ function MeshRender:draw()
     GraphicsCore.createShader()
     assert(shaders['shader3D'])
 
-    local shader = love.graphics.getShader()
-    love.graphics.setShader(shaders['shader3D'])
-    shaders['shader3D']:send('pvm', {
-            pvmMatrix():getMatrix()
-        })
+    local pvm = {pvmMatrix():getMatrix()}
+    pushMatrix(true)
+    resetMatrix(true)
+--    local projection = projectionMatrix()
+--    projectionMatrix(
+--        projection
+--        :clone()
+--        :translate(-1, -1)
+--        :scale(2/W, 2/H))
+    do    
+        local shader = love.graphics.getShader()
+        love.graphics.setShader(shaders['shader3D'])
+        shaders['shader3D']:send('pvm', pvm)
+    end
+    popMatrix(true)
 
-    love.graphics.draw(self.m)
+    love.graphics.draw(self.m)    
 
     love.graphics.setShader(shader)
 end

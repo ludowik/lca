@@ -34,10 +34,8 @@ function setup()
         end)
 end
 
-function update(dt)
-    if autotest then
-        m = m + 0.1
-    end    
+function autotest(dt)
+    m = m + 0.1
 end
 
 function __draw2d()
@@ -45,7 +43,7 @@ function __draw2d()
 
     stroke(colors.white)
     strokeSize(5)
-    
+
     translate(W/2, H/2)
 
     local len, maxLen = 0, 0
@@ -53,7 +51,7 @@ function __draw2d()
 
     local alpha_n = parts * 2
     local delta = TAU / alpha_n
-    
+
     beginShape()
     for theta=0,TAU,delta do
         len = r(theta) * shape_size
@@ -75,7 +73,7 @@ end
 
 function __draw3d()
     background(51)
-    
+
     light(true)
 
     perspective()
@@ -142,12 +140,12 @@ function __draw3d()
     end
 
     fill(white)
-    
+
     cullingMode(false)
-    
+
     mesh = Mesh(array)
     mesh.normals = Model.computeNormals(mesh.vertices, nil, true)
-    
+
     mesh:draw(shaders['default'], GL_TRIANGLE_STRIP)
 end
 
