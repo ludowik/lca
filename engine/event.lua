@@ -184,3 +184,8 @@ function Engine.mousereleased(x, y, button, istouch, presses)
 
     _G.env.parameter.touched(mouse)
 end
+
+function Engine.wheelmoved(dx, dy)
+    callApp('wheelmoved', dx, dy)
+    _G.env.parameter.wheelmoved(dx, dy)
+end

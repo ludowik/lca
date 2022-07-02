@@ -11,10 +11,10 @@ function Asteroid:init(asteroid, part)
 
     local n = randomInt(5, 7)
 
-    local vertices = {}
+    local vertices = table()
     for i=1,n do
         local len = random(self.radius/2, self.radius)
-        vertices[i] = vec3(
+        vertices:add(
             len * cos(2*PI*i/n),
             len * sin(2*PI*i/n))
     end

@@ -34,6 +34,11 @@ end
 function Application:endCoroutine()
 end
 
+function Application:draw()
+    self.scene:draw()
+    self.ui:draw()
+end
+
 function App(name)    
     local k = class(name) : extends(Application)
 

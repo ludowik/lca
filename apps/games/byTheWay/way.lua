@@ -6,13 +6,13 @@ function Way:init(touchs)
 
     self.points = Table()
     --[[
-    for _,f,t in touchs:by2() do
+    for _,f,t in touchs:enumerateBy2() do
         self:addLine(f, t)
     end 
       ]]
 
     --[[
-    for _,f,t,l in touchs:by3() do
+    for _,f,t,l in touchs:enumerateBy3() do
         self:addLine(f, (f+l)/2)
     end
       ]]
@@ -59,7 +59,7 @@ end
 
 function Way:draw()
     theme("way")
-    for i,f,t in self.points:by2() do
+    for i,f,t in self.points:enumerateBy2() do
         line(f.x, f.y, t.x, t.y)
     end
 

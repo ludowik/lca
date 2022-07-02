@@ -107,7 +107,7 @@ function Engine.beginDraw(origin)
     Engine.origin = origin
     if not _G.env.canvas then
         _G.env.canvas = love.graphics.newCanvas(W, H)
-        --        _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
+--                _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
 
         love.graphics.setCanvas({
                 _G.env.canvas,
@@ -123,10 +123,12 @@ function Engine.beginDraw(origin)
         })
 
     love.graphics.setWireframe(config.wireFrame and true or false)
-    
-    GraphicsCore.createShader()
-    assert(shaders['shader3D'])
-    love.graphics.setShader(shaders['shader3D'])
+
+    if config.renderer == 'core' then
+        GraphicsCore.createShader()
+        assert(shaders['shader3D'])
+        love.graphics.setShader(shaders['shader3D'])
+    end
 end
 
 function Engine.endDraw()
@@ -145,7 +147,7 @@ function Engine.endDraw()
     else
         source = _G.env.canvas
     end
-    
+
     local reverseY = Engine.origin == BOTTOM_LEFT
 
     if reverseY then
@@ -205,7 +207,7 @@ end
 
 function Engine.drawInfo()
     love.graphics.setDepthMode('always', true)
-    
+
     Engine.origin = TOP_LEFT
 
     Engine.render(function()

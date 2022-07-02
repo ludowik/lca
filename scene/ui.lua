@@ -67,6 +67,9 @@ function UI:touched(touch)
     end
 end
 
+function UI:wheelmoved(dx, dy)
+end
+
 class 'Label' : extends(UI)
 
 class 'ListBox' : extends(UI)

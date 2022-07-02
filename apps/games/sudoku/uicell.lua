@@ -74,7 +74,7 @@ function UI_cell:draw()
         textStyle(12, black, CORNER)
         local _,h = textSize('123456789')
 
-        for i = 1, grid.h do
+        for i = 1, grid.n do
             if cell.numbers[i] then
                 text(tostring(i), 7 * ( i - 1 ) + 2, self.size.x-h)
             end

@@ -83,3 +83,16 @@ function Scene:touched(touch)
     end
 end
 
+function Scene:wheelmoved(dx, dy)
+    local x, y = love.mouse.getPosition()
+    x = x - X
+    y = y - Y
+    
+    local nodes = self:items()
+    for i,node in ipairs(nodes) do
+        if node:contains(vec2(x, y)) then
+            node:wheelmoved(dx, dy)
+            break
+        end
+    end
+end

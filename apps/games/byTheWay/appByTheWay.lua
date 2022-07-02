@@ -52,7 +52,7 @@ function AppByTheWay:draw()
     
     for _,points in ipairs(touchs) do
         theme("way")
-        for _,f,t in points:by2() do
+        for _,f,t in points:enumerateBy2() do
             line(f.x, f.y, t.x, t.y)
         end
     end

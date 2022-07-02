@@ -5,17 +5,19 @@ local matrices = {}
 local model, view, projection
 
 local function setTransformation()
---    love.graphics.replaceTransform(pvmMatrix())
-
-    if shaders['shader3D'] then
-        pushMatrix()
-        scale_matrix(projection, 2/W, 2/H, 1)
-        translate_matrix(projection, -W/2, -H/2, 1)
-        shaders['shader3D']:send('pvm', {
-                pvmMatrix():getMatrix()
-            })
-        model = table.remove(matrices)
+    if config.renderer == 'love' then
+        love.graphics.replaceTransform(pvmMatrix())
+    else
+        if shaders['shader3D'] then
+            pushMatrix()
+            scale_matrix(projection, 2/W, 2/H, 1)
+            translate_matrix(projection, -W/2, -H/2, 1)
+            shaders['shader3D']:send('pvm', {
+                    pvmMatrix():getMatrix()
+                })
+            model = table.remove(matrices)
 --        popMatrix()
+        end
     end
 end
 

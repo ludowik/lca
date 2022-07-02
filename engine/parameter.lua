@@ -95,4 +95,8 @@ function Parameter:init()
     function self.touched(touch)
         self.scene:touched(touch)
     end
+    
+    function self.wheelmoved(dx, dy)
+        self.scene:wheelmoved(dx, dy)
+    end
 end
