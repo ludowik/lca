@@ -1,19 +1,17 @@
 function setup()
     boxes = table()
-    boxes:add(Cube(0, 0, 0, 3))
+    boxes:add(Cube(0, 0, 0, 1))
 
     parameter.watch('#boxes')
 
-    camera(0, 0, 10)
+    camera(3, 3, 3)
 end
 
 function draw3d()
     background()
 
-    light(true)
-
     perspective()    
-    lookAt(vec3(3,3,3))
+    light(true)
 
     boxes:draw()
 end
@@ -40,7 +38,7 @@ function Cube:draw()
     pushMatrix()
     do
         translate(self.position.x, self.position.y, self.position.z)
-        box(self.size)
+        box(0, 0, 0, self.size, self.size, self.size)
     end
     popMatrix()
 end

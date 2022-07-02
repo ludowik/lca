@@ -304,5 +304,5 @@ function Camera:matrix()
 end
 
 function Camera:lookAt()
-    lookAt(eye, at, up)
+    lookAt(self:eye(), self:at(), self:up())
 end

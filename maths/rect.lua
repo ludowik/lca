@@ -15,8 +15,8 @@ end
 
 function Rect.random(w, h, size)
     return Rect(
-        random(w),
-        random(h),
+        random(w)-size/2,
+        random(h)-size/2,
         random(size or 10),
         random(size or 10))
 end

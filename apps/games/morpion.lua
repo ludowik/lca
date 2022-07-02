@@ -42,7 +42,7 @@ function draw()
 end
 
 function update(dt)
-    players['x'].type = env.autotest and 'ia' or 'player'
+    players['x'].type = env.__autotest and 'ia' or 'player'
 
     if cells.state == 'play' then
         local winner = minimax:gameWin(cells)

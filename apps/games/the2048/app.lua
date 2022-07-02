@@ -2,9 +2,9 @@ function setup()
     env.commands = table{'down', 'up', 'left', 'right'}
 
     grid = newGrid()
-    
+
     scoreMax = 0
-    
+
     if W < H then
         cellSize = W / (grid.size+1)
     else
@@ -45,13 +45,13 @@ function action(gesture)
     print(gesture)
     if gesture == DIR_RIGHT then
         keyboard('right')
-        
+
     elseif gesture == DIR_LEFT then
         keyboard('left')
-        
+
     elseif gesture == DIR_BOTTOM then
         keyboard('down')
-        
+
     elseif gesture == DIR_TOP then
         keyboard('up')
     end
@@ -69,10 +69,8 @@ function touched(touch)
     end
 end
 
-function update(dt)
-    if env.autotest then
-        keyboard(table.random(commands))
-    end
+function autotest(dt)
+    keyboard(table.random(commands))
 end
 
 local bestSizeOfText = table()
@@ -89,7 +87,7 @@ function draw()
     local round = 4
     local innerMarge = 6
     local outerMarge = 12
-    
+
     gridRect = Rect(x-outerMarge, y-outerMarge, cellSize*grid.size+outerMarge*2, cellSize*grid.size+outerMarge*2)
 
     fill(colors[-1])
@@ -137,7 +135,7 @@ function draw()
     fill(white)
 
     text('SCORE'..NL..grid.score, W/4, cellSize/2)
-    
+
     text('BEST'..NL..scoreMax, W*3/4, cellSize/2)
 
     if state == 'game over' then    

@@ -10,51 +10,74 @@ local format = {
     {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
 }
 
-function MeshRender:draw()
-    local vertices
-    if self.vertices[1].x then
-        vertices = table()
-        local clr = colors.red
-        for i,v in ipairs(self.vertices) do
-            vertices:add({
-                    v.x,
-                    v.y,
-                    v.z,
-                    #self.texCoords > 0 and self.texCoords[i].x or 0,
-                    #self.texCoords > 0 and self.texCoords[i].y or 0,
-                    clr.r,
-                    clr.g,
-                    clr.b,
-                    clr.a})
+function MeshRender:update()
+    if not self.needUpdate and self.__vertices and #self.__vertices == #self.vertices then return end    
+    self.needUpdate = false
+
+    local vertices = self.__vertices
+    if not vertices then
+        if self.vertices[1].x then
+            vertices = table()
+            for i,v in ipairs(self.vertices) do
+                local clr = self.colors[i] or colors.white
+                vertices:insert({
+                        v.x,
+                        v.y,
+                        v.z,
+                        #self.texCoords > 0 and self.texCoords[i].x or 0,
+                        #self.texCoords > 0 and self.texCoords[i].y or 0,
+                        clr.r,
+                        clr.g,
+                        clr.b,
+                        clr.a})
+            end
+        else
+            vertices = self.vertices
         end
-    else
-        vertices = self.vertices
+        self.__vertices = vertices
+
+        print('init mesh')
     end
 
+    self.m = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
+end
+
+function MeshRender:draw()
+    self:update()
+
+    local vertices = self.__vertices
     if #vertices < 3 then return end
 
     love.graphics.setColor(colors.white:unpack())
-
-    local m = love.graphics.newMesh(format, vertices)
 
     if type(self.texture) == 'string' then
         self.texture = Image.getImage(self.texture)
     end
 
     if self.texture then
-        m:setTexture(self.texture.canvas)
+        self.m:setTexture(self.texture.canvas)
     end
 
     GraphicsCore.createShader()
     assert(shaders['shader3D'])
-    
-    local shader = love.graphics.getShader()
-    love.graphics.setShader(shaders['shader3D'])
-    shaders['shader3D']:send('pvm', {
-            pvmMatrix():getMatrix()
-        })
 
-    love.graphics.draw(m)
+    local pvm = {pvmMatrix():getMatrix()}
+    pushMatrix(true)
+    resetMatrix(true)
+--    local projection = projectionMatrix()
+--    projectionMatrix(
+--        projection
+--        :clone()
+--        :translate(-1, -1)
+--        :scale(2/W, 2/H))
+    do    
+        local shader = love.graphics.getShader()
+        love.graphics.setShader(shaders['shader3D'])
+        shaders['shader3D']:send('pvm', pvm)
+    end
+    popMatrix(true)
+
+    love.graphics.draw(self.m)    
 
     love.graphics.setShader(shader)
 end

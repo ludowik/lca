@@ -25,10 +25,10 @@ function Engine.keyreleased(key)
         end
 
     elseif key == 't' then
-        _G.env.autotest = not _G.env.autotest
+        _G.env.__autotest = not _G.env.__autotest
 
     elseif key == 'tab' then
-        if isDown('lctrl') then
+        if isDown('lshift') then
             previousApp()
         else
             nextApp()
@@ -39,13 +39,18 @@ function Engine.keyreleased(key)
 
     elseif key =='g' then
         _G.env.imageData = nil
-        if point == GraphicsLove.point then
+
+        if config.renderer == 'love' then
             config.renderer = 'core'
+        
+        elseif config.renderer == 'core' then
+            config.renderer = 'soft'
+        
         else
             config.renderer = 'love'
         end
 
-        Engine.graphics = config.renderer == 'core' and GraphicsCore() or GraphicsLove()
+        Engine.setGraphicsLibrary()
     else
         callApp('keyboard', key)
 

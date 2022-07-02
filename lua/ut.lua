@@ -5,7 +5,11 @@ function ut.assert(label, test)
 end
 
 function ut.assertEqual(label, a, b)
-    assert(a==b, label)
+    if type(b) == 'function' then
+        assert(a==b(a), label)
+    else
+        assert(a==b, label)
+    end
 end
 
 function ut.assertBetween(label, v, min, max)

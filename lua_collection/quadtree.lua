@@ -39,13 +39,13 @@ function Quadtree:add(node, root)
 end
 
 function Quadtree:draw()
-    stroke(gray)
+    stroke(colors.gray)
     strokeSize(1)
     noFill()
     rectMode(CORNER)
     rect(self.position.x, self.position.y, self.size.x, self.size.y)
 
-    stroke(red)
+    stroke(colors.red)
     
     if self.items then
         for i,item in ipairs(self.items) do

@@ -129,7 +129,7 @@ function setModel(model, keepColor)
     app.model = model
 
     app.scene:clear()
-    app.scene:add(MeshObject(model))
+    app.scene:add(model)
 
     if not keepColor then
         model:setColors(white)
@@ -141,6 +141,11 @@ end
 function update(dt)
     app.scene:update(dt)
     app.ui:update(dt)
+end
+
+function draw()
+    app.scene:draw()
+    app.ui:draw()
 end
 
 function keypressed(key)

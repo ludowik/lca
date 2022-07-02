@@ -1,7 +1,21 @@
 class 'Engine'
 
+function Engine.setGraphicsLibrary()
+    if config.renderer == 'love' then
+        Engine.graphics = GraphicsLove()
+
+    elseif config.renderer == 'core' then
+        Engine.graphics = GraphicsCore()
+        GraphicsCore.drawMesh = GraphicsCore._drawMeshCore
+
+    else
+        Engine.graphics = GraphicsCore()
+        GraphicsCore.drawMesh = GraphicsCore._drawMeshSoft
+    end
+end
+
 function Engine.load()
-    Engine.graphics = config.renderer == 'core' and GraphicsCore() or GraphicsLove()
+    Engine.setGraphicsLibrary()
 
     deltaTime = 0
     elapsedTime = 0
@@ -85,6 +99,10 @@ function Engine.update(dt)
 
     _G.env.tweensManager:update(dt)
 
+    if _G.env.__autotest then
+        callApp('autotest', dt)
+    end    
+
     callApp('update', dt)
 end
 
@@ -124,11 +142,11 @@ function Engine.beginDraw(origin)
 
     love.graphics.setWireframe(config.wireFrame and true or false)
 
-    if config.renderer == 'core' then
-        GraphicsCore.createShader()
-        assert(shaders['shader3D'])
-        love.graphics.setShader(shaders['shader3D'])
-    end
+--    if config.renderer == 'soft' then
+--        GraphicsCore.createShader()
+--        assert(shaders['shader3D'])
+--        love.graphics.setShader(shaders['shader3D'])
+--    end
 end
 
 function Engine.endDraw()
@@ -190,7 +208,7 @@ end
 
 function Engine.draw3d()
     if _G.env.draw3d then
-        Engine.beginDraw()
+        Engine.beginDraw(BOTTOM_LEFT)
         do
             Engine.render(function ()
                     depthMode(true)

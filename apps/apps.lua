@@ -4,22 +4,16 @@ function setup()
     browse('apps')
 end
 
-function update(dt)
-    if env.autotest then        
-        test()
-    end
-end
-
-function test()
+function autotest(dt)
     local currentApp = env
-    currentApp.autotest = false
+    currentApp.__autotest = false
 
     local apps = enum('apps')    
     for i,path in ipairs(apps) do
         if isApp(path) then
             local newApp = loadApp(path)
             if newApp ~= currentApp then
-                newApp.autotest = true
+                newApp.__autotest = true
                 setActiveApp(newApp)
 
                 local start = time()
@@ -100,6 +94,4 @@ function browse(path, previousPath)
             end
         end
     end
-
-    scene:add(UI('quit', quit))
 end

@@ -1,11 +1,15 @@
 function setup()
+    parameter.number('AREA_SIZE', 100, 20000, H)
+    parameter.number('QUAD_SIZE', 1, 1000, 50)
+    
+    autotest()
+end
+
+function autotest()
     array = table()
     for i=1,100 do
         array:add(Rect.random(W, H, 50))
     end
-    
-    parameter.number('AREA_SIZE', 100, 20000, W)
-    parameter.number('QUAD_SIZE', 1, 1000, 50)
 end
 
 function draw()
