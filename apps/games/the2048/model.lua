@@ -16,14 +16,14 @@ function Grid2048:addCell()
 
     local i, j
     repeat
-        i = love.math.random(self.size)
-        j = love.math.random(self.size)
+        i = randomInt(self.size)
+        j = randomInt(self.size)
     until not self:get(i, j)
     self:set(i, j, table{2,2,4,2,2}:random())
 end
 
 function Grid2048:isGameOver()
-    local grid = Grid2048(self.w, self.h)
+    local grid = Grid2048(self.n, self.m)
     grid.cells = self.cells:clone()
 
     local n = 0

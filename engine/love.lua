@@ -1,11 +1,9 @@
-local love = __love
-
-function love.load()
---    love2d.makelove()
-
+function love.info()
     local major, minor, revision, codename = love.getVersion()
     version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
+end
 
+function love.load()
     return Engine.load()
 end
 
@@ -32,7 +30,6 @@ function love.keyreleased(...)
 end
 
 function love.mousepressed(...)
-    love.keyboard.setTextInput(true)
     return Engine.mousepressed(...)
 end
 
