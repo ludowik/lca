@@ -6,6 +6,14 @@ compilerPath = 'set PATH='..llvmBin..';'
 compilerC = compilerPath..NL..'clang.exe'
 compilerCPP = compilerPath..NL..'clang++.exe'
 
+class 'Component'
+
+function Component.setup()
+end
+
+function Component.test()
+end
+
 class 'Library'
 
 function Library.precompile(str)

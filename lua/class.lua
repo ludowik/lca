@@ -31,12 +31,14 @@ function class(className, ...)
 
     table.insert(classes.list, k)
 
-    setmetatable(k, { 
-            __call = function(_, ...)
-                local instance = setmetatable({}, k)
-                return k.init(instance, ...) or instance
-            end,
-        })
+    k.mt = {
+        __call = function(_, ...)
+            local instance = setmetatable({}, k)
+            return k.init(instance, ...) or instance
+        end,
+    }
+
+    setmetatable(k, k.mt)
 
     k.init = nilf
 
@@ -56,10 +58,26 @@ function class(className, ...)
     end
 
     k:extends(...)
-    
+
     -- meta
-    function k.meta()
-        return k
+    function k.meta(self, __base)
+        k.setup = nilf
+        k.test = nilf
+        
+        k.init = function (self)
+            return self
+        end
+
+        local mt = getmetatable(self)
+
+        mt.__index = __base
+        mt.__call = function (_, ...)
+            assert(mt.__call ~= k.init)
+            mt.__call = k.init
+            return mt.__call(_, ...)
+        end
+
+        return self
     end
 
     --  attribs
@@ -87,7 +105,7 @@ end
 function classWithProperties(proto, base)
     base = base or proto
     if base.properties == nil then return end
-    
+
     local get = base.properties.get
     if table.getnKeys(get) > 0 then
         print(proto.__className..' have properties')

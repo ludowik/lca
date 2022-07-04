@@ -3,7 +3,7 @@ ffi.cdef(code)
 
 local loaded = true -- pcall(loadstring('local _ = ffi.C.SDL_Init'))
 
-class 'Sdl' : extends(Component) : meta(not loaded and Library.load('SDL2') or ffi)
+class 'Sdl' : extends(Component) : meta(not loaded and Library.load('SDL2') or ffi.load('SDL2') or ffi)
 
 function Sdl:init()
     self.window = NULL
@@ -79,7 +79,7 @@ function Sdl:initialize()
         end
     end
 
-    local loaded = pcall(loadstring('local _ = ffi.C.IMG_Load'))
+    local loaded = pcall(loadstring('local _ = ffi.IMG_Load'))
     sdl.image = class 'SdlImage' : meta(not loaded and not ios and Library.load('SDL2_image') or ffi.C)
 end
 

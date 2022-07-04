@@ -1,4 +1,4 @@
-local code, defs = Library.precompile(io.read('./libc/opengl/opengl.c'))
+local code, defs = Library.precompile(io.read('libc/opengl/opengl.c'))
 ffi.cdef(code)
 
 class 'OpenGL' : extends(Component)
