@@ -1,5 +1,5 @@
 __love = love
-love = nil
+--love = nil
 
 if love then
     os.name = love.system.getOS():lower():gsub(' ', '')

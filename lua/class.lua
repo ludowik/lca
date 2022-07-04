@@ -41,7 +41,7 @@ function class(className, ...)
     k.init = nilf
 
     -- extends
-    function k.extends(...)
+    function k.extends(_, ...)
         k.bases = {...}
         for _,base in pairs(k.bases) do
             for name,f in pairs(base) do
@@ -55,7 +55,12 @@ function class(className, ...)
         return k
     end
 
-    k.extends(...)
+    k:extends(...)
+    
+    -- meta
+    function k.meta()
+        return k
+    end
 
     --  attribs
     k.attribs = table.attribs
