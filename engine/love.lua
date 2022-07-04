@@ -1,15 +1,15 @@
-local love2d = love
+local love = __love
 
-function love2d.load()
+function love.load()
 --    love2d.makelove()
 
-    local major, minor, revision, codename = love2d.getVersion()
+    local major, minor, revision, codename = love.getVersion()
     version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
 
     return Engine.load()
 end
 
-function love2d.makelove()
+function love.makelove()
     local build_directory = "build"
     if os.name == 'osx' then
         os.execute('makelove')    
@@ -19,28 +19,28 @@ function love2d.makelove()
 --    os.execute('python3 -m http.server 8080 --directory lca')
 end
 
-function love2d.update(dt)
+function love.update(dt)
     return Engine.update(dt)
 end
 
-function love2d.draw()
+function love.draw()
     return Engine.draw()
 end
 
-function love2d.keyreleased(...)
+function love.keyreleased(...)
     return Engine.keyreleased(...)
 end
 
-function love2d.mousepressed(...)
+function love.mousepressed(...)
     love.keyboard.setTextInput(true)
     return Engine.mousepressed(...)
 end
 
-function love2d.mousemoved(...)
+function love.mousemoved(...)
     return Engine.mousemoved(...)
 end
 
-function love2d.mousereleased(...)
+function love.mousereleased(...)
     return Engine.mousereleased(...)
 end
 
@@ -53,12 +53,12 @@ function isDown(key)
 end
 
 function getFPS()
-    return love2d.timer.getFPS()
+    return love.timer.getFPS()
 end
 
 function quit(...)
     Engine.unload()
-    return love2d.event.quit(...)
+    return love.event.quit(...)
 end
 
 function exit()

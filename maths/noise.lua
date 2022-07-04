@@ -1,1 +1,1 @@
-noise = love.math.noise
+noise = core.math.noise

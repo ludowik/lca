@@ -9,18 +9,12 @@
             "type": "lua-local",
             "request": "launch",
             "program": {
-                "lua": "C:/Program Files/LOVE/love.exe",
-                "file": " main.lua"
-            }
-        },
-        {
-            "name": "Debug Custom Lua Environment",
-            "type": "lua-local",
-            "request": "launch",
-            "program": {
-                "command": "command"
+                "command": "/Applications/love.app/Contents/MacOS/love"
             },
-            "args": []
+            "args": [
+                "${workspaceFolder}",
+                "vsc_debug"
+            ]
         }
     ]
 }

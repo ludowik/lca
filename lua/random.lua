@@ -14,9 +14,9 @@ function random(min, max)
     return __random() * (max - min) + min
 end
 
-randomInt = love.math.random
-
-noise = love.math.noise
+function randomInt(min, max)
+    return math.ceil(random(min, max))
+end
 
 local function isinteger(val)
     return val == math.floor(val)
