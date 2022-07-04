@@ -124,21 +124,21 @@ function Graphics.rect(x, y, w, h)
 end
 
 local SEGMENTS = 32
-function Graphics.circle(x, y, r)
+function Graphics.circle(x, y, radius)
     if circleMode() == CORNER then
-        x = x - r
-        y = y - r
+        x = x - radius
+        y = y - radius
     end
 
     if fill() then
         love.graphics.setColor(fill():unpack())
-        love.graphics.circle('fill', x, y, r, SEGMENTS)
+        love.graphics.circle('fill', x, y, radius, SEGMENTS)
     end
 
     if stroke() then
         love.graphics.setColor(stroke():unpack())
         love.graphics.setLineWidth(strokeSize())
-        love.graphics.circle('line', x, y, r, SEGMENTS)
+        love.graphics.circle('line', x, y, radius, SEGMENTS)
     end
 end
 

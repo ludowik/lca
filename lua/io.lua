@@ -1,22 +1,13 @@
 if love then
-    function io.read(path)
-        path = path:gsub('%./', '')
-        local content, size = love.filesystem.read(
-            path)
-        return content
+    io.read = function (name)
+        local info = core.filesystem.getInfo(name)
+        if info then
+            return core.filesystem.read(name)
+        end
+        return nil
     end
 
-    function io.write(path, content, mode)
-        path = path:gsub('%./', '')
-        local success, message
-        if mode == 'at' then 
-            success, message = love.filesystem.append(path, content)
-        else
-            success, message = love.filesystem.write(path, content)
-        end
-        assert(success, message)
-        return success
-    end
+    io.write = core.filesystem.write
 
 else
     function io.read(path)

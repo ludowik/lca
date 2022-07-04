@@ -26,18 +26,6 @@ requireLib(
     'sound',
     'keyboard')
 
---require 'package'
-
 json = require 'lib/json'
 utf8 = require 'lib/utf8'
 sfxr = require 'lib/sfxr'
-
-io.read = function (name)
-    local info = core.filesystem.getInfo(name)
-    if info then
-        return core.filesystem.read(name)
-    end
-    return nil
-end
-
-io.write = core.filesystem.write

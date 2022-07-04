@@ -2,7 +2,6 @@ local Graphics = class 'GraphicsCore' : extends(GraphicsBase)
 
 function Graphics:init()
     push2_G(Graphics)
-    love.graphics.setLineStyle('smooth')    
 end
 
 function Graphics.point(x, y)
@@ -51,7 +50,6 @@ function Graphics.lines(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
     love.graphics.setColor(stroke():unpack())
-    love.graphics.setLineWidth(strokeSize())    
     for i=1,#t,4 do
         Graphics.line(t[i], t[i+1], t[i+2], t[i+3])
     end
@@ -61,7 +59,6 @@ function Graphics.polyline(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
     love.graphics.setColor(stroke():unpack())
-    love.graphics.setLineWidth(strokeSize())
 
     local vertices = {}
     local x1, y1 = t[1], t[2]
@@ -81,7 +78,6 @@ function Graphics.polyline(t, ...)
             table.insert(vertices, {x1+v.x, y1+v.y, 0, 0})
         end
 
---        Graphics.line(x, y, t[i], t[i+1])
         x1, y1 = x2, y2
     end
 
@@ -94,7 +90,7 @@ function Graphics.polygon(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
     love.graphics.setColor(stroke():unpack())
-    love.graphics.setLineWidth(strokeSize())    
+    
     local x, y = t[1], t[2]
     for i=3,#t,2 do
         Graphics.line(x, y, t[i], t[i+1])
@@ -145,8 +141,8 @@ end
 
 function Graphics.circle(x, y, radius)
     if circleMode() == CORNER then
-        x = x - w/2
-        y = y - h/2
+        x = x - radius
+        y = y - radius
     end
 
     if not Graphics.circleMesh then
