@@ -60,7 +60,7 @@ function Engine.update(dt)
     if Engine.test then
 
         Engine.test.delay = Engine.test.delay - dt
-        if Engine.test.delay <=0 then
+        if Engine.test.delay <= 0 then
 
             if Engine.test.index == 1 then
                 Engine.test.ram = format_ram()

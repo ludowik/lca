@@ -25,8 +25,12 @@ function love.draw()
     return Engine.draw()
 end
 
-function love.keyreleased(...)
-    return Engine.keyreleased(...)
+function love.keypressed(key, scancode, isrepeat)
+    return Engine.keypressed(key, isrepeat)
+end
+
+function love.keyreleased(key, scancode)
+    return Engine.keyreleased(key)
 end
 
 function love.mousepressed(...)
@@ -44,21 +48,3 @@ end
 function love.wheelmoved(dx, dy)
     return Engine.wheelmoved(dx, dy)
 end
-
-function isDown(key)
-    return love.keyboard.isDown(key)
-end
-
-function getFPS()
-    return love.timer.getFPS()
-end
-
-function quit(...)
-    Engine.unload()
-    return love.event.quit(...)
-end
-
-function exit()
-    os.exit()
-end
-

@@ -1,6 +1,7 @@
 require 'lua.io'
 require 'lua.table'
 require 'lua.class'
+require 'lua.bit'
 require 'lua.random'
 require 'lua.string'
 require 'lua.require'

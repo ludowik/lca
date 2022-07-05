@@ -57,13 +57,18 @@ end
 
 function Graphics.polyline(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
+    Graphics.polyline_(t)
+end
+
+function Graphics.polyline_(t, x, y, w, h)
+    x, y, w, h = x or 0, y or 0, w or 1, h or 1
 
     love.graphics.setColor(stroke():unpack())
 
     local vertices = {}
-    local x1, y1 = t[1], t[2]
+    local x1, y1 = x+w*t[1], y+h*t[2]
     for i=3,#t,2 do
-        local x2, y2 = t[i], t[i+1]
+        local x2, y2 = x+w*t[i], y+h*t[i+1]
 
         local v = vec2(x2, y2) - vec2(x1, y1)
         v = v:normalize(strokeSize()*0.5)
@@ -90,7 +95,7 @@ function Graphics.polygon(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
     love.graphics.setColor(stroke():unpack())
-    
+
     local x, y = t[1], t[2]
     for i=3,#t,2 do
         Graphics.line(x, y, t[i], t[i+1])
@@ -146,15 +151,18 @@ function Graphics.circle(x, y, radius)
     end
 
     if not Graphics.circleMesh then
-        local vertices = {}
+        local vertices, border = {}, {}
         local x, y, w, h = 0, 0, 1, 1 
         local nstep = 32
         table.insert(vertices, {x, y, 0, 0})
         for step = 0, nstep do
             local angle = TAU * step / nstep
             table.insert(vertices, {x+cos(angle), y+sin(angle), cos(angle), sin(angle)})
+            table.insert(border, x+cos(angle))
+            table.insert(border, y+sin(angle))
         end
         Graphics.circleMesh = Graphics.newMesh(vertices, 'fan', 'static')
+        Graphics.circleBorderMesh = border
     end
 
     pushMatrix()
@@ -168,6 +176,10 @@ function Graphics.circle(x, y, radius)
         end
     end
     popMatrix()
+
+    if stroke() then
+        polyline_(Graphics.circleBorderMesh, x, y, radius, radius)
+    end
 end
 
 function Graphics.ellipse(x, y, w, h)
@@ -179,15 +191,18 @@ function Graphics.ellipse(x, y, w, h)
     end
 
     if not Graphics.ellipseMesh then
-        local vertices = {}
+        local vertices, border = {}, {}
         local x, y, w, h = 0, 0, 1, 1 
         local nstep = 32
         table.insert(vertices, {x, y, 0, 0})
         for step = 0, nstep do
             local angle = TAU * step / nstep
             table.insert(vertices, {x+cos(angle), y+sin(angle), cos(angle), sin(angle)})
+            table.insert(border, x+cos(angle))
+            table.insert(border, y+sin(angle))
         end
         Graphics.ellipseMesh = Graphics.newMesh(vertices, 'fan', 'static')
+        Graphics.circleBorderMesh = border
     end
 
     pushMatrix()
@@ -201,6 +216,10 @@ function Graphics.ellipse(x, y, w, h)
         end
     end
     popMatrix()
+
+    if stroke() then
+        polyline_(Graphics.circleBorderMesh, x, y, w/2, h/2)
+    end
 end
 
 shaders = {}
@@ -339,7 +358,7 @@ function Graphics.box(x, y, z, w, h, d)
         }
 
         local m = Model.box(x, y, z, w, h, d)
-        
+
         -- front
         m:setRectColor(1, colors.green)
 

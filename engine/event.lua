@@ -1,3 +1,6 @@
+function Engine.keypressed(key, isrepeat)
+end
+
 function Engine.keyreleased(key)
     if key == 'escape' then
         quit()
@@ -42,10 +45,10 @@ function Engine.keyreleased(key)
 
         if config.renderer == 'love' then
             config.renderer = 'core'
-        
+
         elseif config.renderer == 'core' then
             config.renderer = 'soft'
-        
+
         else
             config.renderer = 'love'
         end
@@ -193,4 +196,10 @@ end
 function Engine.wheelmoved(dx, dy)
     callApp('wheelmoved', dx, dy)
     _G.env.parameter.wheelmoved(dx, dy)
+end
+
+function Engine.buttondown(button)
+end
+
+function Engine.buttonup(button)
 end
