@@ -1,10 +1,14 @@
 class 'UIScene' : extends(Scene)
 
-function UIScene:init()
+function UIScene:init(layoutFlow)
     Scene.init(self)
+    self:setLayoutFlow(layoutFlow or Layout.column)
 end
 
-function UIScene:setGridSize()
+function UIScene:computeSize()
+end
+
+function UIScene:setGridSize(n, m)
 end
 
 class 'UI' : extends(Rect, Bind)
@@ -16,7 +20,8 @@ function UI:init(label, callback)
     self.callback = callback
 
     self.styles = table({
-            fontSize = 16,
+            fontName = DEFAULT_FONT_NAME,
+            fontSize = DEFAULT_FONT_SIZE,
         })
 end
 
@@ -34,11 +39,13 @@ function UI:setstyles(...)
 end
 
 function UI:computeSize()
-    fontSize(self.styles.fontSize or 16)
-    self.size:set(textSize(self:getLabel()))
+    fontName(self.styles.fontName or DEFAULT_FONT_NAME)
+    fontSize(self.styles.fontSize or DEFAULT_FONT_SIZE)
     
-    self.size.x = max(self.size.x, 16)
-    self.size.y = max(self.size.y, 16)
+    self.size:set(textSize(self:getLabel()))
+
+    self.size.x = max(self.size.x, DEFAULT_FONT_SIZE)
+    self.size.y = max(self.size.y, DEFAULT_FONT_SIZE)
 end
 
 function UI:getLabel()
@@ -57,7 +64,10 @@ function UI:draw()
     end
 
     textColor(self.styles.textColor or colors.white)
-    fontSize(self.styles.fontSize or 16)
+    
+    fontName(self.styles.fontName or DEFAULT_FONT_NAME)
+    fontSize(self.styles.fontSize or DEFAULT_FONT_SIZE)
+    
     text(self:getLabel(), 0, 0)
 end
 
@@ -70,51 +80,9 @@ end
 function UI:wheelmoved(dx, dy)
 end
 
-class 'Label' : extends(UI)
-
-class 'ListBox' : extends(UI)
-
-class 'UITimer' : extends(UI)
-class 'UILine' : extends(UI)
-
-class 'ColorPicker' : extends(UI)
-
-function ColorPicker:init(label, clr, callback)
-    UI.init(self, label, callback)
-    self.clr = clr
-end
-
-class 'ToolBar' : extends(UIScene)
-
-function ToolBar:init()
-    UIScene.init(self)
-end
-
-
-class 'MenuBar' : extends(UIScene)
-function MenuBar:init()
-    UIScene.init(self)
-end
-
 class 'Object'
 function Object:update(dt)
 end
 
 function Object:draw()
 end
-
-class 'Joystick' : extends(UI)
-
-
-class 'Layout'
-function Layout.setup()
-    Layout.column = function () end
-    Layout.row = function () end
-
-    Layout.innerMarge = 2
-end
-
-
-class 'Dashboard' : extends(UI)
-
-class 'Editor' : extends(Node)

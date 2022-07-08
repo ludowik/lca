@@ -1,6 +1,7 @@
 local Graphics = class 'GraphicsBase'
 
 DEFAULT_FONT_NAME = 'Arial'
+DEFAULT_FONT_SIZE = 18
 
 function Graphics.setup()
     Graphics.resources = {}
@@ -68,7 +69,12 @@ function Graphics.text(txt, x, y)
     x = x or 0
     if not y then
         y = textPosition()
+    end
+
+    if getOrigin() == TOP_LEFT then
         textPosition(y + h)
+    else
+        textPosition(y - h)
     end
 
     if textMode() == CENTER then

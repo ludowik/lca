@@ -1,4 +1,4 @@
-class('Label', UI)
+class 'Label' : extends(UI)
 
 function Label:init(label)
     UI.init(self, label)

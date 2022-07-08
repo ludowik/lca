@@ -1,4 +1,4 @@
-class('Message', Application)
+class 'Message' : extends(Application)
 
 function Message:init()
     Application.init(self)

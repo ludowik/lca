@@ -1,9 +1,9 @@
-class('Sprite', UI)
+class 'Sprite' : extends(UI)
 
 function Sprite:init(label, img)
     UI.init(self, label)
     
-    self.image = image(img or label)
+    self.image = Image(img or label)
 end
 
 function Sprite:computeSize()

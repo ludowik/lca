@@ -35,8 +35,6 @@ function MeshRender:update()
             vertices = self.vertices
         end
         self.__vertices = vertices
-
-        print('init mesh')
     end
 
     self.m = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
@@ -64,6 +62,8 @@ function MeshRender:draw()
     local pvm = {pvmMatrix():getMatrix()}
     pushMatrix(true)
     resetMatrix(true)
+    
+    -- TODEL?
 --    local projection = projectionMatrix()
 --    projectionMatrix(
 --        projection

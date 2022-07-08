@@ -336,8 +336,8 @@ function Model.ellipse(x, y, w, h)
     local x2, y2 = 0, 0
 
     for i=n,0,-1 do
-        x2 = cos(math.tau * i / n) / 2
-        y2 = sin(math.tau * i / n) / 2
+        x2 = cos(TAU * i / n) / 2
+        y2 = sin(TAU * i / n) / 2
 
         vertices:insert(vec3())
         vertices:insert(vec3(x2, y2, 0))
@@ -362,8 +362,8 @@ function Model.ellipseBorder(x, y, w, h)
     local x, y
 
     for i=0,n do
-        x = cos(math.tau * i / n) / 2
-        y = sin(math.tau * i / n) / 2
+        x = cos(TAU * i / n) / 2
+        y = sin(TAU * i / n) / 2
 
         vertices:insert(vec3(x, y, 0))
     end
@@ -775,16 +775,16 @@ end
 
 Model.random = {}
 
-function Model.random.polygon(r, rmax)
+function Model.random.polygon(r, rmax, rmin)
     r = r or math.random(10, 50)
 
     rmax = rmax or r
-    rmin = r
+    rmin = rmin or r
 
     local vertices = Buffer('vec3')
 
     local angle = 0
-    while angle < math.tau do
+    while angle < TAU do
         local len = math.random(rmin, rmax)
 
         local p = vec3(

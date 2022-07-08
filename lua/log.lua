@@ -42,12 +42,15 @@ function Log.draw(x, y)
     pushMatrix()
     do
         if x then translate(x, y) end
-        
+
         local n = #logs
-        local start = max(1, n-25)
-        for i=start,n do
+        local start = 1 -- max(1, n-50)
+        for i=n,start,-1 do
             local log = logs[i]
             text(log.count..' '..log.text)
+            if textPosition() > (H-y) then
+                break
+            end
         end
     end
     popMatrix()

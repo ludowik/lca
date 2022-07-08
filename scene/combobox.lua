@@ -1,4 +1,4 @@
-class('ComboBox', UI)
+class 'ComboBox' : extends(UI)
 
 function ComboBox:ComboBox(label)
     UI.init(self, label)

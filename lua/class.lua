@@ -1,13 +1,16 @@
 classes = {
-    list = {}
+    ref = table(),
+    list = table()
 }
 
 function classes.setup()
     for i=1,#classes.list do
         local k = classes.list[i]
         classWithProperties(k)
+        
+        table.insert(classes.ref, k)
 
---        for _,base in ipairs(k.bases) do
+--        for _,base in ipairs(k.__bases) do
 --            classWithProperties(k, base)
 --        end
 
@@ -44,8 +47,8 @@ function class(className, ...)
 
     -- extends
     function k.extends(_, ...)
-        k.bases = {...}
-        for _,base in pairs(k.bases) do
+        k.__bases = {...}
+        for _,base in pairs(k.__bases) do
             for name,f in pairs(base) do
                 if type(f) == 'function' then
                     if not k[name] or (name == 'init' and k[name] == nilf) then

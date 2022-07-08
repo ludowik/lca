@@ -1,8 +1,9 @@
 function dir(path, fileType)
     local list = table()
     for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do
-        if not item:lower():contains('.ds_store') and 
-        not item:lower():contains('.git') then
+        if (not item:lower():contains('.ds_store') and 
+            not item:lower():contains('.git'))
+        then
             local info = love.filesystem.getInfo(path..'/'..item)
             if fileType == nil or info.type == fileType then
                 list:add(path..'/'..item)

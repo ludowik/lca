@@ -1,6 +1,6 @@
 local __sign = math.sign
 
-class('ListBox', UI)
+class 'ListBox' : extends(UI)
 
 function ListBox:init(list, ...)
     UI.init(self)
@@ -29,7 +29,7 @@ function ListBox:draw()
 
     self.needScrollBar = false
 
-    self.areas = Array()
+    self.areas = table()
 
     local x, y = 0, 0
     y = y + self.size.y + self.dy

@@ -1,3 +1,5 @@
+love.filesystem.setRequirePath('?.lua;?/__init.lua')
+
 require 'engine.core'
 require 'engine'
 
@@ -29,8 +31,19 @@ function isDown(key)
     return love.keyboard.isDown(key)
 end
 
+BUTTON_LEFT = 1
+BUTTON_RIGHT = 2
+
+function isButtonDown(button)
+    return love.mouse.isDown(button)
+end
+
 function getFPS()
     return love.timer.getFPS()
+end
+
+function restart()
+    quit('restart')
 end
 
 function quit(...)
@@ -43,9 +56,13 @@ function exit()
     os.exit()
 end
 
-withoutLove = true
+config.framework = 'love2d'
 
-if withoutLove then
+if config.framework =='love2d' then
+    os.name = love.system.getOS():lower():gsub(' ', '')
+    require 'engine.love'
+
+else
     os.name = os.getenv('OS') or 'osx'
     local function run()
         local graphics = love.graphics
@@ -78,19 +95,21 @@ if withoutLove then
                     local len = 1024
                     local path = ffi.new('char[?]', len)
                     global.getcwd(path, len)
+
+                    return ffi.string(path)
                 end,
-                
+
                 getSaveDirectory = filesystem.getSaveDirectory,
                 getDirectoryItems = filesystem.getDirectoryItems,
-                
+
                 getInfo = filesystem.getInfo,
-                
+
                 load = filesystem.load,
                 save = filesystem.save,
-                
+
                 read = filesystem.read,
                 write = filesystem.write,
-                
+
                 createDirectory = filesystem.createDirectory,
             },
 
@@ -183,7 +202,7 @@ if withoutLove then
                     return global.__deltaTime
                 end,
                 getFPS = function ()
-                    return _G.math.floor(1000 / (global.__totalTime / global.__frame))
+                    return _G.math.floor(1 / (global.__totalTime / global.__frame))
                 end,
                 getTime = function ()
                     local socket = require 'socket'
@@ -241,9 +260,4 @@ if withoutLove then
     end
 
     run()
-
-else
-    os.name = love.system.getOS():lower():gsub(' ', '')
-    require 'engine.love'
-
 end
