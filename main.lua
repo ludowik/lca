@@ -129,16 +129,16 @@ if withoutLove then
 
         timer = {
             step = function ()
-                if global.__time1 == nil then
-                    global.__time1 = love.timer.getTime()
-                    global.__frame = 0
-                    global.__deltaTime = 0
-                    global.__totalTime = 0
-                end
                 global.__time2 = love.timer.getTime()
-                global.__deltaTime = global.__time2 - global.__time1
-                global.__totalTime = global.__totalTime + global.__deltaTime
-                global.__frame = global.__frame + 1
+                if global.__time1 == nil then
+                    global.__frame = 1
+                    global.__deltaTime = 1/60
+                    global.__totalTime = 1/60
+                else
+                    global.__frame = global.__frame + 1
+                    global.__deltaTime = global.__time2 - global.__time1
+                    global.__totalTime = global.__totalTime + global.__deltaTime
+                end
                 global.__time1 = global.__time2
             end,
             getDelta = function ()
@@ -164,7 +164,8 @@ if withoutLove then
             for name, a,b,c,d,e,f in event.poll() do
                 if name == "quit" then
                     if not love.quit or not love.quit() then
-                        return a or 0
+--                        return a or 0
+                        exit(0)
                     end
                 end
                 love.handlers[name](a,b,c,d,e,f)
@@ -180,9 +181,9 @@ if withoutLove then
 
         -- Call update and draw
         Engine.update(dt)
---        if love.update then
---            love.update(dt)
---        end -- will pass 0 if love.timer is disabled
+        --        if love.update then
+        --            love.update(dt)
+        --        end -- will pass 0 if love.timer is disabled
 
         if graphics and graphics.isActive() then
             graphics.clear(graphics.getBackgroundColor())
