@@ -5,6 +5,7 @@ function ToolBar:init()
 end
 
 class 'MenuBar' : extends(UIScene)
+
 function MenuBar:init()
     UIScene.init(self)
 end

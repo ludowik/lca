@@ -148,11 +148,11 @@ function _ALPHA(s, t, a) return s * a + (1 - a) * t end
 
 function _ADD(s, t, a) return s + t end
 
-local function __blendMode()
+local function __blendMode(...)
     local mode = blendMode()
-    if mode == REPLACE then return _REPLACE end
-    if mode == NORMAL then return _ALPHA end
-    if mode == ADD then return _ADD end
+    if mode == REPLACE then return _REPLACE(...) end
+    if mode == NORMAL then return _ALPHA(...) end
+    if mode == ADD then return _ADD(...) end
 end
 
 function vertexShader(vt)
@@ -167,7 +167,7 @@ end
 function fragmentShader(x, y, z, clr)
     local r, g, b, a = clr.r, clr.g, clr.b, clr.a
 
-    local _blendMode = __blendMode()
+    local _blendMode = __blendMode
 
     if x >= 0 and x <= W - 1 and y >= 0 and y <= H - 1 then
         if _G.env.imageData.ptr then
