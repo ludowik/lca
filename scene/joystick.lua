@@ -1,6 +1,6 @@
 local joysticks = table()
 
-class('Joystick', UI)
+class 'Joystick' : extends(UI)
 
 function Joystick:init(x, y)
     UI.init(self)

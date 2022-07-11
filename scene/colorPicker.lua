@@ -1,4 +1,4 @@
-class('ColorPicker', UI)
+class 'ColorPicker' : extends(UI)
 
 function ColorPicker:init(var, clr, ...)
     UI.init(self, var)
@@ -13,18 +13,18 @@ function ColorPicker:initImage()
         local width = self.size.x
 
         -- current color
-        local h, s, l, a = rgb2hsl(self.clr)
+        local h, s, l, a = Color.rgb2hsl(self.clr)
 
         -- saturation and light
         local maxDist = vec2(0, 0):dist(vec2(width, width))
 
-        self.saturation = self.saturation or image(width, width)
-        for x=1,width do
-            for y=1,width do
+        self.saturation = self.saturation or Image(width, width)
+        for x=0,width-1 do
+            for y=0,width-1 do
                 local sDist = vec2(x, y):dist(vec2(0, 0))
                 local lDist = vec2(x, y):dist(vec2(0, width))
 
-                local clr = hsl(h,
+                local clr = Color.hsl(h,
                     (sDist)/(maxDist),
                     (lDist)/(maxDist),
                     a)
@@ -37,11 +37,11 @@ function ColorPicker:initImage()
     if self.hue == nil or self.needUpdate then
         local len = self.size.x - 20
 
-        self.hue = self.hue or image(len, 20)
+        self.hue = self.hue or Image(len, 20)
         for i=1,len do
-            local clr = hsl(i/len, 1, 0.5, 1)
+            local clr = Color.hsl(i/len, 1, 0.5, 1)
             for y=1,20 do
-                self.hue:set(i, y, clr)
+                self.hue:set(i-1, y-1, clr)
             end
         end
     end
@@ -64,7 +64,7 @@ function ColorPicker:draw()
     rectMode(CORNER)
 
     -- current color
-    local h, s, l, a = rgb2hsl(self.clr)
+    local h, s, l, a = Color.rgb2hsl(self.clr)
     stroke(white)
     strokeSize(1)
     fill(self.clr)
@@ -90,10 +90,10 @@ function ColorPicker:touched(touch)
             local x = touch.x - self.absolutePosition.x - 20
             local y = touch.y - self.absolutePosition.y - self.size.x
 
-            local _, s, l, a = rgb2hsl(self.clr)
-            local h = rgb2hsl(self.hue:get(x, y))
+            local _, s, l, a = Color.rgb2hsl(self.clr)
+            local h = Color.rgb2hsl(self.hue:get(x, y))
 
-            self.clr = hsl(h, s, l , a)
+            self.clr = Color.hsl(h, s, l , a)
 
             self:setValue(self.clr)
 
@@ -103,7 +103,7 @@ function ColorPicker:touched(touch)
             local x = touch.x - self.absolutePosition.x
             local y = touch.y - self.absolutePosition.y
 
-            self.clr = self.saturation:get(x, y)
+            self.clr = Color(self.saturation:get(x, y))
 
             self:setValue(self.clr)
 

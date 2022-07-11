@@ -12,10 +12,6 @@ function Node:clear()
     return self
 end
 
-function Node:setLayoutFlow()
-    return self
-end
-
 function Node:items()
     return self.nodes
 end
@@ -145,9 +141,21 @@ function Node:computeNavigation(previousUpNode, nextUpNode)
     end
 end
 
+function Node:setLayoutFlow(layoutFlow, layoutParam)
+    self.layoutFlow = layoutFlow
+    self.layoutParam = layoutParam
+    return self
+end
+
+function Node:setAlignment(alignment)
+    self.alignment = alignment
+    return self
+end
+
 function Node:layout()
     if self.layoutFlow then
         self.layoutFlow(self, self.layoutParam)
+        Layout.computeAbsolutePosition(self)
     end
 end
 
@@ -158,6 +166,31 @@ function Node:update(dt)
         assert(item.update, item.__className)
         item:update(dt)
     end
+end
+
+function Node:draw()
+--    translate(self.position.x, self.position.y)
+
+    local nodes = self:items()
+    for i,node in ipairs(nodes) do
+--        modelMatrix(self.modelMatrix)
+
+        local position = node.absolutePosition
+
+        if position and node.items == nil then
+            pushMatrix()
+            translate(position.x, position.y)
+        end
+
+        if node.visible == nil or node.visible then
+            node:draw()
+        end
+
+        if position and node.items == nil then
+            popMatrix()
+        end
+
+    end    
 end
 
 function Node:touched(touch)

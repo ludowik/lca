@@ -31,11 +31,11 @@ function initWindow()
         h = ht - 2*y
 
     else
-        x = 150
+        x = 160
         y = 24
         h = 900
         w = h * 9/16
-        wt, ht = w+x*2, h+y*2
+        wt, ht = w+x*3, h+y*2
     end
 
     w = round(love2d.window.toPixels(w))

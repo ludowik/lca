@@ -1,7 +1,7 @@
 class 'Parameter'
 
 function Parameter:init()
-    self.scene = Scene()
+    self.scene = UIScene()
 
     function self.default(name, min, max, default, notify)
         local value = loadstring('return _G.env.'..name)()

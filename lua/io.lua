@@ -1,13 +1,13 @@
 if love then
     io.read = function (name)
-        local info = core.filesystem.getInfo(name)
+        local info = love.filesystem.getInfo(name)
         if info then
-            return core.filesystem.read(name)
+            return love.filesystem.read(name)
         end
         return nil
     end
 
-    io.write = core.filesystem.write
+    io.write = love.filesystem.write
 
 else
     function io.read(path)

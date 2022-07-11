@@ -23,7 +23,6 @@ function Graphics.points(t, ...)
 
     local format = {
         {"VertexPosition", "float", 2}, -- The x,y position of each vertex.
-        -- {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
         {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
     }
 
@@ -60,6 +59,9 @@ end
 
 function Graphics.polygon(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
+    
+    -- TODO
+    if type(t[1]) == 'table' then return end
 
     love.graphics.setColor(stroke():unpack())
     love.graphics.setLineWidth(strokeSize())
@@ -162,12 +164,20 @@ function Graphics.ellipse(x, y, w, h)
     end
 end
 
-function Graphics.box(x, y, z, w, h, d)
-    GraphicsCore.box(x, y, z, w, h, d)
+function Graphics.plane(...)
+    GraphicsCore.plane(...)
 end
 
-function Graphics.sphere(x, y, z, r)
-    GraphicsCore.sphere(x, y, z, r)
+function Graphics.box(...)
+    GraphicsCore.box(...)
+end
+
+function Graphics.pyramid(...)
+    GraphicsCore.plane(...)
+end
+
+function Graphics.sphere(...)
+    GraphicsCore.sphere(...)
 end
 
 function Graphics.drawMesh(mesh)

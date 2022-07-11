@@ -1,6 +1,6 @@
 local __round, __map = math.round, math.map
 
-local Fps = class('__Fps', UI)
+local Fps = class '__Fps' :extends(UI)
 
 function Fps:init()
     UI.init(self)

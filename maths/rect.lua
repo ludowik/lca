@@ -52,9 +52,11 @@ function Rect:contains(x, y)
     if type(x) == 'table' or type(x) == 'cdata' then x, y = x.x, x.y end
     assert(type(x) == 'number')
 
+    local position = self.absolutePosition or self.position
+    local size = self.size
     return (
-        self.position.x <= x and x <= self.position.x + self.size.w and
-        self.position.y <= y and y <= self.position.y + self.size.h
+        position.x <= x and x <= position.x + size.w and
+        position.y <= y and y <= position.y + size.h
     )
 end
 

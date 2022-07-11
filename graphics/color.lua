@@ -69,6 +69,10 @@ function Color.rgb(...)
     return Color(...)
 end
 
+function Color:__tostring()
+    return self.r .. ',' .. self.g .. ',' .. self.b .. ',' .. self.a
+end
+
 function Color:unpack()
     return self.r, self.g, self.b, self.a
 end

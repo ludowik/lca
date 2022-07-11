@@ -1,6 +1,5 @@
 function setup()
-    scene = Scene()
-
+    scene = UIScene()
     browse('apps')
 end
 
@@ -11,6 +10,8 @@ function autotest(dt)
     local apps = enum('apps')    
     for i,path in ipairs(apps) do
         if isApp(path) then
+            print(path)
+        
             local newApp = loadApp(path)
             if newApp ~= currentApp then
                 newApp.__autotest = true

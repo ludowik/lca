@@ -1,7 +1,7 @@
 class 'Engine'
 
 function Engine.setGraphicsLibrary()
-    if config.renderer == 'love' then
+    if config.renderer == 'love2d' then
         Engine.graphics = GraphicsLove()
 
     elseif config.renderer == 'core' then
@@ -60,7 +60,7 @@ function Engine.update(dt)
     if Engine.test then
 
         Engine.test.delay = Engine.test.delay - dt
-        if Engine.test.delay <=0 then
+        if Engine.test.delay <= 0 then
 
             if Engine.test.index == 1 then
                 Engine.test.ram = format_ram()
@@ -237,11 +237,12 @@ function Engine.drawInfo()
             text(string.format('%d,%d,%d,%d', love.window.getSafeArea()))
             text(string.format('%d,%d', mouse.x, mouse.y))
 
+            text(config.framework)
             text(config.renderer)
 
             callApp('drawInfo')
 
-            Log.draw()
+            Log.draw(0, 20)
         end, 10, Y)
 
     Engine.render(function()

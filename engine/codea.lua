@@ -14,13 +14,7 @@ class = function (...)
     return k
 end
 
-function loadAppCodea(path, isDependencies)
-    if isDependencies then
-        print('load dependencies codea '..path..'/'..'Info.plist')
-    else
-        print('load app codea '..path..'/'..'Info.plist')
-    end 
-    
+function loadAppCodea(path, isDependencies)    
     local content = love.filesystem.read(path..'/'..'Info.plist')
 
     if not content then assert(false, path) end
@@ -40,7 +34,6 @@ function loadAppCodea(path, isDependencies)
         for v in block:gfind('<string>(.-)</string>') do
             if not isDependencies or v:lower() ~= 'main' then
                 package.loaded[path..'/'..v] = nil
-                print('load file '..v)
                 require(path..'/'..v)
             end
         end

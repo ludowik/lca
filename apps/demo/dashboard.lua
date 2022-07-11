@@ -1,5 +1,6 @@
 function setup()
-    db = Dashboard(__classes, {'__className', '__bases'})
+    setOrigin(BOTTOM_LEFT)
+    db = Dashboard(classes.ref, {'__className', '__bases'})
 end
 
 function update(dt)

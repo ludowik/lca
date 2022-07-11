@@ -1,4 +1,4 @@
-class('UITimer', UI)
+class 'UITimer' : extends(UI)
 
 function UITimer:init(label, time, callback)
     UI.init(self)

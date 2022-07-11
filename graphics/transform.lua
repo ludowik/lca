@@ -8,7 +8,7 @@ local projection_matrices = {}
 local model, view, projection
 
 local function setTransformation()
---    if config.renderer == 'love' or config.renderer == 'core' then
+--    if config.renderer == 'love2d' or config.renderer == 'core' then
         love.graphics.replaceTransform(pvmMatrix())
 --    else
 --        if shaders['shader3D'] then

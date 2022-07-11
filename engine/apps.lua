@@ -30,13 +30,14 @@ function addApps(path)
 end
 
 function addApp(path, name)
-    if not apps.listByName[name] then
-        apps.listByName[name] = {
+    local filePath = path..'/'..name
+    if not apps.listByName[filePath] then
+        apps.listByName[filePath] = {
             loaded = false,
             path = path,
             name = name
         }
-        apps.listByIndex[#apps.listByIndex + 1] = apps.listByName[name]
+        apps.listByIndex[#apps.listByIndex + 1] = apps.listByName[filePath]
     end
 end
 
@@ -59,8 +60,10 @@ function loadApp(path, name, garbage)
     if not name then
         path, name = 'apps', path 
     end
+    
+    local filePath = path..'/'..name
 
-    if not apps.listByName[name] then
+    if not apps.listByName[filePath] then
         return loadApp('apps', 'apps')
     end
 
@@ -69,17 +72,17 @@ function loadApp(path, name, garbage)
 
     saveConfig()
 
-    if not apps.listByName[name].loaded then
+    if not apps.listByName[filePath].loaded then
         log('load app : '..path..'/'..name)
     else
         log('set active app : '..name)
     end
 
-    if not apps.listByName[name].loaded then        
-        apps.listByName[name].loaded = true
+    if not apps.listByName[filePath].loaded then        
+        apps.listByName[filePath].loaded = true
 
-        path = apps.listByName[name].path
-        name = apps.listByName[name].name
+        path = apps.listByName[filePath].path
+        name = apps.listByName[filePath].name
 
         local env = {
             __vsync = 1
@@ -123,14 +126,14 @@ function loadApp(path, name, garbage)
 
                 callApp('setup')
 
-                apps.listByName[name].env = env
+                apps.listByName[filePath].env = env
             end
         end
     end
 
-    if apps.listByName[name] then
+    if apps.listByName[filePath] then
         for index=1,#apps.listByIndex do
-            if apps.listByIndex[index] == apps.listByName[name] then
+            if apps.listByIndex[index] == apps.listByName[filePath] then
                 apps.current = index
                 local env = apps.listByIndex[apps.current].env
                 _G.env = env
@@ -142,26 +145,34 @@ function loadApp(path, name, garbage)
 
         love.window.setTitle(name)
     end
+
+    return _G.env
+end
+
+function setActiveApp(env)
+    _G.env = env
+    setfenv(0, env)
+    love.window.setVSync(_G.env.__vsync)
 end
 
 function setApp(index, garbage)
     local app = apps.listByIndex[index]
     if app then
-        loadApp(app.path, app.name, garbage)
+        return loadApp(app.path, app.name, garbage)
     end
 end
 
 function previousApp()
-    setApp((apps.current + #apps.listByIndex - 2) % #apps.listByIndex + 1)
+    return setApp((apps.current + #apps.listByIndex - 2) % #apps.listByIndex + 1)
 end
 
 function nextApp()
-    setApp(apps.current % #apps.listByIndex + 1)
+    return setApp(apps.current % #apps.listByIndex + 1)
 end
 
 function randomApp()
     local index = random(#apps.listByIndex)
-    setApp(index)
+    return setApp(index)
 end
 
 function callApp(fname, ...)

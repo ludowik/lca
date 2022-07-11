@@ -93,7 +93,7 @@ function Sdl:setWindowSize(screen)
         self.SDL_SetWindowSize(self.window,
             screen.w,
             screen.h)
-        
+
         print(            screen.w,
             screen.h)
 
@@ -128,13 +128,17 @@ function Sdl:release()
     self.SDL_Quit()
 end
 
+function Sdl:mapKey(key, mode)
+    return key
+end
+
 function Sdl:scancode2key(event)
     local key = ffi.string(self.SDL_GetScancodeName(event.key.keysym.scancode))
     if key:len() <= 1 then
         key = ffi.string(self.SDL_GetKeyName(event.key.keysym.sym))
     end
     key = key:lower()
-    key = mapKey(key, true)
+    key = self:mapKey(key, true)
     return key
 end
 
@@ -143,73 +147,55 @@ function Sdl:event()
     while self.SDL_PollEvent(event) == 1 do
         if event.type == self.SDL_WINDOWEVENT then
             if event.window.event == self.SDL_WINDOWEVENT_CLOSE then
-                engine:quit()
+                quit()
 
             elseif event.window.event == sdl.SDL_WINDOWEVENT_SIZE_CHANGED then
-                local w = event.window.data1
-                local h = event.window.data2
-                screen:resize(w, h)
+                -- TODO
             end
 
         elseif event.type == self.SDL_KEYDOWN or event.type == sdl.SDL_TEXTINPUT then
-            engine:keydown(self:scancode2key(event), event.key.isrepeat)
+            Engine.keypressed(self:scancode2key(event), event.key.isrepeat)
 
         elseif event.type == sdl.SDL_KEYUP then
-            engine:keyup(self:scancode2key(event), event.key.isrepeat)
+            Engine.keyreleased(self:scancode2key(event))
 
         elseif event.type == sdl.SDL_MOUSEBUTTONDOWN then
             if (event.button.button == self.SDL_BUTTON_LEFT or 
                 event.button.button == self.SDL_BUTTON_RIGHT)
             then
-                mouse:mouseEvent(
-                    event.button.button,
-                    BEGAN,
+                Engine.mousepressed(
                     event.button.x, event.button.y,
-                    0, 0,
-                    true,
+                    event.button.button, true,
                     event.button.clicks)
             else
-                engine:buttondown(event.button.button)
+                Engine.buttondown(event.button.button)
             end
 
         elseif event.type == sdl.SDL_MOUSEMOTION then
-            local isTouch = bitAND(event.motion.state, self.SDL_BUTTON_LMASK + self.SDL_BUTTON_RMASK)
-            if isTouch then
-                mouse:mouseEvent(
-                    self.SDL_BUTTON_LEFT,
-                    MOVING,
-                    event.motion.x, event.motion.y,
-                    event.motion.xrel, event.motion.yrel,
-                    isTouch)
-            else
-                mouse:mouseMove(
-                    0,
-                    MOVING,
-                    event.motion.x, event.motion.y,
-                    event.motion.xrel, event.motion.yrel,
-                    isTouch)
-            end
+            local isTouch = bitAND(event.motion.state, self.SDL_BUTTON_LMASK + self.SDL_BUTTON_RMASK)            
+            Engine.mousemoved(
+                event.motion.x, event.motion.y,
+                event.motion.xrel, event.motion.yrel,
+                isTouch)
 
         elseif event.type == sdl.SDL_MOUSEBUTTONUP then
             if (event.button.button == self.SDL_BUTTON_LEFT or 
                 event.button.button == self.SDL_BUTTON_RIGHT)
             then
-                mouse:mouseEvent(
-                    event.button.button,
-                    ENDED,
+                Engine.mousereleased(
                     event.button.x, event.button.y,
-                    0, 0,
-                    false)
+                    event.button.button, false,
+                    event.button.clicks)
             else
-                engine:buttonup(event.button.button)
+                Engine.buttonup(event.button.button)
             end
 
         elseif event.type == sdl.SDL_MOUSEWHEEL then
-            mouse:mouseWheel(1, event.wheel.x, event.wheel.y)
+            Engine.wheelmoved(event.wheel.x, event.wheel.y)
 
         elseif event.type == sdl.SDL_MULTIGESTURE then
             if event.mgesture.numFingers == 3 then
-                engine:managerApp()
+                loadApp('apps')
             end
 
         elseif event.type == sdl.SDL_FINGERDOWN then
@@ -244,6 +230,7 @@ end
 
 function Sdl:loadWav(file)
     local wavspec = ffi.new('SDL_AudioSpec[1]')
+    
     local wavbuf = ffi.new('uint8_t*[1]')
     local wavlen = ffi.new('uint32_t[1]')
 

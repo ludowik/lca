@@ -33,7 +33,7 @@ function Tetris:init()
             self.ui.state))
 
     self.grid = TetrisGrid(self.gridSize.x, self.gridSize.y, self.itemSize)
-    self.tetrimino = Scene()
+    self.tetrimino = UIScene()
 
     self.ui:add(UIScene():add(self.grid, self.tetrimino))
 

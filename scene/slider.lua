@@ -40,7 +40,7 @@ end
 
 function Slider:touched(touch)
     self:setValue(
-        map(touch.x-self.position.x,
+        map(touch.x-self.absolutePosition.x,
             0, self.size.x,
             self.min, self.max))
 end

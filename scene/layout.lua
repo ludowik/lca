@@ -1,4 +1,4 @@
-class('Layout')
+class 'Layout'
 
 function Layout.setup()
     Layout.outerMarge = 5

@@ -1,4 +1,4 @@
-class('Editor', UI)
+class 'Editor' : extends(UI) 
 
 function Editor:init()
     UI.init(self)

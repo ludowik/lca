@@ -4,7 +4,8 @@ function Scene:init()
     Node.init(self)
 end
 
-function Scene:layout(x, y)
+-- TODEL?
+function Scene:_layout(x, y)
     local nodes = self:items()
 
     local w, h = 0, 0
@@ -37,33 +38,14 @@ function Scene:draw()
     end    
 
     self:layout(self.position.x, self.position.y)
---    print(self.__className)
 
+    -- TODEL?
 --    if self.parent == nil then
 --        self.modelMatrix = matrix():clone()
 --    else
 --        self.modelMatrix = modelMatrix():clone()
 --    end
     Node.draw(self)
-end
-
-function Node:draw()
---    translate(self.position.x, self.position.y)
-
-    local nodes = self:items()
-    for i,node in ipairs(nodes) do
---        modelMatrix(self.modelMatrix)
-
-        if node.position and node.items == nil then
-            pushMatrix()
-            translate(node.position.x, node.position.y)
-        end
-        node:draw()
-        if node.position and node.items == nil then
-            popMatrix()
-        end
-
-    end    
 end
 
 function Scene:touched(touch)

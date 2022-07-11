@@ -210,7 +210,7 @@ end
 function draw()
     background(51)
 
-    TEXT_NEXT_Y = H / 2
+    textPosition(H / 2)
 
     textMode(CORNER)
     for i,body in ipairs(physics.bodies) do

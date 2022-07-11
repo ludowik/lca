@@ -1,9 +1,12 @@
+function Engine.keypressed(key, isrepeat)
+end
+
 function Engine.keyreleased(key)
     if key == 'escape' then
         quit()
 
     elseif key == 'r' then
-        quit('restart')
+        restart()
 
     elseif key == ',' then -- ?
         randomApp()
@@ -37,17 +40,25 @@ function Engine.keyreleased(key)
     elseif key == 'w' then
         config.wireFrame = not config.wireFrame
 
+    elseif key == 'f' then
+        if config.framework == 'love2d' then
+            config.framework = 'core'
+        else
+            config.framework = 'love2d'
+        end
+        restart()
+
     elseif key =='g' then
         _G.env.imageData = nil
 
-        if config.renderer == 'love' then
+        if config.renderer == 'love2d' then
             config.renderer = 'core'
-        
+
         elseif config.renderer == 'core' then
             config.renderer = 'soft'
-        
+
         else
-            config.renderer = 'love'
+            config.renderer = 'love2d'
         end
 
         Engine.setGraphicsLibrary()
@@ -193,4 +204,10 @@ end
 function Engine.wheelmoved(dx, dy)
     callApp('wheelmoved', dx, dy)
     _G.env.parameter.wheelmoved(dx, dy)
+end
+
+function Engine.buttondown(button)
+end
+
+function Engine.buttonup(button)
 end

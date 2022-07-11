@@ -1,4 +1,4 @@
-class('Dashboard', UI)
+class 'Dashboard' : extends(UI)
 
 function Dashboard:init(array, columnsName, columnsConvert)
     UI.init(self)
@@ -22,9 +22,10 @@ end
 
 function Dashboard:draw()
     local w, h = textSize('Dashboard')
-    TEXT_NEXT_Y = H - h - self.offset
+    
+    textPosition(H - h - self.offset)
 
-    font(DEFAULT_FONT_NAME)
+    fontName(DEFAULT_FONT_NAME)
     fontSize(10)
 
     fill(white)
@@ -46,21 +47,21 @@ function Dashboard:draw()
     end
 
     local x = self.position.x
-    local y = TEXT_NEXT_Y
+    local y = textPosition()
 
-    function drawCell(columnName, value)
+    local function drawCell(columnName, value)
         value = tostring(value)
 
         local w, h = textSize(value)
         columnsSize[columnName] = max(columnsSize[columnName] or 0, w)
 
         if area:contains(x, y) then -- and fData.stat.count > 0 then
-            line(x, y+h, x+columnsSize[columnName], y+h)
-            line(x, y, x, y+h)
+            line(x, y-h, x+columnsSize[columnName], y-h)
+            line(x, y, x, y-h)
 
             text(value, x+columnsSize[columnName]-w, y)
         else
-            TEXT_NEXT_Y = y - h
+            textPosition(y - h)
         end
 
         x = x + columnsSize[columnName]
@@ -76,7 +77,7 @@ function Dashboard:draw()
     for _,object in ipairs(self.array) do
         if attributeof('__bases', object) then
             x = self.position.x
-            y = TEXT_NEXT_Y
+            y = textPosition()
 
             if attributeof('focusOn', object) then
                 fill(orange)
@@ -107,7 +108,7 @@ function Dashboard:draw()
                             x = columnsSize[columnName]
 
                             drawCell(columnName, info)
-                            y = TEXT_NEXT_Y
+                            y = textPosition()
                         end
 
                     elseif columnName == 'callers' then
@@ -122,7 +123,7 @@ function Dashboard:draw()
 
                             for _,info in ipairs(callers) do
                                 x = columnsSize['name']
-                                y = TEXT_NEXT_Y
+                                y = textPosition()
 
                                 drawCell('count', info.count)
                                 drawCell('caller', info.caller)

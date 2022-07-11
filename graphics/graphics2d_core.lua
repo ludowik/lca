@@ -57,13 +57,18 @@ end
 
 function Graphics.polyline(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
+    Graphics.polyline_(t)
+end
+
+function Graphics.polyline_(t, x, y, w, h)
+    x, y, w, h = x or 0, y or 0, w or 1, h or 1
 
     love.graphics.setColor(stroke():unpack())
 
     local vertices = {}
-    local x1, y1 = t[1], t[2]
+    local x1, y1 = x+w*t[1], y+h*t[2]
     for i=3,#t,2 do
-        local x2, y2 = t[i], t[i+1]
+        local x2, y2 = x+w*t[i], y+h*t[i+1]
 
         local v = vec2(x2, y2) - vec2(x1, y1)
         v = v:normalize(strokeSize()*0.5)
@@ -90,7 +95,7 @@ function Graphics.polygon(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
     love.graphics.setColor(stroke():unpack())
-    
+
     local x, y = t[1], t[2]
     for i=3,#t,2 do
         Graphics.line(x, y, t[i], t[i+1])
@@ -140,67 +145,63 @@ function Graphics.rect_(x, y, w, h, attr)
 end
 
 function Graphics.circle(x, y, radius)
-    if circleMode() == CORNER then
-        x = x - radius
-        y = y - radius
-    end
-
-    if not Graphics.circleMesh then
-        local vertices = {}
-        local x, y, w, h = 0, 0, 1, 1 
-        local nstep = 32
-        table.insert(vertices, {x, y, 0, 0})
-        for step = 0, nstep do
-            local angle = TAU * step / nstep
-            table.insert(vertices, {x+cos(angle), y+sin(angle), cos(angle), sin(angle)})
-        end
-        Graphics.circleMesh = Graphics.newMesh(vertices, 'fan', 'static')
-    end
-
-    pushMatrix()
-    do
-        translate(x, y)
-        scale(radius, radius)
-
-        if fill() then
-            love.graphics.setColor(fill():unpack())        
-            Graphics.drawMesh(Graphics.circleMesh)
-        end
-    end
-    popMatrix()
+    Graphics.ellipse_(x, y, radius*2, radius*2, circleMode())
 end
 
 function Graphics.ellipse(x, y, w, h)
-    h = h or w
+    Graphics.ellipse_(x, y, w, h, ellipseMode())
+end
 
-    if ellipseMode() == CORNER then
+local NSTEP = 64
+function Graphics.ellipse_(x, y, w, h, mode)
+    h = h or w
+    mode = mode or ellipseMode()
+
+    if mode == CORNER then
         x = x - w/2
         y = y - h/2
     end
 
     if not Graphics.ellipseMesh then
-        local vertices = {}
+        local vertices, border = {}, {}
         local x, y, w, h = 0, 0, 1, 1 
-        local nstep = 32
+        local nstep = NSTEP
         table.insert(vertices, {x, y, 0, 0})
         for step = 0, nstep do
             local angle = TAU * step / nstep
             table.insert(vertices, {x+cos(angle), y+sin(angle), cos(angle), sin(angle)})
+            table.insert(border, x+cos(angle))
+            table.insert(border, y+sin(angle))
         end
         Graphics.ellipseMesh = Graphics.newMesh(vertices, 'fan', 'static')
+        Graphics.circleBorderMesh = border
     end
 
     pushMatrix()
     do
         translate(x, y)
-        scale(w/2, h/2)
 
+        if stroke() then
+            pushMatrix()
+            scale(w/2, h/2)
+            love.graphics.setColor(stroke():unpack())
+            Graphics.drawMesh(Graphics.ellipseMesh)
+            popMatrix()
+        end
+        
         if fill() then
+            pushMatrix()
+            scale(w/2-strokeSize(), h/2-strokeSize())
             love.graphics.setColor(fill():unpack())        
             Graphics.drawMesh(Graphics.ellipseMesh)
+            popMatrix()
         end
     end
     popMatrix()
+
+--    if stroke() then
+--        polyline_(Graphics.circleBorderMesh, x, y, w/2, h/2)
+--    end
 end
 
 shaders = {}
@@ -329,6 +330,12 @@ function Graphics.drawModel(mesh, x, y, z, w, h, d)
     love.graphics.setShader(shader)
 end
 
+function Graphics.plane(x, y, z, w, h, d)
+end
+
+function Graphics.pyramid(x, y, z, w, h, d)
+end
+
 function Graphics.box(x, y, z, w, h, d)
     if not Graphics.boxMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
@@ -339,7 +346,7 @@ function Graphics.box(x, y, z, w, h, d)
         }
 
         local m = Model.box(x, y, z, w, h, d)
-        
+
         -- front
         m:setRectColor(1, colors.green)
 

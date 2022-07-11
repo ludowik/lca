@@ -1,4 +1,4 @@
-class('UISpace', UI)
+class 'UISpace' : extends(UI)
 
 function UISpace:init(nw, nh)
     UI.init(self)

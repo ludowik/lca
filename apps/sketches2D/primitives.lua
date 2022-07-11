@@ -122,10 +122,10 @@ styles = {
     function (self)
         local c = map(cos(self.angle), -1, 1, 0, 1)
         local s = map(sin(self.angle), -1, 1, 0, 1)
-        stroke(color(s))
+        stroke(Color(s))
         strokeSize(use_strokeSize/2)
-        fill(color(c))
-        tint(color(c))
+        fill(Color(c))
+        tint(Color(c))
         self.transformIndex = 0
         return 'stroke(gray, '..(use_strokeSize/2)..')\nfill(gray)\ncolor'
     end
@@ -133,7 +133,7 @@ styles = {
 
 transforms = {
     function (self)
-        rotate(deg(self.angle))
+        rotate(self.angle)
     end,
 
     function (self)
@@ -176,7 +176,7 @@ primitives = {
     end,
 
     function (self, w, h)
-        sprite('documents:joconde', 0, 0, w, h)
+        sprite('res/images/joconde.png', 0, 0, w, h)
     end,
 
     function (self, w, h)
