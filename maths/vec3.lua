@@ -43,6 +43,10 @@ function vec3:__index(key)
 end
 
 function vec3.random(w, h, d)
+    w = w or 1
+    h = h or w
+    d = d or h
+    
     return vec3(
         random(w),
         random(h),
