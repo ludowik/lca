@@ -1,9 +1,9 @@
 local code, defs = Library.precompile(io.read('libc/sdl/sdl.c'))
 ffi.cdef(code)
 
-local loaded = true -- pcall(loadstring('local _ = ffi.C.SDL_Init'))
+local loaded = pcall(loadstring('local _ = ffi.SDL_Init'))
 
-class 'Sdl' : extends(Component) : meta(not loaded and Library.load('SDL2') or ffi.load('SDL2') or ffi)
+class 'Sdl' : extends(Component) : meta(not loaded and (Library.load('SDL2') or ffi.load('SDL2')) or ffi.C)
 
 function Sdl:init()
     self.window = NULL

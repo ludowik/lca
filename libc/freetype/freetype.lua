@@ -29,11 +29,11 @@ function FreeType.setup()
         end
 
     else
-        local loaded = true -- pcall(loadstring('local _ = ffi.C.FT_Init_FreeType'))
+        local loaded = pcall(loadstring('local _ = ffi.FT_Init_FreeType'))
         if not loaded then
-            ftLib = Library.load('freetype')
+            ftLib = Library.load('freetype') or ffi.load('freetype')
         else
-            ftLib = ffi.load('love')
+            ftLib = ffi.c
         end
     end
 

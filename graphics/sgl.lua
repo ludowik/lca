@@ -148,11 +148,15 @@ function _ALPHA(s, t, a) return s * a + (1 - a) * t end
 
 function _ADD(s, t, a) return s + t end
 
+function _MUL(s, t, a) return s * t end
+
 local function __blendMode(...)
     local mode = blendMode()
     if mode == REPLACE then return _REPLACE(...) end
     if mode == NORMAL then return _ALPHA(...) end
-    if mode == ADD then return _ADD(...) end
+    if mode == ADDITIVE then return _ADD(...) end
+    if mode == MULTIPLY then return _MUL(...) end
+    assert(false, mode)
 end
 
 function vertexShader(vt)

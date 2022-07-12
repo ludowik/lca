@@ -3,7 +3,13 @@ love.filesystem.setRequirePath('?.lua;?/__init.lua')
 require 'engine.core'
 require 'engine'
 
-loadLibc = true
+config.framework = config.framework or 'love2d'
+
+if config.framework =='love2d' then
+    loadLibc = false
+else
+    loadLibc = true
+end
 
 if loadLibc then
     require 'libc.library'
@@ -56,10 +62,9 @@ function exit()
     os.exit()
 end
 
-config.framework = 'love2d'
-
 if config.framework =='love2d' then
     os.name = love.system.getOS():lower():gsub(' ', '')
+    config.renderer = 'love2d'
     require 'engine.love'
 
 else
@@ -89,7 +94,7 @@ else
                             char* _getcwd(char* buffer, size_t size);
                             char* getcwd(char* buffer, size_t size);
                         ]]
-                        global.getcwd = ffi.C._getcwd or ffi.C.getcwd
+                        global.getcwd = ffi.C.getcwd or ffi.C._getcwd
                     end
 
                     local len = 1024
@@ -240,8 +245,8 @@ else
             -- Call update and draw
             Engine.update(dt)
 --        if love.update then
---            love.update(dt)
---        end -- will pass 0 if love.timer is disabled
+            --            love.update(dt)
+            --        end -- will pass 0 if love.timer is disabled
 
             if graphics and graphics.isActive() then
                 graphics.clear(graphics.getBackgroundColor())

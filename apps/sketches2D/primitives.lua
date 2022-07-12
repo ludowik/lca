@@ -168,7 +168,8 @@ primitives = {
     end,
 
     function (self, w, h)
-        polygon(self.vectors)
+        -- TODO
+--        polygon(self.vectors)
     end,
 
     function (self, w, h)

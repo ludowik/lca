@@ -20,6 +20,8 @@ function resetStyle()
     spriteMode(CENTER)
 
     depthMode(false)
+    
+    blendMode(REPLACE)
 end
 
 function pushStyle()
