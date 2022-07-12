@@ -7,16 +7,6 @@ function love.load()
     return Engine.load()
 end
 
-function love.makelove()
-    local build_directory = "build"
-    if os.name == 'osx' then
-        os.execute('makelove')    
-        os.execute('unzip -o '..build_directory..'/lovejs/lca-lovejs.zip -d '..build_directory..'/lovejs')
-        os.execute('cp '..build_directory..'/lovejs/lca/game.data .')
-    end
---    os.execute('python3 -m http.server 8080 --directory lca')
-end
-
 function love.update(dt)
     return Engine.update(dt)
 end

@@ -1,9 +1,9 @@
 local code, defs = Library.precompile(io.read('libc/sdl/sdl.c'))
 ffi.cdef(code)
 
-local loaded = pcall(loadstring('local _ = ffi.SDL_Init'))
+local _, loaded = pcall(loadstring('return ffi.SDL_Init'))
 
-class 'Sdl' : extends(Component) : meta(not loaded and (Library.load('SDL2') or ffi.load('SDL2')) or ffi.C)
+class 'Sdl' : extends(Component) : meta(not loaded and (ffi.load('SDL2') or Library.load('SDL2')) or ffi)
 
 function Sdl:init()
     self.window = NULL
@@ -79,8 +79,8 @@ function Sdl:initialize()
         end
     end
 
-    local loaded = pcall(loadstring('local _ = ffi.IMG_Load'))
-    sdl.image = class 'SdlImage' : meta(not loaded and not ios and Library.load('SDL2_image') or ffi.C)
+    local _, loaded = pcall(loadstring('return ffi.C.IMG_Load'))
+    sdl.image = class 'SdlImage' : meta(not loaded and not ios and (ffi.load('SDL2_image') or Library.load('SDL2_image')) or ffi.C)
 end
 
 function Sdl:setWindowTitle(title)
@@ -195,7 +195,7 @@ function Sdl:event()
 
         elseif event.type == sdl.SDL_MULTIGESTURE then
             if event.mgesture.numFingers == 3 then
-                loadApp('apps')
+                loadApp('apps', 'apps')
             end
 
         elseif event.type == sdl.SDL_FINGERDOWN then

@@ -1,24 +1,51 @@
+-- dir : files list
 function dir(path, fileType)
     local list = table()
-    for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do
+    for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do        
         if (not item:lower():contains('.ds_store') and 
             not item:lower():contains('.git'))
         then
-            local info = love.filesystem.getInfo(path..'/'..item)
+            local subPath = (#path > 0 and path..'/'..item) or item
+            local info = love.filesystem.getInfo(subPath)
             if fileType == nil or info.type == fileType then
-                list:add(path..'/'..item)
+                list:add(subPath)
             end
         end
     end
     return list
 end
 
+-- dir : files list recursive
+function dirr(path, fileType, list)
+    list = list or table()
+    for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do
+        if (not item:lower():contains('.ds_store') and 
+            not item:lower():contains('.git'))
+        then
+            local subPath = (#path > 0 and path..'/'..item) or item
+            local info = love.filesystem.getInfo(subPath)
+            if info.type == 'directory' then
+                dirr(subPath, fileType, list)
+                
+            elseif fileType == nil or info.type == fileType then
+                list:add(subPath)
+            end
+        end
+    end
+    return list
+end
+
+-- enum : enum apps
 function enum(path, list)
     list = list or table()
     for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do
         local subPath = (#path > 0 and path..'/'..item) or item
-        if isApp(subPath) then
+        if subPath == '.git' then
+            -- continue
+            
+        elseif isApp(subPath) then
             list:add(subPath)
+            
         else
             local info = love.filesystem.getInfo(subPath)
             if info.type == 'directory' then

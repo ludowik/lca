@@ -1,1 +1,0 @@
-setSketch(SketchLua, 'collatz');

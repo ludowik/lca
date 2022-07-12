@@ -34,7 +34,7 @@ function Engine.load()
     if config.appName then
         loadApp(config.appPath, config.appName)
     else
-        loadApp('app', 'info')
+        loadApp('apps', 'info')
     end
 end
 
@@ -125,7 +125,6 @@ function Engine.beginDraw(origin)
     Engine.origin = origin
     if not _G.env.canvas then
         _G.env.canvas = love.graphics.newCanvas(W, H)
---                _G.env.depthBuffer = love.graphics.newCanvas(W, H, {format="depth24", readable=true})
 
         love.graphics.setCanvas({
                 _G.env.canvas,
@@ -141,12 +140,6 @@ function Engine.beginDraw(origin)
         })
 
     love.graphics.setWireframe(config.wireFrame and true or false)
-
---    if config.renderer == 'soft' then
---        GraphicsCore.createShader()
---        assert(shaders['shader3D'])
---        love.graphics.setShader(shaders['shader3D'])
---    end
 end
 
 function Engine.endDraw()

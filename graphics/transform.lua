@@ -8,19 +8,7 @@ local projection_matrices = {}
 local model, view, projection
 
 local function setTransformation()
---    if config.renderer == 'love2d' or config.renderer == 'core' then
-        love.graphics.replaceTransform(pvmMatrix())
---    else
---        if shaders['shader3D'] then
---            pushMatrix()
---            scale_matrix(projection, 2/W, 2/H, 1)
---            translate_matrix(projection, -W/2, -H/2, 1)
---            shaders['shader3D']:send('pvm', {
---                    pvmMatrix():getMatrix()
---                })
---            model = table.remove(matrices)
---        end
---    end
+    love.graphics.replaceTransform(pvmMatrix())
 end
 
 local function setMatrix(m, mode, ...)
@@ -92,26 +80,26 @@ end
 function pushMatrix(all)
     table.insert(model_matrices, model)
     model = model:clone()
-    
+
     if all then
         table.insert(view_matrices, view)
         view = view:clone()
-        
+
         table.insert(projection_matrices, projection)
         projection = projection:clone()
     end
-    
+
     --    setTransformation()
 end
 
 function popMatrix(all)
     model = table.remove(model_matrices)
-    
+
     if all then
         view = table.remove(view_matrices)        
         projection = table.remove(projection_matrices)
     end
-    
+
     setTransformation()
 end
 

@@ -12,10 +12,10 @@ function Engine.keyreleased(key)
         randomApp()
 
     elseif key == 'a' then
-        loadApp('apps')
+        loadApp('apps', 'apps')
 
     elseif key == 'i' then
-        loadApp('info')
+        loadApp('apps', 'info')
 
     elseif key == 'l' then
         if Engine.test then
@@ -27,8 +27,15 @@ function Engine.keyreleased(key)
             }
         end
 
+    elseif key == 's' then
+        scanTODO()
+
     elseif key == 't' then
         _G.env.__autotest = not _G.env.__autotest
+
+    elseif key == 'j' then -- js
+        makelovejs()
+        makezip()
 
     elseif key == 'tab' then
         if isDown('lshift') then
@@ -43,14 +50,13 @@ function Engine.keyreleased(key)
     elseif key == 'f' then
         if config.framework == 'love2d' then
             config.framework = 'core'
+            
         else
             config.framework = 'love2d'
         end
         restart()
 
     elseif key =='g' then
-        _G.env.imageData = nil
-
         if config.renderer == 'love2d' then
             config.renderer = 'core'
 
@@ -60,8 +66,8 @@ function Engine.keyreleased(key)
         else
             config.renderer = 'love2d'
         end
-
-        Engine.setGraphicsLibrary()
+        restart()
+        
     else
         callApp('keyboard', key)
 
@@ -90,6 +96,8 @@ mouse = table({
 
         x = 0,
         y = 0,
+        
+        position = vec2(),
 
         dx = 0,
         dy = 0,
@@ -128,6 +136,8 @@ function __mouseevent(state, x, y, button, presses)
 
     mouse.x = x
     mouse.y = y
+    
+    mouse.position:set(x, y)
 
     mouse.dx = mouse.x - mouse.px 
     mouse.dy = mouse.y - mouse.py
@@ -154,7 +164,7 @@ function Engine.mousepressed(x, y, button, istouch, presses)
 
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
-        if getOrigin() == BOTTOM_LEFT then
+        if Engine.origin == BOTTOM_LEFT then
             mouse2 = mouse:clone()
             mouse2.y = H - mouse2.y
         end
@@ -170,7 +180,7 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
 
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
-        if getOrigin() == BOTTOM_LEFT then
+        if Engine.origin == BOTTOM_LEFT then
             mouse2 = mouse:clone()
             mouse2.y = H - mouse2.y
         end
@@ -190,7 +200,7 @@ function Engine.mousereleased(x, y, button, istouch, presses)
 
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
-        if getOrigin() == BOTTOM_LEFT then
+        if Engine.origin == BOTTOM_LEFT then
             mouse2 = mouse:clone()
             mouse2.y = H - mouse2.y
         end

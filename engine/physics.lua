@@ -12,6 +12,7 @@ end
 
 function Physics:init()
     self.bodies = table()
+    self.joints = table()
 end
 
 function Physics:gravity(g)
@@ -25,8 +26,16 @@ function Physics:add(object, ...)
     object.body = self:body(...)
 end
 
-function Physics:body()
-    return Body()
+function Physics:body(...)
+    local body = Body(...)
+    self.bodies:add(body)
+    return body
+end
+
+function Physics:joint(...)
+    local joint = Joint(...)
+    self.joints:add(joint)
+    return joint
 end
 
 function Physics:addItems()
@@ -49,6 +58,8 @@ physics = function ()
     return {
         gravity = function (...) return physics:gravity(...) end,
         body = function (...) return physics:body(...) end,
+        joint = function (...) return physics:joint(...) end,
+        raycast = function (...) return physics:raycast(...) end,
         pause = function (...) return physics:pause(...) end,
         resume = function (...) return physics:resume(...) end
     }
@@ -74,6 +85,11 @@ end
 
 function Body:applyForce(v)
 end
+
+function Body:testOverlap()
+end
+
+class 'Joint'
 
 class 'Object' : extends(Rect)
 

@@ -71,7 +71,7 @@ function Graphics.text(txt, x, y)
         y = textPosition()
     end
 
-    if getOrigin() == TOP_LEFT then
+    if Engine.origin == TOP_LEFT then
         textPosition(y + h)
     else
         textPosition(y - h)

@@ -10,7 +10,9 @@ function debugStart()
     debug.on()
 end
 
-function debugStop()
+function debugStop(check)
+    if not check then return end
+    
     inDebugging = true
     local debug = require("mobdebug") -- require("luajit.lualibs.mobdebug.mobdebug")
     debug.start()

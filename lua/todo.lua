@@ -5,10 +5,11 @@ function scanTODO()
             todoLists[todoName] = table()
         end
 
-        local list = enum('')
+        local list = dirr('')
         for i,file in ipairs(list) do
 
             if isLuaFile(file) then
+            
                 local content = io.read(file)
                 if content then
 
@@ -30,7 +31,7 @@ function scanTODO()
 
             end
         end
-
+        
         for _,todoName in ipairs(todos) do
             if #todoLists[todoName] > 0 then
                 local data = todoLists[todoName]:concat(NL)

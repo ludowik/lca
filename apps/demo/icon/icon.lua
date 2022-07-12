@@ -14,7 +14,7 @@ function Icon:init()
     ui = UIScene()
 
     menu = MenuBar()
-    menu:add(Button('reset', function (btn) self:reset() end))
+    menu:add(Button('reset', function (btn) self.drawing:reset() end))
 
     local function load(btn)
         self:load(btn.label)
@@ -29,7 +29,9 @@ function Icon:init()
 
     palette = ToolBar(0, ICON_SIZE)
     for i = 0,8 do
-        palette:add(ButtonColor(Color(i/8), function (btn)
+        palette:add(
+            ButtonColor(Color(i/8),
+                function (btn)
                     self:setColor(btn.color)
                 end))
     end
@@ -69,30 +71,6 @@ end
 
 function Icon:touched(touch)
     ui:touched(touch)
-
-    local h = self.drawing.icon.height * app.ratio
-    local y = HEIGHT - self.drawing.absolutePosition.y
-
-    touch.x = touch.x - self.drawing.absolutePosition.x
-    touch.y = touch.y - y
-
-    touch = touch.position / app.ratio
-
-    local i, j
-    i = math.floor(touch.x / self.pixelSize) * self.pixelSize
-    j = math.floor(touch.y / self.pixelSize) * self.pixelSize
-
-    setContext(self.drawing.icon)
-    do
-        noStroke()
-        fill(self.color)
-
-        rectMode(CORNER)
-        rect(i, j, self.pixelSize, self.pixelSize)
-    end
-    setContext()
-
-    self:save()
 end
 
 class('Drawing', UI)
@@ -126,14 +104,42 @@ function Drawing:draw()
     local h = self.icon.height * app.ratio
 
     local x = 0
-    local y = -h
+    local y = h
 
     sprite(self.icon, x, y, w, h)
 
-    stroke(red)
+    stroke(colors.red)
     noFill()
 
     rectMode(CORNER)
     rect(0, 0, w, h)
 end
 
+function Drawing:touched(touch)
+    local h = self.icon.height * app.ratio
+    local y = HEIGHT - self.absolutePosition.y
+
+    local position = vec2(
+        touch.x - self.absolutePosition.x,
+        touch.y - self.absolutePosition.y)
+
+--    position:div(app.ratio)
+
+    local i, j
+    i = math.floor(position.x / app.pixelSize) * app.pixelSize
+    j = math.floor(position.y / app.pixelSize) * app.pixelSize
+
+    setContext(self.icon)
+    do
+        line(0, 0, i, j)
+        
+        noStroke()
+        fill(self.color)
+
+        rectMode(CORNER)
+        rect(i, j, app.pixelSize, app.pixelSize)
+    end
+    setContext()
+
+--    self:save()
+end

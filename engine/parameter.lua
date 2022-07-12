@@ -2,7 +2,12 @@ class 'Parameter'
 
 function Parameter:init()
     self.scene = UIScene()
+    self:initAPI()
+    
+    self.action('apps', function () loadApp('apps', 'apps') end)
+end
 
+function Parameter:initAPI()
     function self.default(name, min, max, default, notify)
         local value = loadstring('return _G.env.'..name)()
 
@@ -27,7 +32,7 @@ function Parameter:init()
             notify(value) -- notify(ui, value)
         end
     end
-    
+
     function self.action(name, callback)
         self.scene:add(
             Button(name,
@@ -75,7 +80,7 @@ function Parameter:init()
                     self.set(ui, name, value, callback)
                 end))
     end
-    
+
     function self.color(name, clr, callback)
         self.default(name, colors.white, colors.black, clr, callback)
         self.scene:add(
@@ -95,7 +100,7 @@ function Parameter:init()
     function self.touched(touch)
         self.scene:touched(touch)
     end
-    
+
     function self.wheelmoved(dx, dy)
         self.scene:wheelmoved(dx, dy)
     end

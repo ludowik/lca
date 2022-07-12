@@ -7,18 +7,17 @@ function autotest(dt)
     local currentApp = env
     currentApp.__autotest = false
 
-    local apps = enum('apps')    
-    for i,path in ipairs(apps) do
-        if isApp(path) then
-            print(path)
-        
-            local newApp = loadApp(path)
+    local apps = enum('apps')
+    for i,item in ipairs(apps) do
+        if isApp(item) then        
+            local path, name, ext = splitFilePath(item )
+            local newApp = loadApp(path, name)
             if newApp ~= currentApp then
                 newApp.__autotest = true
                 setActiveApp(newApp)
 
                 local start = time()
-                for i=1,60 do
+                for i=1,120 do
                     love.update(1/60)
                     love.draw()
                     local current = time()
@@ -69,9 +68,8 @@ function browse(path, previousPath)
             return not isApp(a) --and isApp(b)
         end)
 
-    for i,item in ipairs(list) do        
+    for i,item in ipairs(list) do
         local path, name, ext = splitFilePath(item)
-
         if name ~= 'apps' then
             if isApp(item) then
                 scene:add(UI(name,

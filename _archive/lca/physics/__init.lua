@@ -1,5 +1,0 @@
-requireLib(
-    'object',
-    'body',
-    'physics'
-)

@@ -7,7 +7,14 @@ if love then
         return nil
     end
 
-    io.write = love.filesystem.write
+    io.write = function(path, content, mode)
+        mode = mode or 'wt'
+        if mode:left(1) == 'w' then
+            return love.filesystem.write(path, content)
+        else
+            return love.filesystem.append(path, content)
+        end
+    end
 
 else
     function io.read(path)

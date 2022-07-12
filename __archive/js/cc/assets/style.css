@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    padding: 0;
+
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+
+    background-color: rgb(51, 51, 51);
+    color: antiquewhite;
+
+    font-size: 1.2em;
+}
+
+a {
+    color: antiquewhite;
+    margin: 5px;
+    padding: 5px;
+}
+
+div {
+    margin: 0px;
+    padding: 0px;
+}
+
+canvas {
+    margin: 2px;
+    padding: 0px;
+}
+
+.dg {
+    color: #eee;
+    font: 15px 'Lucida Grande', sans-serif;
+}
+
+.dg li:not(.folder) {
+    height: 30px;
+}
+
+#openstreetmap {
+    width: 600px;
+    height: 400px;
+}

@@ -43,6 +43,7 @@ end
 
 function resetApps()
     for i,_ in ipairs(apps.listByIndex) do
+        apps.listByIndex[i].imageData = nil
         apps.listByIndex[i] = nil
     end
     for k,_ in pairs(apps.listByName) do
@@ -57,11 +58,17 @@ function loadApp(path, name, garbage)
         gc()
     end
 
+    local filePath, ext
     if not name then
-        path, name = 'apps', path 
+        path, name, ext = splitPath(path)
+        if name then
+            filePath = path..'/'..name
+        else
+            filePath = path
+        end
+    else
+        filePath = path..'/'..name
     end
-    
-    local filePath = path..'/'..name
 
     if not apps.listByName[filePath] then
         return loadApp('apps', 'apps')
@@ -176,7 +183,11 @@ function randomApp()
 end
 
 function callApp(fname, ...)
-    if _G.env and _G.env[fname] then 
-        return _G.env[fname](...)
+    if _G.env then
+        if _G.env[fname] then 
+            return _G.env[fname](...)
+        elseif _G.env.app and _G.env.app[fname] then 
+            return _G.env.app[fname](_G.env.app, ...)
+        end
     end
 end

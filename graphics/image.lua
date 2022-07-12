@@ -8,6 +8,19 @@ function Image.release()
     Image.images = nil
 end
 
+function Image.getImage(res)
+    if type(res) == 'string' then
+        if not Image.images[res] then
+            if res:find(':') then
+                res = 'res/images/'..res:replace(':', '/')..'.png'
+            end
+            Image.images[res] = Image(res)
+        end
+        return Image.images[res]
+    end
+    return res
+end
+
 function Image:init(name, ...)
     if type(name) == 'string' then
         self.data = love.graphics.newImage(name)
@@ -15,6 +28,7 @@ function Image:init(name, ...)
 
     else
         local w, h = name, ...
+        w = w or 100
         h = h or w
         self.imageData = love.image.newImageData(w, h)
         self.data = love.graphics.newImage(self.imageData)
@@ -37,17 +51,12 @@ function Image:init(name, ...)
     self.height = self.data:getHeight()
 end
 
-function Image.getImage(res)
-    if type(res) == 'string' then
-        if not Image.images[res] then
-            if res:find(':') then
-                res = 'res/images/'..res:replace(':', '/')..'.png'
-            end
-            Image.images[res] = Image(res)
-        end
-        return Image.images[res]
-    end
-    return res
+function Image:reset()
+    self:init(self.width, self.height)
+end
+
+function Image:save(filename)
+    -- TODO
 end
 
 function Image:getWidth()
@@ -101,10 +110,17 @@ end
 
 function setContext(context)
     if context then
-        push('context', love.graphics.getCanvas())
-        love.graphics.setCanvas(context)
+        push('canvas', love.graphics.getCanvas())
+        push('context', context)
+        context.canvas = context.canvas or love.graphics.newCanvas(context.width, context.height)
+        love.graphics.setCanvas(context.canvas)
     else
-        local context = pop('context')
-        love.graphics.setCanvas(context)
+        local canvas = pop('canvas')
+        love.graphics.setCanvas(canvas)
+        
+        local context = pop('context')        
+        context.imageData = context.canvas:newImageData()
+        context.data = love.graphics.newImage(context.imageData)
+        
     end
 end
