@@ -22,6 +22,9 @@ end
 function Physics:setArea()
 end
 
+function Physics:addItems()
+end
+
 function Physics:add(object, ...)
     object.body = self:body(...)
 end
@@ -38,9 +41,6 @@ function Physics:joint(...)
     return joint
 end
 
-function Physics:addItems()
-end
-
 function Physics:pause()
 end
 
@@ -53,6 +53,14 @@ end
 function Physics:draw()
 end
 
+function Physics:raycast()
+    return nil
+end
+
+function Physics:raycastAll()
+    return {}
+end
+
 physics = function ()
     local physics = Physics()
     return {
@@ -60,6 +68,7 @@ physics = function ()
         body = function (...) return physics:body(...) end,
         joint = function (...) return physics:joint(...) end,
         raycast = function (...) return physics:raycast(...) end,
+        raycastAll = function (...) return physics:raycastAll(...) end,
         pause = function (...) return physics:pause(...) end,
         resume = function (...) return physics:resume(...) end
     }
@@ -90,6 +99,17 @@ function Body:testOverlap()
 end
 
 class 'Joint'
+
+-- TODO
+REVOLUTE = 'revolute'
+
+function Joint:init(jointType, bodyA, bodyB, anchor)
+    self.type = jointType
+    self.bodyA = bodyA
+    self.bodyB = bodyB
+    self.anchorA = anchor
+    self.anchorB = anchor
+end
 
 class 'Object' : extends(Rect)
 
