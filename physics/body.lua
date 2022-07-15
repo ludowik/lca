@@ -24,17 +24,23 @@ function Body:init(shapeType, ...)
     end
 
     self.linearVelocity = vec2()
+    self.angularVelocity = vec2()
 end
 
 function Body:destroy()
 end
 
-function Body:update(dt)
+function Body:applyForce(v)
 end
 
 function Body:applyLinearImpulse(ix, iy)
 end
 
+function Body:update(dt)
+end
 function Body:testPoint(x, y)
     return false
+end
+
+function Body:testOverlap()
 end

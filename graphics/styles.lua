@@ -10,6 +10,7 @@ function resetStyle()
     strokeSize(1)
 
     fill(colors.white)
+    tint(colors.white)
 
     fontName(DEFAULT_FONT_NAME)
     fontSize(12)
@@ -167,6 +168,11 @@ function spriteMode(mode)
 end
 
 function textColor(clr, ...)
+    assert(clr)
+    return __textColor(clr, ...)
+end
+
+function __textColor(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
 
     styles.textColor = clr or styles.textColor or colors.white
@@ -178,6 +184,11 @@ function noStroke()
 end
 
 function stroke(clr, ...)
+    assert(clr)
+    return __stroke(clr, ...)
+end
+
+function __stroke(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
 
     styles.strokeColor = clr or styles.strokeColor
@@ -194,6 +205,11 @@ function noFill()
 end
 
 function fill(clr, ...)
+    assert(clr)
+    return __fill(clr, ...)
+end
+
+function __fill(clr, ...)
     if type(clr) == 'number' then clr = Color(clr, ...) end
 
     styles.fillColor = clr or styles.fillColor
@@ -247,8 +263,16 @@ function redraw()
     env.__loop = -1
 end
 
-function tint()
-    -- TODO
+function tint(clr, ...)
+    assert(clr)
+    return __tint(clr, ...)
+end
+
+function __tint(clr, ...)
+    if type(clr) == 'number' then clr = Color(clr, ...) end
+
+    styles.tintColor = clr or styles.tintColor or colors.white
+    return styles.tintColor
 end
 
 function noTint()

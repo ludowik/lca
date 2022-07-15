@@ -114,7 +114,7 @@ function appMap:init()
 end
 
 function appMap:draw()
-    background(black)
+    background()
 
     perspective()
 
@@ -143,7 +143,7 @@ function appMap:draw()
 
     local s = 10
     local w = 5
-    fill(blue)
+    fill(colors.blue)
 
     local x, y, z = xyz(self.player)
     y = self.hmg:getHeight(x, z)

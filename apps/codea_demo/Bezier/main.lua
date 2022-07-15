@@ -87,7 +87,7 @@ end
 
 function DrawBezier(xy_list, p)
     if #xy_list == 0 then return end
-    stroke(white)
+    stroke(colors.white)
     strokeSize(3)
     local x0, y0
     for i = 0, p, BEZIER_STEP do

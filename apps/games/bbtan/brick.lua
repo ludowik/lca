@@ -68,7 +68,7 @@ function Brick:draw()
     end
     popMatrix()
 
-    fill(white)
+    fill(colors.white)
 
     textMode(CENTER)
     text(self.collision, self.position.x, self.position.y)

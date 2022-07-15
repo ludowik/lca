@@ -19,7 +19,7 @@ function setup()
         for i=1,n do
             animation[#animation+1] = atlas:copy(x + ms + ws * index, y - line * hs, ws, hs)
 
---            fillFromPosition(animation[#animation])
+            fillFromPosition(animation[#animation])
 
             index = index + 1
             if ms + ws * index + ws > img.width then
@@ -42,7 +42,7 @@ function fillFromPosition(self, x, y)
 
     local fromColor = self:get(x, y)
     function propagation(x, y)
-        if self:get(x, y).r > 0.9 then
+        if self:get(x, y) > 0.9 then
             self:set(x, y, Color(0, 0, 0, 0))
             if x <= w then
                 propagation(x+1, y)
@@ -77,7 +77,7 @@ function draw(dt)
 
     rectMode(CORNER)
     spriteMode(CORNER)
-    stroke(red)
+    stroke(colors.red)
     noFill()
 
 
@@ -91,5 +91,5 @@ function draw(dt)
         dx = dx + animation[i].width
     end
 
---    sprite(atlas, 0, 200, 400)
+   sprite(atlas, 0, 400, 400, 400)
 end

@@ -86,7 +86,7 @@ end
 
 styles = {
     function (self)
-        stroke(white)
+        stroke(colors.white)
         strokeSize(use_strokeSize)
         noFill()
         self.transformIndex = 1
@@ -94,27 +94,27 @@ styles = {
     end,
 
     function (self)
-        stroke(white)
+        stroke(colors.white)
         strokeSize(use_strokeSize/2)
-        fill(red)
-        tint(red)
+        fill(colors.red)
+        tint(colors.red)
         self.transformIndex = 1
         return 'stroke(white, '..(use_strokeSize/2)..')\nfill(red)\nrotate'
     end,
 
     function (self)
         noStroke()
-        fill(blue)
-        tint(blue)
+        fill(colors.blue)
+        tint(colors.blue)
         self.transformIndex = 1
         return 'nostroke\nfill(blue)\nrotate'
     end,
 
     function (self)
-        stroke(green)
+        stroke(colors.green)
         strokeSize(use_strokeSize/2)
-        fill(blue)
-        tint(blue)
+        fill(colors.blue)
+        tint(colors.blue)
         self.transformIndex = 2
         return 'stroke(green, '..(use_strokeSize/2)..')\nfill(blue)\nscale'
     end,

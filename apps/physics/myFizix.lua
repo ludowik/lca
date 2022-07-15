@@ -19,9 +19,9 @@ function draw()
 
     function testPointOnLine(point, l)
         if lineIntersectLine(lmouse, l) or pointOnLine(point, l) then
-            stroke(red)
+            stroke(colors.red)
         else
-            stroke(white)
+            stroke(colors.white)
         end
 
         line(l:x1(), l:y1(), l:x2(), l:y2())
@@ -33,22 +33,22 @@ function draw()
     c1 = {position=vec2(500, 200), r=34}
 
     if lineIntersectCircle(lmouse, c1) then
-        fill(blue)
+        fill(colors.blue)
     elseif pointInCircle(CurrentTouch, c1) then
-        fill(red)
+        fill(colors.red)
     else
-        fill(white)
+        fill(colors.white)
     end
 
     function drawRaycast(raycast)
         if raycast then
             strokeSize(5)
-            stroke(red)
+            stroke(colors.red)
             line(
                 raycast.point.x, raycast.point.y,
                 raycast.point.x + raycast.normal.x*10, raycast.point.y + raycast.normal.y*10)
             strokeSize(10)
-            stroke(red)
+            stroke(colors.red)
             point(raycast.point)
         end
     end
@@ -63,20 +63,20 @@ function draw()
     
     local c1, c2, c3
     if lineIntersectBox2d(lmouse, r1) then
-        c1 = blue
+        c1 = colors.blue
     elseif pointInAABB(CurrentTouch, r1) then
-        c1 = red
+        c1 = colors.red
     else
-        c1 = white
+        c1 = colors.white
     end
 
     r2 = Rect(830, 300, 120, 154)
     r2.rotation = -angle
 
     if box2dIntersectBox2d(r2, r1) then
-        c2 = green
+        c2 = colors.green
     else
-        c2 = white
+        c2 = colors.white
     end
     
     r3 = Rect(640, 600, 140, 154)
@@ -84,9 +84,9 @@ function draw()
     drawRaycast(raycastBox2d(lmouse, r2))
     
     if lineIntersectBox2d(lmouse, r3) then
-        c3 = brown
+        c3 = colors.brown
     else
-        c3 = white
+        c3 = colors.white
     end
 
     function drawRect(r, clr)
@@ -105,7 +105,7 @@ function draw()
     drawRect(r3, c3)
 
     -- cursor position
-    stroke(blue)
+    stroke(colors.blue)
     strokeSize(2)
     point(CurrentTouch.x, CurrentTouch.y)
 

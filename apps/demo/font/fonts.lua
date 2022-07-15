@@ -39,12 +39,12 @@ function draw()
 
     fontSize(12)
 
-    stroke(red)
+    stroke(colors.red)
     for i,v in ipairs(fonts) do
         local _, name = splitFilePath(v)
         fontName(name)
 
-        fill(white)
+        fill(colors.white)
 
         local y = textPosition()
         w, h = text(fontName()..' '..fontSize())
@@ -59,7 +59,7 @@ function draw()
 
     fontSize(24)
     fontName(selectedFontName)
-    fill(white)
+    fill(colors.white)
     text(alphabet, W*2/3)
 end
 

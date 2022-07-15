@@ -48,7 +48,7 @@ function Asteroid:init(asteroid, part)
 end
 
 function Asteroid:draw()
-    stroke(brown)
+    stroke(colors.brown)
 
     noFill()
     strokeSize(5)

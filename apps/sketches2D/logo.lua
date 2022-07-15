@@ -75,7 +75,7 @@ function draw()
 
     logo.scale(4)
 
-    logo.setcolor(logo.pick(red, blue, green))
+    logo.setcolor(logo.pick(colors.red, colors.blue, colors.green))
 
     logo.repeatn(20,
         function ()

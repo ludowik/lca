@@ -52,7 +52,7 @@ function Octree:add(node, root)
 end
 
 function Octree:draw()
-    stroke(gray)
+    stroke(colors.gray)
     strokeSize(1)
 
     if not self.buffer then
@@ -79,7 +79,7 @@ function Octree:draw()
 
     lines3D(self.buffer)
 
-    stroke(red)
+    stroke(colors.red)
 
     if self.items then
         for i,item in ipairs(self.items) do

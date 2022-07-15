@@ -8,8 +8,8 @@ end
 function Graphics.point(x, y)
     if type(x) == 'table' then x, y = x.x, x.y end
 
-    if stroke() then
-        love.graphics.setColor(stroke():unpack())
+    if __stroke() then
+        love.graphics.setColor(__stroke():unpack())
         love.graphics.setPointSize(strokeSize())
         love.graphics.points(x, y)
     end
@@ -31,9 +31,9 @@ function Graphics.points(t, ...)
 end
 
 function Graphics.line(x1, y1, x2, y2)
-    if not stroke() then return end
+    if not __stroke() then return end
 
-    love.graphics.setColor(stroke():unpack())
+    love.graphics.setColor(__stroke():unpack())
     love.graphics.setLineWidth(strokeSize())
     love.graphics.line(x1, y1, x2, y2)
 end
@@ -42,7 +42,7 @@ function Graphics.lines(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
     if #t == 0 then return end
 
-    love.graphics.setColor(stroke():unpack())
+    love.graphics.setColor(__stroke():unpack())
     love.graphics.setLineWidth(strokeSize())    
     for i=1,#t,4 do
         Graphics.line(t[i], t[i+1], t[i+2], t[i+3])
@@ -52,7 +52,7 @@ end
 function Graphics.polyline(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
-    love.graphics.setColor(stroke():unpack())
+    love.graphics.setColor(__stroke():unpack())
     love.graphics.setLineWidth(strokeSize())
     love.graphics.line(t)
 end
@@ -63,7 +63,7 @@ function Graphics.polygon(t, ...)
     -- TODO
     if type(t[1]) == 'table' then return end
 
-    love.graphics.setColor(stroke():unpack())
+    love.graphics.setColor(__stroke():unpack())
     love.graphics.setLineWidth(strokeSize())
     love.graphics.polygon('line', t)
 end
@@ -102,7 +102,7 @@ end
 function Graphics.arc(x, y, r, a1, a2, n)
     local points = table()
     Geometry.arc(points, x, y, r, a1, a2, n)
-    Geometry.draw(points, strokeSize(), stroke())
+    Geometry.draw(points, strokeSize(), __stroke())
 end
 
 function Graphics.rect(x, y, w, h)
@@ -113,13 +113,13 @@ function Graphics.rect(x, y, w, h)
         y = y - h / 2
     end
 
-    if fill() then
-        love.graphics.setColor(fill():unpack())
+    if __fill() then
+        love.graphics.setColor(__fill():unpack())
         love.graphics.rectangle('fill', x, y, w, h)
     end
 
-    if stroke() then
-        love.graphics.setColor(stroke():unpack())
+    if __stroke() then
+        love.graphics.setColor(__stroke():unpack())
         love.graphics.setLineWidth(strokeSize())
         love.graphics.rectangle('line', x, y, w, h)
     end
@@ -132,13 +132,13 @@ function Graphics.circle(x, y, radius)
         y = y - radius
     end
 
-    if fill() then
-        love.graphics.setColor(fill():unpack())
+    if __fill() then
+        love.graphics.setColor(__fill():unpack())
         love.graphics.circle('fill', x, y, radius, SEGMENTS)
     end
 
-    if stroke() then
-        love.graphics.setColor(stroke():unpack())
+    if __stroke() then
+        love.graphics.setColor(__stroke():unpack())
         love.graphics.setLineWidth(strokeSize())
         love.graphics.circle('line', x, y, radius, SEGMENTS)
     end
@@ -152,13 +152,13 @@ function Graphics.ellipse(x, y, w, h)
         y = y - r
     end
 
-    if fill() then
-        love.graphics.setColor(fill():unpack())
+    if __fill() then
+        love.graphics.setColor(__fill():unpack())
         love.graphics.ellipse('fill', x, y, w/2, h/2, SEGMENTS)
     end
 
-    if stroke() then
-        love.graphics.setColor(stroke():unpack())
+    if __stroke() then
+        love.graphics.setColor(__stroke():unpack())
         love.graphics.setLineWidth(strokeSize())
         love.graphics.ellipse('line', x, y, w/2, h/2, SEGMENTS)
     end

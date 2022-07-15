@@ -101,7 +101,7 @@ function Ship:updateUserAction(dt)
 end
 
 function Ship:draw()
-    stroke(white)
+    stroke(colors.white)
 
     local points = self.body.points
 

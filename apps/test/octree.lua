@@ -15,7 +15,7 @@ function autotest()
 end
 
 function draw3d()
-    background(colors.black)
+    background()
 
     perspective()
     light(true)

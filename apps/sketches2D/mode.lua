@@ -6,12 +6,12 @@ function update(dt)
 end
 
 function draw()
-    tint(green)
+    tint(colors.green)
 
     spriteMode(CENTER)
     sprite(joconde, W/2, H/2, 400, 400)
 
-    stroke(red)
+    stroke(colors.red)
     strokeSize(2)
 
     noFill()
@@ -25,7 +25,7 @@ function draw()
     rectMode(CENTER)
     rect(W/2, H/2, 200, 200)
 
-    fill(white)
+    fill(colors.white)
 
     textMode(CENTER)
     text('HELLO', W/2, H/2)

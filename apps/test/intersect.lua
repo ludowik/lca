@@ -11,7 +11,7 @@ function autotest()
 end
 
 function draw()
-    background(colors.black)
+    background()
 
     stroke(colors.white)
     strokeSize(30)

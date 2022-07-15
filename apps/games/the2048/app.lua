@@ -90,7 +90,7 @@ function draw()
 
     gridRect = Rect(x-outerMarge, y-outerMarge, cellSize*grid.size+outerMarge*2, cellSize*grid.size+outerMarge*2)
 
-    fill(colors[-1])
+    fill(theme.colors[-1])
     rect(gridRect.position.x, gridRect.position.y, gridRect.size.x, gridRect.size.y, round)
 
     grid:applyFunction(
@@ -100,7 +100,7 @@ function draw()
             local value = cell.value
             if value then
 
-                local clr = colors[value] or color(0.5)
+                local clr = theme.colors[value] or color(0.5)
                 fill(clr)
                 rect(xc+innerMarge/2, yc+innerMarge/2, cellSize-innerMarge, cellSize-innerMarge, round)
 
@@ -124,7 +124,7 @@ function draw()
                 text(tostring(value), xc+cellSize/2, yc+cellSize/2)
 
             else
-                local clr = colors[0]
+                local clr = theme.colors[0]
                 fill(clr)
                 rect(xc+2, yc+2, cellSize-round, cellSize-round, round)
             end
@@ -132,7 +132,7 @@ function draw()
 
     fontSize(22)
 
-    fill(white)
+    fill(colors.white)
 
     text('SCORE'..NL..grid.score, W/4, cellSize/2)
 
@@ -142,10 +142,10 @@ function draw()
         textMode(CENTER)
 
         fontSize(100)
-        fill(red)
+        fill(colors.red)
         text('game over', W/2, H/2)
         fontSize(98)
-        fill(white)
+        fill(colors.white)
         text('game over', W/2, H/2)
     end
 end

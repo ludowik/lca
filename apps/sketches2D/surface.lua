@@ -112,7 +112,7 @@ code = [[
 ]]
 
 function draw()
-    background(colors.black)
+    background()
 
     if not debugging() then
         local vertex

@@ -42,7 +42,7 @@ function step(dt)
 end
 
 function draw()
-    background(colors.black)
+    background()
 
     area:draw()
     balls:draw()
@@ -149,6 +149,6 @@ function Ball:update(dt)
 end
 
 function Ball:draw()
-    fill(red)
+    fill(colors.red)
     circle(self.position.x, self.position.y, self.radius)
 end

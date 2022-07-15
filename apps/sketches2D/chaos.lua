@@ -32,7 +32,7 @@ function reset(i)
 
     vertices:chainIt()
 
-    stroke(red)
+    stroke(colors.red)
     strokeSize(10)
 
     vertices:draw()
@@ -125,7 +125,7 @@ function draw()
         newConf = nil
     end
 
-    stroke(white)
+    stroke(colors.white)
     strokeSize(1)
 
     for i = 1,1000 do

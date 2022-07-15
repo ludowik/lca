@@ -1,8 +1,13 @@
 function setup()
     vertices = table()
     colors = table()
+    
+    reset()
+end
+    
+function reset()
     for i=1,6 do
-        vertices:add(vec2.random(W, H))
+        vertices:add(vec2.randomInScreen())
         colors:add(Color.random())
     end
 
@@ -11,7 +16,7 @@ function setup()
         tween(
             random(0.8, 1.5),
             vertices[i],
-            vec2.random(W, H),
+            vec2.randomInScreen(),
             tween.easing[easing],
             function ()
                 nextPosition(i)

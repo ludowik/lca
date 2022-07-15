@@ -31,8 +31,8 @@ function Ball:image()
 
     setContext(self.image)
 
-    fill(white)
-    noStroke(gray)
+    fill(colors.white)
+    noStroke()
 
     circleMode(CENTER)
     circle(
@@ -49,7 +49,7 @@ function Ball:draw()
     spriteMode(CENTER)
     sprite(self.image, x, y)
 
-    fill(red)
+    fill(colors.red)
 
     textMode(CENTER)
     text(self.id, x, y)

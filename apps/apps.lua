@@ -7,8 +7,13 @@ function autotest(dt)
     local currentApp = env
     currentApp.__autotest = false
 
+    local ram = {
+        before = format_ram()
+    }
+
     local apps = enum('apps')
-    for i,item in ipairs(apps) do
+    for i=appsList.saveCurrentIndex,#apps do
+        item = apps[i]
         if isApp(item) then        
             local path, name, ext = splitFilePath(item )
             local newApp = loadApp(path, name)
@@ -17,7 +22,7 @@ function autotest(dt)
                 setActiveApp(newApp)
 
                 local start = time()
-                for i=1,120 do
+                for i=1,60 do
                     love.update(1/60)
                     love.draw()
                     local current = time()
@@ -31,12 +36,27 @@ function autotest(dt)
         end
     end
 
+    ram.after = format_ram()
+
+    gc()
+    resetApps()
+    GraphicsBase.release()
+    Image.release()
+    gc()
+
+    ram.afterRelease = format_ram()
+
+    output.clear()
+
+    print('avant : '..ram.before)
+    print('après : '..ram.after)
+    print('release & gc : '..ram.afterRelease)
+
     setActiveApp(currentApp)
 end
 
 function draw()
-    background(gray)
-
+    background()
     scene:draw()
 end
 
@@ -72,13 +92,16 @@ function browse(path, previousPath)
         local path, name, ext = splitFilePath(item)
         if name ~= 'apps' then
             if isApp(item) then
-                scene:add(UI(name,
+                scene:add(
+                    UI(name,
                         function (_)
                             loadApp(path, name)
-                        end):attribs{
-                        info = item,
-                        textColor = colors.white,
-                        fontSize = 22})
+                        end)
+                    :attribs{
+                        info = item}
+                    :setstyles{
+                        textColor = colors.green,
+                        fontSize = 26})
             else
                 scene:add(
                     UI(name,

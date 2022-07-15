@@ -65,7 +65,7 @@ function ColorPicker:draw()
 
     -- current color
     local h, s, l, a = Color.rgb2hsl(self.clr)
-    stroke(white)
+    stroke(colors.white)
     strokeSize(1)
     fill(self.clr)
     rect(0, width, 20, 20)

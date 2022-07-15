@@ -57,43 +57,6 @@ function Engine.needDraw()
 end
 
 function Engine.update(dt)
-    if Engine.test then
-
-        Engine.test.delay = Engine.test.delay - dt
-        if Engine.test.delay <= 0 then
-
-            if Engine.test.index == 1 then
-                Engine.test.ram = format_ram()
-
-            elseif Engine.test.index > getnApps() then
-                print('début du test')
-                print(Engine.test.ram)
-
-                print('fin du test')
-                print(format_ram())
-
-                gc()
-                print(format_ram())
-
-                resetApps()
-
-                GraphicsBase.release()
-                Image.release()
-
-                gc()
-                print(format_ram())
-
-                exit()
-            end
-
-            setApp(Engine.test.index, false)
-
-            Engine.test.delay = 0.05
-            Engine.test.index = Engine.test.index + 1
-
-        end
-    end
-
     deltaTime = dt
     elapsedTime = elapsedTime + dt
 
@@ -224,7 +187,7 @@ function Engine.drawInfo()
     Engine.render(function()
             text(getFPS())
             text(os.name)
-            text(env.appName)
+            text(env.appPath..'/'..env.appName)
             text(W..'x'..H)
 
             text(string.format('%d,%d,%d,%d', love.window.getSafeArea()))

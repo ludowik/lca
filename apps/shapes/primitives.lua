@@ -1,5 +1,5 @@
 function draw()
-    background(colors.black)
+    background()
 
     local function drawPrimitive(prim, x, y, w, h)
         assert(x and y and w)

@@ -128,10 +128,10 @@ function draw()
 
     local x, y = WIDTH/2, HEIGHT/2
 
-    stroke(white)
+    stroke(colors.white)
     strokeSize(1)
 
-    fill(pastelRed)
+    fill(colors.red)
 
     local size, pct = 0, 0
     local radius = 100

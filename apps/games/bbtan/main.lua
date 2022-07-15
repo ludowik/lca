@@ -216,9 +216,9 @@ function draw()
     for i,body in ipairs(physics.bodies) do
         local info = (classnameof(body.item)..' '..
             body.shapeType..' at:'..
-            body.position:tostring()..' r:'..
+            body.position:__tostring()..' r:'..
             body.radius..' v:'..
-            body.linearVelocity:tostring())
+            body.linearVelocity:__tostring())
             
         text(info, 0)
     end
@@ -233,7 +233,7 @@ function draw()
     env.scene:draw()
 
     if linearVelocity then
-        stroke(white)
+        stroke(colors.white)
         line(
             emitter.position.x,
             emitter.position.y,

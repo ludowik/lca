@@ -215,24 +215,3 @@ function Fizix:collision()
     end
 end
 
--- Performs a raycast from the start point to the end point.
--- Any additional parameters are treated as category filters, allowing certain bodies to be ignored.
--- This function only returns hit information on the closest rigid body detected.
-function Fizix:raycast(from, to, category1, category2)
-    -- TODO : raycast
-end
-
--- Performs a raycast from the start point to the end point.
--- Any additional parameters are treated as category filters, allowing certain bodies to be ignored.
--- This function returns an array of tables describing all objects hit along the ray, ordered from closest to farthest.
-function Fizix:raycastAll(from, to, category1, category2)
-    -- TODO : raycastAll
-    return {}
-end
-
--- Performs a query to find all bodies within the supplied axis-aligned bounding box.
--- Any additional parameters are treated as category filters, allowing certain bodies to be ignored.
-function Fizix:queryAABB(lowerLeft, upperRight, category1, category2)
-    -- TODO : queryAABB
-    return {}
-end

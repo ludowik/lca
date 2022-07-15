@@ -17,7 +17,7 @@ function update(dt)
 end
 
 function draw()
-    background(brown)
+    background(colors.brown)
 
     fill(240/255)
     noStroke()

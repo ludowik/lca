@@ -12,7 +12,7 @@ function Graphics.point(x, y)
         y - strokeSize() * .5,
         strokeSize(),
         strokeSize(), {
-            _fillColor = stroke()
+            _fillColor = __stroke()
         })
 end
 
@@ -25,7 +25,7 @@ function Graphics.points(t, ...)
 end
 
 function Graphics.line(x1, y1, x2, y2)
-    if not stroke() then return end
+    if not __stroke() then return end
 
     local v = vec2(x2, y2) - vec2(x1, y1)
     v = v:normalize(strokeSize()*0.5)
@@ -42,14 +42,14 @@ function Graphics.line(x1, y1, x2, y2)
     end
 
     Graphics.lineMesh = Graphics.newMesh(vertices, 'triangles', 'static')
-    love.graphics.setColor(stroke():unpack())        
+    love.graphics.setColor(__stroke():unpack())        
     Graphics.drawMesh(Graphics.lineMesh)
 end
 
 function Graphics.lines(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
-    love.graphics.setColor(stroke():unpack())
+    love.graphics.setColor(__stroke():unpack())
     for i=1,#t,4 do
         Graphics.line(t[i], t[i+1], t[i+2], t[i+3])
     end
@@ -63,7 +63,7 @@ end
 function Graphics.polyline_(t, x, y, w, h)
     x, y, w, h = x or 0, y or 0, w or 1, h or 1
 
-    love.graphics.setColor(stroke():unpack())
+    love.graphics.setColor(__stroke():unpack())
 
     local vertices = {}
     local x1, y1 = x+w*t[1], y+h*t[2]
@@ -87,14 +87,14 @@ function Graphics.polyline_(t, x, y, w, h)
     end
 
     Graphics.polylineMesh = Graphics.newMesh(vertices, 'triangles', 'static')
-    love.graphics.setColor(stroke():unpack())        
+    love.graphics.setColor(__stroke():unpack())        
     Graphics.drawMesh(Graphics.polylineMesh)
 end
 
 function Graphics.polygon(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
-    love.graphics.setColor(stroke():unpack())
+    love.graphics.setColor(__stroke():unpack())
 
     local x, y = t[1], t[2]
     for i=3,#t,2 do
@@ -135,7 +135,7 @@ function Graphics.rect_(x, y, w, h, attr)
         translate(x, y)
         scale(w, h)
 
-        local _fillColor = attr and attr._fillColor or fill()
+        local _fillColor = attr and attr._fillColor or __fill()
         if _fillColor then
             love.graphics.setColor(_fillColor:unpack())
             Graphics.drawMesh(Graphics.rectMesh)
@@ -181,25 +181,25 @@ function Graphics.ellipse_(x, y, w, h, mode)
     do
         translate(x, y)
 
-        if stroke() then
+        if __stroke() then
             pushMatrix()
             scale(w/2, h/2)
-            love.graphics.setColor(stroke():unpack())
+            love.graphics.setColor(__stroke():unpack())
             Graphics.drawMesh(Graphics.ellipseMesh)
             popMatrix()
         end
         
-        if fill() then
+        if __fill() then
             pushMatrix()
             scale(w/2-strokeSize(), h/2-strokeSize())
-            love.graphics.setColor(fill():unpack())        
+            love.graphics.setColor(__fill():unpack())        
             Graphics.drawMesh(Graphics.ellipseMesh)
             popMatrix()
         end
     end
     popMatrix()
 
---    if stroke() then
+--    if __stroke() then
 --        polyline_(Graphics.circleBorderMesh, x, y, w/2, h/2)
 --    end
 end
@@ -316,12 +316,12 @@ function Graphics.drawModel(mesh, x, y, z, w, h, d)
             scale(w, h, d)
         end
 
-        if fill() then
+        if __fill() then
             Graphics.shader3D:send('pvm', {
                     pvmMatrix():getMatrix()
                 })
 
-            love.graphics.setColor(fill():unpack())        
+            love.graphics.setColor(__fill():unpack())        
             Graphics.drawMesh(mesh)
         end
     end

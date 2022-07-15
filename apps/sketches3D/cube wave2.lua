@@ -38,7 +38,7 @@ function draw3d()
             translate(0, 0, w)
 
             strokeSize(2)
-            stroke(gray)
+            stroke(colors.gray)
 
             fill(Color(r))
 

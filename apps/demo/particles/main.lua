@@ -1,5 +1,5 @@
 function setup()
-    parameter.watch('#app.emitter.particles')
+    parameter.watch('#env.emitter.particles')
 
     env.emitter = Emitter()
     
@@ -7,6 +7,10 @@ function setup()
     env.scene:add(env.emitter)
 end
 
+function draw()
+    env.scene:draw()
+end
+
 function touched(touch)
-    app.emitter:touched(touch)
+    env.emitter:touched(touch)
 end

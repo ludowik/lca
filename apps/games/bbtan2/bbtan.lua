@@ -41,7 +41,7 @@ function BBTan:update(dt)
 end
 
 function BBTan:draw()
-    background(black)
+    background()
     
     translate(BBTan.position.x, BBTan.position.y)
     self.scene:draw()
@@ -71,7 +71,7 @@ function Ball:init(physics)
 end
 
 function Ball:draw()
-    stroke(white)
+    stroke(colors.white)
     circle(self.position.x, self.position.y, self.size.w)
 end
 
@@ -98,7 +98,7 @@ function Block:init(physics, i, j, count)
 end
 
 function Block:draw()
-    stroke(white)
+    stroke(colors.white)
     local x, y = self.position.x, self.position.y
     rect(x, y, self.size.w, self.size.h, CENTER)
     text(self.count, x, y)

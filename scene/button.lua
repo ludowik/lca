@@ -34,7 +34,7 @@ function ButtonIconFont:draw()
     do
         noStroke()
 
-        fill(white)
+        fill(colors.white)
 
         fontName('Foundation-Icons')
         fontSize(self.size.x)
@@ -61,7 +61,7 @@ function ButtonImage:computeSize()
 end
 
 function ButtonImage:draw()
-    stroke(white)
+    stroke(colors.white)
 
     noFill()
 

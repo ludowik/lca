@@ -85,7 +85,7 @@ function Drawing:reset()
 
     setContext(self.icon)
     do
-        background(self.color)
+        background(app.color)
     end
     setContext()
 
@@ -134,7 +134,7 @@ function Drawing:touched(touch)
         line(0, 0, i, j)
         
         noStroke()
-        fill(self.color)
+        fill(app.color)
 
         rectMode(CORNER)
         rect(i, j, app.pixelSize, app.pixelSize)

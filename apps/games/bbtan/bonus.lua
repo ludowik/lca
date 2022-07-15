@@ -20,7 +20,7 @@ end
 function Bonus:draw()
     noFill()
 
-    stroke(yellow)
+    stroke(colors.yellow)
     strokeSize(4)
 
     circleMode(CENTER)

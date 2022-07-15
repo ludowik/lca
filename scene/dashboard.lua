@@ -28,12 +28,12 @@ function Dashboard:draw()
     fontName(DEFAULT_FONT_NAME)
     fontSize(10)
 
-    fill(white)
+    fill(colors.white)
 
     textMode(CORNER)
 
     strokeSize(1)
-    stroke(gray)
+    stroke(colors.gray)
 
     local columnsName = self.columnsName
     local columnsSize = self.columnsSize
@@ -80,9 +80,9 @@ function Dashboard:draw()
             y = textPosition()
 
             if attributeof('focusOn', object) then
-                fill(orange)
+                fill(colors.orange)
             else
-                fill(white)
+                fill(colors.white)
             end
 
             for _,columnName in ipairs(columnsName) do

@@ -8,7 +8,11 @@ function Graphics.setup()
 end
 
 function Graphics.release()
-    Graphics.resources = nil
+    for k,res in pairs(Graphics.resources) do
+        Graphics.resources[k] = nil
+    end
+    
+    Graphics.resources = {}
 end
 
 function Graphics.background(clr, ...)
@@ -82,7 +86,7 @@ function Graphics.text(txt, x, y)
         y = y - h / 2
     end
 
-    local clr = textColor() or stroke()
+    local clr = __textColor() or __stroke()
     if clr then
         love.graphics.setBlendMode('alpha')
         love.graphics.setColor(clr:unpack())
@@ -122,6 +126,9 @@ function Graphics.sprite(img, x, y, w, h)
         y = y - h / 2
     end
 
+    local clr = __tint() or colors.white
+    love.graphics.setColor(clr:unpack())
+    
     img:draw(x, y, w, h)
 end
 

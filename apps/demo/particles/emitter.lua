@@ -12,7 +12,7 @@ function Emitter:init(n)
 end
 
 function Emitter:addParticle(n)
-    n = n or 0
+    n = n or 100
     for i=1,n do
         self.particles:add(Particle(self))
     end

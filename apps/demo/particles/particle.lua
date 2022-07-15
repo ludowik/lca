@@ -45,7 +45,7 @@ function Particle.initImage(n)
     if Particle.img then return end
 
     n = n or 200
-    local img = image(n, n)
+    local img = Image(n, n)
     setContext(img)
     background(0, 0, 0, 0)
     for i=1,n do

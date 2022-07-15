@@ -17,7 +17,7 @@ function draw3d()
     sphere(0, 0, 0, s, s, s)
 end
 
-function drawInfo()    
+function drawInfo()
     text(love.filesystem.getSaveDirectory())
     text(table.tolua(config))
     text(table.tolua({love.window.getSafeArea()}))

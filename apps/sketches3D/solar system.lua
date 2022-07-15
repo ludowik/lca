@@ -70,10 +70,10 @@ function Planet:draw()
 
     pushMatrix()
     do
-        stroke(white)
-        fill(white)
+        stroke(colors.white)
+        fill(colors.white)
 
-        rotate(self.angle)
+        rotate(rad(self.angle))
         translate(self.x, self.y)
 
         self:sphere(self.r)

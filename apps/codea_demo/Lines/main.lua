@@ -37,11 +37,11 @@ function draw()
         smooth()
     end
 
-    stroke(blue)
+    stroke(colors.blue)
     lineCapMode(PROJECT)
     line(x1, y1, x2, y2)
 
-    stroke(white)
+    stroke(colors.white)
     lineCapMode(lineCap)
     line(x1, y1, x2, y2)
 end

@@ -99,7 +99,7 @@ function draw()
     do
         pushMatrix()
 
-        stroke(white)
+        stroke(colors.red)
 
         translate(0, HEIGHT/2)
         moveTo(0, 0)

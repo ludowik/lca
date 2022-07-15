@@ -29,9 +29,9 @@ function Horloge:draw()
     local date = date()
     local ipart, fpart = math.modf(os.clock())
 
-    self:aiguille(red  , self.x, self.y, ( date.hour - self.decalage ) * 30 , self.rayon * 0.8, 3)
-    self:aiguille(green, self.x, self.y, ( date.min                  ) * 6  , self.rayon * 0.8, 2)
-    self:aiguille(blue , self.x, self.y, ( date.sec                  ) * 6  , self.rayon * 0.8, 1)
+    self:aiguille(colors.red  , self.x, self.y, ( date.hour - self.decalage ) * 30 , self.rayon * 0.8, 3)
+    self:aiguille(colors.green, self.x, self.y, ( date.min                  ) * 6  , self.rayon * 0.8, 2)
+    self:aiguille(colors.blue , self.x, self.y, ( date.sec                  ) * 6  , self.rayon * 0.8, 1)
 
     width, height = textSize(self.lieu)
 
@@ -75,7 +75,7 @@ function Horloge:graduation(x, y, r, l, p, size, draw_text, c)
     stroke(c)
 
     draw_text = draw_text or false
-    c = c or white
+    c = c or colors.white
 
     local a = 90
     local da = -360 / p

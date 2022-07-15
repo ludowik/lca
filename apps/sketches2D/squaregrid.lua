@@ -23,7 +23,7 @@ function draw()
     background()
 
     noStroke()
-    fill(white)
+    fill(colors.blue)
 
     rectMode(CENTER)
 

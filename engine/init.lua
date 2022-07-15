@@ -12,6 +12,7 @@ require 'lua_collection'
 require 'maths'
 require 'graphics'
 require 'scene'
+require 'physics'
 
 requireLib(
     'apps',
@@ -21,7 +22,6 @@ requireLib(
     'event',
     'gesture',
     'parameter',
-    'physics',
     'fs',
     'path',
     'sound',

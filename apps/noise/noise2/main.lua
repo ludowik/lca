@@ -50,10 +50,10 @@ function draw()
     end
     endShape()
 
-    stroke(red)
+    stroke(colors.red)
     line(0, y, WIDTH, y)
 
-    stroke(blue)
+    stroke(colors.blue)
     line(0, y+h, WIDTH, y+h)
 
     line(WIDTH /2, 0, WIDTH / 2, HEIGHT)

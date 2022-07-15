@@ -133,10 +133,10 @@ function GolGrid:draw()
 
     scale(self.scale, self.scale)
 
-    stroke(red)
+    stroke(colors.red)
     strokeSize(1)
 
-    fill(red)
+    fill(colors.red)
 
     for i=0,grid.n do
         line(w*i, 0, w*i, h*grid.m)

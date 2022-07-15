@@ -13,7 +13,7 @@ end
 
 function Separator:draw()
     strokeSize(1)
-    stroke(white)
+    stroke(colors.white)
 
     line(0, 1, self.size.x, 1)
 end

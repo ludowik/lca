@@ -3,6 +3,8 @@ local apps = {
     listByIndex = {},
 }
 
+global.appsList = apps
+
 function getnApps()
     return #apps.listByIndex
 end
@@ -50,7 +52,12 @@ function resetApps()
         apps.listByName[k] = nil
     end
 
-    apps = nil
+    apps = {
+        listByName = {},
+        listByIndex = {},
+    }
+    
+    addApps()
 end
 
 function loadApp(path, name, garbage)
@@ -127,9 +134,9 @@ function loadApp(path, name, garbage)
 
                 classes.setup()
 
-                env.parameter = Parameter()
+                env.parameter = ParameterInstance()
                 env.tweensManager = TweensManager()
-                env.physics = physics()
+                env.physics = PhysicsInstance()
 
                 callApp('setup')
 
@@ -141,8 +148,8 @@ function loadApp(path, name, garbage)
     if apps.listByName[filePath] then
         for index=1,#apps.listByIndex do
             if apps.listByIndex[index] == apps.listByName[filePath] then
-                apps.current = index
-                local env = apps.listByIndex[apps.current].env
+                apps.currentIndex = index
+                local env = apps.listByIndex[apps.currentIndex].env
                 _G.env = env
                 setfenv(0, env)
                 love.window.setVSync(_G.env.__vsync)
@@ -170,11 +177,11 @@ function setApp(index, garbage)
 end
 
 function previousApp()
-    return setApp((apps.current + #apps.listByIndex - 2) % #apps.listByIndex + 1)
+    return setApp((apps.currentIndex + #apps.listByIndex - 2) % #apps.listByIndex + 1)
 end
 
 function nextApp()
-    return setApp(apps.current % #apps.listByIndex + 1)
+    return setApp(apps.currentIndex % #apps.listByIndex + 1)
 end
 
 function randomApp()

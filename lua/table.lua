@@ -215,8 +215,12 @@ function table:tostring()
     return code
 end
 
-function table:tolua(level)
-    if not self then return '' end
+function table:tolua(level, __recursive)
+    if not self then return 'nil' end
+    
+    __recursive = __recursive or {}
+    if __recursive[self] then return '__recursive' end
+    __recursive[self] = true
 
     level = level or 1
     local function tab(level)
@@ -234,13 +238,16 @@ function table:tolua(level)
             val = v and 'true' or 'false'
 
         elseif typeof == 'table' then
-            val = table.tolua(v, level+1)
+            val = table.tolua(v, level+1, __recursive)
 
         else
             val = tostring(v)
         end
         t = t .. tab(level) .. k .. ' = ' .. val .. ',\n'
     end
+    
+    __recursive[self] = nil
+    
     return '{\n' .. t .. tab(level-1) .. '}'
 end
 

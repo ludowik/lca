@@ -9,7 +9,7 @@ function setup()
 
     noFill()
 
-    stroke(white)
+    stroke(colors.white)
     strokeSize(2)
 
     translate(W/2, H/2)
@@ -19,7 +19,7 @@ function setup()
 
     circle(0, 0, radius)
 
-    fill(red)
+    fill(colors.red)
 
     img = Image(diameter+1, diameter+1)
 

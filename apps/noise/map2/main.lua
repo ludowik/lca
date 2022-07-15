@@ -38,7 +38,7 @@ function setup()
         end
     end
 
-    fill(white)
+    fill(colors.white)
 
     env.scene = Scene()
     env.scene.camera = Camera(50, 200, -50, 100, 0, 100)

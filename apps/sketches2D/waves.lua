@@ -8,7 +8,7 @@ function setup()
     damping = 0.95
 
     img = Image(sizeW, sizeH)
-    img:background(colors.black)
+    img:background()
 end
 
 function update(dt)
@@ -57,7 +57,7 @@ function getOffset(x, y)
 end
 
 function draw()
-    background(black)
+    background()
 
     spriteMode(CORNER)
     sprite(img)

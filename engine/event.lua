@@ -17,15 +17,9 @@ function Engine.keyreleased(key)
     elseif key == 'i' then
         loadApp('apps', 'info')
 
-    elseif key == 'l' then
-        if Engine.test then
-            Engine.test = nil
-        else
-            Engine.test = {
-                index=1,
-                delay=0
-            }
-        end
+    elseif key == 'l' then        
+        appsList.saveCurrentIndex = 1 -- appsList.currentIndex
+        loadApp('apps', 'apps').__autotest = true
 
     elseif key == 's' then
         scanTODO()
@@ -50,7 +44,7 @@ function Engine.keyreleased(key)
     elseif key == 'f' then
         if config.framework == 'love2d' then
             config.framework = 'core'
-            
+
         else
             config.framework = 'love2d'
         end
@@ -67,7 +61,7 @@ function Engine.keyreleased(key)
             config.renderer = 'love2d'
         end
         restart()
-        
+
     else
         callApp('keyboard', key)
 
@@ -96,7 +90,7 @@ mouse = table({
 
         x = 0,
         y = 0,
-        
+
         position = vec2(),
 
         dx = 0,
@@ -136,7 +130,7 @@ function __mouseevent(state, x, y, button, presses)
 
     mouse.x = x
     mouse.y = y
-    
+
     mouse.position:set(x, y)
 
     mouse.dx = mouse.x - mouse.px 

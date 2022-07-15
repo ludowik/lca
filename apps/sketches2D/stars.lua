@@ -92,7 +92,7 @@ function Stars:addStars(n)
 end
 
 function Stars:draw()
-    background(black)
+    background()
 
     blendMode(NORMAL)
 

@@ -44,11 +44,11 @@ function classItem:draw()
             local start = direction * 0.1
             local to = direction * 0.9
 
-            stroke(gray)
+            stroke(colors.gray)
             strokeSize(1)
             line(start.x, start.y, to.x, to.y)
 
-            stroke(red)
+            stroke(colors.red)
             strokeSize(5)
             point(to.x, to.y)
         end
