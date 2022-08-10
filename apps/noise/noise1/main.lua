@@ -111,7 +111,7 @@ function AppMap:init()
                     clockCurrent = os.clock()
                     clockDelay = clockCurrent - clockStart
 
-                    if batchMode and clockDelay > 1/config.fps.frameTarget then
+                    if batchMode and clockDelay > 1/Engine.frameTarget then
                         coroutine.yield()
                         clockStart = os.clock()
                     end
@@ -128,7 +128,7 @@ function AppMap:init()
         generate(batchMode, self.map, noise, green, dt)
     end
 
-    local batchMode = false
+    local batchMode = true
     if batchMode then
         self.thread = coroutine.create(function (dt)
                 generateAll(true)

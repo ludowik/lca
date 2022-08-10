@@ -16,6 +16,8 @@ end
 
 function Engine.load()
     Engine.setGraphicsLibrary()
+    
+    Engine.frameTarget = 60
 
     deltaTime = 0
     elapsedTime = 0

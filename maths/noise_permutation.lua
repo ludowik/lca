@@ -31,7 +31,7 @@ local function lerp(t, a, b)
 end
 
 -- pseudo binary and
-local function band(a,b)
+local function band(a, b)
     return __abs(a) % b
 end
 
