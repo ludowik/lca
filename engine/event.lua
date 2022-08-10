@@ -17,8 +17,7 @@ function Engine.keyreleased(key)
     elseif key == 'i' then
         loadApp('apps', 'info')
 
-    elseif key == 'l' then        
-        appsList.saveCurrentIndex = 1 -- appsList.currentIndex
+    elseif key == 'l' then
         loadApp('apps', 'apps').__autotest = true
 
     elseif key == 's' then
