@@ -10,6 +10,8 @@ function autotest(dt)
     local ram = {
         before = format_ram()
     }
+    
+    appsList.saveCurrentIndex = appsList.saveCurrentIndex or 1
 
     local apps = enum('apps')
     for i=appsList.saveCurrentIndex,#apps do
