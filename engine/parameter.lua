@@ -1,8 +1,15 @@
 class 'Parameter'
 
 function Parameter:init()
+    Parameter.clear(self)
+end
+
+function Parameter:clear()
     self.scene = UIScene()
     self:action('apps', function () loadApp('apps', 'apps') end)
+end
+
+function Parameter:update(dt)
 end
 
 function Parameter:default(name, min, max, default, notify)
@@ -44,8 +51,9 @@ function Parameter:watch(name, expression)
 end
 
 function Parameter:text(name, text, callback)
+    self:default(name, '', '', text, callback)
     self.scene:add(
-        UI(name,
+        Editor(name,
             function (ui)
                 self:notify(ui, nil, callback)
             end))
@@ -107,7 +115,7 @@ ParameterInstance = function ()
 
     local interface = {}
     interface.scene = parameter.scene
-    
+
     for k,f in pairs(Parameter) do
         if type(f) == 'function' then
             interface[k] = function (...)

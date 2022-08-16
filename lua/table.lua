@@ -357,7 +357,7 @@ function table:previous(currentItem)
 end
 
 function table:concat(sep)
-    assert(sep)
+    sep = sep or ''
 
     local str
     for i,v in ipairs(self) do

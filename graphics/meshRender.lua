@@ -10,12 +10,21 @@ local format = {
     {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
 }
 
+function MeshRender:init()
+end
+
+function MeshRender:clear()
+    self.__vertices = nil
+end
+
 function MeshRender:update()
+    if not self.vertices or #self.vertices == 0 then return end
+    
     if not self.needUpdate and self.__vertices and #self.__vertices == #self.vertices then return end    
     self.needUpdate = false
 
     local vertices = self.__vertices
-    if not vertices then
+    if not vertices then        
         if self.vertices[1].x then
             vertices = table()
             for i,v in ipairs(self.vertices) do
@@ -41,6 +50,8 @@ function MeshRender:update()
 end
 
 function MeshRender:draw()
+    if not self.vertices or #self.vertices == 0 then return end
+    
     self:update()
 
     local vertices = self.__vertices

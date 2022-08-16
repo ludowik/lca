@@ -21,7 +21,7 @@ function resetStyle()
     spriteMode(CENTER)
 
     depthMode(false)
-    
+
     blendMode(REPLACE)
 end
 
@@ -96,10 +96,18 @@ class 'Fonts'
 
 function Fonts.getFont(name, size)
     local fontRef = name..'.'..size
-    if not Fonts[fontRef] then
-        Fonts[fontRef] = love.graphics.newFont(getFontPath() ..'/'.. name .. '.ttf', size)
+    if not Fonts[fontRef] then        
+        local res, font = pcall(function () return love.graphics.newFont(getFontPath() ..'/'.. name .. '.ttf', size) end)
+        if not res then font = Fonts.getFont(DEFAULT_FONT_NAME, size) end
+        Fonts[fontRef] = font        
     end
     return Fonts[fontRef]
+end
+
+function fontMetrics()
+    return {
+        descent = 12
+    }
 end
 
 function fontName(name)

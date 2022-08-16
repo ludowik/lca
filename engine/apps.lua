@@ -56,7 +56,7 @@ function resetApps()
         listByName = {},
         listByIndex = {},
     }
-    
+
     addApps()
 end
 
@@ -115,8 +115,18 @@ function loadApp(path, name, garbage)
             loop()
 
             local chunk
-            if info.type == 'file' then
+            if isAppcodea(path..'/' .. name) then
+                local code = [[
+                    package.loaded['engine.codea'] = false
+                    require 'engine.codea'
+                    loadAppCodea('path', 'name')
+                ]]                
+                code = code:gsub('path', path):gsub('name', name)
+                chunk = load(code)
+
+            elseif info.type == 'file' then
                 chunk = love.filesystem.load(path..'/' .. name .. '.lua')
+
             else
                 chunk = (
                     love.filesystem.load(path..'/' .. name .. '/#.lua') or
@@ -132,9 +142,14 @@ function loadApp(path, name, garbage)
                 env.appPath = path
                 env.appName = name
 
-                classes.setup()
+                if isAppcodea(path..'/' .. name) then
+                    classes.reset()
+                else
+                    classes.setup()
+                end
 
                 env.parameter = ParameterInstance()
+                env.speech = SpeechInstance()
                 env.tweensManager = TweensManager()
                 env.physics = PhysicsInstance()
 

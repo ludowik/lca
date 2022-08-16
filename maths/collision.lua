@@ -171,7 +171,7 @@ function lineIntersectAABB(line, rect)
 
     if tmax >= 0 and tmin <= tmax then    
         local t = tmin < 0 and tmax or tmin
-        return t > 0 and (t * t < line.size:lenSquared())
+        return t > 0 and (t * t < line.size:lenSqr())
     end
 
     return false
@@ -224,7 +224,7 @@ function raycastCircle(ray, circle)
 
     local radiusSquared = circle.r * circle.r
 
-    local originToCircleLenSquared = originToCircle:lenSquared()
+    local originToCircleLenSquared = originToCircle:lenSqr()
 
     -- project the vector from the ray origin onto the direction of the ray
     local a = originToCircle:dot(rayDirection)

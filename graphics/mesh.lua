@@ -2,10 +2,13 @@ mesh = class 'Mesh' : extends(MeshRender)
 
 function Mesh:init(...)
     MeshRender.init(self)
+    
     self:clear(...)
 end
 
 function Mesh:clear(vertices, colors)
+    MeshRender.clear(self)
+    
     if vertices and vertices.vertices then 
         vertices, colors = vertices.vertices, vertices.colors
     end

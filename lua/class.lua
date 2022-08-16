@@ -3,6 +3,10 @@ classes = {
     list = table()
 }
 
+function classes.reset()
+    classes.list = table()
+end
+
 function classes.setup()
     for i=1,#classes.list do
         local k = classes.list[i]
@@ -26,6 +30,7 @@ function classes.setup()
 end
 
 function class(className, ...)
+    className = className or 'UnknownClass'
     assert(className and type(className) == 'string')
 
     local k = table()

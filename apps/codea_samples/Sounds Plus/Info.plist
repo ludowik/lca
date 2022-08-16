@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Dylan Sale &amp; Simeon</string>
+	<key>Buffer Order</key>
+	<array>
+		<string>Main</string>
+		<string>BasicMenu</string>
+		<string>AdvancedMenu</string>
+		<string>RoundRect</string>
+		<string>Button</string>
+		<string>SoundButton</string>
+	</array>
+	<key>Dependencies</key>
+	<array/>
+	<key>Description</key>
+	<string>A utility for exploring simple and advanced sounds. Try using the integrated sound picker by tapping on the highlighted sound function.</string>
+	<key>LocalizedDescription</key>
+	<string>EXAMPLE_SOUNDSPLUS_DESCRIPTION</string>
+	<key>Introduced</key>
+	<integer>241</integer>
+	<key>LocalizedName</key>
+	<string>EXAMPLE_SOUNDSPLUS_NAME</string>
+	<key>New</key>
+	<false/>
+	<key>Order</key>
+	<integer>9</integer>
+</dict>
+</plist>

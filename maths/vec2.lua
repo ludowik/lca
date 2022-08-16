@@ -159,7 +159,7 @@ function vec2:len()
         self.y^2)
 end
 
-function vec2:lenSquared()
+function vec2:lenSqr()
     return (
         self.x ^ 2 +
         self.y ^ 2)

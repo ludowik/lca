@@ -150,6 +150,19 @@ function __mouseevent(state, x, y, button, presses)
     end
 
     mouse.button = button or mouse.button or 0
+    
+    -- CODEA
+    mouse.deltaX = mouse.dx
+    mouse.deltaY = mouse.dy
+    
+    mouse.pos = vec2(mouse.x, mouse.y)
+    mouse.precisePos = mouse.pos
+    
+    -- pencil
+    mouse.force = 1
+    mouse.maxForce = 1
+    mouse.altitude = 1
+    mouse.azimuthVec = vec2()
 end
 
 function Engine.mousepressed(x, y, button, istouch, presses)

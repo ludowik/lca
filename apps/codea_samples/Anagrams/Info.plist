@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Andrew Stacey</string>
+	<key>Buffer Order</key>
+	<array>
+		<string>Anagram</string>
+		<string>Colour</string>
+		<string>ColourNames</string>
+		<string>Fireworks</string>
+		<string>Font</string>
+		<string>Main</string>
+		<string>Touch</string>
+		<string>Words</string>
+		<string>utf8</string>
+		<string>utf8Case</string>
+	</array>
+	<key>Created</key>
+	<date>2011-11-19T09:27:53Z</date>
+	<key>Dependencies</key>
+	<array/>
+	<key>Description</key>
+	<string>Anagrams - Drag letters to make a word from the list! By Andrew Stacey</string>
+	<key>Introduced</key>
+	<integer>256</integer>
+	<key>LocalizedDescription</key>
+	<string>EXAMPLE_ANAGRAMS_DESCRIPTION</string>
+	<key>LocalizedName</key>
+	<string>EXAMPLE_ANAGRAMS_NAME</string>
+	<key>Order</key>
+	<integer>21</integer>
+</dict>
+</plist>

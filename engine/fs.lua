@@ -77,6 +77,13 @@ function splitFilePath(strFilename)
     return path:gsub('/$', ''), name, extension
 end
 
+function isAppcodea(path)
+    if isFile(path..'/'..'Info.plist') then
+        return true
+    end
+    return false
+end
+
 function isApp(path)
     if (isFile(path..'/'..'Info.plist') or
         isFile(path..'/'..'#.lua') or
@@ -96,8 +103,6 @@ function isApp(path)
     end
 
     return false
-    -- TODEL ?
---    return moduleExist(path)
 end
 
 function isDirectory(path)

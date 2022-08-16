@@ -55,7 +55,7 @@ function Bind:setValue(value)
     if self.binding then
         self.binding.object[self.binding.attrib] = value
         if self.binding.callback then
-            self.binding.callback(value)
+            self.binding.callback(self, value)
         end
     end
 end

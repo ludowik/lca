@@ -112,8 +112,9 @@ function Graphics.spriteSize(img)
     return img.width, img.height
 end
 
-function Graphics.sprite(img, x, y, w, h)
+function Graphics.sprite(img, x, y, w, h)    
     img = Image.getImage(img)
+    if not img then return end
 
     x = x or 0
     y = y or 0

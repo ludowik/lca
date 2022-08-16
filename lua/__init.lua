@@ -25,8 +25,10 @@ require 'lua.url'
 require 'lua.ut'
 require 'lua.timer'
 require 'lua.global'
+require 'lua.http'
 
 --require 'lua.io'
---require 'lua.http'
 --require 'lua.decorator'
+
 --require 'lua.bit'
+bit32 = require 'bit'

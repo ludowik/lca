@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Andy Newton</string>
+	<key>Buffer Order</key>
+	<array>
+		<string>Ball</string>
+		<string>Bat</string>
+		<string>Block</string>
+		<string>Emitter</string>
+		<string>Levels</string>
+		<string>Main</string>
+		<string>Numbers</string>
+	</array>
+	<key>Dependencies</key>
+	<array/>
+	<key>Description</key>
+	<string>A great Breakout-style game by Andy Newton. Tap to start then touch the edges of the screen to move the paddle.</string>
+	<key>Introduced</key>
+	<integer>257</integer>
+	<key>LocalizedDescription</key>
+	<string>EXAMPLE_BRICKOUT_DESCRIPTION</string>
+	<key>LocalizedName</key>
+	<string>EXAMPLE_BRICKOUT_NAME</string>
+	<key>Order</key>
+	<integer>23</integer>
+</dict>
+</plist>

@@ -1,5 +1,5 @@
 if love then
-    io.read = function (name)
+    function io.read(name)
         local info = love.filesystem.getInfo(name)
         if info then
             return love.filesystem.read(name)
@@ -7,13 +7,17 @@ if love then
         return nil
     end
 
-    io.write = function(path, content, mode)
+    function io.write(path, content, mode)
         mode = mode or 'wt'
         if mode:left(1) == 'w' then
             return love.filesystem.write(path, content)
         else
             return love.filesystem.append(path, content)
         end
+    end
+    
+    function readText(...)
+        return io.read(...)
     end
 
 else

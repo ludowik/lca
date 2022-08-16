@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>John Millard</string>
+	<key>Buffer Order</key>
+	<array>
+		<string>Main</string>
+		<string>Flapper</string>
+		<string>Pipe</string>
+	</array>
+	<key>Created</key>
+	<string>2012-03-12 07:12:34 +0000</string>
+	<key>Dependencies</key>
+	<array/>
+	<key>Description</key>
+	<string>A Flappy Bird Clone!</string>
+	<key>Introduced</key>
+	<integer>202</integer>
+	<key>LocalizedName</key>
+	<string>EXAMPLE_FLAPPY_NAME</string>
+	<key>Order</key>
+	<integer>19</integer>
+</dict>
+</plist>

@@ -177,7 +177,7 @@ function vec3:len()
         self.z^2)
 end
 
-function vec3:lenSquared()
+function vec3:lenSqr()
     return ( 
         self.x^2 +
         self.y^2 +

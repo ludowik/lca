@@ -61,6 +61,9 @@ function Engine.update(dt)
     elapsedTime = elapsedTime + dt
 
     _G.env.tweensManager:update(dt)
+    
+    _G.env.parameter.update(dt)
+    _G.env.physics.update(dt)
 
     if _G.env.__autotest then
         callApp('autotest', dt)

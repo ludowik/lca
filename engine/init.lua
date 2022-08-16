@@ -27,4 +27,5 @@ requireLib(
     'sound',
     'keyboard',
     'framework',
-    'package')
+    'package',
+    'speech')

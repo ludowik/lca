@@ -22,8 +22,15 @@ function Image.getImage(res)
 end
 
 function Image:init(name, ...)
+    if type(name) == 'table' and name.__className == 'Image' then
+        return name
+    end
+    
     if type(name) == 'string' then
-        self.data = love.graphics.newImage(name)
+        local res, data = pcall(function () return love.graphics.newImage(name) end)
+        if not res then return Image() end
+        
+        self.data = data
         self.imageData = love.image.newImageData(name)
 
     else
@@ -68,6 +75,9 @@ function Image:getHeight()
 end
 
 function Image:copy(x, y, w, h)
+    x = x or 0
+    y = y or 0
+    
     w = w or self:getWidth()
     h = h or self:getHeight()
 

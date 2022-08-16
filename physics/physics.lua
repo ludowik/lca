@@ -1,18 +1,7 @@
 class 'Physics'
 
 function Physics.setup()
-    CIRCLE = 'circle'
-    POLYGON = 'polygon'
-    RECT = 'rect'
-    CHAIN = 'chain'
-    EDGE = 'edge'
-    SPHERE = 'sphere'
-
-    DYNAMIC = 'dynamic'
-    STATIC = 'static'
-    KINEMATIC = 'kinematic'
-
-    Gravity = vec2(0, 9)
+    Gravity = vec2(0, -9)
 end
 
 function Physics:init()
@@ -58,14 +47,32 @@ function Physics:resume()
 end
 
 function Physics:update(dt)
-    if self.active then
-        for i,body in ipairs(self.bodies) do
+    if not self.active then return end
+    local n = 10
+    for i=1,n do
+        self:step(dt/n)
+    end
+end
+
+function Physics:step(dt)
+    if not self.active then return end
+
+    for i,body in ipairs(self.bodies) do
+        if body.type == DYNAMIC then
+            body:applyForce(Gravity)
             body:update(dt)
-        end
-    end    
+        end        
+    end
+
+    for i,joint in ipairs(self.joints) do
+        joint:update(dt)
+    end
 end
 
 function Physics:draw()
+    for i,body in ipairs(self.bodies) do
+        body:draw()
+    end
 end
 
 -- Performs a raycast from the start point to the end point.
