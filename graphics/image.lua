@@ -5,7 +5,7 @@ function Image.setup()
 end
 
 function Image.release()
-    Image.images = nil
+    Image.images = table()
 end
 
 function Image.getImage(res)

@@ -3,7 +3,7 @@ function setup()
 
     img = Image(WIDTH, HEIGHT)
 
-    parameter.number('frequency', 0, 100, 50, function()
+    parameter.number('frequency', 1, 100, 50, function()
             generateImg()
         end)
 
