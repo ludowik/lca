@@ -148,10 +148,10 @@ function loadApp(path, name, garbage)
                     classes.setup()
                 end
 
-                env.parameter = ParameterInstance()
-                env.speech = SpeechInstance()
+                env.parameter = Parameter.instance()
+                env.speech = Speech.instance()
                 env.tweensManager = TweensManager()
-                env.physics = PhysicsInstance()
+                env.physics = Physics.instance()
 
                 callApp('setup')
 

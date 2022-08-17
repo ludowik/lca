@@ -8,13 +8,14 @@ function Firework:init()
     self.particles = table()
     parameter.watch('#app.particles')
 
-    gravity = vec2(0, -1)
+    gravity = vec2(0, -10)
 end
 
 function Firework:update(dt)
     if random() < .1 then
-        local particle = ParticleFirework(vec2(random(W), 0), 'parent')
-        particle:applyForce(vec2(0, 200))
+        local X = W / 8
+        local particle = ParticleFirework(vec2(random(X, W-X), 0), 'parent')
+        particle:applyForce(vec2(0, 800))
 
         self.particles:add(particle)
     end
@@ -37,7 +38,7 @@ end
 
 class 'ParticleFirework'
 
-function ParticleFirework:init(position, state, clr)
+function ParticleFirework:init(position, state, clr, life, mass, radius)
     self.position = position
 
     self.acc = vec2()
@@ -45,9 +46,12 @@ function ParticleFirework:init(position, state, clr)
 
     self.state = state
 
-    self.life = 2
-
     self.clr = clr or Color.random()
+    
+    self.life = life or 2
+    self.mass = mass or 1
+    
+    self.radius = radius or 3
 end
 
 function ParticleFirework:applyForce(f)
@@ -55,7 +59,7 @@ function ParticleFirework:applyForce(f)
 end
 
 function ParticleFirework:update(dt)
-    self:applyForce(gravity)
+    self:applyForce(gravity * self.mass)
 
     self.vel:add(self.acc, dt)
 
@@ -65,10 +69,10 @@ function ParticleFirework:update(dt)
 
     if self.state == 'parent' and self.vel.y < 0 then
         self.state = 'dead'
-        for i=1,10 do
-            local particle = ParticleFirework(self.position:clone(), 'child', self.clr)
+        for i=1,50 do
+            local particle = ParticleFirework(self.position:clone(), 'child', self.clr, 2, 0.5, 2)
 
-            local force = vec2.random(100)
+            local force = vec2.randomAngle() * random(200, 240)
             particle:applyForce(force)
 
             app.particles:add(particle)
@@ -86,5 +90,5 @@ function ParticleFirework:draw()
     noStroke()
     fill(self.clr)
     
-    circle(self.position.x, self.position.y, self.life*3)
+    circle(self.position.x, self.position.y, self.radius * self.life)
 end

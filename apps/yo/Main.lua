@@ -32,8 +32,7 @@ function addBall(x, y)
     
     physics.joint(ROPE, center, body, vec3(), vec3(), 400)
     
-    table.insert(balls, body)
-    
+    table.insert(balls, body)    
 end
 
 function update(dt)
@@ -82,72 +81,72 @@ function step(dt)
 --        end
 --    end
     
-    if checkCollision then
-        local zones = {}
+--    if checkCollision then
+--        local zones = {}
         
-        for _,b in ipairs(balls) do
-            local i1 = math.floor((b.position.x-b.radius) / zoneSize)
-            local j1 = math.floor((b.position.y-b.radius) / zoneSize)
+--        for _,b in ipairs(balls) do
+--            local i1 = math.floor((b.position.x-b.radius) / zoneSize)
+--            local j1 = math.floor((b.position.y-b.radius) / zoneSize)
             
-            local i2 = math.floor((b.position.x+b.radius) / zoneSize)
-            local j2 = math.floor((b.position.y+b.radius) / zoneSize)
+--            local i2 = math.floor((b.position.x+b.radius) / zoneSize)
+--            local j2 = math.floor((b.position.y+b.radius) / zoneSize)
             
-            function addZone(i, j)
-                zones[i..','..j] = zones[i..','..j] or {}
-                table.insert(zones[i..','..j], b)
-            end
+--            function addZone(i, j)
+--                zones[i..','..j] = zones[i..','..j] or {}
+--                table.insert(zones[i..','..j], b)
+--            end
             
-            for i=i1,i2 do
-                for j=j1,j2 do
-                    addZone(i, j)
-                end
-            end
+--            for i=i1,i2 do
+--                for j=j1,j2 do
+--                    addZone(i, j)
+--                end
+--            end
             
-        end
+--        end
         
-        -- detect collisions
-        function detectCollisions(balls)
-            for i=1,#balls do                  
-                local b1 = balls[i]
-                for j=i+1,#balls do                  
-                    local b2 = balls[j]
+--        -- detect collisions
+--        function detectCollisions(balls)
+--            for i=1,#balls do                  
+--                local b1 = balls[i]
+--                for j=i+1,#balls do                  
+--                    local b2 = balls[j]
                     
-                    checkCollisionsCount = checkCollisionsCount + 1
+--                    checkCollisionsCount = checkCollisionsCount + 1
                         
-                    local direction = b2.position - b1.position 
-                    local dist = direction:len()
-                    local distMax = b1.radius + b2.radius
-                    if dist < distMax then
-                        -- collision
-                       -- 
+--                    local direction = b2.position - b1.position 
+--                    local dist = direction:len()
+--                    local distMax = b1.radius + b2.radius
+--                    if dist < distMax then
+--                        -- collision
+--                       -- 
                             
-                        --b1.velocity, b2.velocity = b2.velocity, b1.velocity
+--                        --b1.velocity, b2.velocity = b2.velocity, b1.velocity
                         
-                        --local angle = b1.velocity:angleBetween(b2.velocity)
+--                        --local angle = b1.velocity:angleBetween(b2.velocity)
                         
-                        local n = direction:normalize()
+--                        local n = direction:normalize()
                         
-                        local p = 2 * (b1.velocity.x * n.x + b1.velocity.y * n.y - b2.velocity.x * n.x - b2.velocity.y * n.y) / 
-                        (b1.mass + b2.mass)
+--                        local p = 2 * (b1.velocity.x * n.x + b1.velocity.y * n.y - b2.velocity.x * n.x - b2.velocity.y * n.y) / 
+--                        (b1.mass + b2.mass)
                         
-                        b1.velocity.x = b1.velocity.x - p * b1.mass * n.x
-                        b1.velocity.y = b1.velocity.y - p * b1.mass * n.y
+--                        b1.velocity.x = b1.velocity.x - p * b1.mass * n.x
+--                        b1.velocity.y = b1.velocity.y - p * b1.mass * n.y
                         
-                        b2.velocity.x = b2.velocity.x + p * b2.mass * n.x
-                        b2.velocity.y = b2.velocity.y + p * b2.mass * n.y
+--                        b2.velocity.x = b2.velocity.x + p * b2.mass * n.x
+--                        b2.velocity.y = b2.velocity.y + p * b2.mass * n.y
                             
-                        direction = direction:normalize() * (distMax - dist)
-                        b1.position = b1.position - direction / 2
-                        b2.position = b2.position + direction / 2       
-                    end
-                end 
-            end
-        end
+--                        direction = direction:normalize() * (distMax - dist)
+--                        b1.position = b1.position - direction / 2
+--                        b2.position = b2.position + direction / 2       
+--                    end
+--                end 
+--            end
+--        end
         
-        for k,zone in pairs(zones) do
-            detectCollisions(zone)
-        end
-    end
+--        for k,zone in pairs(zones) do
+--            detectCollisions(zone)
+--        end
+--    end
 end
 
 function draw()
@@ -176,12 +175,12 @@ end
 Ball = class()
 
 function Ball:init(x, y)
-    self.position = vec2(x or W/2, y or H/2)
-    self.positionOld = self.position
-    self.acceleration = vec2()
-    self.velocity = vec2()
-    self.radius = 20
-    self.mass = 1
+--    self.position = vec2(x or W/2, y or H/2)
+--    self.positionOld = self.position
+--    self.acceleration = vec2()
+--    self.velocity = vec2()
+--    self.radius = 20
+--    self.mass = 1
 end
 
 function Ball:applyForce(force)

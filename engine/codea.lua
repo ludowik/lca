@@ -18,6 +18,10 @@ layout = {
 -- maths
 vector = vec2
 
+function rotate(angle)
+    _G.rotate(math.rad(angle))
+end
+
 -- graphics
 color = Color
 font = fontName
@@ -115,7 +119,7 @@ function Craft.Scene:init()
 
     self.voxels = Craft.Voxels()
 
-    self.physics = PhysicsInstance()
+    self.physics = Physics.instance()
 end
 
 function Craft.Scene:entity(...)

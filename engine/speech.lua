@@ -17,19 +17,3 @@ end
 
 function Speech:say()
 end
-
-SpeechInstance = function ()
-    local speech = Speech()
-
-    local interface = {}
-    
-    for k,f in pairs(Speech) do
-        if type(f) == 'function' then
-            interface[k] = function (...)
-                return f(speech, ...)
-            end
-        end
-    end
-
-    return interface
-end

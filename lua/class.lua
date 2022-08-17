@@ -49,6 +49,10 @@ function class(className, ...)
     setmetatable(k, k.mt)
 
     k.init = nilf
+    
+    function k.instance()
+        return interface(k(), k)
+    end
 
     -- extends
     function k.extends(_, ...)
@@ -108,6 +112,23 @@ function class(className, ...)
     end
 
     return k
+end
+
+function interface(instance, klass)
+    local interface = {}
+    for k,f in pairs(klass) do
+        if type(f) == 'function' then
+            interface[k] = function (...)
+                return f(instance, ...)
+            end
+        end
+    end
+    
+    instance.interface = interface    
+    interface.instance = instance
+    interface.interface = interface
+
+    return interface
 end
 
 function classWithProperties(proto, base)

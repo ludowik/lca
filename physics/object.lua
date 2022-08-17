@@ -4,8 +4,9 @@ function Object:init()
     Rect.init(self)
 end
 
-function Object:addToPhysics(...)
+function Object:addToPhysics(shapeType, ...)
     self.body = env.physics.body(...)
+    self.body.type = shapeType
     return self
 end
 

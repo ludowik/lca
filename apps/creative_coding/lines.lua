@@ -14,7 +14,7 @@ function reset()
     function nextPosition(i)
         local easing = randomInt(1, #tween.easing)
         tween(
-            random(0.8, 1.5),
+            random(0.5, 1.3),
             vertices[i],
             vec2.randomInScreen(),
             tween.easing[easing],
@@ -42,6 +42,7 @@ end
 function draw()
     noStroke()
 
+    blendMode(NORMAL)
     fill(0, 0, 0, 0.02)
 
     rectMode(CORNER)

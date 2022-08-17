@@ -1,5 +1,5 @@
 requireLib(
     'physics',
-    'body',
+    'body_new',
     'joint',
     'object')

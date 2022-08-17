@@ -1,10 +1,10 @@
 class 'Parameter'
 
-function Parameter:init()
+function Parameter:init()    
     Parameter.clear(self)
 end
 
-function Parameter:clear()
+function Parameter:clear()    
     self.scene = UIScene()
     self:action('apps', function () loadApp('apps', 'apps') end)
 end
@@ -98,7 +98,11 @@ end
 function Parameter:link(text, url)
 end
 
-function Parameter:draw()
+function Parameter:draw(x, y)
+    if x then
+        self.scene.position:set(x, y)
+    end
+    
     self.scene:draw()
 end
 
@@ -108,21 +112,4 @@ end
 
 function Parameter:wheelmoved(dx, dy)
     self.scene:wheelmoved(dx, dy)
-end
-
-ParameterInstance = function ()
-    local parameter = Parameter()
-
-    local interface = {}
-    interface.scene = parameter.scene
-
-    for k,f in pairs(Parameter) do
-        if type(f) == 'function' then
-            interface[k] = function (...)
-                return f(parameter, ...)
-            end
-        end
-    end
-
-    return interface
 end

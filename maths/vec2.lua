@@ -54,6 +54,10 @@ function vec2.randomInScreen()
         random(H))
 end
 
+function vec2.randomAngle(angle)
+    return vec2(1, 0):rotate(random(angle or TAU))
+end
+
 function vec2:__tostring()
     return self.x .. ',' .. self.y
 end

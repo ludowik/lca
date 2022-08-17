@@ -25,29 +25,6 @@ function Fizix:init()
     self:resume()
 end
 
-function Fizix:gravity(...)
-    self.gravityForce:set(...)
-    return self.gravityForce
-end
-
-function Fizix:joint(...)
-    return Fizix.Joint(...)
-end
-
-function Fizix:pause()
-    self.running = false
-end
-
-function Fizix:resume()
-    self.running = true
-end
-
-function Fizix:draw()
-    for _,body in ipairs(self.bodies) do
-        body:draw()
-    end
-end
-
 function Fizix:body(...)
     return self:add(nil, DYNAMIC, ...)
 end
@@ -68,15 +45,6 @@ function Fizix:add(item, bodyType, ...)
     self.bodies:add(body)
 
     return body
-end
-
-
-
-function Fizix:setArea(x, y, w, h)
-    self:add(Object(), STATIC, EDGE, vec3(x, y  ), vec3(x+w, y  ))
-    self:add(Object(), STATIC, EDGE, vec3(x, y+h), vec3(x+w, y+h))
-    self:add(Object(), STATIC, EDGE, vec3(x  , y), vec3(x  , y+h))
-    self:add(Object(), STATIC, EDGE, vec3(x+w, y), vec3(x+w, y+h))
 end
 
 function Fizix:update(dt)

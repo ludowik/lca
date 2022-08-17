@@ -64,8 +64,8 @@ function Engine.update(dt)
 
     _G.env.tweensManager:update(dt)
     
-    _G.env.parameter.update(dt)
-    _G.env.physics.update(dt)
+    _G.env.parameter.interface.update(dt)
+    _G.env.physics.interface.update(dt)
 
     if _G.env.__autotest then
         callApp('autotest', dt)
@@ -207,8 +207,7 @@ function Engine.drawInfo()
         end, 10, Y)
 
     Engine.render(function()
-            env.parameter.scene.position:set(W, 0)
-            env.parameter:draw()
+            env.parameter.interface.draw(W, 0)
         end, X, Y)
 end
 

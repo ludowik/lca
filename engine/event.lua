@@ -2,7 +2,11 @@ function Engine.keypressed(key, isrepeat)
 end
 
 function Engine.keyreleased(key)
-    if key == 'escape' then
+    if key == 'f1' then
+        os.execute('start https://codea.io/reference')
+        os.execute('start https://love2d-community.github.io/love-api')
+
+    elseif key == 'escape' then
         quit()
 
     elseif key == 'r' then
