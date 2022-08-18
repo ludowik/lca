@@ -1,6 +1,6 @@
 class 'UIScene' : extends(Scene)
 
-function UIScene:init(layoutFlow)
+function UIScene:init(label, layoutFlow)
     Scene.init(self)
     self:setLayoutFlow(layoutFlow or Layout.column)
 end
@@ -73,7 +73,7 @@ end
 
 function UI:touched(touch)
     if self.callback and touch.state == RELEASED then
-        self.callback(self)
+        self.callback(self, self.value)
     end
 end
 

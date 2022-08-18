@@ -34,10 +34,6 @@ function setup()
         end)
 end
 
-function autotest(dt)
-    m = m + 0.1
-end
-
 function __draw2d()
     background(0)
 
@@ -135,11 +131,10 @@ function __draw3d()
     local ratio = (W/4)/(maxr*shape_size2)
     for i=1,#array do
         local v = array[i]
-        if v == vec3() then assert() end
         v:mul(ratio)
     end
 
-    fill(white)
+    fill(colors.white)
 
     cullingMode(false)
 

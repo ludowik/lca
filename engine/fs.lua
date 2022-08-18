@@ -7,7 +7,15 @@ function dir(path, fileType)
         then
             local subPath = (#path > 0 and path..'/'..item) or item
             local info = love.filesystem.getInfo(subPath)
-            if fileType == nil or info.type == fileType then
+            if (
+                fileType == nil or
+                info.type == fileType or
+                (
+                    type(fileType) == 'function' and
+                    fileType(subPath)
+                )
+            )
+            then
                 list:add(subPath)
             end
         end
@@ -26,8 +34,16 @@ function dirr(path, fileType, list)
             local info = love.filesystem.getInfo(subPath)
             if info.type == 'directory' then
                 dirr(subPath, fileType, list)
-                
-            elseif fileType == nil or info.type == fileType then
+
+            elseif (
+                fileType == nil or
+                info.type == fileType or
+                (
+                    type(fileType) == 'function' and
+                    fileType(subPath)
+                )
+            )
+            then
                 list:add(subPath)
             end
         end
@@ -42,10 +58,10 @@ function enum(path, list)
         local subPath = (#path > 0 and path..'/'..item) or item
         if subPath == '.git' then
             -- continue
-            
+
         elseif isApp(subPath) then
             list:add(subPath)
-            
+
         else
             local info = love.filesystem.getInfo(subPath)
             if info.type == 'directory' then
@@ -120,7 +136,7 @@ function isFile(path)
 end
 
 function isLuaFile(path)
-    return isFile(path) and path:lower():contains('.lua')
+    return isFile(path) and path:lower():contains('%.lua')
 end
 
 function getCurrentDir()

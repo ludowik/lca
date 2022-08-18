@@ -13,10 +13,11 @@ function setup()
     end
 end
 
+function autotest()
+    fontNameIndex = randomInt(#fonts)
+end
+
 function update(dt)
-    if autotest then
-        fontNameIndex = randomInt(#fonts)
-    end
 end
 
 function draw()
@@ -44,15 +45,14 @@ function draw()
         local _, name = splitFilePath(v)
         fontName(name)
 
-        fill(colors.white)
-
+        if selectedFontName == name then
+            textColor(colors.red)
+        else
+            textColor(colors.white)
+        end
+        
         local y = textPosition()
         w, h = text(fontName()..' '..fontSize())
-
-        if selectedFontName == name then
-            noFill()
-            rect(0, y, w, h)
-        end
     end
 
     textPosition(0)

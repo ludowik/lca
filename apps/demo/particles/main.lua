@@ -7,6 +7,10 @@ function setup()
     env.scene:add(env.emitter)
 end
 
+function update(dt)
+    env.scene:update(dt)
+end
+
 function draw()
     env.scene:draw()
 end

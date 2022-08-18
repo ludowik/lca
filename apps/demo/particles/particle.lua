@@ -24,7 +24,7 @@ function Particle:draw()
     local size = map(self.life, 0, MAX_LIFE, 5, 25)
 
     spriteMode(CENTER)
-    sprite(Particle.img, self.position.x, self.position.y, size, size)
+    sprite(Particle.img, 0, 0, size, size)
 end
 
 function Particle:touched(touch)
@@ -48,10 +48,10 @@ function Particle.initImage(n)
     local img = Image(n, n)
     setContext(img)
     background(0, 0, 0, 0)
-    for i=1,n do
-        strokeSize(1)
-        noFill()
-        stroke(1, 1, 1, map(i, 1, n, 1, 0))
+    ellipseMode(CENTER)
+    for i=n,1,-1 do
+        noStroke()
+        fill(1, 1, 1, map(i, 1, n, 1, 0))
         ellipse(n/2, n/2, i, i)
     end
     setContext()

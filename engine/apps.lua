@@ -204,6 +204,16 @@ function randomApp()
     return setApp(index)
 end
 
+function canCallApp(fname, ...)
+    if _G.env then
+        if _G.env[fname] then 
+            return true
+        elseif _G.env.app and _G.env.app[fname] then 
+            return true
+        end
+    end
+end
+
 function callApp(fname, ...)
     if _G.env then
         if _G.env[fname] then 

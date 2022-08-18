@@ -148,8 +148,8 @@ function Graphics.ellipse(x, y, w, h)
     h = h or w
 
     if ellipseMode() == CORNER then
-        x = x - r
-        y = y - r
+        x = x - w
+        y = y - h
     end
 
     if __fill() then

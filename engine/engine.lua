@@ -16,7 +16,7 @@ end
 
 function Engine.load()
     Engine.setGraphicsLibrary()
-    
+
     Engine.frameTarget = 60
 
     deltaTime = 0
@@ -62,16 +62,52 @@ function Engine.update(dt)
     deltaTime = dt
     elapsedTime = elapsedTime + dt
 
-    _G.env.tweensManager:update(dt)
-    
-    _G.env.parameter.interface.update(dt)
-    _G.env.physics.interface.update(dt)
+    env.tweensManager:update(dt)
 
-    if _G.env.__autotest then
-        callApp('autotest', dt)
+    env.parameter.interface.update(dt)
+    env.physics.interface.update(dt)
+
+    if env.__autotest then
+        if canCallApp('autotest') then
+            callApp('autotest', dt)
+        else
+            Engine.autotest()
+        end
     end    
 
     callApp('update', dt)
+end
+
+function Engine.autotest()
+    for i,ui in ipairs(env.parameter.instance.scene:items()) do
+        if ui.__className == 'Slider' then
+            ui:setValue(random(ui.min, ui.max))
+        end
+    end 
+
+--    if not env.__autotestParameters then
+--        env.__autotestParameters = table()
+--        for i,ui in ipairs(env.parameter.instance.scene:items()) do
+--            if ui.__className == 'Slider' then
+--                env.__autotestParameters:add(ui)
+--            end
+--        end        
+--    else
+--        local ui = env.__autotestParameters[1]
+--        if ui then
+--            if not ui.tween then
+--                ui:setValue(ui.min)
+--                ui.tween = tween(2, ui, {value=ui.max})
+--            elseif not ui.tween.active then
+--                ui:setValue(random(ui.min, ui.max))
+--                env.__autotestParameters:remove(1)
+--            else
+--                ui:setValue(ui.value)
+--            end
+--        else           
+--            env.__autotest = false
+--        end
+--    end    
 end
 
 function Engine.render(f, x, y)
@@ -91,11 +127,11 @@ end
 
 function Engine.beginDraw(origin)
     Engine.origin = origin
-    if not _G.env.canvas then
-        _G.env.canvas = love.graphics.newCanvas(W, H)
+    if not env.canvas then
+        env.canvas = love.graphics.newCanvas(W, H)
 
         love.graphics.setCanvas({
-                _G.env.canvas,
+                env.canvas,
                 depth = true,
             })
 
@@ -103,7 +139,7 @@ function Engine.beginDraw(origin)
     end
 
     love.graphics.setCanvas({
-            _G.env.canvas,
+            env.canvas,
             depth = true,
         })
 
@@ -120,11 +156,11 @@ function Engine.endDraw()
     love.graphics.setWireframe(false)
 
     local source
-    if _G.env.imageData then
-        _G.env.imageData:update()
-        source = _G.env.imageData.data
+    if env.imageData then
+        env.imageData:update()
+        source = env.imageData.data
     else
-        source = _G.env.canvas
+        source = env.canvas
     end
 
     local reverseY = Engine.origin == BOTTOM_LEFT
@@ -153,14 +189,14 @@ function Engine.draw()
 end
 
 function Engine.draw2d()
-    if _G.env.draw or _G.env.draw2d then
+    if env.draw or env.draw2d then
         Engine.beginDraw(getOrigin())
         if Engine.needDraw() then
             Engine.render(function ()
                     depthMode(false)
                     cullingMode(false)
                     if getCamera() then getCamera():lookAt() end
-                    (_G.env.draw or _G.env.draw2d)()
+                    (env.draw or env.draw2d)()
                 end)
         end
         Engine.endDraw()
@@ -168,7 +204,7 @@ function Engine.draw2d()
 end
 
 function Engine.draw3d()
-    if _G.env.draw3d then
+    if env.draw3d then
         Engine.beginDraw(BOTTOM_LEFT)
         do
             Engine.render(function ()
@@ -176,7 +212,7 @@ function Engine.draw3d()
                     cullingMode(true)
                     love.graphics.clear()
                     if getCamera() then getCamera():lookAt() end
-                    _G.env.draw3d()
+                    env.draw3d()
                 end
             )
         end
@@ -201,6 +237,10 @@ function Engine.drawInfo()
             text(config.framework)
             text(config.renderer)
 
+            if env.__autotest then
+                text('autotest')
+            end
+
             callApp('drawInfo')
 
             Log.draw(0, 20)
@@ -215,14 +255,14 @@ TOP_LEFT = 'top_left'
 BOTTOM_LEFT = 'bottom_left'
 
 function setOrigin(origin)
-    if _G.env then
-        _G.env.origin = origin
+    if env then
+        env.origin = origin
     end
 end
 
 function getOrigin()
-    if _G.env and _G.env.origin then
-        return _G.env.origin
+    if env and env.origin then
+        return env.origin
     end
     return TOP_LEFT
 end

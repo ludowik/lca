@@ -94,6 +94,7 @@ mouse = table({
         x = 0,
         y = 0,
 
+        pos = vec2(),
         position = vec2(),
 
         dx = 0,
@@ -102,7 +103,6 @@ mouse = table({
         tx = 0,
         ty = 0,
     })
-
 CurrentTouch = mouse
 
 function mouseevent(state, x, y, button)
@@ -134,6 +134,7 @@ function __mouseevent(state, x, y, button, presses)
     mouse.x = x
     mouse.y = y
 
+    mouse.pos:set(x, y)
     mouse.position:set(x, y)
 
     mouse.dx = mouse.x - mouse.px 
@@ -167,6 +168,8 @@ function __mouseevent(state, x, y, button, presses)
     mouse.maxForce = 1
     mouse.altitude = 1
     mouse.azimuthVec = vec2()
+    
+    CurrentTouch = mouse
 end
 
 function Engine.mousepressed(x, y, button, istouch, presses)
@@ -174,9 +177,12 @@ function Engine.mousepressed(x, y, button, istouch, presses)
 
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
-        if Engine.origin == BOTTOM_LEFT then
+        if getOrigin() == BOTTOM_LEFT then
             mouse2 = mouse:clone()
             mouse2.y = H - mouse2.y
+            mouse2.pos.y = mouse2.y
+            mouse2.position.y = mouse2.y
+            CurrentTouch = mouse2
         end
         callApp('mousepressed', mouse2)
         callApp('touched', mouse2)
@@ -190,9 +196,12 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
 
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
-        if Engine.origin == BOTTOM_LEFT then
+        if getOrigin() == BOTTOM_LEFT then
             mouse2 = mouse:clone()
             mouse2.y = H - mouse2.y
+            mouse2.pos.y = mouse2.y
+            mouse2.position.y = mouse2.y
+            CurrentTouch = mouse2
         end
         callApp('mousemoved', mouse2)
         if istouch or love.mouse.isDown(mouse.button) then
@@ -210,9 +219,12 @@ function Engine.mousereleased(x, y, button, istouch, presses)
 
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
-        if Engine.origin == BOTTOM_LEFT then
+        if getOrigin() == BOTTOM_LEFT then
             mouse2 = mouse:clone()
             mouse2.y = H - mouse2.y
+            mouse2.pos.y = mouse2.y
+            mouse2.position.y = mouse2.y
+            CurrentTouch = mouse2
         end
         callApp('mousereleased', mouse2)
         callApp('touched', mouse2)

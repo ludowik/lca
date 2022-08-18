@@ -11,12 +11,29 @@ end
 function Joint:init(jointType, ...)
     self.jointType = jointType
 
-    if jointType == ROPE then
-        self.bodyA, self.bodyB,
-        self.anchorA, 
-        self.anchorB,
-        self.maxLength = ...
+    if jointType == REVOLUTE then
+        self.bodyA, self.bodyB, self.anchorA = ...
+        self.anchorB = self.anchorA
+    
+    elseif jointType == PRISMATIC then
+        self.bodyA, self.bodyB, self.anchorA, self.direction = ...
+        self.anchorB = self.anchorA + self.direction 
+    
+    elseif jointType == DISTANCE then
+        self.bodyA, self.bodyB, self.anchorA, self.anchorB = ...
+    
+    elseif jointType == WELD then
+        self.bodyA, self.bodyB, self.anchorA = ...
+        self.anchorB = self.anchorA
+        
+    elseif jointType == ROPE then
+        self.bodyA, self.bodyB, self.anchorA, self.anchorB, self.maxLength = ...
+        
+    else
+        self.bodyA, self.bodyB, self.anchorA, self.anchorB = ...
     end
+    
+    assert(self.anchorB)
 
 end
 

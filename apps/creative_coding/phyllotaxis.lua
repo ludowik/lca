@@ -18,21 +18,6 @@ end
 
 local cos, sin, deg, rad, sqrt = math.cos, math.sin, math.deg, math.rad, math.sqrt
 
-function autotest()
-    if not env.__sliderInTest or not env.__sliderInTest.tween.active then
-        for i,ui in ipairs(parameter.instance.scene:items()) do
-            if ui.__className == 'Slider' and not ui.tween then
-                ui:setValue(ui.min)
-                ui.tween = tween(2, ui, {value=ui.max})
-                env.__sliderInTest = ui
-                break
-            end        
-        end
-    else
-        env.__sliderInTest:setValue(env.__sliderInTest.value)
-    end    
-end
-
 function draw()
     background(51)
 

@@ -330,13 +330,39 @@ function Graphics.drawModel(mesh, x, y, z, w, h, d)
     love.graphics.setShader(shader)
 end
 
-function Graphics.plane(x, y, z, w, h, d)
+local function arguments(...)
+    local args = {...}
+    local x, y, z, w, h, d = 0, 0, 0, 1, 1, 1
+    
+    if #args == 1 then
+        w = ...
+        h, d = w, w
+        
+    elseif #args == 3 then
+        w, h, d = ...
+    
+    elseif #args == 5 then
+        x, y, z, w = ...
+        h, d = w, w
+        
+    elseif #args == 6 then
+        x, y, z, w, h, d = ...
+    end
+    
+    return x, y, z, w, h, d
 end
 
-function Graphics.pyramid(x, y, z, w, h, d)
+function Graphics.plane(...)
+    local x, y, z, w, h, d = arguments(...)
 end
 
-function Graphics.box(x, y, z, w, h, d)
+function Graphics.pyramid(...)
+    local x, y, z, w, h, d = arguments(...)
+end
+
+function Graphics.box(...)
+    local x, y, z, w, h, d = arguments(...)
+    
     if not Graphics.boxMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
         local format = {
@@ -371,7 +397,9 @@ function Graphics.box(x, y, z, w, h, d)
     Graphics.drawModel(Graphics.boxMesh, x, y, z, w, h, d)
 end
 
-function Graphics.sphere(x, y, z, r)
+function Graphics.sphere(...)
+    local x, y, z, w, h, d = arguments(...)
+    
     if not Graphics.sphereMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
         local format = {

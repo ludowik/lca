@@ -9,7 +9,7 @@ function introspection()
     local function addGroup(filterType)
         local group = app.ui:ui(filterType)
         if group == nil then
-            group = UIScene(filterType, Layout.column)
+            group = UIScene(Layout.column)
             app.ui:add(group)
         else
             group:clear()
@@ -41,4 +41,9 @@ function introspection()
     addGroup('string')
     addGroup('table')
     addGroup('function')
+    
+    env.draw = function ()
+        app.ui:draw()
+    end
+    
 end
