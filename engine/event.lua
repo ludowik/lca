@@ -85,6 +85,12 @@ ENDED = RELEASED
 
 CANCELLED = 'cancelled'
 
+STYLUS = 'stylus'
+
+-- precisePos
+-- force
+-- maxForce
+
 mouse = table({
         state = MOVED,
 
@@ -102,6 +108,9 @@ mouse = table({
 
         tx = 0,
         ty = 0,
+        
+        altitude = 1,
+        azimuthVec = vec2(),
     })
 CurrentTouch = mouse
 
