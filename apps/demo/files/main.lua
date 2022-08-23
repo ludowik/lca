@@ -22,7 +22,8 @@ function Coroutine:resume()
 end
 
 function setup()
-    disk = Directory(getHomePath()..'/Projets')
+    local path = 'C:/Users/LMILHAU/Documents'
+    disk = Directory(path) -- getHomePath()..'/Documents')    
 
     nbFilesTot = 0
     sizeTot = 0
@@ -43,18 +44,22 @@ function sortStrings(a, b)
     return a:lower() < b:lower()
 end
 
-local function dir(directory)
-    local lists = {}
-    for fname in lfs.dir(directory.fpath) do
-        table.insert(lists, fname)
-    end
-    table.sort(lists, sortStrings)
-    return lists
-end
+--local function dir(directory)
+--    local lists = {}
+--    for fname in lfs.dir(directory.fpath) do
+--        table.insert(lists, fname)
+--    end
+--    table.sort(lists, sortStrings)
+--    return lists
+--end
 
 function scanDiskProc(directory, level)
-    local res, lists = pcall(dir, directory)
-    if res == false then return end
+--    local res, lists = pcall(dir, directory)
+    local lists = dir(directory.fpath)
+    
+--    if res == false then return end
+    
+    table.sort(lists, sortStrings)
 
     local nbFiles, size = 0, 0
     for i=1,#lists do

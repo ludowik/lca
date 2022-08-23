@@ -5,11 +5,11 @@ function Path.setup()
 end
 
 function getHomePath()
-    if windows then
+    if oswindows then
         return os.getenv('USERPROFILE')
     else
         return '/Users/Ludo'
---        return os.getenv('HOME')
+--        return os.getenv('USERPROFILE')
     end
 end
 

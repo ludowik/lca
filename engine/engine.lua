@@ -66,6 +66,8 @@ function Engine.update(dt)
 
     env.parameter.interface.update(dt)
     env.physics.interface.update(dt)
+    
+    Application.updateCoroutine(env, dt)
 
     if env.__autotest then
         if canCallApp('autotest') then

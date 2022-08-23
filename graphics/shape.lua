@@ -8,7 +8,7 @@ end
 function Shape:init()
     self.vertices = {}
     self.mode = CLOSE
-    self.scale = 1
+    self.scaleFactor = 1
 end
 
 function Shape:vertex(x, y)
@@ -16,15 +16,15 @@ function Shape:vertex(x, y)
     table.insert(self.vertices, y)
 end
 
-function Shape:scale(scale)
-    self.scale = scale
+function Shape:scale(scaleFactor)
+    self.scaleFactor = scaleFactor
 end
 
 function Shape:draw(mode)
     if #self.vertices == 0 then return end
 
     pushMatrix()
-    scale(self.scale, self.scale)
+    scale(self.scaleFactor, self.scaleFactor)
     
     mode = mode or self.mode
     if mode == LINES then

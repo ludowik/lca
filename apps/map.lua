@@ -33,6 +33,8 @@ function setup()
     scalex = (maxx - minx)
     scaley = (maxy - miny)
     
+    position = vec2()
+    
     print(minx, miny, maxx, maxy, scalex, scaley)
 
     zoom = 1
@@ -41,10 +43,21 @@ end
 function draw()
     background()
     
+    scale(zoom, zoom)
+    translate(position.x, position.y)    
+    
     scale(W/scalex, W/scalex)
     translate(-minx, -miny)
     
+    strokeSize(scalex/W)
+    
     ugas:draw()
+end
+
+function touched(touch)
+    if touch.state == MOVED then
+        position:add(vec2(touch.dx, touch.dy))
+    end
 end
 
 function wheelmoved(dx, dy)

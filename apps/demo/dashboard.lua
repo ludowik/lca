@@ -6,8 +6,8 @@ end
 function update(dt)
 end
 
-function wheelmoved(mouse)
-    db:wheelmoved(mouse)
+function wheelmoved(...)
+    db:wheelmoved(...)
 end
 
 function draw()
