@@ -6,6 +6,7 @@ end
 
 function Parameter:clear()    
     self.scene = UIScene()
+    
     self:action('apps', function () loadApp('apps', 'apps') end)
 end
 

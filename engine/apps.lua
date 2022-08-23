@@ -99,7 +99,10 @@ function loadApp(path, name, garbage)
         name = apps.listByName[filePath].name
 
         local env = {
-            __vsync = 1
+            __vsync = 1,
+            
+            setup = function () end,
+            draw = function () if env.scene then env.scene:draw() end end,
         }
 
         setmetatable(env, {__index = _G})

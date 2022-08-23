@@ -33,10 +33,6 @@ function Scene:_layout(x, y)
 end
 
 function Scene:draw()
-    if self.parent == nil then
---        background()
-    end    
-
     self:layout(self.position.x, self.position.y)
 
     -- TODEL?
@@ -69,7 +65,7 @@ function Scene:wheelmoved(dx, dy)
     local x, y = love.mouse.getPosition()
     x = x - X
     y = y - Y
-    
+
     local nodes = self:items()
     for i,node in ipairs(nodes) do
         if node:contains(vec2(x, y)) then

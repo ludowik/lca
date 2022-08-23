@@ -3,7 +3,7 @@ class 'Tabs' : extends(UIScene)
 function Tabs:init(label)
     UIScene.init(self, label or 'tabs')
 
-    self.buttons = UIScene(Layout.row, 'buttons')
+    self.buttons = UIScene('buttons', Layout.row)
     self.tabs = UIScene(Layout.topleft)
 
     self:add(self.buttons)

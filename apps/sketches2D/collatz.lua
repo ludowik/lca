@@ -25,6 +25,8 @@ function collatz()
     if nextValue == 1 then
         background(0)
     end
+    
+    blendMode(NORMAL)
 
     if value == 1 then
         nextValue = nextValue + 1
@@ -54,6 +56,7 @@ function collatz()
     x2 = x2 + cos(angle) * len
     y2 = y2 + sin(angle) * len
 
+    strokeSize(2)
     stroke(clr)
 
     line(x1, y1, x2, y2)

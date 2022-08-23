@@ -22,7 +22,7 @@ function resetStyle()
 
     depthMode(false)
 
-    blendMode(REPLACE)
+    blendMode(NORMAL)
 end
 
 function pushStyle()
@@ -120,6 +120,10 @@ end
 
 function fontSize(size)
     styles.fontSize = size or styles.fontSize or 12
+    if styles.fontSize == 0 then
+        styles.fontSize = 12
+    end
+    
     if size then
         love.graphics.setFont(Fonts.getFont(fontName(), styles.fontSize))
     end
