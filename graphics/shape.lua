@@ -8,6 +8,7 @@ end
 function Shape:init()
     self.vertices = {}
     self.mode = CLOSE
+    self.scale = 1
 end
 
 function Shape:vertex(x, y)
@@ -15,18 +16,16 @@ function Shape:vertex(x, y)
     table.insert(self.vertices, y)
 end
 
-function Shape:scale(n)
-    self.n = n
+function Shape:scale(scale)
+    self.scale = scale
 end
 
 function Shape:draw(mode)
     if #self.vertices == 0 then return end
 
-    if self.n then
-        pushMatrix()
-        scale(self.n, self.n)
-    end
-
+    pushMatrix()
+    scale(self.scale, self.scale)
+    
     mode = mode or self.mode
     if mode == LINES then
         lines(self.vertices)
@@ -34,7 +33,5 @@ function Shape:draw(mode)
         polyline(self.vertices)
     end
 
-    if self.n then
-        popMatrix()
-    end
+    popMatrix()
 end

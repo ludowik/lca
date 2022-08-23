@@ -16,8 +16,8 @@ function Dashboard:setSortFunction(f)
     self.sortFunction = f
 end
 
-function Dashboard:mouseWheel(mouse)
-    self.offset = self.offset + mouse.deltaY * 10
+function Dashboard:wheelmoved(dx, dy)
+    self.offset = self.offset + dy * 10
 end
 
 function Dashboard:draw()
