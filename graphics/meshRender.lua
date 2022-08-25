@@ -46,7 +46,7 @@ function MeshRender:update()
         self.__vertices = vertices
     end
 
-    self.m = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
+    self.mesh = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
 end
 
 function MeshRender:draw()
@@ -64,33 +64,35 @@ function MeshRender:draw()
     end
 
     if self.texture then
-        self.m:setTexture(self.texture.canvas)
+        self.mesh:setTexture(self.texture.canvas)
     end
-
-    GraphicsCore.createShader()
-    assert(shaders['shader3D'])
-
-    local pvm = {pvmMatrix():getMatrix()}
-    pushMatrix(true)
-    resetMatrix(true)
     
-    -- TODEL?
---    local projection = projectionMatrix()
---    projectionMatrix(
---        projection
---        :clone()
---        :translate(-1, -1)
---        :scale(2/W, 2/H))
-    do    
-        local shader = love.graphics.getShader()
-        love.graphics.setShader(shaders['shader3D'])
-        shaders['shader3D']:send('pvm', pvm)
-    end
-    popMatrix(true)
+    GraphicsCore.drawModel(self)
 
-    love.graphics.draw(self.m)    
+--    GraphicsCore.createShader()
+--    assert(shaders['shader3D'])
 
-    love.graphics.setShader(shader)
+--    local pvm = {pvmMatrix():getMatrix()}
+--    pushMatrix(true)
+--    resetMatrix(true)
+    
+--    -- TODEL?
+----    local projection = projectionMatrix()
+----    projectionMatrix(
+----        projection
+----        :clone()
+----        :translate(-1, -1)
+----        :scale(2/W, 2/H))
+--    do    
+--        local shader = love.graphics.getShader()
+--        love.graphics.setShader(shaders['shader3D'])
+--        shaders['shader3D']:send('pvm', pvm)
+--    end
+--    popMatrix(true)
+
+--    love.graphics.draw(self.m)
+
+--    love.graphics.setShader(shader)
 end
 
 function MeshRender:drawInstanced(n)

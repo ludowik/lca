@@ -179,12 +179,12 @@ function Engine.draw()
 
     local x, y = love.mouse.getPosition()
     if x < X then
-        Engine.draw2d()
-        Engine.draw3d()    
+        --Engine.draw2d()
+        Engine.draw3d()
         Engine.drawInfo()
     else
         Engine.drawInfo()
-        Engine.draw2d()
+        --Engine.draw2d()
         Engine.draw3d()
     end
 
@@ -206,7 +206,7 @@ function Engine.draw2d()
 end
 
 function Engine.draw3d()
-    if env.draw3d then
+    if env.draw then
         Engine.beginDraw(BOTTOM_LEFT)
         do
             Engine.render(function ()
@@ -214,7 +214,7 @@ function Engine.draw3d()
                     cullingMode(true)
                     love.graphics.clear()
                     if getCamera() then getCamera():lookAt() end
-                    env.draw3d()
+                    env.draw()
                 end
             )
         end

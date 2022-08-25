@@ -2,6 +2,9 @@ function Engine.keypressed(key, isrepeat)
 end
 
 function Engine.keyreleased(key)
+    local res = callApp('keyboard', key)
+    if res then return true end
+    
     if key == 'f1' then
         os.execute('start https://codea.io/reference')
         os.execute('start https://love2d-community.github.io/love-api')
@@ -64,9 +67,6 @@ function Engine.keyreleased(key)
             config.renderer = 'love2d'
         end
         restart()
-
-    else
-        callApp('keyboard', key)
 
     end
 end

@@ -114,8 +114,12 @@ function Image:set(x, y, clr, ...)
     self.imageData:setPixel(x, y, clr:unpack())
 end
 
-function Image:get(x, y)
-    return self.imageData:getPixel(x, y)
+function Image:get(x, y, clr)
+    local r, g, b, a = self.imageData:getPixel(x, y)
+    if clr then
+        clr:set(r, g, b, a)
+    end
+    return r, g, b, a
 end
 
 function setContext(context)

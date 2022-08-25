@@ -321,7 +321,8 @@ function Graphics.drawModel(mesh, x, y, z, w, h, d)
                     pvmMatrix():getMatrix()
                 })
 
-            love.graphics.setColor(__fill():unpack())        
+            love.graphics.setColor(__fill():unpack())
+            
             Graphics.drawMesh(mesh)
         end
     end
@@ -330,6 +331,7 @@ function Graphics.drawModel(mesh, x, y, z, w, h, d)
     love.graphics.setShader(shader)
 end
 
+-- TODO : doublon avec la méthode de la classe Model
 local function arguments(...)
     local args = {...}
     local x, y, z, w, h, d = 0, 0, 0, 1, 1, 1
@@ -372,24 +374,6 @@ function Graphics.box(...)
         }
 
         local m = Model.box(x, y, z, w, h, d)
-
-        -- front
-        m:setRectColor(1, colors.green)
-
-        -- back
-        m:setRectColor(7, colors.yellow)
-
-        -- left
-        m:setRectColor(13, colors.orange)
-
-        -- right
-        m:setRectColor(19, colors.red)
-
-        -- up
-        m:setRectColor(25, colors.white)
-
-        -- down
-        m:setRectColor(31, colors.blue)
 
         Graphics.boxMesh = m -- Graphics.newMesh(format, m.vertices, 'triangles', 'static')
     end

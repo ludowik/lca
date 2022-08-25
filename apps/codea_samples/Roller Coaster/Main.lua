@@ -8,24 +8,24 @@ function setup()
     local ver = {}
     local col = {}
     local track = TrackPoints({
-        pathFunction = trackFunction,
-        normalFunction = trackNormal,
-        delta = .01,
-        step = .3,
-    })
+            pathFunction = trackFunction,
+            normalFunction = trackNormal,
+            delta = .01,
+            step = .3,
+        })
     local u
     for k,v in ipairs(track) do
         u = Vec3.SO(v[2],v[3])
-    AddPlank({
-        origin = v[1],
-        width = 1*u[3],
-        height = .1*u[2],
-        depth = .2*u[1],
-        light = Vec3(1,2,3),
-        colour = Colour.x11.Burlywood3,
-        vertices = ver,
-        colours = col
-        })
+        AddPlank({
+                origin = v[1],
+                width = 1*u[3],
+                height = .1*u[2],
+                depth = .2*u[1],
+                light = Vec3(1,2,3),
+                colour = Colour.x11.Burlywood3,
+                vertices = ver,
+                colours = col
+            })
     end
     plank.vertices = ver
     plank.colors = col
@@ -35,23 +35,23 @@ function setup()
     col = {}
     for i=1,200 do
         AddStar({
-            origin = Vec3(
-            40*(2*math.random()-1),
-            10*(2*math.random()-1),
-            40*(2*math.random()-1)
-            ),
-            size = .25,
-            vertices = ver,
-            colours = col,
-            light = Vec3(1,2,3)
-        })
+                origin = Vec3(
+                    40*(2*math.random()-1),
+                    10*(2*math.random()-1),
+                    40*(2*math.random()-1)
+                ),
+                size = .25,
+                vertices = ver,
+                colours = col,
+                light = Vec3(1,2,3)
+            })
         AddStar({
-            origin = 100*Vec3.Random(),
-            size = .25,
-            vertices = ver,
-            colours = col,
-            light = Vec3(1,2,3)
-        })
+                origin = 100*Vec3.Random(),
+                size = .25,
+                vertices = ver,
+                colours = col,
+                light = Vec3(1,2,3)
+            })
     end
 
     stars.vertices = ver
@@ -81,24 +81,24 @@ function draw()
     if not paused then
         time = time + speed*DeltaTime
 
-    local pos = trackFunction(time)
-    local tmp
-    tmp = tangent({delta = .1,
-            pathFunction = trackFunction,
-            time = time})
-    if not tmp:is_zero() then
-        dp = tmp
-    end
-    nml = trackNormal(time)
+        local pos = trackFunction(time)
+        local tmp
+        tmp = tangent({delta = .1,
+                pathFunction = trackFunction,
+                time = time})
+        if not tmp:is_zero() then
+            dp = tmp
+        end
+        nml = trackNormal(time)
 
-    speed = math.sqrt(energy - 2*g*pos.y)
-    local ob = Vec3.SO(dp,nml)
+        speed = math.sqrt(energy - 2*g*pos.y)
+        local ob = Vec3.SO(dp,nml)
 
-    pos = pos + ht*ob[2]
-    local dir = pos + size*(sz*(ca*ob[1] + sa*ob[3]) + cz*ob[2])
-    camera(pos.x,pos.y,pos.z,
-        dir.x,dir.y,dir.z,
-        ob[2].x,ob[2].y,ob[2].z)
+        pos = pos + ht*ob[2]
+        local dir = pos + size*(sz*(ca*ob[1] + sa*ob[3]) + cz*ob[2])
+        camera(pos.x,pos.y,pos.z,
+            dir.x,dir.y,dir.z,
+            ob[2].x,ob[2].y,ob[2].z)
     else
         camera(0,8*maxHeight,15,0,0,0,0,1,0)
     end
@@ -149,7 +149,7 @@ function AddPlank(t)
         w:normalise():dot(l),
         h:normalise():dot(l),
         d:normalise():dot(l)
-        }
+    }
     local u
     for i=0,5 do
         n = math.floor(i/2)
@@ -161,7 +161,7 @@ function AddPlank(t)
 
             table.insert(colours,
                 Colour.shade(c,75 + 25*m*v[n+1])
-                )
+            )
         end
     end
     return vertices,colours
@@ -181,8 +181,8 @@ function TrackPoints(a)
     table.insert(pts,{tpt,
             tangent({delta = s, pathFunction = f, time = t}),
             nf(t),t})
-        local dis
-        local p
+    local dis
+    local p
     while t < b do
         dis = 0
         while dis < r do
@@ -196,8 +196,8 @@ function TrackPoints(a)
             p = f(b)
         end
         table.insert(pts,{p,
-            tangent({delta = s, pathFunction = f, time = t}),
-            nf(t),t})
+                tangent({delta = s, pathFunction = f, time = t}),
+                nf(t),t})
         tpt = p
     end
     return pts
@@ -246,29 +246,29 @@ function Tracks.torus(p,q)
     local trackFunction = function(t)
         local it = p*t*2*math.pi
         local ot = q*t*2*math.pi
-            return Vec3(
-                    (outerR + innerRb*math.cos(it))*math.cos(ot),
-                    innerRa*math.sin(it),
-                    (outerR + innerRb*math.cos(it))*math.sin(ot)
-                    )
-            end
+        return Vec3(
+            (outerR + innerRb*math.cos(it))*math.cos(ot),
+            innerRa*math.sin(it),
+            (outerR + innerRb*math.cos(it))*math.sin(ot)
+        )
+    end
     local trackNormal = function(t)
         local it = p*t*2*math.pi
         local ot = q*t*2*math.pi
-            return Vec3(
-                    innerRa*math.cos(it)*math.cos(ot),
-                    innerRb*math.sin(it),
-                    innerRa*math.cos(it)*math.sin(ot)
-                    )
-            end
+        return Vec3(
+            innerRa*math.cos(it)*math.cos(ot),
+            innerRb*math.sin(it),
+            innerRa*math.cos(it)*math.sin(ot)
+        )
+    end
     local coreFunction = function(t)
         local ot = q*t*2*math.pi
-            return Vec3(
-                    outerR*math.cos(ot),
-                    0,
-                    outerR*math.sin(ot)
-                    )
-            end
+        return Vec3(
+            outerR*math.cos(ot),
+            0,
+            outerR*math.sin(ot)
+        )
+    end
     local maxHeight = innerRa
     return trackFunction, trackNormal, maxHeight
 end
@@ -276,16 +276,16 @@ end
 function Tracks.mobius()
     local r = 30
     local trackFunction = function(t)
-            local a = 2*math.pi*t
-            return Vec3(r*math.cos(a),0,r*math.sin(a))
-        end
+        local a = 2*math.pi*t
+        return Vec3(r*math.cos(a),0,r*math.sin(a))
+    end
     local trackNormal = function(t)
-            local a = math.pi*t
-            return Vec3(
-                math.sin(a)*math.cos(2*a),
-                math.cos(a),
-                math.sin(a)*math.sin(2*a))
-        end
+        local a = math.pi*t
+        return Vec3(
+            math.sin(a)*math.cos(2*a),
+            math.cos(a),
+            math.sin(a)*math.sin(2*a))
+    end
     return trackFunction,trackNormal,0
 end
 
@@ -294,14 +294,14 @@ function Tracks.loop(p,q)
     local h = 10
     local w = Vec3(0,30,0)
     local trackFunction = function(t)
-            local a = 2*math.pi*t
-            return Vec3(
+        local a = 2*math.pi*t
+        return Vec3(
             r*math.cos(a),
             h*math.sin(p*a),
             r*math.sin(q*a))
-        end
+    end
     local trackNormal = function(t)
-            return w - trackFunction(t)
-        end
+        return w - trackFunction(t)
+    end
     return trackFunction,trackNormal,h
 end

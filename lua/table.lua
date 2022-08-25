@@ -217,7 +217,7 @@ end
 
 function table:tolua(level, __recursive)
     if not self then return 'nil' end
-    
+
     __recursive = __recursive or {}
     if __recursive[self] then return '__recursive' end
     __recursive[self] = true
@@ -238,16 +238,36 @@ function table:tolua(level, __recursive)
             val = v and 'true' or 'false'
 
         elseif typeof == 'table' then
-            val = table.tolua(v, level+1, __recursive)
+            local className = classnameof(v)
+            if className == 'Color' then
+                val = 'Color('..v.r..', '..v.g..', '..v.b..', '..v.a..')'
+                
+            elseif className == 'vec2' then
+                val = 'vec2('..v.x..', '..v.y..')'
+                
+            elseif className == 'vec3' then                
+                val = 'vec3('..v.x..', '..v.y..', '..v.z..')'
+                
+            elseif className == 'vec4' then
+                val = 'vec4('..v.x..', '..v.y..', '..v.z..', '..v.w..')'
+                
+            else
+                val = table.tolua(v, level+1, __recursive)
+            end
 
         else
             val = tostring(v)
         end
-        t = t .. tab(level) .. k .. ' = ' .. val .. ',\n'
+
+        if type(k) == 'string' then
+            t = t .. tab(level) .. k .. ' = ' .. val .. ',\n'
+        else
+            t = t .. tab(level) .. '[' .. k ..']' .. ' = ' .. val .. ',\n'
+        end
     end
-    
+
     __recursive[self] = nil
-    
+
     return '{\n' .. t .. tab(level-1) .. '}'
 end
 
@@ -437,21 +457,4 @@ function table:avg(var)
     end
 
     return v / n
-end
-
-function table.load(name)
-    if love.filesystem.getInfo(name) == nil then return end
-
-    local content = io.read(name)
-    if content then
-        local ftables = loadstring(content)
-        return table(ftables and ftables() or nil)
-    end
-end
-
-function table:save(name)
-    assert(name)
-
-    local code = 'return '..table.tolua(self)
-    local file = io.write(name, code)
 end

@@ -7,6 +7,7 @@ function setup()
     parameter.action('Reset',
         function ()
             source = Image('res/images/joconde.png')
+            target = Image(source.width, source.height)
         end)
 
     parameter.action('Flip image',
@@ -32,15 +33,34 @@ function setup()
     setFilter(Image.Filter.Grayscale)
 end
 
+function getPixel(source, x, y, clr)
+    if (
+        0 <= x and x < source.width and
+        0 <= y and y < source.height )
+    then
+        return Color(source:get(x, y, clr))
+    end
+    return colors.black
+end
+
+function setPixel(source, x, y, clr)
+    if (
+        0 <= x and x < source.width and
+        0 <= y and y < source.height )
+    then
+        source:set(x, y, clr)
+    end
+end
+
 class 'Image.Filter'
 
 function Image.Filter:run(source, target)
     self.source = source
     self.target = target
 
-    for y=1,source.height do
-        for x=1,source.width do
-            local res = self:fragment(x, y, self.source:get(x, y))
+    for y=0,source.height-1 do
+        for x=0,source.width-1 do
+            local res = self:fragment(x, y, getPixel(self.source, x, y))
             if res then
                 self.target:set(x, y, res)
             end
@@ -67,10 +87,10 @@ function Image.Filter.MinMax:minmax(x, y, operation, ref)
 
     local i = floor((n-1)/2)
 
-    local clr = color(ref)
+    local clr = Color(ref)
     for xi=x-i,x+i do
         for yi=y-i,y+i do
-            clr = operation(clr, self.source:get(xi, yi) or ref)
+            clr = operation(clr, getPixel(self.source, xi, yi) or ref)
         end
     end
 
@@ -115,17 +135,17 @@ function Image.Filter.Dithering:init()
     self.pct5 = 5 / 16
     self.pct1 = 1 / 16
 
-    self.old = color()
-    self.new = color()
+    self.old = Color()
+    self.new = Color()
 
-    self.quantificationError = color()
+    self.quantificationError = Color()
 
-    self.clr = color()
+    self.clr = Color()
 end
 
 function Image.Filter.Dithering:fragment(x, y)
     -- old
-    self.source:get(x, y, self.old)
+    getPixel(self.source, x, y, self.old)
 
     -- new
     grayScale(self.old, self.new)
@@ -145,13 +165,13 @@ function Image.Filter.Dithering:fragment(x, y)
 
     -- report error
     local function reportError(x, y, pct)
-        self.target:get(x, y, self.clr)
+        getPixel(self.target, x, y, self.clr)
 
         self.clr.r = self.clr.r + self.quantificationError.r * pct
         self.clr.g = self.clr.g + self.quantificationError.g * pct
         self.clr.b = self.clr.b + self.quantificationError.b * pct
 
-        self.target:set(x, y, self.clr)
+        setPixel(self.target, x, y, self.clr)
     end
 
     reportError(x+1, y  , self.pct7)
@@ -163,9 +183,9 @@ end
 class 'Image.Filter.Hue' : extends(Image.Filter)
 
 function Image.Filter.Hue:fragment(x, y)
-    local clr = self.source:get(x, y)
+    local clr = getPixel(self.source, x, y)
 
-    self.target:set(x, y, hsl(rgb2hsl(clr), 0.5, 0.25))
+    self.target:set(x, y, Color.hsl(Color.rgb2hsl(clr), 0.5, 0.25))
 end
 
 class 'Image.Filter.Grayscale' : extends(Image.Filter)
@@ -176,27 +196,27 @@ end
 
 class 'Image.Filter.Edge' : extends(Image.Filter)
 
-local function clr2vec(clr)
-    return vec3(clr.r, clr.g, clr.b)
+local function clr2vec(...)
+    return vec3(...)
 end
 
 local function vec2clr(vec)
-    return color(vec.x, vec.y, vec.z)
+    return Color(vec.x, vec.y, vec.z)
 end
 
 function Image.Filter.Edge:fragment(x, y)
     local v = (
-        clr2vec(self.source:get(x-1, y+1))*(-1) +
-        clr2vec(self.source:get(x  , y+1))*( 0) + 
-        clr2vec(self.source:get(x+1, y+1))*( 1) + 
-        clr2vec(self.source:get(x-1, y  ))*(-1) +
-        clr2vec(self.source:get(x  , y  ))*( 0) + 
-        clr2vec(self.source:get(x+1, y  ))*( 1) + 
-        clr2vec(self.source:get(x-1, y-1))*(-1) +
-        clr2vec(self.source:get(x  , y-1))*( 0) + 
-        clr2vec(self.source:get(x+1, y-1))*( 1))
+        clr2vec(getPixel(self.source, x-1, y+1))*(-1) +
+        clr2vec(getPixel(self.source, x  , y+1))*( 0) + 
+        clr2vec(getPixel(self.source, x+1, y+1))*( 1) + 
+        clr2vec(getPixel(self.source, x-1, y  ))*(-1) +
+        clr2vec(getPixel(self.source, x  , y  ))*( 0) + 
+        clr2vec(getPixel(self.source, x+1, y  ))*( 1) + 
+        clr2vec(getPixel(self.source, x-1, y-1))*(-1) +
+        clr2vec(getPixel(self.source, x  , y-1))*( 0) + 
+        clr2vec(getPixel(self.source, x+1, y-1))*( 1))
 
-    self.target:set(x, y,  vec2clr(v))
+    self.target:set(x, y, vec2clr(v))
 end
 
 class 'Image.Filter.Sort' : extends(Image.Filter)
@@ -211,7 +231,7 @@ end
 function Image.Filter.Sort:run(source, target)
     for y=1,source.height do
         for x=1,source.width do
-            local clr = source:get(x, y)
+            local clr = getPixel(source, x, y)
             local clrKey = tostring(clr)
 
             if self.paletteByColor[clrKey] == nil then
@@ -230,8 +250,8 @@ function Image.Filter.Sort:run(source, target)
     end
     self.paletteByIndex:sort(
         function (a, b)
-            local ha, sa, la = rgb2hsl(a.clr)
-            local hb, sb, lb = rgb2hsl(b.clr)
+            local ha, sa, la = Color.rgb2hsl(a.clr)
+            local hb, sb, lb = Color.rgb2hsl(b.clr)
 
             if round(ha) == round(hb) then
                 if round(sa) == round(sb) then
@@ -250,7 +270,7 @@ end
 function Image.Filter.Sort:fragment(x, y)
     local clrRef = self.paletteByIndex[1]
 
-    self.target:set(x, y, hsl(rgb2hsl(clrRef.clr), 1, 0.5))
+    self.target:set(x, y, Color.hsl(Color.rgb2hsl(clrRef.clr), 1, 0.5))
 
     clrRef.n = clrRef.n - 1
     if clrRef.n == 0 then
@@ -297,10 +317,11 @@ function Image.Filter.Copy:run(source, _)
 end
 
 function setFilter(filter)
-    env.thread = coroutine.create(
-        function ()
-            filter():run(source, target)
-        end)
+    filter():run(source, target)
+--    env.thread = coroutine.create(
+--        function ()
+--            filter():run(source, target)
+--        end)
 end
 
 function update(dt)

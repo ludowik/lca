@@ -255,7 +255,7 @@ end
 function Model.line(x, y, w, h)
     x = x or 0
     y = y or 0
-    
+
     w = w or 1
     h = h or 1
 
@@ -270,7 +270,7 @@ function Model.line3D(x, y, z, w, h, d)
     x = x or 0
     y = y or 0
     z = z or 0
-    
+
     w = w or 1
     h = h or 1
     d = d or 1
@@ -399,7 +399,27 @@ function Model.box(w, h, d)
     add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 1/4, 2/3)
     add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 1/4, 0/3)
 
-    return Model.mesh(vertices, texCoords)
+    local m = Model.mesh(vertices, texCoords)
+    
+    -- front
+    m:setRectColor(1, colors.green)
+
+    -- back
+    m:setRectColor(7, colors.yellow)
+
+    -- left
+    m:setRectColor(13, colors.orange)
+
+    -- right
+    m:setRectColor(19, colors.red)
+
+    -- up
+    m:setRectColor(25, colors.white)
+
+    -- down
+    m:setRectColor(31, colors.blue)
+
+    return m
 end
 
 function Model.tetrahedron(x, y, z, w, h, d)
@@ -868,7 +888,7 @@ function Model.computeNormals(vertices, indices, mode)
             v13:set(v3):sub(v1)
 
             local normal = v12:crossInPlace(v13):normalizeInPlace()
-            
+
             if i%2 == 0 then
                 normals[i] = normal
             else

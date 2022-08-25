@@ -103,7 +103,7 @@ function Craft.setup()
     }
 end
 
-class 'Craft.Scene' : extends(Scene)
+class 'Craft.Scene' : extends(Node)
 
 function Craft.Scene:init()
     Scene.init(self)
@@ -238,6 +238,9 @@ function Craft.Camera:restart(...)
 end
 
 function Craft.Camera:draw()
+end
+
+function Craft.Camera:lookAt()
 end
 
 function Craft.Camera:addPostEffect(effect)

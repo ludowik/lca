@@ -146,6 +146,14 @@ function Color.max(a, b)
         1)
 end
 
+function Color.avg(a, b)
+    return Color(
+        (a.r + b.r)/2,
+        (a.g + b.g)/2,
+        (a.b + b.b)/2,
+        1)
+end
+
 function Color.mix(clr1, clr2, dst)
     dst = dst or 0.5
     local src = 1 - dst

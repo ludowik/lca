@@ -59,7 +59,7 @@ function Planet:sphere(r)
     do
         scale(r)
 
-        Planet.model:setColors(red)
+        Planet.model:setColors(colors.red)
         Planet.model:draw()
     end
     popMatrix()

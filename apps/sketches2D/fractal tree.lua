@@ -1,6 +1,8 @@
 App('FractalTree')
 
 function FractalTree:init()
+    setOrigin(BOTTOM_LEFT)
+    
     Application.init(self)
 
     parameter.number('lenBranch', 100, 500, 120)

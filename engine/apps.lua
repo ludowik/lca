@@ -225,4 +225,5 @@ function callApp(fname, ...)
             return _G.env.app[fname](_G.env.app, ...)
         end
     end
+    return false
 end

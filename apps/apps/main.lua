@@ -119,3 +119,9 @@ function browse(path, previousPath)
         end
     end
 end
+
+function keyboard(key)
+    if key == 'a' then
+        browse('apps')
+    end
+end

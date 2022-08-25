@@ -33,6 +33,10 @@ function Scene:_layout(x, y)
 end
 
 function Scene:draw()
+    if self.camera then
+        self.camera:lookAt()
+    end
+    
     self:layout(self.position.x, self.position.y)
 
     -- TODEL?

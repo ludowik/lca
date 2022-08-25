@@ -24,6 +24,8 @@ function Slider:draw()
     strokeSize(2)
     line(x, 0, x, self.size.y)
     UI.draw(self)
+    
+    text(self.value, self.size.x, 0)
 end
 
 function Slider:setValue(value)

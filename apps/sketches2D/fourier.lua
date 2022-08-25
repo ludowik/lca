@@ -2,7 +2,7 @@ function setup()
     supportedOrientations(LANDSCAPE_ANY)
 
     angle = 0
-    radius = HEIGHT / 5
+    radius = WIDTH / 8
 
     vertices = table()
 
@@ -12,7 +12,7 @@ function setup()
 end
 
 function update(dt)
-    angle = angle + 0.005
+    angle = angle + dt
     if #vertices > WIDTH then
         vertices:pop()
     end

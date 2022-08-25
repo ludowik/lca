@@ -3,14 +3,14 @@ function setup()
     for i=1,1000 do
         stars[i] = {
             angle = random(TAU),
-            len = random(W/2),
+            len = random(W),
             width = random(1,5),
-            speed = random(-0.001, -0.01),
+            speed = random(-0.001, -0.1),
             clr = Color.random()
         }
     end
     
-    parameter.number('speed', 0, 5, 0)
+    parameter.number('speed', 0, 5, 0.05)
 end
 
 function draw()

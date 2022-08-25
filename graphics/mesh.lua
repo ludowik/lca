@@ -48,7 +48,7 @@ function Mesh:setColors(...)
     if type(self.vertices[1]) == 'cdata' then
         vertexCount = #self.vertices
     else
-        vertexCount = #self.vertices / 3
+        vertexCount = #self.vertices -- / 3
     end
 
     for i=1,vertexCount do

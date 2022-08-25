@@ -24,7 +24,7 @@ function touched(touch)
 
         if not selectedObject then
             local object = Rect(touch.x, touch.y, 50, 50)
-            object.clr = color.random()
+            object.clr = Color.random()
             object.type = 'rect'
             
             objects:add(object)
@@ -36,11 +36,11 @@ function touched(touch)
     elseif touch.state == MOVING then
         if selectedObject then
             local object = selectedObject.object
-            if isDown('left shift') then
+            if isDown('lshift') then
                 object.size.x = object.size.x + touch.deltaX
                 object.size.y = object.size.y + touch.deltaY
 
-            elseif isDown('left ctrl') then
+            elseif isDown('lctrl') then
                 object.rotate = (object.rotate or 0) + touch.deltaX
 
             else
@@ -72,7 +72,7 @@ function keyboard(key)
     if key == 'c' then
         local currentRef = getObject(mouse:transform())
         if currentRef then
-            currentRef.object.clr = color.random()
+            currentRef.object.clr = Color.random()
         end
         return true
 
@@ -97,7 +97,7 @@ function keyboard(key)
                 currentRef.object.position.y,
                 currentRef.object.size.x,
                 currentRef.object.size.y)
-            object.clr = color.random()
+            object.clr = Color.random()
             
             objects:add(object)
             
@@ -117,13 +117,13 @@ function draw()
             if object.clr then
                 fill(object.clr)
             else
-                fill(white)
+                fill(colors.white)
             end
 
             if object.mouseOn then
-                stroke(red)
+                stroke(colors.red)
             else
-                stroke(white)
+                stroke(colors.white)
             end
 
             translate(object.position.x+object.size.x/2, object.position.y+object.size.y/2)
@@ -137,7 +137,7 @@ function draw()
                 circle(0, 0, object.size.x/2)
             end
             
-            fill(white)
+            fill(colors.white)
             
             rotate(-(object.rotate or 0))
             

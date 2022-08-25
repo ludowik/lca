@@ -130,7 +130,7 @@ end
 function scale_matrix(m, w, h, d)
     assert(w)
     h = h or w
-    d = d or 1
+    d = d or w
 
     local scale = love.math.newTransform()
     setMatrix(scale, nil,
