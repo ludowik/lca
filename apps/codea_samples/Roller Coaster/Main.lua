@@ -1,4 +1,3 @@
-
 function setup()
     viewer.mode = FULLSCREEN
 
@@ -73,9 +72,11 @@ function setup()
 
     paused = true
     ptext = "Tap to begin"
+    
+    camera(0,8*maxHeight,15,0,0,0,0,1,0)
 end
 
-function draw()
+function draw3d()
     background(Colour.svg.Black)
     perspective(45,WIDTH/HEIGHT)
     if not paused then
@@ -99,8 +100,6 @@ function draw()
         camera(pos.x,pos.y,pos.z,
             dir.x,dir.y,dir.z,
             ob[2].x,ob[2].y,ob[2].z)
-    else
-        camera(0,8*maxHeight,15,0,0,0,0,1,0)
     end
     plank:draw()
     stars:draw()

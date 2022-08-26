@@ -114,11 +114,11 @@ mouse = table({
     })
 CurrentTouch = mouse
 
-function mouseevent(state, x, y, button)
+function mouseevent(state, x, y, button, presses)
     x = x - X
     y = y - Y
 
-    __mouseevent(state, x, y, button)
+    __mouseevent(state, x, y, button, presses)
 end
 
 function __mouseevent(state, x, y, button, presses)

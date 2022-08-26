@@ -20,9 +20,9 @@ function Mesh:clear(vertices, colors)
     self.normals = Buffer('vec3')
 end
 
-function Mesh.properties.get:size()
-    return #self.vertices
-end
+--function Mesh.properties.get:size()
+--    return #self.vertices
+--end
 
 function Mesh:buffer(name)
     if name == 'position' then

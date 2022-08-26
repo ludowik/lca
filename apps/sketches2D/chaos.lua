@@ -4,8 +4,7 @@ function setup()
         end)
 
     newConf = 1
-    
-    previousPoint = vec2()
+    reset(newConf)
 end
 
 function vector(v)

@@ -8,7 +8,11 @@ local projection_matrices = {}
 local model, view, projection
 
 local function setTransformation()
+    local t = love.math.newTransform()
+--    scale_matrix(t, (W)/2, (H)/2, 1)
+    
     love.graphics.replaceTransform(pvmMatrix())
+    love.graphics.applyTransform(t)
 end
 
 local function setMatrix(m, mode, ...)
@@ -73,6 +77,8 @@ function resetMatrix(resetAll)
         view = love.math.newTransform()
         projection = love.math.newTransform()
     end
+    
+    ortho()
 
     setTransformation()
 end
@@ -194,13 +200,13 @@ function ortho(left, right, bottom, top, near, far)
 
     local n = near or -1000
     local f = far or 1000
-
+    
     setMatrix(projection, nil,
         2/(r-l), 0, 0, -(r+l)/(r-l),
         0, 2/(t-b), 0, -(t+b)/(t-b),
         0, 0, -2/(f-n), -(f+n)/(f-n),
         0, 0, 0, 1)
-
+    
     setTransformation()
 end
 
@@ -226,7 +232,7 @@ function isometric(n)
     setTransformation()
 end
 
-function perspective(fovy, width, height, near, far)
+function perspective(fovy, aspect, near, far)
     local camera = getCamera()
     if camera then
         fovy = camera.fovy or fovy or 45
@@ -234,10 +240,10 @@ function perspective(fovy, width, height, near, far)
         fovy = fovy or 45
     end
 
-    local w = width or W or 400
-    local h = height or H or 400
+    local w = W or 400
+    local h = H or 400
 
-    local aspect = aspect or (w / h)
+    aspect = aspect or (w / h)
 
     near = near or 0.1
     far = far or 100000

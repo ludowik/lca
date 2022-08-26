@@ -28,7 +28,7 @@ function Horloge:draw()
 
     local date = date()
     local ipart, fpart = math.modf(os.clock())
-
+    
     self:aiguille(colors.red  , self.x, self.y, ( date.hour - self.decalage ) * 30 , self.rayon * 0.8, 3)
     self:aiguille(colors.green, self.x, self.y, ( date.min                  ) * 6  , self.rayon * 0.8, 2)
     self:aiguille(colors.blue , self.x, self.y, ( date.sec                  ) * 6  , self.rayon * 0.8, 1)
@@ -48,7 +48,7 @@ function Horloge:aiguille(clr, x, y, a, l, size)
 
     if self.m == nil then
         self.m = Mesh()
---        self.m.shader = shaders['rect']
+        self.m.shader = shaders['rect']
 
         self.m.vertices = Buffer('vec3', {
                 vec3(0, l),
