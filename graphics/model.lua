@@ -425,7 +425,7 @@ end
 function Model.tetrahedron(x, y, z, w, h, d)
     x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
 
-    vertices = vertices_tetra
+    local vertices = vertices_tetra
     vertices = Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, d, 90)
 
     return Model.mesh(vertices,

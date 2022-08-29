@@ -140,28 +140,28 @@ function constraints(dt)
 end
 
 function rebase()
-    local minx, miny, maxx, maxy = math.maxinteger, math.maxinteger, -math.maxinteger, -math.maxinteger
+    local xmin, ymin, xmax, ymax = math.maxinteger, math.maxinteger, -math.maxinteger, -math.maxinteger
 
     local position
 
     for _,item in env.scene:iter() do
         position = item.position
-        minx = min(minx, position.x)
-        miny = min(miny, position.y)
-        maxx = max(maxx, position.x)
-        maxy = max(maxy, position.y)
+        xmin = min(xmin, position.x)
+        ymin = min(ymin, position.y)
+        xmax = max(xmax, position.x)
+        ymax = max(ymax, position.y)
     end
 
-    local w = maxx - minx
-    local h = maxy - miny
+    local w = xmax - xmin
+    local h = ymax - ymin
 
     local rx = W/w
     local ry = H/h
 
     for _,item in env.scene:iter() do
         position = item.position
-        position.x = (position.x - minx) * rx * 0.9 + 0.05 * W
-        position.y = (position.y - miny) * ry * 0.9 + 0.05 * H
+        position.x = (position.x - xmin) * rx * 0.9 + 0.05 * W
+        position.y = (position.y - ymin) * ry * 0.9 + 0.05 * H
     end
 end
 

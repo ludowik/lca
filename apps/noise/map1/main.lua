@@ -66,7 +66,7 @@ function appMap:init()
                         0, self.hmg.amplitudeMax/2,
                         hueGreen, hueBrown) , 0.5, 0.5)
             else
-                color = brown
+                color = colors.brown
             end
 
             if x%2 == z%2 then

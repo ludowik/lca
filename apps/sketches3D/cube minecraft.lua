@@ -24,9 +24,9 @@ function Cube:init()
         end
     end
 
-    camera(0, 1.7, 0, 0, 0, 30)
+    camera(3, 3, 3)
 
-    getCamera().mode = CAMERA_FPS
+--    getCamera().mode = CAMERA_FPS
 end
 
 function Cube:createTexture()
@@ -81,16 +81,22 @@ function Cube:update(dt)
         end
     end
 
-    if isDown('right') then
-        local self = getCamera()
-        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, 2, 0, constrainPitch)
-        self:updateVectors()
-    elseif isDown('left') then
-        local self = getCamera()
-        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, -2, 0, constrainPitch)
-        self:updateVectors()
-    end
+--    if isDown('right') then
+--        local self = getCamera()
+--        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, 2, 0, constrainPitch)
+--        self:updateVectors()
+        
+--    elseif isDown('left') then
+--        local self = getCamera()
+--        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, -2, 0, constrainPitch)
+--        self:updateVectors()
+--    end
 
+--    getCamera():update(dt)
+end
+
+function Cube:touched(touch)
+    getCamera():processMouseMovement(touch, true)
 end
 
 function Cube:draw()

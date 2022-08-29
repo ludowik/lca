@@ -20,10 +20,6 @@ function Mesh:clear(vertices, colors)
     self.normals = Buffer('vec3')
 end
 
---function Mesh.properties.get:size()
---    return #self.vertices
---end
-
 function Mesh:buffer(name)
     if name == 'position' then
         return self.vertices
@@ -151,17 +147,17 @@ end
 function Mesh:setRectTex(idx, s, t, w, h)
     self.needUpdate = true
 
-    local th = t+h
-    local sw = s+w
+    local sw = s + w
+    local th = t + h
 
     self.texCoords = self.texCoords or Buffer('vec2')
 
-    self.texCoords[idx+0] = vec2(s , th)
-    self.texCoords[idx+1] = vec2(s , t)
-    self.texCoords[idx+2] = vec2(sw, t)
-    self.texCoords[idx+3] = vec2(s , th)
-    self.texCoords[idx+4] = vec2(sw, t)
-    self.texCoords[idx+5] = vec2(sw, th)
+    self.texCoords[idx+0] = vec2(s , t)
+    self.texCoords[idx+1] = vec2(s , th)
+    self.texCoords[idx+2] = vec2(sw, th)
+    self.texCoords[idx+3] = vec2(s , t)
+    self.texCoords[idx+4] = vec2(sw, th)
+    self.texCoords[idx+5] = vec2(sw, t)
 end
 
 function Mesh:setGradient(clr1, clr2)
@@ -176,7 +172,6 @@ function Mesh:setGradient(clr1, clr2)
     end
 end
 
-
 function Mesh:normalize(norm)
     norm = norm or 1
     self.vertices = Model.normalize(self.vertices, norm)
@@ -186,4 +181,16 @@ end
 function Mesh:center()
     Model.center(self.vertices)
     return self
+end
+
+function Mesh:boudingBox()
+    local xmin, ymin, xmax, ymax = math.maxinteger, math.maxinteger, -math.maxinteger, -math.maxinteger
+    
+    for i,v in ipairs(self.vertices) do
+        xmin = min(xmin, v.x)
+        ymin = min(ymin, v.y)
+        xmax = max(xmax, v.x)
+        ymax = max(ymax, v.y)
+    end
+    return Rect(xmin, ymin, xmax-xmin, ymin-ymax)
 end

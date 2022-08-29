@@ -169,12 +169,8 @@ function Node:update(dt)
 end
 
 function Node:draw()
---    translate(self.position.x, self.position.y)
-
     local nodes = self:items()
     for i,node in ipairs(nodes) do
---        modelMatrix(self.modelMatrix)
-
         local position = node.absolutePosition
 
         if position and node.items == nil then
@@ -189,7 +185,6 @@ function Node:draw()
         if position and node.items == nil then
             popMatrix()
         end
-
     end    
 end
 

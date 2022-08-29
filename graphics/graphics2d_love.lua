@@ -52,6 +52,9 @@ end
 function Graphics.polyline(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
 
+    if #t < 2 then return end
+    if #t % 2 == 1 then table.insert(t, t[#t]) end
+    
     love.graphics.setColor(__stroke():unpack())
     love.graphics.setLineWidth(strokeSize())
     love.graphics.line(t)
@@ -62,6 +65,8 @@ function Graphics.polygon(t, ...)
     
     -- TODO
     if type(t[1]) == 'table' then return end
+    
+    if #t % 2 == 1 then table.insert(t, t[#t]) end
 
     love.graphics.setColor(__stroke():unpack())
     love.graphics.setLineWidth(strokeSize())

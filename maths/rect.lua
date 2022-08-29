@@ -1,5 +1,7 @@
 class 'Rect' : extends(table)
 
+-- TODO : why extends table
+
 function Rect:init(x, y, w, h)
     self.position = vec2(x, y)
     self.size = vec2(w, h)

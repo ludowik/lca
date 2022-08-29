@@ -47,7 +47,7 @@ function createUIObjects()
                 'dragon',
                 'musclecar',
                 "rubyk's cube"
-                }, setModelName))
+                }, function (ui, modelName) setModelName(modelName) end))
 
     app.ui:add(menuObjects)
 end
@@ -120,7 +120,10 @@ function setModelName(modelName)
 
 --    model.shader = model.shader or shaders['model3d']
 
-    setModel(Mesh(model):normalize(2):center(), keepColor)
+    print(model:boudingBox())
+    setModel(model:normalize(2):center(), keepColor)
+
+    
 
     saveProjectData('modelName', modelName)
 end
@@ -132,7 +135,7 @@ function setModel(model, keepColor)
     app.scene:add(model)
 
     if not keepColor then
-        model:setColors(white)
+        model:setColors(colors.white)
     end
 
     return model
@@ -144,8 +147,19 @@ function update(dt)
 end
 
 function draw()
-    app.scene:draw()
+    background()
+    
+    resetMatrix(true)
     app.ui:draw()
+
+    resetMatrix(true)
+    perspective()
+    
+    app.scene:draw()
+end
+
+function touched(touch)
+    app.ui:touched(touch)
 end
 
 function keypressed(key)

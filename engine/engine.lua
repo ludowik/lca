@@ -66,7 +66,7 @@ function Engine.update(dt)
 
     env.parameter.interface.update(dt)
     env.physics.interface.update(dt)
-    
+
     Application.updateCoroutine(env, dt)
 
     if env.__autotest then
@@ -75,7 +75,7 @@ function Engine.update(dt)
         else
             Engine.autotest()
         end
-    end    
+    end
 
     callApp('update', dt)
 end
@@ -198,7 +198,7 @@ function Engine.draw2d()
             Engine.render(function ()
                     depthMode(true)
                     cullingMode(false)
-                    if getCamera() then getCamera():lookAt() end
+                    if getCamera() and getCamera().lookAt then getCamera():lookAt() end
                     draw()
                 end)
         end
@@ -215,7 +215,7 @@ function Engine.draw3d()
                     depthMode(true)
 --                    cullingMode(true)
                     love.graphics.clear()
-                    if getCamera() then getCamera():lookAt() end
+                    if getCamera() and getCamera().lookAt then getCamera():lookAt() end
                     draw()
                 end
             )
@@ -225,9 +225,12 @@ function Engine.draw3d()
 end
 
 function Engine.drawInfo()
-    love.graphics.setDepthMode('always', true)
+--    love.graphics.setDepthMode('always', true)
 
     Engine.origin = TOP_LEFT
+
+    resetMatrix(true)
+    ortho()
 
     Engine.render(function()
             text(getFPS())

@@ -1,5 +1,5 @@
 function getModelPath()
-    return 'res/model'
+    return 'res/models'
 end
 
 function loadObj(fileName)

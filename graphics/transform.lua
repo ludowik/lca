@@ -9,10 +9,12 @@ local model, view, projection
 
 local function setTransformation()
     local t = love.math.newTransform()
---    scale_matrix(t, (W)/2, (H)/2, 1)
-    
-    love.graphics.replaceTransform(pvmMatrix())
+    scale_matrix(t, (W)/2, (H)/2, 1)
+
+    love.graphics.replaceTransform(projectionMatrix())
     love.graphics.applyTransform(t)
+    love.graphics.applyTransform(viewMatrix())
+    love.graphics.applyTransform(modelMatrix())
 end
 
 local function setMatrix(m, mode, ...)
@@ -77,7 +79,7 @@ function resetMatrix(resetAll)
         view = love.math.newTransform()
         projection = love.math.newTransform()
     end
-    
+
     ortho()
 
     setTransformation()
@@ -95,7 +97,7 @@ function pushMatrix(all)
         projection = projection:clone()
     end
 
-    --    setTransformation()
+--    setTransformation()
 end
 
 function popMatrix(all)
@@ -200,13 +202,13 @@ function ortho(left, right, bottom, top, near, far)
 
     local n = near or -1000
     local f = far or 1000
-    
+
     setMatrix(projection, nil,
         2/(r-l), 0, 0, -(r+l)/(r-l),
         0, 2/(t-b), 0, -(t+b)/(t-b),
         0, 0, -2/(f-n), -(f+n)/(f-n),
         0, 0, 0, 1)
-    
+
     setTransformation()
 end
 

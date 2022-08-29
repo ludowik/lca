@@ -1,8 +1,10 @@
+function setup()
+    camera(3,3,3)
+end
+
 function draw3d()    
     perspective()
     
-    lookAt(vec3(3,3,3))
-
     if elapsedTime/5 % 3 <= 1 then
         rotate(elapsedTime, 1, 0, 0)
     else

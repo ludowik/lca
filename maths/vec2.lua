@@ -36,7 +36,7 @@ function vec2:__index(key)
     elseif key == 'h' then
         return self.y
     end
-    return rawget(vec2, key)
+    return rawget(self, key)
 end
 
 function vec2.random(w, h)

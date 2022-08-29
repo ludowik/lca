@@ -39,6 +39,7 @@ function reset(i)
     vertices:draw()
 
     currentPoint = vec2(W/2, H/2)
+    previousPoint = currentPoint
 end
 
 function anyPoint()
@@ -62,7 +63,7 @@ function notOnePlaceAwayFromThePreviousOne()
 end
 
 function notTwoPlaceAwayFromThePreviousOne()
-    local point = previousPoint.__previous.__previous
+    local point = previousPoint.__previous and previousPoint.__previous.__previous
     repeat
         randomPoint = vertices:random()
     until randomPoint ~= point

@@ -19,39 +19,45 @@ end
 
 function MeshRender:update()
     if not self.vertices or #self.vertices == 0 then return end
-    
-    if not self.needUpdate and self.__vertices and #self.__vertices == #self.vertices then return end    
+
+    if (not self.needUpdate and
+        self.__vertices and
+        #self.__vertices == #self.vertices and
+        self.__verticesSave == self.vertices)
+    then
+        return
+    end
+
     self.needUpdate = false
 
-    local vertices = self.__vertices
-    if not vertices then        
-        if self.vertices[1].x then
-            vertices = table()
-            for i,v in ipairs(self.vertices) do
-                local clr = self.colors[i] or colors.white
-                vertices:insert({
-                        v.x,
-                        v.y,
-                        v.z,
-                        #self.texCoords > 0 and self.texCoords[i].x or 0,
-                        #self.texCoords > 0 and self.texCoords[i].y or 0,
-                        clr.r,
-                        clr.g,
-                        clr.b,
-                        clr.a})
-            end
-        else
-            vertices = self.vertices
+    local vertices
+    if self.vertices[1].x then
+        vertices = table()
+        for i,v in ipairs(self.vertices) do
+            local clr = self.colors[i] or colors.white
+            vertices:insert({
+                    v.x,
+                    v.y,
+                    v.z,
+                    #self.texCoords > 0 and self.texCoords[i].x or 0,
+                    #self.texCoords > 0 and self.texCoords[i].y or 0,
+                    clr.r,
+                    clr.g,
+                    clr.b,
+                    clr.a})
         end
-        self.__vertices = vertices
+    else
+        vertices = self.vertices
     end
+    self.__vertices = vertices
+    self.__verticesSave = vertices
 
     self.mesh = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
 end
 
 function MeshRender:draw()
     if not self.vertices or #self.vertices == 0 then return end
-    
+
     self:update()
 
     local vertices = self.__vertices
@@ -64,35 +70,35 @@ function MeshRender:draw()
     end
 
     if self.texture then
-        self.mesh:setTexture(self.texture.canvas)
+        self.mesh:setTexture(self.texture.data)
     end
-    
+
     GraphicsCore.drawModel(self)
 
 --    GraphicsCore.createShader()
 --    assert(shaders['shader3D'])
 
---    local pvm = {pvmMatrix():getMatrix()}
---    pushMatrix(true)
---    resetMatrix(true)
-    
---    -- TODEL?
-----    local projection = projectionMatrix()
-----    projectionMatrix(
-----        projection
-----        :clone()
-----        :translate(-1, -1)
-----        :scale(2/W, 2/H))
---    do    
---        local shader = love.graphics.getShader()
---        love.graphics.setShader(shaders['shader3D'])
---        shaders['shader3D']:send('pvm', pvm)
---    end
---    popMatrix(true)
+    --    local pvm = {pvmMatrix():getMatrix()}
+    --    pushMatrix(true)
+    --    resetMatrix(true)
 
---    love.graphics.draw(self.m)
+    --    -- TODEL?
+    ----    local projection = projectionMatrix()
+    ----    projectionMatrix(
+    ----        projection
+    ----        :clone()
+    ----        :translate(-1, -1)
+    ----        :scale(2/W, 2/H))
+    --    do    
+    --        local shader = love.graphics.getShader()
+    --        love.graphics.setShader(shaders['shader3D'])
+    --        shaders['shader3D']:send('pvm', pvm)
+    --    end
+    --    popMatrix(true)
 
---    love.graphics.setShader(shader)
+    --    love.graphics.draw(self.m)
+
+    --    love.graphics.setShader(shader)
 end
 
 function MeshRender:drawInstanced(n)

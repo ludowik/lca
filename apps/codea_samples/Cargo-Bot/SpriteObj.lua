@@ -87,7 +87,7 @@ function SpriteObj:setTint(tint)
     self.meshData.mesh:setRectColor(self.meshIdx,self.tint)
 end
 
--- w,y,w,h are in the 0-1 range
+-- x,y,w,h are in the 0-1 range
 function SpriteObj:setRectTex(x,y,w,h)
     self.meshData.mesh:setRectTex(self.meshIdx,x,y,w,h)
 end

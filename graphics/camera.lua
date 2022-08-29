@@ -3,7 +3,7 @@ class('Camera')
 local __cos, __sin, __acos, __asin = math.cos, math.sin, math.acos, math.asin
 
 function getCamera()
-    return _G.env.__camera
+    return _G.env.__camera or (_G.env.scene and _G.env.scene.camera)
 end
 
 function Camera.setup()
@@ -109,6 +109,7 @@ end
 function Camera:getMode()
     if self.mode == CAMERA_MODEL then
         return not isDown(KEY_FOR_MOUSE_MOVING) and CAMERA_MODEL or CAMERA_FPS
+        
     else
         return not isDown(KEY_FOR_MOUSE_MOVING) and CAMERA_FPS or CAMERA_MODEL
     end
@@ -147,7 +148,7 @@ function Camera:rotateX(a)
 end
 
 function Camera:rotateY(a)
-    self:processMouseMovement({deltaX=a, deltaY=0})
+    self:processMouseMovement({dx=a, dy=0})
     self:updateVectors()
 end
 
@@ -201,10 +202,11 @@ end
 
 function Camera:processMouseMovement(touch, constrainPitch)
     if self:getMode() == CAMERA_MODEL then
-        self.vEye = self:rotateAround(self:at(), touch.deltaX, touch.deltaY, constrainPitch)
+        self.vEye = self:rotateAround(self:at(), touch.dx, touch.dy, constrainPitch)
         self:updateAngles()
+        
     else
-        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, touch.deltaX, touch.deltaY, constrainPitch)
+        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, touch.dx, touch.dy, constrainPitch)
         self:updateVectors()
     end
 end

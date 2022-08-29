@@ -13,13 +13,19 @@ if ffi then
             float values[3];
         } vec3;
     ]]
+
+--    ffi.metatype('vec3', vec3)
 end
 
 function vec3:init(x, y, z)
-    if type(x) == 'table' then x, y, z = x.x, x.y, x.z end
+--    self = ffi.new('vec3')
+    
+    if type(x) == 'table' or type(x) == 'cdata' then x, y, z = x.x, x.y, x.z end
     self.x = x or 0
     self.y = y or 0
     self.z = z or 0
+    
+--    return self
 end
 
 function vec3:set(...)
@@ -31,6 +37,27 @@ function vec3:clone()
     return table.clone(self)
 end
 
+--function vec3:__newindex(key, value)
+--    if key == 'w' then
+--        self.x = value
+--        return
+--    elseif key == 'h' then
+--        self.y = value
+--        return
+--    elseif key == 'd' then
+--        self.z = value
+--        return
+--    end
+--    if type(key) == 'number' then
+--        if key == 1 then self.x = value end
+--        if key == 2 then self.y = value end
+--        if key == 3 then self.z = value end
+--        return
+--    end
+
+--    return rawset(vec3, key, value)
+--end
+
 function vec3:__index(key)
     if key == 'w' then
         return self.x
@@ -39,6 +66,12 @@ function vec3:__index(key)
     elseif key == 'd' then
         return self.z
     end
+    if type(key) == 'number' then
+        if key == 1 then return self.x end
+        if key == 2 then return self.y end
+        if key == 3 then return self.z end
+    end
+
     return rawget(vec3, key)
 end
 
@@ -46,7 +79,7 @@ function vec3.random(w, h, d)
     w = w or 1
     h = h or w
     d = d or h
-    
+
     return vec3(
         random(w),
         random(h),

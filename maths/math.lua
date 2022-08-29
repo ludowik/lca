@@ -98,6 +98,8 @@ function math.fract(x)
 end
 fract = math.fract
 
+math.tointeger = tointeger
+
 class '__math'
 
 function __math.test()

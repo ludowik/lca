@@ -36,10 +36,14 @@ if ffi then
             float values[4];
         } color;
     ]]
+    
+--    ffi.metatype('color', Color)
 end
 
 function Color:init(r, g, b, a)
-    if type(r) == 'table' then r, g, b, a = r.r, r.g, r.b, r.a end
+--    self = ffi.new('color')
+    
+    if type(r) == 'table' or type(r) == 'cdata' then r, g, b, a = r.r, r.g, r.b, r.a end
 
     r = r or 0
     g = g or r
@@ -58,6 +62,8 @@ function Color:init(r, g, b, a)
     self.g = g
     self.b = b
     self.a = a
+    
+--    return self
 end
 
 function Color:set(r, g, b, a)

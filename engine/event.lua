@@ -4,7 +4,7 @@ end
 function Engine.keyreleased(key)
     local res = callApp('keyboard', key)
     if res then return true end
-    
+
     if key == 'f1' then
         os.execute('start https://codea.io/reference')
         os.execute('start https://love2d-community.github.io/love-api')
@@ -108,7 +108,7 @@ mouse = table({
 
         tx = 0,
         ty = 0,
-        
+
         altitude = 1,
         azimuthVec = vec2(),
     })
@@ -164,20 +164,20 @@ function __mouseevent(state, x, y, button, presses)
     end
 
     mouse.button = button or mouse.button or 0
-    
+
     -- CODEA
     mouse.deltaX = mouse.dx
     mouse.deltaY = mouse.dy
-    
+
     mouse.pos = vec2(mouse.x, mouse.y)
     mouse.precisePos = mouse.pos
-    
+
     -- pencil
     mouse.force = 1
     mouse.maxForce = 1
     mouse.altitude = 1
     mouse.azimuthVec = vec2()
-    
+
     CurrentTouch = mouse
 end
 
@@ -214,6 +214,10 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
         end
         callApp('mousemoved', mouse2)
         if istouch or love.mouse.isDown(mouse.button) then
+            if getCamera() then
+                getCamera():processMouseMovement(mouse2, true)
+            end
+
             callApp('touched', mouse2)
         end
     end

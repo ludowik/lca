@@ -101,13 +101,13 @@ function AppSound:draw()
     local verticesFin = Buffer('vec3')
 
     for i=0,sampleCount-1 do
---        vertices:add(vec3(#vertices, audio:getSample(i)))
-        vertices:add(#vertices, audio:getSample(i))
+        vertices:add(vec3(#vertices, audio:getSample(i)))
+--        vertices:add(#vertices, audio:getSample(i))
     end
 
     for i=max(0, sampleCount-100),sampleCount-1 do
---        verticesFin:add(vec3(#verticesFin, audio:getSample(i)))
-        verticesFin:add(#verticesFin, audio:getSample(i))
+        verticesFin:add(vec3(#verticesFin, audio:getSample(i)))
+--        verticesFin:add(#verticesFin, audio:getSample(i))
     end
 
     pushMatrix()
