@@ -1,7 +1,7 @@
 viewer.mode = FULLSCREEN
 hideKeyboard()
 
-function setup()    
+function setup()
     touches = Touches()
     
     local fontScale = 1.0
@@ -35,7 +35,7 @@ function draw()
 end
 
 function touched(touch)
-    touches:addTouch(touch)
+    touches:addTouch(touch:clone())
 end
 
 

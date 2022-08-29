@@ -1,7 +1,17 @@
 function requireLib(...)
     local path = scriptPath(3)
     for i,v in pairs({...}) do
-        require(path..'/'..v)
+        local fileName = path:replace('/', '.')..'.'..v
+        require(fileName)
+    end
+end
+
+function requireReloadLib(...)
+    local path = scriptPath(3)
+    for i,v in pairs({...}) do
+        local fileName = path:replace('/', '.')..'.'..v
+        package.loaded[fileName] = false
+        require(fileName)
     end
 end
 

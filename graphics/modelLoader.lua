@@ -43,7 +43,7 @@ function loadObj(fileName)
                     tonumber(datas[3]),
                     tonumber(datas[4])
                 )
-                verticesTemp:insert(v3)
+                verticesTemp:insert(v3:clone())
 
             elseif typeofRecord == 'vn' then
                 -- normals
@@ -52,7 +52,7 @@ function loadObj(fileName)
                     tonumber(datas[3]),
                     tonumber(datas[4])
                 )
-                normalsTemp:insert(v3)
+                normalsTemp:insert(v3:clone())
 
             elseif typeofRecord == 'vt' then
                 -- texture coordinates
@@ -60,7 +60,7 @@ function loadObj(fileName)
                     tonumber(datas[2]),
                     tonumber(datas[3])
                 )
-                texCoordsTemp:insert(v2)
+                texCoordsTemp:insert(v2:clone())
 
             elseif typeofRecord == 'f' then
                 -- faces

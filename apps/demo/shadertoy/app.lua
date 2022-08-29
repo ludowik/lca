@@ -1,7 +1,7 @@
-appPath = scriptPath(2)
-
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
+    
+    setOrigin(BOTTOM_LEFT)
 
     shaders = table()
 
@@ -23,10 +23,13 @@ function setup()
 
         iMouse = vec4()
     }
+    
+    shadersPath = appPath..'/'..appName..'/shaders'
 
+    loadShaders(true)
     env.thread = coroutine.create(
         function (dt)
-            loadShaders(true)
+            
         end)
 end
 
@@ -45,7 +48,7 @@ function initUI(zoom)
         ui.size = minSize
     end
 
-    ui.canvas = image(ui.size.x, ui.size.y)
+    ui.canvas = Image(ui.size.x, ui.size.y)
 
     ui.position = vec2()
     ui.absolutePosition = ui.position
@@ -81,9 +84,10 @@ function drawShader(shader, ui)
         mesh.uniforms.iFrame = mesh.uniforms.iFrame + 1
         mesh.uniforms.iFrameRate = 60
 
-        local touch = mouse:transform()
+        -- TODO : utilité ?
+        local touch = mouse --:transform()
         if Rect.contains(ui, touch) then
-            local x, y = touch:unpack()
+            local x, y = touch.x, touch.y
 
             x = x - shader.ui.absolutePosition.x
             y = y - shader.ui.absolutePosition.y
@@ -135,16 +139,16 @@ function draw()
         shader.ui.canvas:draw(x, y - size.y)
 
         if shader.active then
-            stroke(red)
+            stroke(colors.red)
         else
-            stroke(white)
+            stroke(colors.white)
         end
         noFill()
 
         rectMode(CORNER)
         rect(x, y - size.y, size.x, size.y)
 
-        fill(white)
+        fill(colors.white)
 
         fontSize(8)
 

@@ -3,15 +3,15 @@ class 'Graphics3d'
 function Graphics3d.setup()
     meshAxesX = Model.cylinder(1, 1, 10000):center()
     meshAxesX:setColors(red)
-    meshAxesX.shader = Shader('default')
+    meshAxesX.shader = Shader('graphics/shaders/default')
 
     meshAxesY = Model.cylinder(1, 1, 10000):center()
     meshAxesY:setColors(green)
-    meshAxesY.shader = Shader('default')
+    meshAxesY.shader = Shader('graphics/shaders/default')
 
     meshAxesZ = Model.cylinder(1, 1, 10000):center()
     meshAxesZ:setColors(blue)
-    meshAxesZ.shader = Shader('default')
+    meshAxesZ.shader = Shader('graphics/shaders/default')
 end
 
 function MeshAxes(x, y, z)

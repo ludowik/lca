@@ -181,16 +181,23 @@ function __mouseevent(state, x, y, button, presses)
     CurrentTouch = mouse
 end
 
+function __mouseReverseY(mouse)
+    mouse = mouse:clone()
+    mouse.y = H - mouse.y
+    mouse.pos.y = mouse.y
+    mouse.position.y = mouse.y
+    mouse.dy = -mouse.dy
+    mouse.deltaY = -mouse.deltaY
+    return mouse
+end
+
 function Engine.mousepressed(x, y, button, istouch, presses)
     mouseevent(PRESSED, x, y, button, 0)
 
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
         if getOrigin() == BOTTOM_LEFT then
-            mouse2 = mouse:clone()
-            mouse2.y = H - mouse2.y
-            mouse2.pos.y = mouse2.y
-            mouse2.position.y = mouse2.y
+            mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2
         end
         callApp('mousepressed', mouse2)
@@ -206,14 +213,11 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
         if getOrigin() == BOTTOM_LEFT then
-            mouse2 = mouse:clone()
-            mouse2.y = H - mouse2.y
-            mouse2.pos.y = mouse2.y
-            mouse2.position.y = mouse2.y
+            mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2
         end
         callApp('mousemoved', mouse2)
-        if istouch or love.mouse.isDown(mouse.button) then
+        if istouch or love.mouse.isDown(mouse2.button) then
             if getCamera() then
                 getCamera():processMouseMovement(mouse2, true)
             end
@@ -233,10 +237,7 @@ function Engine.mousereleased(x, y, button, istouch, presses)
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = mouse
         if getOrigin() == BOTTOM_LEFT then
-            mouse2 = mouse:clone()
-            mouse2.y = H - mouse2.y
-            mouse2.pos.y = mouse2.y
-            mouse2.position.y = mouse2.y
+            mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2
         end
         callApp('mousereleased', mouse2)

@@ -20,6 +20,7 @@
 	<key>Dependencies</key>
 	<array>
 		<string>Cameras</string>
+        <string>Touches</string>
 	</array>
 	<key>Description</key>
 	<string>No description available</string>

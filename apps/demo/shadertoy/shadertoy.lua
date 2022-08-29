@@ -1,20 +1,22 @@
 class('ShaderToy', Shader)
 
-shaderChannel = {
-    [0] = Image(appPath..'/channel/cube00_0.jpg')
-}
+function ShaderToy.setup()
+    shaderChannel = {
+        [0] = Image(appPath..'/channel/cube00_0.jpg')
+    }
+end
 
 function ShaderToy:init(name, path)
     self.shaderFilePath = path..'/'..name
     self.nameVertex = '_shadertoy'
 
-    self.path = appPath..'/shaders'
+    self.path = shadersPath
 
-    Shader.init(self, name, appPath..'/shaders')
+    Shader.init(self, name, shadersPath)
 end
 
 function ShaderToy:complete(shaderType, source)
-    if shaderType == renderer.GL_FRAGMENT_SHADER then
+    if shaderType == GL_FRAGMENT_SHADER then
         local defaultUniforms = [[
             uniform vec3      iResolution;           // viewport resolution (in pixels)
             uniform float     iTime;                 // shader playback time (in seconds)
@@ -65,7 +67,7 @@ function ShaderToy:complete(shaderType, source)
 end
 
 function loadShaders(all)
-    local directoryItems = dir(appPath..'/shaders')
+    local directoryItems = dir(shadersPath)
 
     print(appPath)
     print(#directoryItems)
@@ -79,7 +81,7 @@ function loadShaders(all)
                 shaders:add(shader)
             end
 
-            if app.thread then
+            if env.thread then
                 if all then
                     coroutine.yield()
                 else

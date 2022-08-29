@@ -56,6 +56,8 @@ function resetApps()
         listByName = {},
         listByIndex = {},
     }
+    
+    package.loaded = {}
 
     addApps()
 end
@@ -179,6 +181,38 @@ function loadApp(path, name, garbage)
     end
 
     return _G.env
+end
+
+-- load app
+function loadAppCodea(dir, name, isDependencies)    
+    local path = dir..'/'..name
+    local content = love.filesystem.read(path..'/'..'Info.plist')
+
+    if not content then assert(false, path) end
+
+    -- loading dependencies
+    if not isDependencies then
+        local block = content:match('<key>Dependencies</key>.-<array>(.-)</array>')
+        if block then
+            for v in block:gfind('<string>(.-)</string>') do
+                --                v = v:gsub('Documents:', '')
+
+                local links = v:split(':')
+                loadAppCodea(dir, links[#links], true)
+            end
+        end
+    end
+
+    -- loading projects
+    local block = content:match('<key>Buffer Order</key>.-<array>(.-)</array>')
+    if block then
+        for v in block:gfind('<string>(.-)</string>') do
+            if not isDependencies or v:lower() ~= 'main' then
+                package.loaded[path..'/'..v] = nil
+                require(path..'/'..v)
+            end
+        end
+    end
 end
 
 function setActiveApp(env)

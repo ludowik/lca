@@ -11,8 +11,6 @@ function draw()
     background(51)
     
     ortho()
-    
-    scale(W/2, H/2)
 
     translate(W/2, H/2)
 

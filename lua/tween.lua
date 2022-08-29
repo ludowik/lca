@@ -10,7 +10,7 @@ end
 
 tween = class 'Tween'
 
-function Tween:init(delay, object, target, __easing, callback)
+function Tween:init(delay, object, target, easing, callback)
     _G.env.tweensManager.tweens:insert(self)
 
     self.active = true
@@ -22,7 +22,7 @@ function Tween:init(delay, object, target, __easing, callback)
 
     self:reset()
     
-    self.easing = tween.easing.linear
+    self.easing = easing or tween.easing.linear
 
     self.callback = callback
 end

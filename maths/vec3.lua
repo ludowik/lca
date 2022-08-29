@@ -66,11 +66,11 @@ function vec3:__index(key)
     elseif key == 'd' then
         return self.z
     end
-    if type(key) == 'number' then
-        if key == 1 then return self.x end
-        if key == 2 then return self.y end
-        if key == 3 then return self.z end
-    end
+--    if type(key) == 'number' then
+--        if key == 1 then return self.x end
+--        if key == 2 then return self.y end
+--        if key == 3 then return self.z end
+--    end
 
     return rawget(vec3, key)
 end

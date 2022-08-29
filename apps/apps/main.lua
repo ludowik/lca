@@ -10,7 +10,7 @@ function autotest(dt)
     local ram = {
         before = format_ram()
     }
-    
+
     appsList.saveCurrentIndex = appsList.saveCurrentIndex or 1
 
     local apps = enum('apps')
@@ -21,19 +21,22 @@ function autotest(dt)
             local newApp = loadApp(path, name)
             if newApp ~= currentApp then
                 newApp.__autotest = true
-                setActiveApp(newApp)
+                do
+                    setActiveApp(newApp)
 
-                local start = time()
-                for i=1,60 do
-                    love.update(1/60)
-                    love.draw()
-                    local current = time()
-                    if current - start > 1 then
-                        break
+                    local start = time()
+                    for i=1,60 do
+                        love.update(1/60)
+                        local current = time()
+                        if current - start > 1 then
+                            break
+                        end
                     end
-                end
 
-                love.graphics.present()
+                    love.draw()
+                    love.graphics.present()
+                end
+                newApp.__autotest = false
             end
         end
     end
@@ -41,7 +44,7 @@ function autotest(dt)
     ram.after = format_ram()
 
     gc()
-    resetApps()
+--    resetApps()
     GraphicsBase.release()
     Image.release()
     gc()

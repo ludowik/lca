@@ -74,31 +74,6 @@ function MeshRender:draw()
     end
 
     GraphicsCore.drawModel(self)
-
---    GraphicsCore.createShader()
---    assert(shaders['shader3D'])
-
-    --    local pvm = {pvmMatrix():getMatrix()}
-    --    pushMatrix(true)
-    --    resetMatrix(true)
-
-    --    -- TODEL?
-    ----    local projection = projectionMatrix()
-    ----    projectionMatrix(
-    ----        projection
-    ----        :clone()
-    ----        :translate(-1, -1)
-    ----        :scale(2/W, 2/H))
-    --    do    
-    --        local shader = love.graphics.getShader()
-    --        love.graphics.setShader(shaders['shader3D'])
-    --        shaders['shader3D']:send('pvm', pvm)
-    --    end
-    --    popMatrix(true)
-
-    --    love.graphics.draw(self.m)
-
-    --    love.graphics.setShader(shader)
 end
 
 function MeshRender:drawInstanced(n)
