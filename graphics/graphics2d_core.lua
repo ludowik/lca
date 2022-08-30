@@ -188,7 +188,7 @@ function Graphics.ellipse_(x, y, w, h, mode)
             Graphics.drawMesh(Graphics.ellipseMesh)
             popMatrix()
         end
-        
+
         if __fill() then
             pushMatrix()
             scale(w/2-strokeSize(), h/2-strokeSize())
@@ -210,7 +210,7 @@ function Graphics.createShader()
 
     local vertexcode = [[
             uniform mat4 pvm;
-            vec4 position( mat4 transform_projection, vec4 vertex_position )
+            vec4 position(mat4 transform_projection, vec4 vertex_position)
             {
                 // return transform_projection * vertex_position;
                 return pvm * vertex_position;
@@ -218,7 +218,7 @@ function Graphics.createShader()
         ]]
 
     local pixelcode = [[
-            vec4 effect( vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords )
+            vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
             {
                 vec4 texcolor = Texel(tex, texture_coords);
                 return texcolor * color;
@@ -300,57 +300,58 @@ function Model_box(x, y, z, w, h, d)
     return vertices
 end
 
-function Graphics.drawModel(mesh, x, y, z, w, h, d)
-    Graphics.createShader()
+--function Graphics.drawModel(mesh, x, y, z, w, h, d)
+--    Graphics.createShader()
+--    local shader = shaders.default or mesh.shader or Graphics.shader3D
 
-    local shader = love.graphics.getShader()
-    love.graphics.setShader(Graphics.shader3D)
+--    local previousShader = love.graphics.getShader()
+--    love.graphics.setShader(shader.shader or shader)
 
-    pushMatrix()
-    do
-        if x then
-            translate(x, y, z)
-        end
+--    pushMatrix()
+--    do
+--        if x then
+--            translate(x, y, z)
+--        end
 
-        if w then
-            scale(w, h, d)
-        end
+--        if w then
+--            scale(w, h, d)
+--        end
 
-        if __fill() then
-            Graphics.shader3D:send('pvm', {
-                    pvmMatrix():getMatrix()
-                })
+--        if __fill() then
+--            Graphics.shader3D:send('pvm', {
+--                    pvmMatrix():getMatrix()
+--                })
 
-            love.graphics.setColor(__fill():unpack())
-            
-            Graphics.drawMesh(mesh)
-        end
-    end
-    popMatrix()
+--            love.graphics.setColor(__fill():unpack())
 
-    love.graphics.setShader(shader)
-end
+--            Graphics.drawMesh(mesh)
+--        end
+--    end
+--    popMatrix()
+
+--    love.graphics.setShader(previousShader)
+--end
 
 -- TODO : doublon avec la méthode de la classe Model
 local function arguments(...)
     local args = {...}
     local x, y, z, w, h, d = 0, 0, 0, 1, 1, 1
-    
+
     if #args == 1 then
         w = ...
         h, d = w, w
-        
+
     elseif #args == 3 then
         w, h, d = ...
-    
+
     elseif #args == 5 then
         x, y, z, w = ...
         h, d = w, w
-        
+
     elseif #args == 6 then
         x, y, z, w, h, d = ...
     end
-    
+
     return x, y, z, w, h, d
 end
 
@@ -364,7 +365,7 @@ end
 
 function Graphics.box(...)
     local x, y, z, w, h, d = arguments(...)
-    
+
     if not Graphics.boxMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
         local format = {
@@ -378,12 +379,13 @@ function Graphics.box(...)
         Graphics.boxMesh = m -- Graphics.newMesh(format, m.vertices, 'triangles', 'static')
     end
 
-    Graphics.drawModel(Graphics.boxMesh, x, y, z, w, h, d)
+    --Graphics.drawModel(Graphics.boxMesh, x, y, z, w, h, d)
+    Graphics.boxMesh:draw(x, y, z, w, h, d)
 end
 
 function Graphics.sphere(...)
     local x, y, z, w, h, d = arguments(...)
-    
+
     if not Graphics.sphereMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
         local format = {
@@ -396,7 +398,8 @@ function Graphics.sphere(...)
         Graphics.sphereMesh = m -- Graphics.newMesh(format, m.vertices, 'triangles', 'static')
     end
 
-    Graphics.drawModel(Graphics.sphereMesh, x, y, z, w, h, d)
+--    Graphics.drawModel(Graphics.sphereMesh, x, y, z, w, h, d)
+    Graphics.sphereMesh:draw(x, y, z, w, h, d)
 end
 
 function Graphics.newMesh(...)
@@ -414,9 +417,5 @@ function Graphics.newMesh(...)
 end
 
 function Graphics.drawMesh(mesh)
-    if mesh.mesh then
-        love.graphics.draw(mesh.mesh)
-    else
-        mesh:draw()
-    end
+    love.graphics.draw(mesh.mesh or mesh)
 end

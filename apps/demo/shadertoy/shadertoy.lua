@@ -18,6 +18,8 @@ end
 function ShaderToy:complete(shaderType, source)
     if shaderType == GL_FRAGMENT_SHADER then
         local defaultUniforms = [[
+            #pragma language glsl3
+            
             uniform vec3      iResolution;           // viewport resolution (in pixels)
             uniform float     iTime;                 // shader playback time (in seconds)
             uniform float     iTimeDelta;            // render time (in seconds)
@@ -33,21 +35,18 @@ function ShaderToy:complete(shaderType, source)
             uniform vec4      iDate;                 // (year, month, day, time in seconds)
             uniform float     iSampleRate;           // sound sample rate (i.e., 44100)
 
-            in vec3 vPosition;
-            in vec2 vTexCoords;
+            varying vec3 vPosition;
+            varying vec2 vTexCoords;
 
             #define PI 3.14159265359
             
-            #undef in
-            #undef out
-            
-            #undef fragColor
+            #define love_texture Texel
             
             #line 1
         ]]
 
         local ender = [[
-            vec4 effect(vec4 frag_color, sampler2D texture, vec2 texture_coords, vec2 pixel_coords) {
+            vec4 effect(vec4 frag_color, Image tex, vec2 texture_coords, vec2 screen_coords) {
                 vec2 frag_coord = texture_coords * iResolution.xy;
                 mainImage(frag_color, frag_coord);
                 return frag_color;

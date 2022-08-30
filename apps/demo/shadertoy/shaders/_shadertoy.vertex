@@ -1,3 +1,4 @@
+/*
 attribute vec3 vertex;
 attribute vec2 texCoords;
 
@@ -17,4 +18,13 @@ void main() {
 
     vPosition = vertexPosition;
     vTexCoords = texCoords;
+}
+*/
+
+uniform mat4 pvm;
+
+vec4 position(mat4 transform_projection, vec4 vertex_position)
+{
+    // return transform_projection * vertex_position;
+    return pvm * vertex_position;
 }

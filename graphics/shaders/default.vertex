@@ -1,4 +1,9 @@
-vec4 position( mat4 transform_projection, vec4 vertex_position )
+uniform mat4 pvm;
+
+attribute vec3 VertexNormal;
+
+vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
-    return transform_projection * vertex_position;
+    // return transform_projection * vertex_position;
+    return pvm * vertex_position;
 }

@@ -13,9 +13,10 @@ if true then
         }
     end
 
-    function Buffer:init(dataType, buf)
+    function Buffer:init(dataType, buf, inline, ...)
         self.dataType = dataType
         if buf then
+            if inline then buf = {buf, inline, ...} end
             for i,v in ipairs(buf) do
                 self[i] = v
             end

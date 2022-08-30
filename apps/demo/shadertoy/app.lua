@@ -5,8 +5,8 @@ function setup()
 
     shaders = table()
 
-    local wmin = ws(1, 16)
-    local wmax = ws(8, 12)
+    local wmin = ws(1, 6)
+    local wmax = ws(8, 8)
 
     minSize = vec2(wmin, wmin*9/16):round()
     maxSize = vec2(wmax, wmax*9/16):round()
@@ -26,10 +26,9 @@ function setup()
     
     shadersPath = appPath..'/'..appName..'/shaders'
 
-    loadShaders(true)
     env.thread = coroutine.create(
         function (dt)
-            
+            loadShaders(true)
         end)
 end
 

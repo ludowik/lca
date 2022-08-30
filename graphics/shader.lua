@@ -6,7 +6,7 @@ function Shader.setup()
 end
 
 function Shader:init(name)
-    self.name = name or 'graphics/shaders/default'
+    self.name = tostring(name or 'graphics/shaders/default')
     
     self:compile()
 end

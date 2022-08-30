@@ -205,7 +205,6 @@ vec3 _texture(vec3 p) {
 
     // yay, looks like we can sneakily get away with a single sample here
     return pow(texture(iChannel0, p.xy * 2. + p.zz).rgb, vec3(2.2));
-    return vec3(1);
 }
 
 float bumpTexture(vec3 p) {
