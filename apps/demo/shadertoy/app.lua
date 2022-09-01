@@ -1,6 +1,6 @@
 function setup()
     supportedOrientations(LANDSCAPE_ANY)
-    
+
     setOrigin(BOTTOM_LEFT)
 
     shaders = table()
@@ -13,7 +13,7 @@ function setup()
 
     mesh = Model.rect()    
     mesh.uniforms = {
-        iResolution = vec2(),
+        iResolution = vec3(),
 
         iTime = 0,
         iTimeDelta = 0,
@@ -23,7 +23,7 @@ function setup()
 
         iMouse = vec4()
     }
-    
+
     shadersPath = appPath..'/'..appName..'/shaders'
 
     env.thread = coroutine.create(
@@ -102,10 +102,10 @@ function drawShader(shader, ui)
 
         for k,v in pairs(shaderChannel) do
             shader.texture = shaderChannel[0]
-            mesh.uniforms.iChannel0 = 0
+            mesh.uniforms.iChannel0 = shader.texture
         end
 
-        mesh:draw(nil, 0, 0, 0, ui.size.x, ui.size.y, 1)
+        mesh:draw(0, 0, 0, ui.size.x, ui.size.y, 1)
     end
     setContext()
 end

@@ -29,3 +29,9 @@ requireLib(
     'framework',
     'package',
     'speech')
+
+coroutine.__create = coroutine.create
+
+coroutine.create = function (f)
+    f()
+end

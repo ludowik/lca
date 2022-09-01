@@ -29,12 +29,6 @@ function MeshRender:update()
         return
     end
 
-    if not self.__vertices then
-        print('updateMesh ', self.needUpdate)
-    else
-        print('updateMesh ', self.needUpdate, self.__vertices, #self.__vertices == #self.vertices, self.__verticesSave == self.vertices)
-    end
-
     self.needUpdate = false
 
     local vertices
@@ -86,10 +80,10 @@ function MeshRender:draw(...)
     MeshRender.drawModel(self, ...)
 end
 
-function MeshRender.drawModel(mesh, x, y, z, w, h, d)
+function MeshRender:drawModel(x, y, z, w, h, d)
     GraphicsCore.createShader()
-    local shader = shaders.default or mesh.shader or GraphicsCore.shader3D
-    local shaderLove = shader.shader or shader
+    local shader = self.shader or shaders.default or GraphicsCore.shader3D
+    local shaderLove = shader.shader
 
     local previousShader = love.graphics.getShader()
     love.graphics.setShader(shaderLove)
@@ -105,22 +99,9 @@ function MeshRender.drawModel(mesh, x, y, z, w, h, d)
         end
 
         if __fill() then
-            if mesh.uniforms then
-                for k,u in pairs(mesh.uniforms) do
-                    if shaderLove:hasUniform(k) then
-                        shaderLove:send(k, u)
-                    end
-                end
-            end            
-
-            shaderLove:send('pvm', {
-                    pvmMatrix():getMatrix()
-                })
-
+            self:sendUniforms(shaderLove)
             love.graphics.setColor(__fill():unpack())
-
---            Graphics.drawMesh(mesh)
-            love.graphics.draw(mesh.mesh)            
+            love.graphics.draw(self.mesh)            
         end
     end
     popMatrix()
@@ -130,4 +111,34 @@ end
 
 function MeshRender:drawInstanced(n)
     self:draw()
+end
+
+function MeshRender:sendUniforms(shader)
+    if self.uniforms then
+        self.uniforms.pvm = pvmMatrix():getMatrix()
+        for k,u in pairs(self.uniforms) do
+            if shader:hasUniform(k) then
+                local className = classnameof(u)
+                if className == 'Color' then
+                    shader:send(k, {u:unpack()})
+
+                elseif className == 'vec2' then
+                    shader:send(k, {u:unpack()})
+
+                elseif className == 'vec3' then                
+                    shader:send(k, {u:unpack()})
+
+                elseif className == 'vec4' then
+                    shader:send(k, {u:unpack()})
+
+                elseif className == 'Image' then
+                    shader:send(k, u.data)
+
+                else
+                    print(k)
+                    shader:send(k, u)
+                end
+            end
+        end
+    end 
 end

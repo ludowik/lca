@@ -25,7 +25,9 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start() 
 end
 
-if arg[#arg] == "-debug" then debugStart() end
+if arg[#arg] == "-debug" then
+    debugStart()
+end
 
 function __FILE__(level) return debug.getinfo(level or 1, 'S').short_src end
 function __LINE__(level) return debug.getinfo(level or 1, 'l').currentline end

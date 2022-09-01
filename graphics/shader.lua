@@ -5,8 +5,9 @@ function Shader.setup()
     GL_FRAGMENT_SHADER = 'GL_FRAGMENT_SHADER'    
 end
 
-function Shader:init(name)
-    self.name = tostring(name or 'graphics/shaders/default')
+function Shader:init(name, path)
+    self.name = tostring(name or 'default')
+    self.path = tostring(path or 'graphics/shaders')
     
     self:compile()
 end
@@ -19,15 +20,15 @@ function Shader:compile()
     print('compile shader '..self.name)
     
     local vertexShader = (
-        io.read(self.name..'.vertex') or
-        io.read(self.name..'.ver') or
-        io.read('graphics/shaders/default/_shadertoy.vertex'))
+        io.read(self.path..'/'..self.name..'.vertex') or
+        io.read(self.path..'/'..self.name..'.ver') or
+        io.read('graphics/shaders/_shadertoy.vertex'))
     
     local fragmentShader = (
-        io.read(self.name) or
-        io.read(self.name..'.fragment') or
-        io.read(self.name..'.frag') or
-        io.read(self.name..'.glsl'))
+        io.read(self.path..'/'..self.name) or
+        io.read(self.path..'/'..self.name..'.fragment') or
+        io.read(self.path..'/'..self.name..'.frag') or
+        io.read(self.path..'/'..self.name..'.glsl'))
     
     if vertexShader then
         vertexShader = self:complete(GL_VERTEX_SHADER, vertexShader)
@@ -38,7 +39,7 @@ function Shader:compile()
     end
     
     if vertexShader or fragmentShader then
-        self.shader = love.graphics.newShader(vertexShader, fragmentShader)
+        self.shader = love.graphics.newShader(fragmentShader, vertexShader)
     end
 end
 

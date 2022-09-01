@@ -4,6 +4,7 @@ function ShaderToy.setup()
     shaderChannel = {
         [0] = Image(appPath..'/channel/cube00_0.jpg')
     }
+    
 end
 
 function ShaderToy:init(name, path)
@@ -47,7 +48,7 @@ function ShaderToy:complete(shaderType, source)
 
         local ender = [[
             vec4 effect(vec4 frag_color, Image tex, vec2 texture_coords, vec2 screen_coords) {
-                vec2 frag_coord = texture_coords * iResolution.xy;
+                vec2 frag_coord = screen_coords; // texture_coords * iResolution.xy;
                 mainImage(frag_color, frag_coord);
                 return frag_color;
             }
@@ -60,6 +61,17 @@ function ShaderToy:complete(shaderType, source)
         ]]
 
         return defaultUniforms..source..ender
+        
+    else
+        local defaultUniforms = [[
+            #pragma language glsl3            
+            #line 1
+        ]]
+
+        local ender = [[
+        ]]
+
+        return defaultUniforms..source..ender
     end
 
     return source
@@ -68,13 +80,10 @@ end
 function loadShaders(all)
     local directoryItems = dir(shadersPath)
 
-    print(appPath)
-    print(#directoryItems)
-
     for i,shaderFileName in ipairs(directoryItems) do
-        local _,_,extension = splitFilePath(shaderFileName)
+        local _path,_name,extension = splitFilePath(shaderFileName)
         if extension ~= 'vertex' then
-            local shader = ShaderToy(shaderFileName, appPath..'/shaders')
+            local shader = ShaderToy(_name, _path)
             if shader and shader.error == nil then
                 initShader(shader)
                 shaders:add(shader)

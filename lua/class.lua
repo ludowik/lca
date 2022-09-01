@@ -14,10 +14,6 @@ function classes.setup()
         
         table.insert(classes.ref, k)
 
---        for _,base in ipairs(k.__bases) do
---            classWithProperties(k, base)
---        end
-
         if k.setup then
             k.setup()
         end
