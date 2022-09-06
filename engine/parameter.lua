@@ -96,7 +96,13 @@ function Parameter:color(name, clr, callback)
             end))
 end
 
-function Parameter:link(text, url)
+function Parameter:link(name, url)
+    url = url or name
+    self.scene:add(
+        Button(name,
+            function (ui)
+                openURL(url)
+            end))
 end
 
 function Parameter:draw(x, y)

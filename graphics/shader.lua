@@ -20,15 +20,16 @@ function Shader:compile()
     print('compile shader '..self.name)
     
     local vertexShader = (
+        io.read(self.path..'/'..self.name) or
         io.read(self.path..'/'..self.name..'.vertex') or
-        io.read(self.path..'/'..self.name..'.ver') or
-        io.read('graphics/shaders/_shadertoy.vertex'))
+        io.read(self.path..'/'..'default.vertex'))
     
     local fragmentShader = (
         io.read(self.path..'/'..self.name) or
         io.read(self.path..'/'..self.name..'.fragment') or
         io.read(self.path..'/'..self.name..'.frag') or
-        io.read(self.path..'/'..self.name..'.glsl'))
+        io.read(self.path..'/'..self.name..'.glsl') or
+        io.read(self.path..'/'..'default.fragment'))
     
     if vertexShader then
         vertexShader = self:complete(GL_VERTEX_SHADER, vertexShader)
@@ -53,4 +54,5 @@ function Shaders.setup()
     shaders.terrain2d = Shader()
     shaders.rect = Shader()
     shaders.model3d = Shader()
+    shaders.light = Shader('light')    
 end

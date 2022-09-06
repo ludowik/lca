@@ -6,8 +6,8 @@ function Engine.keyreleased(key)
     if res then return true end
 
     if key == 'f1' then
-        os.execute('start https://codea.io/reference')
-        os.execute('start https://love2d-community.github.io/love-api')
+        openURL('https://codea.io/reference')
+        openURL('https://love2d-community.github.io/love-api')
 
     elseif key == 'escape' then
         quit()

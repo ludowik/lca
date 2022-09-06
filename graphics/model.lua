@@ -399,7 +399,9 @@ function Model.box(w, h, d)
     add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 1/4, 2/3)
     add({0,0, wt,0, wt,ht, 0,0, wt,ht, 0,ht}, 1/4, 0/3)
 
-    local m = Model.mesh(vertices, texCoords)
+    local m = Model.mesh(
+        vertices,
+        texCoords)
     
     -- front
     m:setRectColor(1, colors.green)
@@ -868,9 +870,9 @@ function Model.computeNormals(vertices, indices, mode)
 
             local normal = v12:crossInPlace(v13):normalizeInPlace()
 
-            normals[i  ] = normal
-            normals[i+1] = normal
-            normals[i+2] = normal
+            normals[i  ] = normal:clone()
+            normals[i+1] = normal:clone()
+            normals[i+2] = normal:clone()
         end
     else
         for i=1,n-2 do
@@ -890,7 +892,7 @@ function Model.computeNormals(vertices, indices, mode)
             local normal = v12:crossInPlace(v13):normalizeInPlace()
 
             if i%2 == 0 then
-                normals[i] = normal
+                normals[i] = normal:clone()
             else
                 normals[i] = normal:unm()
             end

@@ -199,35 +199,36 @@ function Graphics.ellipse_(x, y, w, h, mode)
     end
     popMatrix()
 
+-- TODO : a tracer
 --    if __stroke() then
 --        polyline_(Graphics.circleBorderMesh, x, y, w/2, h/2)
 --    end
 end
 
-shaders = {}
-function Graphics.createShader()
-    if Graphics.shader3D then return end
+-- TODEL : gérer par shader externe
+--function Graphics.createShader()
+--    if Graphics.shader3D then return end
 
-    local vertexcode = [[
-            uniform mat4 pvm;
-            vec4 position(mat4 transform_projection, vec4 vertex_position)
-            {
-                // return transform_projection * vertex_position;
-                return pvm * vertex_position;
-            }
-        ]]
+--    local vertexcode = [[
+--            uniform mat4 pvm;
+--            vec4 position(mat4 transform_projection, vec4 vertex_position)
+--            {
+--                // return transform_projection * vertex_position;
+--                return pvm * vertex_position;
+--            }
+--        ]]
 
-    local pixelcode = [[
-            vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
-            {
-                vec4 texcolor = Texel(tex, texture_coords);
-                return texcolor * color;
-            }
-        ]]
-    Graphics.shader3D = love.graphics.newShader(pixelcode, vertexcode)
+--    local pixelcode = [[
+--            vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
+--            {
+--                vec4 texcolor = Texel(tex, texture_coords);
+--                return texcolor * color;
+--            }
+--        ]]
+--    Graphics.shader3D = love.graphics.newShader(pixelcode, vertexcode)
 
-    shaders['shader3D'] = Graphics.shader3D
-end
+--    shaders['shader3D'] = Graphics.shader3D
+--end
 
 function Model_setColors(colors, clr)
     for i=#colors-5,#colors do
@@ -300,6 +301,7 @@ function Model_box(x, y, z, w, h, d)
     return vertices
 end
 
+-- TODEL : gérer par MeshRender
 --function Graphics.drawModel(mesh, x, y, z, w, h, d)
 --    Graphics.createShader()
 --    local shader = shaders.default or mesh.shader or Graphics.shader3D

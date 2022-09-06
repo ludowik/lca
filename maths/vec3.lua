@@ -260,9 +260,10 @@ function vec3.cross(a, b)
 end
 
 function vec3.crossInPlace(a, b)    
-    a.x = a.y * b.z - a.z * b.y
-    a.y = a.z * b.x - a.x * b.z
-    a.z = a.x * b.y - a.y * b.x
+    local x = a.y * b.z - a.z * b.y
+    local y = a.z * b.x - a.x * b.z
+    local z = a.x * b.y - a.y * b.x
+    a.x, a.y, a.z = x, y, z
     return a
 end
 

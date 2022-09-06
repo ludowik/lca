@@ -7,13 +7,24 @@ function appPrimitives:init()
 
     supportedOrientations(LANDSCAPE_ANY)
 
-    self.primitiveWidth = 100
-    self.primitiveHeight = 120
-    
+    self.orientation = 2
+
     self.angle = 0
 
-    self.w = self.primitiveWidth * #primitives
-    self.h = self.primitiveHeight * #styles
+    if self.orientation == 1 then
+        self.primitiveWidth = W / #primitives
+        self.primitiveHeight = H / #styles
+
+        self.w = self.primitiveWidth * #primitives
+        self.h = self.primitiveHeight * #styles
+
+    else
+        self.primitiveWidth = W / #styles
+        self.primitiveHeight = H / #primitives
+
+        self.w = self.primitiveWidth * #styles
+        self.h = self.primitiveHeight * #primitives
+    end
 
     self.x = (W - self.w) / 2
     self.y = (H - self.h) / 2
@@ -41,7 +52,7 @@ function appPrimitives:draw()
     end
 
     local x, y = 0, 0
-    local w, h = self.primitiveWidth, self.primitiveWidth
+    local w, h = self.primitiveWidth, self.primitiveHeight
 
     local function drawPrimitive(self, primitive, transformIndex, ...)
         pushMatrix()
@@ -54,9 +65,13 @@ function appPrimitives:draw()
         end
         popMatrix()
 
-        x = x + w
+        if self.orientation == 1 then
+            x = x + w
+        else
+            y =y + h
+        end
     end
-    
+
     for _,style in ipairs(styles) do
         pushStyle()
 
@@ -77,8 +92,13 @@ function appPrimitives:draw()
             drawPrimitive(self, primitive, self.transformIndex, w/2, h/2)
         end
 
-        x = 0
-        y = y + self.primitiveHeight
+        if self.orientation == 1 then
+            x = 0
+            y = y + self.primitiveHeight
+        else
+            x = x + self.primitiveWidth
+            y = 0            
+        end
 
         popStyle()
     end
@@ -169,7 +189,7 @@ primitives = {
 
     function (self, w, h)
         -- TODO
---        polygon(self.vectors)
+        --        polygon(self.vectors)
     end,
 
     function (self, w, h)

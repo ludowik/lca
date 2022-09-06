@@ -228,6 +228,35 @@ function __fill(clr, ...)
     return styles.fillColor
 end
 
+function redraw()
+    env.__loop = -1
+end
+
+function tint(clr, ...)
+    assert(clr)
+    return __tint(clr, ...)
+end
+
+function __tint(clr, ...)
+    if type(clr) == 'number' then clr = Color(clr, ...) end
+
+    styles.tintColor = clr or styles.tintColor or colors.white
+    return styles.tintColor
+end
+
+function noTint()
+    styles.tintColor = nil
+end
+
+function smooth()
+    styles.smooth = true
+    return styles.smooth
+end
+
+function noSmooth()
+    styles.smooth = false
+end
+
 function depthMode(mode)
     if mode ~= nil then
         styles.depthMode = mode 
@@ -255,12 +284,20 @@ function cullingMode(mode)
     return styles.cullingMode
 end
 
-function light()
-    -- TODO
+function light(mode)
+    assert(mode ~= nil)
+    return __light(mode)
+end
+
+function __light(mode)
+    if type(mode) == 'boolean' then
+        styles.light = mode
+    end
+    return styles.light
 end
 
 function noLight()
-    -- TODO
+    styles.light = false
 end
 
 function loop()
@@ -269,32 +306,4 @@ end
 
 function noLoop()
     env.__loop = 0
-end
-
-function redraw()
-    env.__loop = -1
-end
-
-function tint(clr, ...)
-    assert(clr)
-    return __tint(clr, ...)
-end
-
-function __tint(clr, ...)
-    if type(clr) == 'number' then clr = Color(clr, ...) end
-
-    styles.tintColor = clr or styles.tintColor or colors.white
-    return styles.tintColor
-end
-
-function noTint()
-    -- TODO
-end
-
-function smooth()
-    -- TODO
-end
-
-function noSmooth()
-    -- TODO
 end
