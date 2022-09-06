@@ -27,11 +27,11 @@ vec3 diffuse() {
 
 vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
 {
-    lightPos = vec3(cos(iTime), sin(iTime), -1.);
+    lightPos = vec3(cos(iTime), sin(iTime), -2.);
 
     vec4 texcolor = Texel(tex, texture_coords);
     
-    vec4 result = vec4((diffuse()).xyz, 1.) * (texcolor * color);
+    vec4 result = vec4((ambient() + diffuse()).xyz, 1.) * (texcolor * color);
     return result;
 }
 

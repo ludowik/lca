@@ -1,4 +1,6 @@
 function openURL(url, internal)
     assert(not internal)
-    os.execute('start '..url)
+    
+    local cmd = windows and 'start' or 'open'
+    os.execute(cmd..' '..url)
 end
