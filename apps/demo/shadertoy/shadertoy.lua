@@ -19,7 +19,7 @@ end
 function ShaderToy:complete(shaderType, source)
     if shaderType == GL_FRAGMENT_SHADER then
         local defaultUniforms = [[
-            #pragma language glsl3
+//            #pragma language glsl3
             
             uniform vec3      iResolution;           // viewport resolution (in pixels)
             uniform float     iTime;                 // shader playback time (in seconds)
@@ -42,6 +42,7 @@ function ShaderToy:complete(shaderType, source)
             #define PI 3.14159265359
             
             #define love_texture Texel
+            #define precision
             
             #line 1
         ]]
@@ -53,18 +54,18 @@ function ShaderToy:complete(shaderType, source)
                 return frag_color;
             }
 
-            #if VERSION > 0
+            /*#if VERSION > 0
             void main() {
                 gl_FragColor = effect(vec4(1.0), iChannel0, vTexCoords, vPosition.xy);
             }
-            #endif
+            #endif*/
         ]]
 
         return defaultUniforms..source..ender
         
     else
         local defaultUniforms = [[
-            #pragma language glsl3            
+//            #pragma language glsl3            
             #line 1
         ]]
 

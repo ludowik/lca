@@ -33,5 +33,5 @@ requireLib(
 coroutine.__create = coroutine.create
 
 coroutine.create = function (f)
-    f()
+    return coroutine.__create(f)
 end

@@ -25,7 +25,7 @@ function autotest(dt)
                     setActiveApp(newApp)
 
                     local start = time()
-                    for i=1,60 do
+                    for i=1,60*10 do
                         love.update(1/60)
                         local current = time()
                         if current - start > 1 then

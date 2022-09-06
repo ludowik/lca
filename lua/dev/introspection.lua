@@ -1,16 +1,15 @@
 function introspection()
     local env = _G.env
-    local app = _G.env
 
-    app.ui = app.ui or Scene()
+    env.ui = env.ui or Scene()
     
-    app.ui:setLayoutFlow(Layout.row)
+    env.ui:setLayoutFlow(Layout.row)
 
     local function addGroup(filterType)
-        local group = app.ui:ui(filterType)
+        local group = env.ui:ui(filterType)
         if group == nil then
             group = UIScene(Layout.column)
-            app.ui:add(group)
+            env.ui:add(group)
         else
             group:clear()
         end
@@ -43,7 +42,7 @@ function introspection()
     addGroup('function')
     
     env.draw = function ()
-        app.ui:draw()
+        env.ui:draw()
     end
     
 end
