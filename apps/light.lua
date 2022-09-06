@@ -6,6 +6,8 @@ end
 function draw3d()
     perspective()
     
+    shaders.light.uniforms.iTime = elapsedTime
+    
     light(true)
     box(-2, 0, 0, 1, 1,1)
     

@@ -120,10 +120,7 @@ function setModelName(modelName)
 
 --    model.shader = model.shader or shaders['model3d']
 
-    print(model:boudingBox())
     setModel(model:normalize(2):center(), keepColor)
-
-    
 
     saveProjectData('modelName', modelName)
 end
@@ -154,6 +151,8 @@ function draw()
 
     resetMatrix(true)
     perspective()
+    
+    light(true)
     
     app.scene:draw()
 end

@@ -9,10 +9,13 @@ function Shader:init(name, path)
     self.name = tostring(name or 'default')
     self.path = tostring(path or 'graphics/shaders')
     
+    self.uniforms = {}
+    
     self:compile()
 end
 
 function Shader:complete(shaderType, source)
+    source = '#pragma language glsl3'..NL..source
     return source
 end
 

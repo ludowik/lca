@@ -8,7 +8,7 @@ local format = {
     {"VertexPosition", "float", 3}, -- The x,y,z position of each vertex.
     {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
     {"VertexColor", "byte", 4},     -- The r,g,b,a color of each vertex.
-    {"VertexNormal", "float", 3},   -- The x,y,z direction of each normal.
+    {"VertexNormal", "float", 3}    -- The x,y,z direction of each normal.
 }
 
 function MeshRender:init()
@@ -48,7 +48,8 @@ function MeshRender:update()
                     clr.a,
                     #self.normals > 0 and self.normals[i].x or 0,
                     #self.normals > 0 and self.normals[i].y or 0,
-                    #self.normals > 0 and self.normals[i].z or 0,})
+                    #self.normals > 0 and self.normals[i].z or 0,
+                })
         end
     else
         vertices = self.vertices
@@ -81,19 +82,19 @@ function MeshRender:draw(...)
 end
 
 function MeshRender:getShader()
-    if self.shader then return self.shader.shader end
+    if self.shader then return self.shader end
     if __light() then
-        return shaders.light.shader
+        return shaders.light
     end
-    return shaders.default.shader
+    return shaders.default
 end
 
-        
+
 function MeshRender:drawModel(x, y, z, w, h, d)
     local shader = self:getShader()
-    
+
     local previousShader = love.graphics.getShader()
-    love.graphics.setShader(shader)
+    love.graphics.setShader(shader.shader)
 
     pushMatrix()
     do
@@ -120,13 +121,15 @@ function MeshRender:drawInstanced(n)
     self:draw()
 end
 
-function MeshRender:sendUniforms(shader)
-    self.uniforms = self.uniforms or {}
-    self.uniforms.pvm = {pvmMatrix():getMatrix()}
-    self.uniforms.model = {modelMatrix():getMatrix()}
+function MeshRender:sendUniforms(shader)    
+    local uniforms = shader.uniforms or self.uniforms or {}
+    uniforms.pvm = {pvmMatrix():getMatrix()}
+    uniforms.model = {modelMatrix():getMatrix()}
+
+    shader = shader.shader
     
-    if self.uniforms then        
-        for k,u in pairs(self.uniforms) do
+    if uniforms then        
+        for k,u in pairs(uniforms) do
             if shader:hasUniform(k) then                
                 local className = classnameof(u)
                 if className == 'Color' then

@@ -17,10 +17,10 @@ function ShaderToy:init(name, path)
 end
 
 function ShaderToy:complete(shaderType, source)
+    source = '#pragma language glsl3'..NL..source
+    
     if shaderType == GL_FRAGMENT_SHADER then
-        local defaultUniforms = [[
-//            #pragma language glsl3
-            
+        local defaultUniforms = [[            
             uniform vec3      iResolution;           // viewport resolution (in pixels)
             uniform float     iTime;                 // shader playback time (in seconds)
             uniform float     iTimeDelta;            // render time (in seconds)
@@ -64,8 +64,7 @@ function ShaderToy:complete(shaderType, source)
         return defaultUniforms..source..ender
         
     else
-        local defaultUniforms = [[
-//            #pragma language glsl3            
+        local defaultUniforms = [[        
             #line 1
         ]]
 

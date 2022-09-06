@@ -4,12 +4,13 @@ uniform mat4 model;
 attribute vec3 VertexNormal;
 
 varying vec3 FragPos;
-varying vec3 Normal;
+varying vec3 VaryingNormal;
 
 vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
-    Normal = VertexNormal;
-    FragPos = vec3(model * vertex_position);
+    FragPos = vec3(model * VertexPosition);
+    VaryingNormal = VertexNormal;
+    
     // return transform_projection * vertex_position;
     return pvm * vertex_position;
 }
