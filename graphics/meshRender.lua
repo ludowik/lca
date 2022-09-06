@@ -5,10 +5,10 @@ local function vec2(x, y, uvx, uvy)
 end
 
 local format = {
-    {"VertexPosition", "float", 3}, -- The x,y position of each vertex.
+    {"VertexPosition", "float", 3}, -- The x,y,z position of each vertex.
     {"VertexTexCoord", "float", 2}, -- The u,v texture coordinates of each vertex.
     {"VertexColor", "byte", 4},     -- The r,g,b,a color of each vertex.
-    {"VertexNormal", "float", 3},    -- The x,y position of each vertex.
+    {"VertexNormal", "float", 3},   -- The x,y,z direction of each normal.
 }
 
 function MeshRender:init()
@@ -48,7 +48,7 @@ function MeshRender:update()
                     clr.a,
                     #self.normals > 0 and self.normals[i].x or 0,
                     #self.normals > 0 and self.normals[i].y or 0,
-                    #self.normals > 0 and self.normals[i].y or 0,})
+                    #self.normals > 0 and self.normals[i].z or 0,})
         end
     else
         vertices = self.vertices
@@ -80,13 +80,20 @@ function MeshRender:draw(...)
     MeshRender.drawModel(self, ...)
 end
 
-function MeshRender:drawModel(x, y, z, w, h, d)
-    GraphicsCore.createShader()
-    local shader = self.shader or shaders.default or GraphicsCore.shader3D
-    local shaderLove = shader.shader
+function MeshRender:getShader()
+    if self.shader then return self.shader.shader end
+    if __light() then
+        return shaders.light.shader
+    end
+    return shaders.default.shader
+end
 
+        
+function MeshRender:drawModel(x, y, z, w, h, d)
+    local shader = self:getShader()
+    
     local previousShader = love.graphics.getShader()
-    love.graphics.setShader(shaderLove)
+    love.graphics.setShader(shader)
 
     pushMatrix()
     do
@@ -99,7 +106,7 @@ function MeshRender:drawModel(x, y, z, w, h, d)
         end
 
         if __fill() then
-            self:sendUniforms(shaderLove)
+            self:sendUniforms(shader)
             love.graphics.setColor(__fill():unpack())
             love.graphics.draw(self.mesh)            
         end
@@ -114,10 +121,13 @@ function MeshRender:drawInstanced(n)
 end
 
 function MeshRender:sendUniforms(shader)
-    if self.uniforms then
-        self.uniforms.pvm = pvmMatrix():getMatrix()
+    self.uniforms = self.uniforms or {}
+    self.uniforms.pvm = {pvmMatrix():getMatrix()}
+    self.uniforms.model = {modelMatrix():getMatrix()}
+    
+    if self.uniforms then        
         for k,u in pairs(self.uniforms) do
-            if shader:hasUniform(k) then
+            if shader:hasUniform(k) then                
                 local className = classnameof(u)
                 if className == 'Color' then
                     shader:send(k, {u:unpack()})
@@ -135,7 +145,6 @@ function MeshRender:sendUniforms(shader)
                     shader:send(k, u.data)
 
                 else
-                    print(k)
                     shader:send(k, u)
                 end
             end

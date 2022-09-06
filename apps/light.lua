@@ -1,0 +1,14 @@
+function setup()
+    parameter.link('opengl', 'https://learnopengl.com/Lighting/Basic-Lighting')
+    camera(10, 10, 10)
+end
+
+function draw3d()
+    perspective()
+    
+    light(true)
+    box(-2, 0, 0, 1, 1,1)
+    
+    light(false)
+    box(2, 0, 0, 1, 1,1)
+end
