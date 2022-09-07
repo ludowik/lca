@@ -82,10 +82,10 @@ function MeshRender:draw(...)
 end
 
 function MeshRender:getShader()
-    if self.shader then return self.shader end
     if __light() then
         return shaders.light
     end
+    if self.shader then return self.shader end
     return shaders.default
 end
 

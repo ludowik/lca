@@ -1,6 +1,7 @@
 function setup()
     parameter.link('opengl', 'https://learnopengl.com/Lighting/Basic-Lighting')
     camera(10, 10, 10)
+    setOrigin(BOTTOM_LEFT)
 end
 
 function draw3d()

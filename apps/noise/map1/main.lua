@@ -12,8 +12,6 @@ function appMap:init()
 
     self.hmg = HeightsMapGenerator()
 
-    camera(500, 100, 500, -100, 0, -500)
-
     skybox = Model.skybox(100000)
     skybox.shader = Shader('default')
     skybox.texture = Image('res/images/skybox.png')
@@ -111,6 +109,8 @@ function appMap:init()
     sea.normals = Model.computeNormals(sea.vertices)
 
     self.player = vec3(0, 0, 0)
+    
+    camera(500, 100, 500, -100, 0, -500)
 end
 
 function appMap:draw()
@@ -118,6 +118,22 @@ function appMap:draw()
 
     perspective()
 
+    self.player.x = self.player.x + 0.1 -- playerX
+    self.player.z = playerZ
+
+    local s = 10
+    local w = 5
+    fill(colors.blue)
+
+    local x, y, z = xyz(self.player)
+    y = -200 -- self.hmg:getHeight(x, z)
+
+    camera(
+        s*(x-1)-100, y, -s*(z-1),
+        s*(x-1), y/2, -s*(z-1))
+    
+    box(s*(x-1), y, -s*(z-1), w, w, w)
+    
     currentMaterial = defaultMaterial
 
     MeshAxes()
@@ -137,17 +153,4 @@ function appMap:draw()
 
     sea:setColors(colors.blue:alpha(opacity))
     sea:draw()
-
-    self.player.x = self.player.x + 0.1 --playerX
-    self.player.z = playerZ
-
-    local s = 10
-    local w = 5
-    fill(colors.blue)
-
-    local x, y, z = xyz(self.player)
-    y = self.hmg:getHeight(x, z)
-
-    translate(s*(x-1), y, -s*(z-1))
-    box(w, w, w)
 end

@@ -20,18 +20,18 @@ function setup()
     parameter.watch('isButtonDown(5)')
 end
 
-function draw()
+function draw3d()
     background(51)
 
     perspective()
 
     noLight()
 
-    model.shader = shaders['terrain2d']
-    model.shader.uniforms = model.shader.uniforms or {}
+    --model.shader = shaders['terrain2d']
+--    model.shader.uniforms = model.shader.uniforms or {}
 
-    model.shader.uniforms = uniforms
-
+    model.uniforms = uniforms
+    
     local x, y, z = tointeger(cam.vEye.x), tointeger(cam.vEye.y), tointeger(cam.vEye.z)
 
     local w = 256
@@ -46,7 +46,7 @@ function draw()
             n = max(1, 2^floor(dist))
             N = w / n
             
-            model.shader.uniforms.n = N
+            model.uniforms.n = N
             
             model:drawInstanced(
                 N^2,

@@ -18,7 +18,7 @@ function setup()
     local w, h, d = 10, 10, 10
 
     local m = mesh()
-    m.shader = Shader('default')
+    m.shader = shaders.default
 
     for i=0,n-1 do
         v.x = i*w
@@ -37,13 +37,6 @@ function setup()
             index = index + 6
         end
     end
-
-    fill(colors.white)
-
-    env.scene = Scene()
-    env.scene.camera = Camera(50, 200, -50, 100, 0, 100)
-    
-    env.scene:add(MeshObject(m))
 
     index = 0
     for i=0,n-1 do
@@ -65,4 +58,19 @@ function setup()
     
     m.normals = Model.computeNormals(m.vertices)
     assert(m.normals)
+    
+    env.scene = Scene()
+    env.scene.camera = Camera(50, 200, -50, 100, 0, 100)
+    
+    env.scene:add(m)
 end
+
+function draw3d()
+    perspective()
+    light(true)
+    
+    fill(colors.white)
+    env.scene:draw()
+end
+
+
