@@ -27,6 +27,9 @@ function draw3d()
 
     noLight()
 
+    model.shader = model.shader or Shader('terrain2d')
+--    model.shader.uniforms = model.shader.uniforms or {}
+
     model.uniforms = uniforms
     
     local x, y, z = tointeger(cam.vEye.x), tointeger(cam.vEye.y), tointeger(cam.vEye.z)
