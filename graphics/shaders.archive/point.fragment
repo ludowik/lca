@@ -1,0 +1,29 @@
+uniform vec3 size;
+
+uniform vec4 stroke;
+uniform float strokeSize;
+
+in vec2 vTexCoords;
+
+void main() {
+    float distance = length(vTexCoords);
+    if (distance > 1.) {
+        discard;
+    }
+    
+    float width = strokeSize + 2.;
+
+    gl_FragColor = stroke;
+
+    vec2 vSize = normalize(vTexCoords);
+    vSize.x *= size.x;
+    vSize.y *= size.y;
+    
+    float vLen = length(size);
+    
+    gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(
+        vLen - 2.0,
+        vLen,
+        vLen * distance
+    ));
+}

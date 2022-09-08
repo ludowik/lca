@@ -1,0 +1,129 @@
+uniform mat4 matrixModel;
+uniform mat4 matrixPV;
+
+uniform vec4 fill;
+uniform vec4 stroke;
+uniform vec4 tint;
+
+uniform int useLight;
+uniform int useColor;
+uniform int useTexture;
+
+uniform sampler2D tex0;
+
+uniform vec3 cameraPosition;
+
+struct material {
+    vec4 color;
+    float emissive;
+};
+
+#define LIGHT_AMBIENT 0
+#define LIGHT_DIRECTIONNAL 1
+
+struct light {
+    int type;
+    
+    int state;
+    
+    vec3 position;
+    vec3 direction;
+    
+    vec4 color;
+    
+    float ambientStrength;
+    float diffuseStrength;
+    float specularStrength;
+};
+
+struct lightResult {
+    vec3 color;
+    
+    vec3 surfaceToLight;    
+    
+    float constant;
+    float linear;
+    float quadratic;
+    
+    float coefficient;
+};
+
+uniform int nLights;
+uniform light lights[10];
+
+in vec3 vPosition;
+in vec3 vNormal;
+in vec4 vColor;
+in vec2 vTexCoords;
+
+lightResult ambientLight(light l) {
+    lightResult res;
+    res.color = l.ambientStrength * l.color.rgb;
+    return res;
+}
+
+// point light
+lightResult pointLight(light l, vec3 surfacePos, vec3 position) {
+    lightResult res;
+    res.surfaceToLight = normalize(position.xyz - surfacePos);
+
+    float distanceToLight = length(position.xyz - surfacePos);
+    res.constant = 1.0 / (1.0 + l.diffuseStrength * pow(distanceToLight, 2.));
+    
+    res.color = l.color.rgb / res.constant;
+
+    return res;
+}
+
+vec3 sunPosition = vec3(500000., 1000000., 1000.);
+
+// directional light
+lightResult directionalLight(light l, vec3 surfacePos, vec3 normal) {
+    lightResult res;
+
+    vec3 direction = l.position - surfacePos;
+    res.surfaceToLight = normalize(direction.xyz);
+
+    res.coefficient = max(0.0, dot(normal, res.surfaceToLight));
+    
+    res.color = l.color.rgb * res.coefficient / (1. - res.constant);
+
+    return res;
+}
+
+void main() {
+    vec4 finalColor;
+    if (useTexture == 1)
+        finalColor = texture2D(tex0, vTexCoords) * tint;
+    else if (useColor == 1)
+        finalColor = vColor;
+    else
+        finalColor = fill;
+            
+    if (useLight > 0) {
+        vec3 normal = normalize(transpose(inverse(mat3(matrixModel))) * vNormal);
+        
+        vec3 surfacePos = vPosition;
+        vec4 surfaceColor = vColor;
+        
+        vec3 aggregateColor;
+
+        for (int i=0 ; i<nLights ; ++i) {
+            light l = lights[i];
+            if (l.state == 1) {
+                if (l.type == LIGHT_AMBIENT) {
+                    lightResult res = ambientLight(l);
+                    aggregateColor += vec3(finalColor) * res.color;
+                    
+                } else if (l.type == LIGHT_DIRECTIONNAL) {
+                    lightResult res = directionalLight(l, surfacePos, normal);
+                    aggregateColor += vec3(finalColor) * res.color;
+                    
+                }
+            }
+        }
+        gl_FragColor = vec4(aggregateColor, finalColor.a);
+    } else {
+        gl_FragColor = finalColor;
+    }
+}

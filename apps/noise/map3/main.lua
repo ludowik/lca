@@ -27,7 +27,7 @@ function draw3d()
 
     noLight()
 
-    --model.shader = shaders['terrain2d']
+    model.shader = model.shader or Shader('terrain2d')
 --    model.shader.uniforms = model.shader.uniforms or {}
 
     model.uniforms = uniforms

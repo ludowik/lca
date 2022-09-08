@@ -1,0 +1,53 @@
+uniform vec3 size;
+
+uniform vec4 fill;
+uniform vec4 stroke;
+
+uniform float strokeSize;
+
+uniform int useAngle;
+
+uniform float angleMin;
+uniform float angleMax;
+
+in vec2 vTexCoords;
+
+void main() {
+    if (useAngle == 1) {
+        float angle = atan(vTexCoords.x, vTexCoords.y);
+        if (angle < 0.) {
+            angle += TAU;
+        }
+        
+        if (angle < angleMin || angle > angleMax) {
+            discard;
+        }
+    }
+
+    float distance = length(vTexCoords);
+    if (distance > 1.) {
+        discard;
+    }
+    
+    float width = strokeSize + 2.;
+
+    gl_FragColor = fill;
+    
+    float vLen = length(size);
+    
+    if (stroke.a > 0. && strokeSize > 0.) {
+        float sEdge = smoothstep(
+            vLen - width - 1.,
+            vLen - width,
+            vLen * distance
+        );
+        
+        gl_FragColor = (stroke * sEdge) + ((1.0 - sEdge) * gl_FragColor);
+    }
+
+    gl_FragColor.a = gl_FragColor.a * (1.0 - smoothstep(
+        vLen - 1.0,
+        vLen,
+        vLen * distance
+    ));
+}
