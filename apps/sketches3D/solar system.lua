@@ -10,7 +10,7 @@ function SolarSystem:draw()
     background(51)
 
     perspective()
-    camera(0, 0, 100)
+    camera(50, 50, 50)
 
     p:update()
     p:draw()

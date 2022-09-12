@@ -93,7 +93,7 @@ const float landMaxElevation = 150.;
 vec4 rock = vec4(90./255., 77./255., 65./255., 1.);
 
 //void main() {
-vec4 position(mat4 transform_projection, vec4 vertex_position)
+vec4 position(mat4 transform_projection, vec4 vertex_position) {
     float x = float(gl_InstanceID % n);
     float z = float(gl_InstanceID / n);
     
@@ -143,4 +143,6 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
     aNormal = mat3(transpose(inverse(matrixModel))) * vNormal;
 
     gl_Position = matrixPV * vertexPosition;
+    
+    return gl_Position;
 }

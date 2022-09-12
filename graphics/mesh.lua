@@ -6,7 +6,7 @@ function Mesh:init(...)
     self:clear(...)
 end
 
-function Mesh:clear(vertices, colors)
+function Mesh:clear(vertices, colors, normals)
     MeshRender.clear(self)
     
     if vertices and vertices.vertices then 
@@ -15,9 +15,8 @@ function Mesh:clear(vertices, colors)
     
     self.vertices = vertices or Buffer('vec3')
     self.colors = colors or Buffer('color')
-
     self.texCoords = Buffer('vec2')
-    self.normals = Buffer('vec3')
+    self.normals = normals or Buffer('vec3')
 end
 
 function Mesh:buffer(name)

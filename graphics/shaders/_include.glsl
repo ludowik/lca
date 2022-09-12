@@ -1,3 +1,4 @@
+/*
 precision highp int;
 precision highp float;
 
@@ -16,6 +17,7 @@ precision highp float;
 
     #define fragColor gl_FragColor
 #endif
+*/
 
 vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
 vec4 black = vec4(0.0, 0.0, 0.0, 1.0);

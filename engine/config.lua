@@ -1,5 +1,5 @@
 function loadConfig()
-    local name = 'config.lua'
+    local name = '_config.lua'
     
     local config = {}
     
@@ -20,7 +20,7 @@ function loadConfig()
 end
 
 function saveConfig()
-    love.filesystem.write('config.lua', 'return ' .. table.tolua(config))
+    love.filesystem.write('_config.lua', 'return ' .. table.tolua(config))
 end
 
 config = loadConfig()
