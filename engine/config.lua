@@ -1,16 +1,22 @@
 function loadConfig()
     local name = 'config.lua'
+    
+    local config = {}
+    
     if love.filesystem.getInfo(name) then
-        local ok, chunk, result
-        ok, chunk = pcall(love.filesystem.load, name) -- load the chunk safely
+        local ok, chunk = pcall(love.filesystem.load, name) -- load the chunk safely
         if ok then
-            ok, result = pcall(chunk)
+            local ok, result = pcall(chunk)
             if ok and type(result) == 'table' then
-                return result
+                config = result
             end
         end
     end
-    return {}
+    
+    config.framework = config.framework or 'love2d'
+    config.renderer = config.renderer or 'love2d'
+
+    return config
 end
 
 function saveConfig()
@@ -18,3 +24,4 @@ function saveConfig()
 end
 
 config = loadConfig()
+

@@ -30,24 +30,32 @@ requireLib(
     'package',
     'speech')
 
-if arg[#arg] == "-debug" then
-    coroutine.__create = coroutine.create
-
-    coroutine.create = function (f)
-        local thread = {
-            f = f,
-            status = 'suspended'
-        }
-        return thread
+local function __debug()
+    for k,v in pairs(arg) do
+        print(k,v)
     end
 
-    coroutine.status = function (thread)
-        return thread.status
-    end
+    if arg[#arg] == "-debug" then
+        coroutine.__create = coroutine.create
 
-    coroutine.resume = function (thread, ...)
-        thread.f(...)
-        thread.status = 'dead'
-        return true
+        coroutine.create = function (f)
+            local thread = {
+                f = f,
+                status = 'suspended'
+            }
+            return thread
+        end
+
+        coroutine.status = function (thread)
+            return thread.status
+        end
+
+        coroutine.resume = function (thread, ...)
+            thread.f(...)
+            thread.status = 'dead'
+            return true
+        end
     end
 end
+
+__debug()
