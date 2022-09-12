@@ -20,5 +20,8 @@ function makelovejs()
         os.execute('unzip -o '..build_directory..'/lovejs/lca-lovejs.zip -d '..build_directory..'/lovejs')
         os.execute('cp '..build_directory..'/lovejs/lca/game.data .')
     end
---    os.execute('python3 -m http.server 8080 --directory lca')
+    
+--    os.execute('open python3 -m http.server 8080 --directory lca')
+    
+    openURL('http://localhost:8080')
 end

@@ -18,7 +18,7 @@ function Shader:complete(shaderType, source)
     local includes =
     (
         io.read(self.path..'/'..'_include.glsl')..
-        io.read(self.path..'/'..'_math.glsl')..
+--        io.read(self.path..'/'..'_math.glsl')..
         io.read(self.path..'/'..'_noise2D.glsl')..
         io.read(self.path..'/'..'_noise3D.glsl')
     )

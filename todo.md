@@ -24,7 +24,7 @@ Jeu de carte : solitaire
 Rendu en 1x pour waves
 
 Modéliser une fourmi en voxel
-Animer le skelette de la 🐜 
+Animer le skelette de la 🐜
 Animer un skelette humain
 Récupérer un fichier d’animation de skelette
 
