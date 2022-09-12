@@ -26,7 +26,7 @@ vec4 quadIn(vec4 a, vec4 b, float t) {
 }
 
 //void main() {
-vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
+vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
     float coef = max(0., dot(normalize(vNormal), vec3(0., 1., 0.)));
-    gl_FragColor = vec4(vColor.xyz * coef, 1.0);
+    return vec4(vColor.xyz * coef, 1.0);
 }

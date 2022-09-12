@@ -8,7 +8,9 @@ if love then
     end
 
     function io.write(path, content, mode)
+        content = content or ''
         mode = mode or 'wt'
+        
         if mode:left(1) == 'w' then
             return love.filesystem.write(path, content)
         else
@@ -31,7 +33,10 @@ else
     end
 
     function io.write(path, content, mode)
-        local file = io.open(path, mode or 'wt')
+        content = content or ''
+        mode = mode or 'wt'
+        
+        local file = io.open(path, mode)
         if file then
             local success, message = file:write(content)
             assert(success, message)

@@ -125,6 +125,9 @@ function MeshRender:sendUniforms(shader)
     local uniforms = shader.uniforms or self.uniforms or {}
     uniforms.pvm = {pvmMatrix():getMatrix()}
     uniforms.model = {modelMatrix():getMatrix()}
+    
+    uniforms.matrixModel = {modelMatrix():getMatrix()}
+    uniforms.matrixPV = {pvMatrix():getMatrix()}
 
     shader = shader.shader
     

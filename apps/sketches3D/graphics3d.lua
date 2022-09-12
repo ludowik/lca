@@ -9,6 +9,8 @@ function setup()
     setModelName(modelName)
 
     app.scene.camera = Camera(2, 2, 2)
+    
+    setOrigin(BOTTOM_LEFT)
 end
 
 function createUI()

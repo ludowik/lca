@@ -1042,7 +1042,7 @@ function Model.sphere(x, y, z, w, h, d)
         normals[i] = vertices[i]:normalize()
     end
 
-    return Mesh(vertices, texCoords, normals)
+    return Model.mesh(vertices, texCoords, normals)
 end
 
 function meshAddVertex(vertices, v)
