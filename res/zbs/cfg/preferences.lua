@@ -54,8 +54,8 @@ binarylist['*.obj'] = true
 excludelist['*.obj'] = false
 
 -- interpreter
-if jit.os == 'Windows' then
-    path.love = 'C:/Users/lmilhau/Documents/Perso/love2D/love.exe'
-else
-    path.love = '/Applications/love'
-end
+--if jit.os == 'Windows' then
+--    path.love = 'C:/Users/lmilhau/Documents/Perso/love2D/love.exe'
+--else
+--    path.love = '/Applications/love'
+--end

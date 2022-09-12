@@ -88,8 +88,8 @@ function drawShader(shader, ui)
         if Rect.contains(ui, touch) then
             local x, y = touch.x, touch.y
 
-            x = x - shader.ui.absolutePosition.x
-            y = y - shader.ui.absolutePosition.y
+            x = x - ui.absolutePosition.x
+            y = y - ui.absolutePosition.y
 
             mesh.uniforms.iMouse.x, mesh.uniforms.iMouse.y = x, y
 
@@ -98,6 +98,9 @@ function drawShader(shader, ui)
             else
                 mesh.uniforms.iMouse.z, mesh.uniforms.iMouse.w = -1, -1
             end
+            
+        else            
+            mesh.uniforms.iMouse = vec4()
         end
 
         for k,v in pairs(shaderChannel) do
@@ -170,6 +173,9 @@ function draw()
 
     if currentActiveShader then
         local size = currentActiveShader.zoom.size
+        
+        currentActiveShader.zoom.position = vec2(0, y-y/2)
+        currentActiveShader.zoom.absolutePosition = currentActiveShader.zoom.position
 
         spriteMode(CENTER)
         sprite(currentActiveShader.zoom.canvas, W/2, y-y/2)

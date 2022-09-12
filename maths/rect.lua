@@ -159,3 +159,7 @@ function Rect:fx()
     local b = self:y2() - (a * self:x2())
     return a, b
 end
+
+function Rect.test()
+    assert(Rect(1, 2, 3, 4).position.x == 1)
+end

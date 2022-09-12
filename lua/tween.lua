@@ -10,19 +10,26 @@ end
 
 tween = class 'Tween'
 
-function Tween:init(delay, object, target, easing, callback)
+function Tween:init(delay, object, target, easingAndLoop, callback)
     _G.env.tweensManager.tweens:insert(self)
 
     self.active = true
 
     self.object = object    
     self.target = target
-    
+
     self.delay = delay    
 
     self:reset()
-    
-    self.easing = easing or tween.easing.linear
+
+    if type(easingAndLoop) == 'table' then
+        self.easing = easingAndLoop.easing or tween.easing.linear
+        self.loop = easingAndLoop.easing or tween.loop.once
+        
+    else
+        self.easing = easingAndLoop or tween.easing.linear
+        self.loop = tween.loop.once
+    end
 
     self.callback = callback
 end
@@ -91,7 +98,7 @@ end
 
 function Tween:reset()
     self.source = table()
-    
+
     for k,v in pairs(self.target) do
         self.source[k] = self.object[k]
     end
@@ -122,11 +129,11 @@ function Tween:update(dt)
 
         if self.elapsed >= self.delay then 
             self.active = false
-            
+
             if self.callback then
                 self.callback(self)
             end
-            
+
             if self.next then
                 self.next:play()
             end

@@ -68,9 +68,10 @@ function Shaders.setup()
     shaders = Shaders()
 
     shaders.default = Shader()
-    shaders.terrain = Shader()
-    shaders.terrain2d = Shader()
-    shaders.rect = Shader()
-    shaders.model3d = Shader()
+    shaders.terrain = shaders.default
+    shaders.terrain2d = shaders.default
+    shaders.rect = shaders.default
+    shaders.model3d = shaders.default
+    
     shaders.light = Shader('light')    
 end

@@ -1,5 +1,7 @@
 love.filesystem.setRequirePath('?.lua;?/__init.lua')
 
+print(love.filesystem.getSaveDirectory())
+
 ffi = love and require 'ffi' or nil
 
 json = require 'lib/json'
