@@ -1,5 +1,3 @@
-config.framework = config.framework or 'love2d'
-
 if config.framework == 'love2d' then
     loadLibc = false
 else

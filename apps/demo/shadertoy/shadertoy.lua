@@ -43,6 +43,7 @@ function ShaderToy:complete(shaderType, source)
             
             #define love_texture Texel
             #define precision
+            #define highp
             
             #line 1
         ]]
@@ -65,6 +66,9 @@ function ShaderToy:complete(shaderType, source)
         
     else
         local defaultUniforms = [[        
+            #define precision
+            #define highp
+            
             #line 1
         ]]
 

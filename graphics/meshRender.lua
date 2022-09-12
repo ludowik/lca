@@ -122,9 +122,12 @@ function MeshRender:drawInstanced(n)
 end
 
 function MeshRender:sendUniforms(shader)    
-    local uniforms = shader.uniforms or self.uniforms or {}
+    local uniforms = self.uniforms or shader.uniforms or {}
     uniforms.pvm = {pvmMatrix():getMatrix()}
     uniforms.model = {modelMatrix():getMatrix()}
+    
+    uniforms.matrixModel = {modelMatrix():getMatrix()}
+    uniforms.matrixPV = {pvMatrix():getMatrix()}
 
     shader = shader.shader
     

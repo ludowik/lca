@@ -11,8 +11,10 @@ function setupWindow()
 end
 
 local love2d = love
-function initWindow()
+function initWindow(mode)
     local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
+
+    mode = mode or 'portrait'
 
     if os.name == 'web' then
         local w1, h1 = love2d.window.getDesktopDimensions()
@@ -35,13 +37,17 @@ function initWindow()
         y = 24
         h = 900
         w = h * 9/16
-        wt, ht = w+x*3, h+y*2
+        wt, ht = w + x*3, h + y*2
     end
 
     w = round(love2d.window.toPixels(w))
     h = round(love2d.window.toPixels(h))
 
-    if w > h then
+    if mode == 'landscape' then
+        w, h = h, w
+        wt, ht = w + x*3, h + y*2
+        
+    elseif w > h then
         w, h, wt, ht, x, y = h, w, ht, wt, y, x
     end
 
