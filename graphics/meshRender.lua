@@ -95,7 +95,7 @@ function MeshRender:drawModel(x, y, z, w, h, d)
 
     local previousShader = love.graphics.getShader()
     love.graphics.setShader(shader.shader)
-
+    
     pushMatrix()
     do
         if x then

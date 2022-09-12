@@ -23,6 +23,8 @@ function resetStyle()
     depthMode(false)
 
     blendMode(NORMAL)
+    
+    light(false)
 end
 
 function pushStyle()

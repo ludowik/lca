@@ -45,6 +45,7 @@ function Scene:draw()
 --    else
 --        self.modelMatrix = modelMatrix():clone()
 --    end
+    
     Node.draw(self)
 end
 

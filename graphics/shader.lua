@@ -15,7 +15,16 @@ function Shader:init(name, path)
 end
 
 function Shader:complete(shaderType, source)
-    source = '#pragma language glsl3'..NL..source
+    local noise = ''
+    
+--    (
+--        io.read(self.path..'/_include.glsl')..NL..
+--        io.read(self.path..'/_noise2D.glsl')..NL..
+--        io.read(self.path..'/_noise3D.glsl'))
+        
+    source = [[
+        #pragma language glsl3
+    ]]..NL..noise..NL..source
     return source
 end
 
@@ -43,6 +52,9 @@ function Shader:compile()
     end
     
     if vertexShader or fragmentShader then
+        io.write(self.path..'/compile.vertex', vertexShader)
+        io.write(self.path..'/compile.fragment', fragmentShader)
+        
         self.shader = love.graphics.newShader(fragmentShader, vertexShader)
     end
 end

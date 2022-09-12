@@ -96,8 +96,6 @@ function pushMatrix(all)
         table.insert(projection_matrices, projection)
         projection = projection:clone()
     end
-
---    setTransformation()
 end
 
 function popMatrix(all)
