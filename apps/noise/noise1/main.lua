@@ -37,7 +37,7 @@ function AppMap:init()
         for ib=0,n-1 do
             for jb=0,n-1 do
                 local block = Mesh()
-                block.shader = Shader('default')
+                block.shader = shaders.light
 
                 map:add(block)
 
@@ -128,7 +128,7 @@ function AppMap:init()
         generate(batchMode, self.map, noise, green, dt)
     end
 
-    local batchMode = true
+    local batchMode = false
     if batchMode then
         self.thread = coroutine.create(function (dt)
                 generateAll(true)
@@ -148,3 +148,5 @@ function AppMap:init()
 
     self.scene.camera = Camera(0, 500, 500, self.imageSize*10/2, 0, self.imageSize*10/2)
 end
+
+

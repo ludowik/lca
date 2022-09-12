@@ -36,7 +36,7 @@ end
 
 function Application:draw()
     background(colors.black)
-
+    
     self.scene:draw()
     self.ui:draw()
 end
