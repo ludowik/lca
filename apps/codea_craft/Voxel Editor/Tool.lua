@@ -148,9 +148,9 @@ function Tool:apply()
         end
     elseif toolMode == TOOL_GET then
         local s = volume:get(self.startCoord, BLOCK_STATE)
-        local r = bit32.band(bit32.rshift(s, 24), 255) -- TOFIX : (s>>24) & 255
-        local g = bit32.band(bit32.rshift(s, 16), 255) -- TOFIX : (s>>16) & 255
-        local b = bit32.band(bit32.rshift(s,  8), 255) -- TOFIX : (s>> 8) & 255
+        local r = bit32.band(bit32.rshift(s, 24), 255)
+        local g = bit32.band(bit32.rshift(s, 16), 255)
+        local b = bit32.band(bit32.rshift(s,  8), 255)
         toolColor = color(r,g,b)
         Color = toolColor
     end

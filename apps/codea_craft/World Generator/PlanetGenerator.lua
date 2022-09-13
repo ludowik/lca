@@ -72,7 +72,7 @@ end
 
 function blendEdges(images)
     local w,h = images[1].width, images[1].height
-    -- TODO: determine which edges to blend
+    
     blendEdgesH(images[5], images[4], h)
     blendEdgesH(images[5], images[4], h)
     blendEdgesH(images[5], images[4], h)

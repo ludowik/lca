@@ -69,10 +69,10 @@ function Model.mesh(vertices, texCoords, normals, indices)
         m.normals = Model.computeNormals(m.vertices)
     end
 
-    -- TODO
---    if m.indices == nil or #m.indices == 0 then
---        m.vertices, m.texCoords, m.normals, m.indices = Model.computeIndices(m.vertices, m.texCoords, m.normals)
---    end
+    -- TODO : implement indices
+    if m.indices == nil or #m.indices == 0 then
+        m.vertices, m.texCoords, m.normals, m.colors, m.indices = Model.computeIndices(m.vertices, m.texCoords, m.normals, m.colors)
+    end
 
     return m
 end
@@ -90,10 +90,11 @@ function Model.set(m, p)
     m.normals = p.normals or m.normals
 end
 
-function Model.computeIndices(vertices, texCoords, normals)
+function Model.computeIndices(vertices, texCoords, normals, colors)
     local v = Buffer('vec3')
     local t = texCoords and Buffer('vec2')
     local n = normals and Buffer('vec3')
+    local c = colors and Buffer('Color')
 
     local indices = Buffer('unsigned short')
     local verticesIndices = {}
@@ -111,7 +112,7 @@ function Model.computeIndices(vertices, texCoords, normals)
                     (normals   == nil or n[j] == normals[i]))
                 then
                     find = j
-                    indices[i] = find-1
+                    indices[i] = find -- index from 1
                     break
                 end
             end
@@ -127,8 +128,11 @@ function Model.computeIndices(vertices, texCoords, normals)
             if normals then
                 n[nbIndices] = normals[i]
             end
-
-            indices[i] = nbIndices-1            
+            if colors then
+                c[nbIndices] = colors[i]
+            end
+            
+            indices[i] = nbIndices -- index from 1
             verticesIndices[key]:add(nbIndices)
             nbIndices = nbIndices + 1
         end        
@@ -136,7 +140,7 @@ function Model.computeIndices(vertices, texCoords, normals)
 
     log(string.format('Generate {indices} indices for {vertices} vertices', {indices=#v, vertices=#vertices}))
 
-    return v, t, n, indices
+    return v, t, n, c, indices
 end
 
 function Model.averageNormals(vertices, normals)
@@ -425,7 +429,7 @@ function Model.box(w, h, d)
 end
 
 function Model.tetrahedron(x, y, z, w, h, d)
-    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
+    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d)
 
     local vertices = vertices_tetra
     vertices = Model.scaleAndTranslateAndRotate(vertices, 0, 0, 0, w, h, d, 90)
@@ -625,7 +629,7 @@ function Model.ground(n)
 end
 
 function Model.plane(x, y, z, w, h, d)
-    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
+    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d)
 
     local vertices_face = Buffer('vec3', {
             p1,p2,p3,p1,p3,p4
@@ -962,40 +966,8 @@ function Model.load(fileName, normalize)
     end
 end
 
-function positionAndSize(x, y, z, w, h, d, size)
-    if w then
-        x = x or 0
-        y = y or 0
-        z = z or 0
-
-        w = w or size
-        h = h or w
-        d = d or w
-
-    elseif x then
-        w = x or size
-        h = y or w
-        d = z or w
-
-        x = 0
-        y = 0
-        z = 0
-
-    else
-        x = 0
-        y = 0
-        z = 0
-
-        w = 1
-        h = 1
-        d = 1
-    end
-
-    return x, y, z, w, h, d
-end
-
 function Model.sphere(x, y, z, w, h, d)
-    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d, 1)
+    x, y, z, w, h, d = positionAndSize(x, y, z, w, h, d)
 
     local hw, hh, hd = w/2, h/2, d/2
 

@@ -12,9 +12,11 @@ function autotest(dt)
     }
 
     appsList.saveCurrentIndex = appsList.saveCurrentIndex or 1
-
+        
     local apps = enum('apps')
     for i=appsList.saveCurrentIndex,#apps do
+        if pumpEvent() then break end
+        
         item = apps[i]
         if isApp(item) then        
             local path, name, ext = splitFilePath(item )
@@ -25,16 +27,15 @@ function autotest(dt)
                     setActiveApp(newApp)
 
                     local start = time()
-                    for i=1,60*10 do
-                        love.update(1/60)
+                    for i=1,60*10 do                        
+                        Engine.update(1/60)
                         local current = time()
                         if current - start > 1 then
                             break
                         end
                     end
 
-                    love.draw()
-                    love.graphics.present()
+                    Engine.draw(true)
                 end
                 newApp.__autotest = false
             end

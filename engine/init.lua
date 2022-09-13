@@ -28,9 +28,9 @@ requireLib(
     'path',
     'sound',
     'keyboard',
+    'speech',
     'framework',
-    'package',
-    'speech')
+    'package')
 
 local function __debug()
     for k,v in pairs(arg) do

@@ -301,41 +301,7 @@ function Model_box(x, y, z, w, h, d)
     return vertices
 end
 
--- TODEL : gérer par MeshRender
---function Graphics.drawModel(mesh, x, y, z, w, h, d)
---    Graphics.createShader()
---    local shader = shaders.default or mesh.shader or Graphics.shader3D
-
---    local previousShader = love.graphics.getShader()
---    love.graphics.setShader(shader.shader or shader)
-
---    pushMatrix()
---    do
---        if x then
---            translate(x, y, z)
---        end
-
---        if w then
---            scale(w, h, d)
---        end
-
---        if __fill() then
---            Graphics.shader3D:send('pvm', {
---                    pvmMatrix():getMatrix()
---                })
-
---            love.graphics.setColor(__fill():unpack())
-
---            Graphics.drawMesh(mesh)
---        end
---    end
---    popMatrix()
-
---    love.graphics.setShader(previousShader)
---end
-
--- TODO : doublon avec la méthode de la classe Model
-local function arguments(...)
+function positionAndSize(...)
     local args = {...}
     local x, y, z, w, h, d = 0, 0, 0, 1, 1, 1
 
@@ -358,15 +324,15 @@ local function arguments(...)
 end
 
 function Graphics.plane(...)
-    local x, y, z, w, h, d = arguments(...)
+    local x, y, z, w, h, d = positionAndSize(...)
 end
 
 function Graphics.pyramid(...)
-    local x, y, z, w, h, d = arguments(...)
+    local x, y, z, w, h, d = positionAndSize(...)
 end
 
 function Graphics.box(...)
-    local x, y, z, w, h, d = arguments(...)
+    local x, y, z, w, h, d = positionAndSize(...)
 
     if not Graphics.boxMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
@@ -386,7 +352,7 @@ function Graphics.box(...)
 end
 
 function Graphics.sphere(...)
-    local x, y, z, w, h, d = arguments(...)
+    local x, y, z, w, h, d = positionAndSize(...)
 
     if not Graphics.sphereMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
