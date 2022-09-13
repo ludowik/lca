@@ -1,17 +1,18 @@
 class 'Physics'
 
 function Physics.setup()
-    Gravity = vec2(0, -9)
+    Gravity = vec3(0, -9.81)
 end
 
 function Physics:init()    
-    self.active = true
-
     self.bodies = table()
+    self.contacts = table()
     self.joints = table()
-    
+
     self.pixelRatio = 32
-    
+
+    self:resume()
+
     interface(self, Physics)
 end
 
@@ -32,7 +33,9 @@ end
 function Physics:add(object, shapeType, ...)
     object.body = self:body(...)
     object.body.type = shapeType
-    object.body.item = object
+    if item then
+        object.body.item, object.body = object, body
+    end
 end
 
 function Physics:body(...)
@@ -62,6 +65,7 @@ function Physics:update(dt)
     for i=1,n do
         self:step(dt/n)
     end
+    self:updateProperties()
 end
 
 function Physics:step(dt)
@@ -81,17 +85,46 @@ function Physics:step(dt)
     end
 end
 
+function Physics:updateProperties()
+    for _,body in ipairs(self.bodies) do
+        if body.item then
+            body.item.position = body.position
+            body.item.angle = body.angle
+        end
+    end
+end
+
 function Physics:draw()
     for i,body in ipairs(self.bodies) do
         body:draw()
     end
 end
 
-function Physics:solveCollisions()
-    local zoneSize = 100
-    
-    local zones = {}
+function Physics:canCollide(categories, mask)
+    for categoryA in ipairs(categories) do
+        for categoryB in ipairs(mask) do
+            if categoryA == categoryB then
+                return true
+            end
+        end
+    end
+    return false
+end
 
+function Physics:solveCollisions()
+    self.contacts = table()
+
+    local bodies = self.bodies
+    local contacts = self.contacts
+
+    for i,body in ipairs(self.bodies) do
+        body.contact = nil
+    end
+
+    -- space partitioning
+    local zoneSize = 100
+
+    local zones = {}
     for _,b in ipairs(self.bodies) do
         if b.type == DYNAMIC or b.type == STATIC then
             local i1 = math.floor((b.position.x-b.radius) / zoneSize)
@@ -115,41 +148,51 @@ function Physics:solveCollisions()
 
     -- detect collisions
     self.checkCollisionsCount = 0
-    
+
     local function detectCollisions(bodies)
-        for i=1,#bodies do                  
+        for i=1,#bodies do
             local b1 = bodies[i]
-            for j=i+1,#bodies do       
+            for j=i+1,#bodies do
                 local b2 = bodies[j]
+                if self:canCollide(b1.categories, b2.mask) then
 
-                self.checkCollisionsCount = self.checkCollisionsCount + 1
+                    self.checkCollisionsCount = self.checkCollisionsCount + 1
 
-                local direction = b2.position - b1.position 
-                local dist = direction:len()
-                local distMax = b1.radius + b2.radius
-                if dist < distMax then
+                    local direction = b2.position - b1.position 
+                    local dist = direction:len()
+                    local distMax = b1.radius + b2.radius
+
                     -- collision
-                    -- 
+                    if dist < distMax then
+                        local contact = Contact(b1, b2)
+                        contacts:insert(contact)
 
-                    --b1.linearVelocity, b2.linearVelocity = b2.linearVelocity, b1.linearVelocity
+                        b1.contact = b2
+                        b2.contact = b1
 
-                    --local angle = b1.linearVelocity:angleBetween(b2.linearVelocity)
+                        --b1.linearVelocity, b2.linearVelocity = b2.linearVelocity, b1.linearVelocity
+                        --local angle = b1.linearVelocity:angleBetween(b2.linearVelocity)
 
-                    local n = direction:normalize()
+                        local n = direction:normalize()
 
-                    local p = 2 * (b1.linearVelocity.x * n.x + b1.linearVelocity.y * n.y - b2.linearVelocity.x * n.x - b2.linearVelocity.y * n.y) / 
-                    (b1.mass + b2.mass)
+                        local p = 2 * (
+                            b1.linearVelocity.x * n.x +
+                            b1.linearVelocity.y * n.y -
+                            b2.linearVelocity.x * n.x -
+                            b2.linearVelocity.y * n.y ) / (b1.mass + b2.mass)
 
-                    b1.linearVelocity.x = b1.linearVelocity.x - p * b1.mass * n.x
-                    b1.linearVelocity.y = b1.linearVelocity.y - p * b1.mass * n.y
+                        b1.linearVelocity.x = b1.linearVelocity.x - p * b1.mass * n.x
+                        b1.linearVelocity.y = b1.linearVelocity.y - p * b1.mass * n.y
 
-                    b2.linearVelocity.x = b2.linearVelocity.x + p * b2.mass * n.x
-                    b2.linearVelocity.y = b2.linearVelocity.y + p * b2.mass * n.y
+                        b2.linearVelocity.x = b2.linearVelocity.x + p * b2.mass * n.x
+                        b2.linearVelocity.y = b2.linearVelocity.y + p * b2.mass * n.y
 
-                    direction = direction:normalize() * (distMax - dist)
-                    
-                    b1.position = b1.position - direction / 2
-                    b2.position = b2.position + direction / 2       
+                        direction = direction:normalize() * (distMax - dist)
+
+                        b1.position = b1.position - direction / 2
+                        b2.position = b2.position + direction / 2
+                    end
+
                 end
             end 
         end
@@ -157,6 +200,13 @@ function Physics:solveCollisions()
 
     for k,zone in pairs(zones) do
         detectCollisions(zone)
+    end
+
+    for _,contact in ipairs(contacts) do
+        local b1 = contact.bodyA
+        local b2 = contact.bodyB
+
+        Engine.collide(contact)
     end
 end
 

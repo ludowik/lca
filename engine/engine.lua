@@ -229,6 +229,10 @@ function Engine.draw3d()
     end
 end
 
+function Engine.collide(...)
+    callApp('collide', ...)
+end
+
 function Engine.drawInfo()
     Engine.origin = TOP_LEFT
 
@@ -257,7 +261,7 @@ function Engine.drawInfo()
         end, 10, Y)
 
     Engine.render(function()
-            env.parameter.interface.draw(W, 0)
+            env.parameter.interface.draw(W/SCALE, 0)
         end, X, Y)
 end
 

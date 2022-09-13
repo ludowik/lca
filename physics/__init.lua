@@ -2,4 +2,6 @@ requireLib(
     'physics',
     'body_new',
     'joint',
-    'object')
+    'object',
+    'collision',
+    'contact')

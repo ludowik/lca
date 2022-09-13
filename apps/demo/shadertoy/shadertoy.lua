@@ -90,7 +90,7 @@ function loadShaders(all)
             local shader = ShaderToy(_name, _path)
             if shader and shader.error == nil then
                 initShader(shader)
-                shaders:add(shader)
+                shadertoys:add(shader)
             end
 
             if env.thread then

@@ -172,7 +172,7 @@ function push2_G(meta)
 end
 
 function classnameof(object)
-    return attributeof('__className', object)
+    return attributeof('__className', object) or 'nil'
 end
 
 function attributeof(attrName, object)

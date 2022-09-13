@@ -53,6 +53,8 @@ function initWindow(mode)
         w, h, wt, ht, x, y = h, w, ht, wt, y, x
     end
 
+    local xpos, ypos = 100, 50 -- love.window.getPosition()
+
     love.window.setMode(
         wt,
         ht, {
@@ -60,9 +62,14 @@ function initWindow(mode)
             usedpiscale = true,
             msaa = 8,
             depth = 24,
-            vsync = 0
+            vsync = 0,
+            x = xpos,
+            y = ypos,
+            display = 1,
         })
-
+    
+    love.mouse.setPosition(wt/2, ht/2)
+    
     return x, y, w, h
 end
 

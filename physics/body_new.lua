@@ -44,6 +44,9 @@ function Body:init(bodyType, shapeType, ...)
     self.angularVelocity = 0
 
     self.mass = 1
+    
+    self.categories = {0}
+    self.mask = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
 end
 
 function Body:destroy()
