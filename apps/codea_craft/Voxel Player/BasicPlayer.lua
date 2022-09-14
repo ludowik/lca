@@ -1,6 +1,6 @@
 BasicPlayer = class()
 
-BasicPlayer.GROUP = bit32.lshift(1, 11) -- TOFIX : 1<<11
+BasicPlayer.GROUP = bit32.lshift(1, 11)
 
 function BasicPlayer:init(entity, camera, x, y, z)
     assert(touches, "Please include Touches project as a dependency")
@@ -147,16 +147,16 @@ function BasicPlayer:update()
     end
     
     local hit1 = scene.physics:sphereCast(self.entity.position, vec3(0,-1,0), 0.52, 0.48,
-        bit32.bnot(0), -- TOFIX : ~0,
-        bit32.bnot(BasicPlayer.GROUP)) -- TOFIX : ~BasicPlayer.GROUP)
+        bit32.bnot(0),
+        bit32.bnot(BasicPlayer.GROUP))
     
     if hit1 and hit1.normal.y > 0.5 then
         self.grounded = true
     end
     
     local hit2 = scene.physics:sphereCast(self.entity.position, vec3(0,-1,0), 0.5, 0.52,
-        bit32.bnot(0), -- TOFIX : ~0,
-        bit32.bnot(BasicPlayer.GROUP)) -- TOFIX : ~BasicPlayer.GROUP)
+        bit32.bnot(0),
+        bit32.bnot(BasicPlayer.GROUP))
         
     if hit2 and hit2.normal.y < 0.5 and moveDir.z == 1 then
         self:jump()

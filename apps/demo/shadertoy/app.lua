@@ -1,9 +1,7 @@
 function setup()
-    supportedOrientations(LANDSCAPE_ANY)
-
     setOrigin(BOTTOM_LEFT)
 
-    shaders = table()
+    shadertoys = table()
 
     local wmin = ws(1, 6)
     local wmax = ws(8, 8)
@@ -33,7 +31,7 @@ function setup()
 end
 
 function suspend()
-    for i,shader in ipairs(shaders) do
+    for i,shader in ipairs(shadertoys) do
         shader:release()
     end
 end
@@ -83,8 +81,7 @@ function drawShader(shader, ui)
         mesh.uniforms.iFrame = mesh.uniforms.iFrame + 1
         mesh.uniforms.iFrameRate = 60
 
-        -- TODO : utilité ?
-        local touch = mouse --:transform()
+        local touch = mouse
         if Rect.contains(ui, touch) then
             local x, y = touch.x, touch.y
 
@@ -119,7 +116,7 @@ end
 function draw()
     background(51)
 
-    for i,shader in ipairs(shaders) do
+    for i,shader in ipairs(shadertoys) do
         if shader.active then
             drawShader(shader, shader.ui)
             drawShader(shader, shader.zoom)
@@ -131,7 +128,7 @@ function draw()
     local x, y = 0, HEIGHT
     local w, h = textSize('A')
 
-    for i,shader in ipairs(shaders) do
+    for i,shader in ipairs(shadertoys) do
         if shader.active then
             currentActiveShader = shader
         end
@@ -187,7 +184,7 @@ function touched(touch)
         loadNext = true
 
         local currentActiveShader, nextActiveShader
-        for i,shader in ipairs(shaders) do
+        for i,shader in ipairs(shadertoys) do
             if shader.active then
                 currentActiveShader = shader
             end

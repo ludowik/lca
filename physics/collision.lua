@@ -1,4 +1,4 @@
-local Collision = class('Fizix.Collision')
+class 'Collision'
 
 function Collision.collide(obj1, obj2)
     if obj1.shapeType == POLYGON and obj2.shapeType == POLYGON then

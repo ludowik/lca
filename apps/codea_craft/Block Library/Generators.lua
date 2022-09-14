@@ -30,7 +30,7 @@ function treeGenerator()
         math.randomseed(x * y * z)
         local height = math.random(4,7)
         local size = math.floor(height/2)
-        local branches = math.random(2,3) -- TODO
+        local branches = math.random(2,3)
         self.voxels:set(x,y,z,"empty")
 
         -- Only grow on dirt or grass

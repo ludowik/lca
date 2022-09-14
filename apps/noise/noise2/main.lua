@@ -17,6 +17,10 @@ function release()
 end
 
 function generateImg()
+    if img.width ~= WIDTH then
+        img = Image(WIDTH, HEIGHT)
+    end
+    
     local r
     for x=0,WIDTH-1 do
         for y=0,HEIGHT-1 do

@@ -1,5 +1,3 @@
-class 'Collision'
-
 function distFromPoint2Segment(x, y, x1, y1, x2, y2)
     local A = x - x1
     local B = y - y1
@@ -309,6 +307,8 @@ function raycastBox2d(line, box)
     end
 end
 
-function Collision.test()
+class 'CollisionDetection'
+
+function CollisionDetection.test()
     assert(pointOnLine(vec2(), Rect(0, 0, 0, 100)))
 end

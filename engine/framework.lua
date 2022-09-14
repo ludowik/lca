@@ -64,6 +64,19 @@ os.name = (
 osx = os.name == 'osx'
 oswindows = os.name == 'windows'
 
+function pumpEvent(event)
+    event = event or love.event
+    event.pump()
+    for name, a,b,c,d,e,f in event.poll() do
+        if name == "quit" then
+            if not love.quit or not love.quit() then
+                return a or 0
+            end
+        end
+        love.handlers[name](a,b,c,d,e,f)
+    end
+end
+
 if config.framework == 'love2d' then
     require 'engine.love'
 
@@ -128,6 +141,10 @@ else
                 setTitle = window.setTitle,
                 setVSync = window.setVSync,
                 getSafeArea = window.getSafeArea,
+                toPixels = window.toPixels,
+                setMode = window.setMode,
+                minimize = window.minimize,
+                restore = window.restore,
             },
 
             event = love.event,
@@ -145,6 +162,7 @@ else
 
             graphics = {
                 replaceTransform = graphics.replaceTransform,
+                applyTransform = graphics.applyTransform,
 
                 setDepthMode = graphics.setDepthMode,
                 setMeshCullMode = graphics.setMeshCullMode,
@@ -200,6 +218,8 @@ else
             },
 
             timer = {
+                sleep = timer.sleep,
+                
                 step = function ()
                     if global.__time1 == nil then
                         global.__time1 = love.timer.getTime()
@@ -229,21 +249,7 @@ else
         Engine.load()
 
         while not Engine.quit do
-            -- TODEL
-            -- Process events.
---            if event then
---                event.pump()
---                for name, a,b,c,d,e,f in event.poll() do
---                    if name == "quit" then
---                        if not love.quit or not love.quit() then
---                            return a or 0
---                        end
---                    end
---                    love.handlers[name](a,b,c,d,e,f)
---                end
---            end
-            sdl:event()    
-
+            sdl:event()
 
             -- Update dt, as we'll be passing it to update
             local dt
@@ -254,23 +260,15 @@ else
 
             -- Call update and draw
             Engine.update(dt)
---        if love.update then
-            --            love.update(dt)
-            --        end -- will pass 0 if love.timer is disabled
 
             if graphics and graphics.isActive() then
                 graphics.clear(graphics.getBackgroundColor())
                 graphics.origin()
 
                 Engine.draw()
-                --            if love.draw then
-                --                love.draw()
-                --            end
-
-                graphics.present()
             end
 
-            --        if love.timer then love.timer.sleep(0.001) end
+--            if love.timer then love.timer.--sleep(0.001) end
         end
     end
 

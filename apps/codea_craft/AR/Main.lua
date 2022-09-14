@@ -34,7 +34,7 @@ function setup()
         parameter.boolean("DrawPlanes", true, function(b)
             local c = scene.camera:get(craft.camera)
             if b then
-                c.mask = bit32.bnot(0) -- TOFIX : ~0 
+                c.mask = bit32.bnot(0)
             else
                 c.mask = 1
             end

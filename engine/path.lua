@@ -37,9 +37,7 @@ end
 function getLibPath(libName, libNamewindows, libDir)
     if windows then
         local home = getHomePath()
-        -- TOFIX
-        Path.libraryPath = home..'/Documents/#Persos/Mes Projets Persos/Libraries'        
-        Path.libraryPath = '/windows/system32'
+        Path.libraryPath = 'C:/Windows/System32'
     else
         local home = getHomePath()
         Path.libraryPath = home..'/Projets/Libraries'

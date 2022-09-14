@@ -2,17 +2,17 @@ mesh = class 'Mesh' : extends(MeshRender)
 
 function Mesh:init(...)
     MeshRender.init(self)
-    
+
     self:clear(...)
 end
 
 function Mesh:clear(vertices, colors, normals)
     MeshRender.clear(self)
-    
+
     if vertices and vertices.vertices then 
         vertices, colors = vertices.vertices, vertices.colors
     end
-    
+
     self.vertices = vertices or Buffer('vec3')
     self.colors = colors or Buffer('color')
     self.texCoords = Buffer('vec2')
@@ -22,13 +22,13 @@ end
 function Mesh:buffer(name)
     if name == 'position' then
         return self.vertices
-        
+
     elseif name == 'colors' then
         return self.colors
-    
+
     elseif name == 'texCoord' then
         return self.texCoords
-        
+
     elseif name == 'normals' then
         return self.normals
     end
@@ -47,7 +47,7 @@ function Mesh:setColors(...)
     end
 
     for i=1,vertexCount do
-        self.colors[i] = clr
+        self.colors[self:getIndex(i)] = clr
     end
 
     return self
@@ -61,9 +61,8 @@ end
 
 function Mesh:color(i, ...)
     self.needUpdate = true
-
     self.colorMode = 'colors'
-    self.colors[i] = Color(...)
+    self.colors[self:getIndex(i)] = Color(...)
 end
 
 function Mesh:addRect(x, y, w, h, r)
@@ -132,6 +131,13 @@ function Mesh:setRectCorner(idx, x, y, w, h)
     self.vertices[idx+5] = vec3(x+w, y+h, 0)
 end
 
+function Mesh:getIndex(idx)
+    if self.indices and #self.indices > 0 then
+        return self.indices[idx]
+    end  
+    return idx
+end
+
 function Mesh:setRectColor(idx, ...)
     self.needUpdate = true
 
@@ -139,7 +145,7 @@ function Mesh:setRectColor(idx, ...)
 
     self.colors = self.colors or Buffer('color')
     for i = idx, idx+5 do
-        self.colors[i] = clr
+        self.colors[self:getIndex(i)] = clr
     end
 end
 
@@ -151,12 +157,12 @@ function Mesh:setRectTex(idx, s, t, w, h)
 
     self.texCoords = self.texCoords or Buffer('vec2')
 
-    self.texCoords[idx+0] = vec2(s , t)
-    self.texCoords[idx+1] = vec2(s , th)
-    self.texCoords[idx+2] = vec2(sw, th)
-    self.texCoords[idx+3] = vec2(s , t)
-    self.texCoords[idx+4] = vec2(sw, th)
-    self.texCoords[idx+5] = vec2(sw, t)
+    self.texCoords[self:getIndex(idx+0)] = vec2(s , t)
+    self.texCoords[self:getIndex(idx+1)] = vec2(s , th)
+    self.texCoords[self:getIndex(idx+2)] = vec2(sw, th)
+    self.texCoords[self:getIndex(idx+3)] = vec2(s , t)
+    self.texCoords[self:getIndex(idx+4)] = vec2(sw, th)
+    self.texCoords[self:getIndex(idx+5)] = vec2(sw, t)
 end
 
 function Mesh:setGradient(clr1, clr2)
@@ -184,7 +190,7 @@ end
 
 function Mesh:boudingBox()
     local xmin, ymin, xmax, ymax = math.maxinteger, math.maxinteger, -math.maxinteger, -math.maxinteger
-    
+
     for i,v in ipairs(self.vertices) do
         xmin = min(xmin, v.x)
         ymin = min(ymin, v.y)

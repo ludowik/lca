@@ -1,11 +1,7 @@
--- TODO : light sur les primitives 3D
-
 App('appPrimitives')
 
 function appPrimitives:init()
     Application.init(self)
-
-    supportedOrientations(LANDSCAPE_ANY)
 
     self.orientation = 2
 
@@ -188,8 +184,7 @@ primitives = {
     end,
 
     function (self, w, h)
-        -- TODO
-        --        polygon(self.vectors)
+        polygon(self.vectors)
     end,
 
     function (self, w, h)

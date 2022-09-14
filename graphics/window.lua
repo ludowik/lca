@@ -1,5 +1,9 @@
-function setupWindow()
-    X, Y, W, H = initWindow()
+function setupWindow(mode, scale)
+    mode = mode or getMode()
+    SCALE = scale or 1
+    
+    X, Y, W, H = initWindow(mode)
+    
     WIDTH, HEIGHT = W, H
 
     safeArea = {
@@ -10,15 +14,12 @@ function setupWindow()
     }
 end
 
-local love2d = love
 function initWindow(mode)
     local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
 
-    mode = mode or 'portrait'
-
     if os.name == 'web' then
-        local w1, h1 = love2d.window.getDesktopDimensions()
-        local w2, h2 = love2d.graphics.getDimensions()        
+        local w1, h1 = love.window.getDesktopDimensions()
+        local w2, h2 = love.graphics.getDimensions()        
         if w1 < w2 then
             w, h = w1, h1
         else
@@ -33,38 +34,47 @@ function initWindow(mode)
         h = ht - 2*y
 
     else
-        x = 160
+        x = 250
         y = 24
-        h = 900
+        h = SCALE * 900
         w = h * 9/16
-        wt, ht = w + x*3, h + y*2
+        
+        wt = w / SCALE + x*3
+        ht = h / SCALE + y*2
     end
 
-    w = round(love2d.window.toPixels(w))
-    h = round(love2d.window.toPixels(h))
+    w = round(love.window.toPixels(w))
+    h = round(love.window.toPixels(h))
 
     if mode == 'landscape' then
         w, h = h, w
-        wt, ht = w + x*3, h + y*2
+        wt = w / SCALE + x*3
+        ht = h / SCALE + y*2
         
     elseif w > h then
         w, h, wt, ht, x, y = h, w, ht, wt, y, x
     end
 
-    love2d.window.setMode(
+    local xpos, ypos = 100, 50 -- love.window.getPosition()
+
+    love.window.setMode(
         wt,
         ht, {
             highdpi = true,
             usedpiscale = true,
             msaa = 8,
             depth = 24,
-            vsync = 0
+            vsync = 0,
+            x = xpos,
+            y = ypos,
+            display = 1,
         })
-
+    
+    love.mouse.setPosition(wt/2, ht/2)
+    
     return x, y, w, h
 end
 
 function setVSync(vsync)
-    _G.env.__vsync = vsync or 1
+    env.__vsync = vsync or 1
 end
-

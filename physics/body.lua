@@ -59,9 +59,8 @@ function Body:init(bodyType, shapeType, ...)
     self.categories = {0}
     self.mask = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
 
-    self.interpolate = true -- TODO : interpolate ?
+    self.interpolate = true -- TODO : interpolate
     self.sleepingAllowed = false -- TODO : fix them when they don't "move"
-
     self.keepInArea = false -- TODO : keepInArea, 'in' or 'cross'
 
     self.points = Buffer('vec3')

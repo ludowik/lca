@@ -4,48 +4,14 @@ function Scene:init()
     Node.init(self)
 end
 
--- TODEL?
-function Scene:_layout(x, y)
-    local nodes = self:items()
-
-    local w, h = 0, 0
-
-    x, y = x or 0, y or 0
-    for i,node in ipairs(nodes) do
-        if node.position then
-            node.position.x = x
-            node.position.y = y
-
-            if node.items then
-                if node.layout then node:layout(x, y) end
-            else
-                if node.computeSize then node:computeSize() end
-            end
-
-            y = y + node.size.h
-
-            w = max(w, node.size.w)
-            h = y - self.position.y
-        end
-    end
-
-    self.size:set(w, h)
-end
-
 function Scene:draw()
     if self.camera then
         self.camera:lookAt()
     end
-    
+
     self:layout(self.position.x, self.position.y)
 
-    -- TODEL?
---    if self.parent == nil then
---        self.modelMatrix = matrix():clone()
---    else
---        self.modelMatrix = modelMatrix():clone()
---    end
-    
+
     Node.draw(self)
 end
 
@@ -54,13 +20,7 @@ function Scene:touched(touch)
     local nodes = self:items()
     for i,node in ipairs(nodes) do
         if node:contains(touch) then
---            if touch.state == RELEASED then
---                if touch.tx == 0 and touch.ty == 0 then
---                    node:callback()
---                end
---            else
             node:touched(touch)
---            end
             break
         end
     end

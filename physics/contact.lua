@@ -1,6 +1,4 @@
-local Contact = class('Fizix.Contact')
-
-Fizix.Contact = Contact
+class 'Contact'
 
 function Contact:init(bodyA, bodyB)
     self.bodyA = bodyA

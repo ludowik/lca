@@ -168,13 +168,13 @@ function Engine.endDraw()
     local reverseY = Engine.origin == BOTTOM_LEFT
 
     if reverseY then
-        love.graphics.draw(source, X, H+Y, 0, 1, -1)
+        love.graphics.draw(source, X, H/SCALE + Y, 0, 1/SCALE, -1/SCALE)
     else
-        love.graphics.draw(source, X, Y)
+        love.graphics.draw(source, X, Y, 0, 1/SCALE, 1/SCALE)
     end
 end
 
-function Engine.draw()
+function Engine.draw(present)
     love.graphics.clear(.5, .5, .5, 1)
 
     local x, y = love.mouse.getPosition()
@@ -188,6 +188,9 @@ function Engine.draw()
         Engine.draw3d()
     end
 
+    if present then
+        love.graphics.present()
+    end
 end
 
 function Engine.draw2d()
@@ -224,9 +227,11 @@ function Engine.draw3d()
     end
 end
 
-function Engine.drawInfo()
---    love.graphics.setDepthMode('always', true)
+function Engine.collide(...)
+    callApp('collide', ...)
+end
 
+function Engine.drawInfo()
     Engine.origin = TOP_LEFT
 
     resetMatrix(true)
@@ -254,7 +259,7 @@ function Engine.drawInfo()
         end, 10, Y)
 
     Engine.render(function()
-            env.parameter.interface.draw(W, 0)
+            env.parameter.interface.draw(W/SCALE, 0)
         end, X, Y)
 end
 
@@ -274,11 +279,35 @@ function getOrigin()
     return TOP_LEFT
 end
 
-LANDSCAPE_ANY = 'LANDSCAPE_ANY'
-function supportedOrientations()
-    -- TODO
+PORTRAIT = 'portrait'
+LANDSCAPE = 'landscape'
+LANDSCAPE_ANY = 'landscape_any'
+
+function supportedOrientations(orientations)
+    if orientations == PORTRAIT then
+        setMode(PORTRAIT)
+    elseif orientations == LANDSCAPE_ANY then
+        setMode(LANDSCAPE)
+    end
 end
 
-function displayMode()
-    -- TODO
+local __mode
+function setMode(mode)
+    env.__mode = mode or PORTRAIT
+    if __mode == env.__mode then return end
+    setupWindow()
+    env.canvas = nil
+    __mode = env.__mode
+end
+
+function getMode()
+    return env and env.__mode or PORTRAIT
+end
+
+FULLSCREEN_NO_BUTTONS = 'FULLSCREEN_NO_BUTTONS'
+
+function displayMode(mode)
+    if mode == FULLSCREEN_NO_BUTTONS then
+        love.window.setFullscreen(true)
+    end
 end

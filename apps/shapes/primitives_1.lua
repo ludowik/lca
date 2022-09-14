@@ -25,7 +25,7 @@ function draw()
                 prim.f(...)
             end            
 
-            local n = 10
+            local n = 100
 
             if prim.type and prim.type == 'table' then
                 local t = {}
@@ -33,8 +33,9 @@ function draw()
                     table.insert(t, {
                             random(w),
                             random(h),
-                            random(w),
-                            random(h)
+                            random(),
+                            random(),
+                            random()
                         })
                 end
 
@@ -71,6 +72,7 @@ function draw()
         {f = rect},
         {f = circle},
         {f = ellipse},
+        {f = bezier},
         {f = function (x, y)
                 textMode(CENTER)
                 pushMatrix()
@@ -83,7 +85,7 @@ function draw()
             end },
     }
 
-    for _,prim in ipairs(primitives) do
+    for i,prim in ipairs(primitives) do
         if x + size >= W then
             x = marge
             y = y + size + marge

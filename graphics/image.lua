@@ -63,7 +63,7 @@ function Image:reset()
 end
 
 function Image:save(filename)
-    -- TODO
+    self.imageData:encode('png', filename)
 end
 
 function Image:getWidth()
@@ -88,7 +88,10 @@ function Image:copy(x, y, w, h)
 end
 
 function Image:background(clr)
-    -- TODO
+    clr = clr or colors.black
+    local previousContext = setContext(self)
+    love.graphics.clear(clr:unpack())
+    setContext(previousContext)
 end
 
 function Image:update()

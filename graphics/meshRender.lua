@@ -58,6 +58,11 @@ function MeshRender:update()
     self.__verticesSave = self.vertices
 
     self.mesh = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
+    
+    if self.indices and #self.indices > 0 then
+        self.mesh:setVertexMap(self.indices)
+    end
+    
 end
 
 function MeshRender:draw(...)

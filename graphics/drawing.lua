@@ -1,6 +1,6 @@
-class('drawing')
+class 'Drawing'
 
-function drawing:line(x1, y1, x2, y2, ...)
+function Drawing:line(x1, y1, x2, y2, ...)
     if x1 == x2 then
         for y=y1,y2,math.sign(y2-y1) do
             self:set(x1, y, ...)

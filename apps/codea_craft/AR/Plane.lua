@@ -3,7 +3,7 @@ Plane = class()
 function Plane:init(entity, anchor, map)
     self.entity = entity
     self.entity.model = craft.model.plane(vec2(1,1))
-    self.entity:get(craft.renderer).mask = bit32.lshift(1, 2) -- TOFIX : 1<<2
+    self.entity:get(craft.renderer).mask = bit32.lshift(1, 2)
 
     local mat = craft.material(asset.builtin.Materials.Basic)
     mat.map = map

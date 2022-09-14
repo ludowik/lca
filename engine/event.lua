@@ -1,76 +1,151 @@
 function Engine.keypressed(key, isrepeat)
 end
 
+Engine.keys = {
+    ['f1'] = {
+        desc = 'Help',
+        f = function ()
+            openURL('https://codea.io/reference')
+            openURL('https://love2d-community.github.io/love-api')
+        end
+    },
+
+    ['escape'] = {
+        desc = 'Quit',
+        f = function ()
+            quit()
+        end
+    },
+
+    ['r'] = {
+        desc = 'Restart',
+        f = function ()
+            restart()
+        end
+    },
+
+    [','] = {
+        desc = 'Random App',
+        f = function () -- ?
+            randomApp()
+        end
+    },
+
+    ['a'] = {
+        desc = 'Apps App',
+        f = function ()
+            loadApp('apps', 'apps')
+        end
+    },
+
+    ['i'] = {
+        desc = 'Info App',
+        f = function ()
+            loadApp('apps', 'info')
+        end
+    },
+
+    ['t'] = {
+        desc = 'Autotest App',
+        f = function ()
+            _G.env.__autotest = not _G.env.__autotest
+        end
+    },
+
+    ['l'] = {
+        desc = 'Autotest all Apps',
+        f = function ()
+            loadApp('apps', 'apps').__autotest = true
+        end
+    },
+
+    ['m'] = {
+        desc = 'Orientation',
+        f = function ()
+            if getMode() == PORTRAIT then
+                setMode(LANDSCAPE)
+            else
+                setMode(PORTRAIT)
+            end
+        end
+    },
+
+    ['s'] = {
+        desc = 'Scan toxxxx',
+        f = function ()
+            scanTODO()
+        end
+    },
+
+    ['j'] = {
+        desc = 'Generate lovejs',
+        f = function () -- js
+            makelovejs()
+            makezip()
+        end
+    },
+
+    ['tab'] = {
+        desc = 'Navigate thru apps',
+        f = function ()
+            if isDown('lshift') then
+                previousApp()
+            else
+                nextApp()
+            end
+        end
+    },
+
+    ['w'] = {
+        desc = 'Wireframe',
+        f = function ()
+            config.wireFrame = not config.wireFrame
+        end
+    },
+
+    ['f'] = {
+        desc = 'Framework mode',
+        f = function ()
+            if config.framework == 'love2d' then
+                config.framework = 'core'
+
+            else
+                config.framework = 'love2d'
+            end
+            restart()
+        end
+    },
+
+    ['g'] = {
+        desc = 'Graphics mode',
+        f = function ()
+            if config.renderer == 'love2d' then
+                config.renderer = 'core'
+
+            elseif config.renderer == 'core' then
+                config.renderer = 'soft'
+
+            else
+                config.renderer = 'love2d'
+            end
+            restart()
+        end
+    },
+
+    ['p'] = {
+        desc = 'Capture Image',
+        f = function ()
+            Engine.captureImage()
+        end
+    },
+}
+
 function Engine.keyreleased(key)
     local res = callApp('keyboard', key)
-    if res then return true end
-
-    if key == 'f1' then
-        openURL('https://codea.io/reference')
-        openURL('https://love2d-community.github.io/love-api')
-
-    elseif key == 'escape' then
-        quit()
-
-    elseif key == 'r' then
-        restart()
-
-    elseif key == ',' then -- ?
-        randomApp()
-
-    elseif key == 'a' then
-        loadApp('apps', 'apps')
-
-    elseif key == 'i' then
-        loadApp('apps', 'info')
-
-    elseif key == 'l' then
-        loadApp('apps', 'apps').__autotest = true
-
-    elseif key == 's' then
-        scanTODO()
-
-    elseif key == 't' then
-        _G.env.__autotest = not _G.env.__autotest
-
-    elseif key == 'j' then -- js
-        makelovejs()
---        makezip()
-
-    elseif key == 'tab' then
-        if isDown('lshift') then
-            previousApp()
-        else
-            nextApp()
-        end
-
-    elseif key == 'w' then
-        config.wireFrame = not config.wireFrame
-
-    elseif key == 'f' then
-        if config.framework == 'love2d' then
-            config.framework = 'core'
-
-        else
-            config.framework = 'love2d'
-        end
-        restart()
-
-    elseif key =='g' then
-        if config.renderer == 'love2d' then
-            config.renderer = 'core'
-
-        elseif config.renderer == 'core' then
-            config.renderer = 'soft'
-
-        else
-            config.renderer = 'love2d'
-        end
-        restart()
-
+    if Engine.keys[key] then 
+        Engine.keys[key].f()
     end
 end
-
 
 -- MOUSE module
 
@@ -91,7 +166,8 @@ STYLUS = 'stylus'
 -- force
 -- maxForce
 
-mouse = table({
+mouse = table(
+    {
         state = MOVED,
 
         px = 0,
@@ -191,11 +267,26 @@ function __mouseReverseY(mouse)
     return mouse
 end
 
+function __mouseScale(mouse, scale)
+    mouse = mouse:clone()
+    mouse.x = mouse.x * scale
+    mouse.pos.x = mouse.x * scale
+    mouse.position.x = mouse.x * scale
+    mouse.dx = mouse.dx * scale
+    mouse.deltaX = mouse.deltaX * scale
+    mouse.y = mouse.y * scale
+    mouse.pos.y = mouse.y * scale
+    mouse.position.y = mouse.y * scale
+    mouse.dy = mouse.dy * scale
+    mouse.deltaY = mouse.deltaY * scale
+    return mouse
+end
+
 function Engine.mousepressed(x, y, button, istouch, presses)
     mouseevent(PRESSED, x, y, button, 0)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        local mouse2 = mouse
+        local mouse2 = __mouseScale(mouse, SCALE)
         if getOrigin() == BOTTOM_LEFT then
             mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2
@@ -211,7 +302,7 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
     mouseevent(MOVED, x, y, mouse.button, 0)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        local mouse2 = mouse
+        local mouse2 = __mouseScale(mouse, SCALE)
         if getOrigin() == BOTTOM_LEFT then
             mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2
@@ -235,7 +326,7 @@ function Engine.mousereleased(x, y, button, istouch, presses)
     mouseevent(RELEASED, x, y, button, presses)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        local mouse2 = mouse
+        local mouse2 = __mouseScale(mouse, SCALE)
         if getOrigin() == BOTTOM_LEFT then
             mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2
@@ -256,4 +347,8 @@ function Engine.buttondown(button)
 end
 
 function Engine.buttonup(button)
+end
+
+function Engine.captureImage()
+    _G.env.canvas:newImageData():encode('png', 'screenshots/'.._G.env.appName..'.png')
 end

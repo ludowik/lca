@@ -144,6 +144,10 @@ function Graphics.rect_(x, y, w, h, attr)
     popMatrix()
 end
 
+function Graphics.bezier(x1, y1, x2, y2, x3, y3, x4, y4)
+    GraphicsLove.bezier(x1, y1, x2, y2, x3, y3, x4, y4)
+end
+
 function Graphics.circle(x, y, radius)
     Graphics.ellipse_(x, y, radius*2, radius*2, circleMode())
 end
@@ -181,14 +185,6 @@ function Graphics.ellipse_(x, y, w, h, mode)
     do
         translate(x, y)
 
-        if __stroke() then
-            pushMatrix()
-            scale(w/2, h/2)
-            love.graphics.setColor(__stroke():unpack())
-            Graphics.drawMesh(Graphics.ellipseMesh)
-            popMatrix()
-        end
-
         if __fill() then
             pushMatrix()
             scale(w/2-strokeSize(), h/2-strokeSize())
@@ -199,36 +195,10 @@ function Graphics.ellipse_(x, y, w, h, mode)
     end
     popMatrix()
 
--- TODO : a tracer
---    if __stroke() then
---        polyline_(Graphics.circleBorderMesh, x, y, w/2, h/2)
---    end
+    if __stroke() then
+        polyline_(Graphics.circleBorderMesh, x, y, w/2, h/2)
+    end
 end
-
--- TODEL : gérer par shader externe
---function Graphics.createShader()
---    if Graphics.shader3D then return end
-
---    local vertexcode = [[
---            uniform mat4 pvm;
---            vec4 position(mat4 transform_projection, vec4 vertex_position)
---            {
---                // return transform_projection * vertex_position;
---                return pvm * vertex_position;
---            }
---        ]]
-
---    local pixelcode = [[
---            vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
---            {
---                vec4 texcolor = Texel(tex, texture_coords);
---                return texcolor * color;
---            }
---        ]]
---    Graphics.shader3D = love.graphics.newShader(pixelcode, vertexcode)
-
---    shaders['shader3D'] = Graphics.shader3D
---end
 
 function Model_setColors(colors, clr)
     for i=#colors-5,#colors do
@@ -301,41 +271,7 @@ function Model_box(x, y, z, w, h, d)
     return vertices
 end
 
--- TODEL : gérer par MeshRender
---function Graphics.drawModel(mesh, x, y, z, w, h, d)
---    Graphics.createShader()
---    local shader = shaders.default or mesh.shader or Graphics.shader3D
-
---    local previousShader = love.graphics.getShader()
---    love.graphics.setShader(shader.shader or shader)
-
---    pushMatrix()
---    do
---        if x then
---            translate(x, y, z)
---        end
-
---        if w then
---            scale(w, h, d)
---        end
-
---        if __fill() then
---            Graphics.shader3D:send('pvm', {
---                    pvmMatrix():getMatrix()
---                })
-
---            love.graphics.setColor(__fill():unpack())
-
---            Graphics.drawMesh(mesh)
---        end
---    end
---    popMatrix()
-
---    love.graphics.setShader(previousShader)
---end
-
--- TODO : doublon avec la méthode de la classe Model
-local function arguments(...)
+function positionAndSize(...)
     local args = {...}
     local x, y, z, w, h, d = 0, 0, 0, 1, 1, 1
 
@@ -358,15 +294,15 @@ local function arguments(...)
 end
 
 function Graphics.plane(...)
-    local x, y, z, w, h, d = arguments(...)
+    local x, y, z, w, h, d = positionAndSize(...)
 end
 
 function Graphics.pyramid(...)
-    local x, y, z, w, h, d = arguments(...)
+    local x, y, z, w, h, d = positionAndSize(...)
 end
 
 function Graphics.box(...)
-    local x, y, z, w, h, d = arguments(...)
+    local x, y, z, w, h, d = positionAndSize(...)
 
     if not Graphics.boxMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
@@ -381,12 +317,11 @@ function Graphics.box(...)
         Graphics.boxMesh = m -- Graphics.newMesh(format, m.vertices, 'triangles', 'static')
     end
 
-    --Graphics.drawModel(Graphics.boxMesh, x, y, z, w, h, d)
     Graphics.boxMesh:draw(x, y, z, w, h, d)
 end
 
 function Graphics.sphere(...)
-    local x, y, z, w, h, d = arguments(...)
+    local x, y, z, w, h, d = positionAndSize(...)
 
     if not Graphics.sphereMesh then
         local x, y, z, w, h, d = 0, 0, 0, 0.5, 0.5, 0.5
@@ -400,7 +335,6 @@ function Graphics.sphere(...)
         Graphics.sphereMesh = m -- Graphics.newMesh(format, m.vertices, 'triangles', 'static')
     end
 
---    Graphics.drawModel(Graphics.sphereMesh, x, y, z, w, h, d)
     Graphics.sphereMesh:draw(x, y, z, w, h, d)
 end
 
