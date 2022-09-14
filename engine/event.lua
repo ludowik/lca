@@ -35,7 +35,7 @@ function Engine.keyreleased(key)
 
     elseif key == 'j' then -- js
         makelovejs()
-        makezip()
+--        makezip()
 
     elseif key == 'tab' then
         if isDown('lshift') then

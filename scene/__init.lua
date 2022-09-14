@@ -14,7 +14,7 @@ requireLib(
     'sprite',
     'iconsFont',
     'dashboard',
-    'colorPicker',
+    'colorpicker',
     'separator',
     'space',
     'combobox',
