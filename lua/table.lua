@@ -51,6 +51,25 @@ function table:random()
     end
 end
 
+function table:iterator(reverse)
+    if not reverse then
+        local i = 0
+        local n = #self
+        return function ()
+            i = i + 1
+            if i <= n then return i, self[i] end
+        end
+        
+    else
+        local i = #self + 1
+        local n = 0
+        return function ()
+            i = i - 1
+            if i > n then return i, self[i] end
+        end
+    end
+end
+
 function table:__add(t)
     local g = table()
     g:addItems(self)

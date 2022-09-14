@@ -23,7 +23,7 @@ function setup()
     --  your Documents as "ExampleCircle"
 
     local img = makeCircleImage()
-    saveImage(tostring(asset.documents) .. "ExampleCircle",img)
+    saveImage("ExampleCircle",img)
 
     -- Once you've run this code come back here and tap
     --  the blue highlight above to verify the image is in

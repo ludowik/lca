@@ -149,8 +149,7 @@ function Sdl:event()
             if event.window.event == self.SDL_WINDOWEVENT_CLOSE then
                 quit()
 
-            elseif event.window.event == sdl.SDL_WINDOWEVENT_SIZE_CHANGED then
-                -- TODO
+--            elseif event.window.event == sdl.SDL_WINDOWEVENT_SIZE_CHANGED then
             end
 
         elseif event.type == self.SDL_KEYDOWN or event.type == sdl.SDL_TEXTINPUT then

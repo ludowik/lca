@@ -127,8 +127,6 @@ function Engine.render(f, x, y)
     f()
 end
 
-SCALE = 1.5
-
 function Engine.beginDraw(origin)
     Engine.origin = origin
     if not env.canvas then
@@ -306,6 +304,10 @@ function getMode()
     return env and env.__mode or PORTRAIT
 end
 
-function displayMode()
-    -- TODO
+FULLSCREEN_NO_BUTTONS = 'FULLSCREEN_NO_BUTTONS'
+
+function displayMode(mode)
+    if mode == FULLSCREEN_NO_BUTTONS then
+        love.window.setFullscreen(true)
+    end
 end

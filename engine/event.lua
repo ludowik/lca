@@ -131,6 +131,13 @@ Engine.keys = {
             restart()
         end
     },
+
+    ['p'] = {
+        desc = 'Capture Image',
+        f = function ()
+            Engine.captureImage()
+        end
+    },
 }
 
 function Engine.keyreleased(key)
@@ -140,7 +147,6 @@ function Engine.keyreleased(key)
         Engine.keys[key].f()
     end
 end
-
 
 -- MOUSE module
 
@@ -161,7 +167,8 @@ STYLUS = 'stylus'
 -- force
 -- maxForce
 
-mouse = table({
+mouse = table(
+    {
         state = MOVED,
 
         px = 0,
@@ -341,4 +348,8 @@ function Engine.buttondown(button)
 end
 
 function Engine.buttonup(button)
+end
+
+function Engine.captureImage()
+    _G.env.canvas:newImageData():encode('png', 'screenshots/'.._G.env.appName..'.png')
 end

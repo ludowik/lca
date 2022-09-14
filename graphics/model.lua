@@ -69,7 +69,6 @@ function Model.mesh(vertices, texCoords, normals, indices)
         m.normals = Model.computeNormals(m.vertices)
     end
 
-    -- TODO : implement indices
     if m.indices == nil or #m.indices == 0 then
         m.vertices, m.texCoords, m.normals, m.colors, m.indices = Model.computeIndices(m.vertices, m.texCoords, m.normals, m.colors)
     end

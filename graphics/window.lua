@@ -1,5 +1,9 @@
-function setupWindow(mode)
+function setupWindow(mode, scale)
+    mode = mode or getMode()
+    SCALE = scale or 1
+    
     X, Y, W, H = initWindow(mode)
+    
     WIDTH, HEIGHT = W, H
 
     safeArea = {
@@ -12,8 +16,6 @@ end
 
 function initWindow(mode)
     local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
-
-    mode = mode or getMode()
 
     if os.name == 'web' then
         local w1, h1 = love.window.getDesktopDimensions()
@@ -32,7 +34,7 @@ function initWindow(mode)
         h = ht - 2*y
 
     else
-        x = 160
+        x = 250
         y = 24
         h = SCALE * 900
         w = h * 9/16

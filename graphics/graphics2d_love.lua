@@ -5,77 +5,92 @@ function Graphics:init()
     love.graphics.setLineStyle('smooth')
 end
 
-function Graphics.point(x, y)
-    if type(x) == 'table' then x, y = x.x, x.y end
-
-    if __stroke() then
-        love.graphics.setColor(__stroke():unpack())
-        love.graphics.setPointSize(strokeSize())
-        love.graphics.points(x, y)
-    end
+--[[
+love.graphics.points : draw one or more points
+    x, y, ...
+    {x, y, ...}
+    {{x, y, r, g, b, a}, ...}
+]]
+function Graphics.point(...)
+    Graphics.points(...)
 end
 
 function Graphics.points(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
+    if #t == 0 then return end
 
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.setPointSize(strokeSize())
-
-    local format = {
-        {"VertexPosition", "float", 2}, -- The x,y position of each vertex.
-        {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
-    }
-
-    local mesh = love.graphics.newMesh(format, t, 'points', 'static')
-    Graphics.drawMesh(mesh)
+    if __stroke() then
+        love.graphics.setColor(__stroke():unpack())
+        love.graphics.setPointSize(strokeSize())   
+    end
+    love.graphics.points(t)
 end
 
-function Graphics.line(x1, y1, x2, y2)
-    if not __stroke() then return end
-
-    love.graphics.setColor(__stroke():unpack())
-    love.graphics.setLineWidth(strokeSize())
-    love.graphics.line(x1, y1, x2, y2)
+--[[
+love.graphics.line : draw lines between points (2 points at least)
+    x1, y1, x2, y2, ... 
+    {x1, y1, x2, y2, ...}
+]]
+function Graphics.line(...)
+    Graphics.lines(...)
 end
 
 function Graphics.lines(t, ...)
+    if not __stroke() then return end
     if type(t) ~= 'table' then t = {t, ...} end
-    if #t == 0 then return end
+    if #t == 0 then return end    
 
     love.graphics.setColor(__stroke():unpack())
-    love.graphics.setLineWidth(strokeSize())    
+    love.graphics.setLineWidth(strokeSize())
+
     for i=1,#t,4 do
-        Graphics.line(t[i], t[i+1], t[i+2], t[i+3])
+        love.graphics.line(t[i], t[i+1], t[i+2], t[i+3])
     end
 end
 
 function Graphics.polyline(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
-
     if #t < 2 then return end
     if #t % 2 == 1 then table.insert(t, t[#t]) end
-    
+
     love.graphics.setColor(__stroke():unpack())
     love.graphics.setLineWidth(strokeSize())
     love.graphics.line(t)
 end
 
+--[[
+love.graphics.polygon : draw a polygon (3 points at least)
+    x1, y1, x2, y2, x3, y3, ... 
+    {x1, y1, x2, y2, x3, y3, ...}
+
+]]
 function Graphics.polygon(t, ...)
     if type(t) ~= 'table' then t = {t, ...} end
-    
-    -- TODO
-    if type(t[1]) == 'table' then return end
-    
-    if #t % 2 == 1 then table.insert(t, t[#t]) end
 
-    love.graphics.setColor(__stroke():unpack())
-    love.graphics.setLineWidth(strokeSize())
-    love.graphics.polygon('line', t)
+    local points
+    if type(t[1]) == 'table' and t[1].x then
+        points = table()
+        for i,v in ipairs(t) do
+            points:insert(v.x)
+            points:insert(v.y)
+        end
+    else
+        points = t
+    end
+
+    if __fill() then
+        love.graphics.setColor(__fill():unpack())
+        love.graphics.polygon('fill', points)
+    end
+    if __stroke() then
+        love.graphics.setColor(__stroke():unpack())
+        love.graphics.setLineWidth(strokeSize())
+        love.graphics.polygon('line', points)
+    end
 end
 
--- TODO : a tester
 function Graphics.bezier(x1, y1, x2, y2, x3, y3, x4, y4)
-    local f = bezier_proc({x1,x2,x3,x4}, {y1,y2,y3,y4})
+    local f = Graphics.bezier_proc({x1,x2,x3,x4}, {y1,y2,y3,y4})
     strokeSize(5)
     for i=0,1,0.01 do 
         point(f(i))

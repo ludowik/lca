@@ -1,4 +1,4 @@
-class 'Node' : extends(Rect)
+class 'Node' : extends(Rect, table)
 
 function Node:init()
     self:clear()
@@ -47,8 +47,7 @@ function Node:removeItem(item)
 end
 
 function Node:iter(reverse)
-    -- TODO reverse
-    return ipairs(self:items())
+    return table.iterator(self:items(), reverse)
 end
 
 function Node:ui(label, level)
@@ -163,8 +162,9 @@ function Node:update(dt)
     local items = self:items()
     for i=1,#items do
         local item = items[i]
-        assert(item.update, item.__className)
-        item:update(dt)
+        if item.update then
+            item:update(dt)
+        end
     end
 end
 

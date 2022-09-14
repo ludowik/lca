@@ -17,7 +17,7 @@ function setup()
     parameter.integer('gridSize' , 2, 6, 2, reset)
 
 
-    app.uiScene = MenuBar(0, HEIGHT) -- TODO : menubar usefull ?
+    app.uiScene = MenuBar(0, HEIGHT)
     app.uiScene.alignment = 'v-center,h-center'
 
     local tabs = Tabs('boîte à onglet')

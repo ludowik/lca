@@ -1,6 +1,4 @@
-class 'Rect' : extends(table)
-
--- TODO : why extends table
+class 'Rect'
 
 function Rect:init(x, y, w, h)
     self.position = vec2(x, y)

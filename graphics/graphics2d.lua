@@ -23,7 +23,7 @@ function Graphics.background(clr, ...)
 end
 
 function Graphics.zLevel(level)
-    -- TODO
+    -- TODO : need to batch drawing calls after sorting them...
 end
 
 function Graphics.clip(...)

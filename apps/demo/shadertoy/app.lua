@@ -81,8 +81,7 @@ function drawShader(shader, ui)
         mesh.uniforms.iFrame = mesh.uniforms.iFrame + 1
         mesh.uniforms.iFrameRate = 60
 
-        -- TODO : utilité ?
-        local touch = mouse --:transform()
+        local touch = mouse
         if Rect.contains(ui, touch) then
             local x, y = touch.x, touch.y
 

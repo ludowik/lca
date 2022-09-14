@@ -20,14 +20,7 @@ function Scene:touched(touch)
     local nodes = self:items()
     for i,node in ipairs(nodes) do
         if node:contains(touch) then
-            -- TODEL
---            if touch.state == RELEASED then
---                if touch.tx == 0 and touch.ty == 0 then
---                    node:callback()
---                end
---            else
             node:touched(touch)
---            end
             break
         end
     end

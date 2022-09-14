@@ -8,11 +8,6 @@ function io.read(path)
 end
 
 function lexer(source)
-    source = source:gsub('\\\\', '') -- TOFIX
-
-    source = source:gsub("\\\'", "") -- TOFIX
-    source = source:gsub('\\\"', '') -- TOFIX
-
     local tokens = {}
 
     -- magic characters :  ( ) . % + - * ? [ ^ $
