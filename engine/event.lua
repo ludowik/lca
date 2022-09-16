@@ -3,7 +3,6 @@ end
 
 function Engine.keyreleased(key)
     local res = callApp('keyboard', key)
-    if res then return true end    
     if Engine.keys[key] then 
         Engine.keys[key].f()
     end
