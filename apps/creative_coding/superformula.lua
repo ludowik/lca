@@ -139,9 +139,11 @@ function __draw3d()
     cullingMode(false)
 
     mesh = Mesh(array)
-    mesh.normals = Model.computeNormals(mesh.vertices, nil, true)
+    mesh.drawMode = 'strip'
+    -- TODO : BUG !!!
+    mesh.normals = Model.computeNormals(mesh.vertices, nil, false)
 
-    mesh:draw(shaders['default'], GL_TRIANGLE_STRIP)
+    mesh:draw()
 end
 
 function r(theta)

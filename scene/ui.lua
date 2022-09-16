@@ -1,41 +1,3 @@
-class 'UIScene' : extends(Scene)
-
-function UIScene:init(...)
-    local label, layoutFlow, layoutParam
-
-    local args = {...}
-    if #args == 1 then
-        if type(args[1]) == 'string' then
-            label = ...
-        else
-            layoutFlow = ...
-        end
-
-    elseif #args == 2 then
-        if type(args[1]) == 'string' then
-            label, layoutFlow = ...
-        else
-            layoutFlow, layoutParam = ...
-        end
-
-    elseif #args == 3 then
-        label, layoutFlow, layoutParam = ...
-    end
-
-    assert(label == nil or type(label) == 'string')
-    assert(layoutFlow == nil or type(layoutFlow) == 'function')
-    assert(layoutParam == nil or type(layoutParam) == 'number')
-
-    Scene.init(self, label)
-    self:setLayoutFlow(layoutFlow or Layout.column, layoutParam)
-end
-
-function UIScene:computeSize()
-end
-
-function UIScene:setGridSize(n, m)
-end
-
 class 'UI' : extends(Rect, Bind)
 
 function UI:init(label, callback)
@@ -47,7 +9,10 @@ function UI:init(label, callback)
     self.styles = table({
             fontName = DEFAULT_FONT_NAME,
             fontSize = DEFAULT_FONT_SIZE,
+            bgColor = colors.lightgray,
         })
+    
+    self.marge = vec2(6, 0)
 end
 
 function UI.properties.set:value(value)
@@ -69,8 +34,8 @@ function UI:computeSize()
 
     self.size:set(textSize(self:getLabel()))
 
-    self.size.x = max(self.size.x, DEFAULT_FONT_SIZE)
-    self.size.y = max(self.size.y, DEFAULT_FONT_SIZE)
+    self.size.x = max(self.size.x, DEFAULT_FONT_SIZE) + self.marge.x * 2
+    self.size.y = max(self.size.y, DEFAULT_FONT_SIZE) + self.marge.y * 2
 end
 
 function UI:getLabel()
@@ -83,9 +48,20 @@ end
 function UI:draw()
     self:computeSize()
 
-    if self.styles.bgColor then
-        fill(self.styles.bgColor)
-        rect(0, 0, self.size.w, self.size.h)
+    if self.styles.bgColor or self.styles.strokeColor then
+        if self.styles.bgColor then
+            fill(self.styles.bgColor)
+        else
+            noFill()
+        end
+        
+        if self.styles.strokeColor then
+            stroke(self.styles.strokeColor)
+        else
+            noStroke()
+        end
+        
+        rect(0, 0, self.size.w, self.size.h, self.styles.rx, self.styles.ry)
     end
 
     textColor(self.styles.textColor or colors.white)
@@ -93,7 +69,8 @@ function UI:draw()
     fontName(self.styles.fontName or DEFAULT_FONT_NAME)
     fontSize(self.styles.fontSize or DEFAULT_FONT_SIZE)
 
-    text(self:getLabel(), 0, 0)
+    textMode(CORNER)
+    text(self:getLabel(), self.marge.x, self.marge.y)
 end
 
 function UI:touched(touch)
@@ -103,11 +80,4 @@ function UI:touched(touch)
 end
 
 function UI:wheelmoved(dx, dy)
-end
-
-class 'Object'
-function Object:update(dt)
-end
-
-function Object:draw()
 end

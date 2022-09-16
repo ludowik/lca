@@ -5,6 +5,8 @@ end
 function draw3d()    
     perspective()
     
+    light(true)
+    
     if elapsedTime/5 % 3 <= 1 then
         rotate(elapsedTime, 1, 0, 0)
     else
@@ -14,5 +16,7 @@ function draw3d()
     fill(colors.white)
 
     box(1)
+    
+    fill(colors.gray)
     sphere(2.5)
 end

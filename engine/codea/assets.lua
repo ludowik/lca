@@ -1,4 +1,3 @@
--- assets
 class 'Documents'
 
 function Documents:init()

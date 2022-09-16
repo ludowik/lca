@@ -856,7 +856,7 @@ function Model.computeNormals(vertices, indices, mode)
 
     local v1, v2, v3
 
-    if mode == nil then
+    if not mode then
         for i=1,n,3 do
             if indices then
                 v1 = vertices[indices[i]]
@@ -878,6 +878,7 @@ function Model.computeNormals(vertices, indices, mode)
             normals[i+2] = normal:clone()
         end
     else
+        -- TODO : bizarre l'algo ??
         for i=1,n-2 do
             if indices then
                 v1 = vertices[indices[i]]

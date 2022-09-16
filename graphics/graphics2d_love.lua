@@ -125,7 +125,7 @@ function Graphics.arc(x, y, r, a1, a2, n)
     Geometry.draw(points, strokeSize(), __stroke())
 end
 
-function Graphics.rect(x, y, w, h)
+function Graphics.rect(x, y, w, h, rx, ry)
     h = h or w
 
     if rectMode() == CENTER then
@@ -135,13 +135,13 @@ function Graphics.rect(x, y, w, h)
 
     if __fill() then
         love.graphics.setColor(__fill():unpack())
-        love.graphics.rectangle('fill', x, y, w, h)
+        love.graphics.rectangle('fill', x, y, w, h, rx, ry)
     end
 
     if __stroke() then
         love.graphics.setColor(__stroke():unpack())
         love.graphics.setLineWidth(strokeSize())
-        love.graphics.rectangle('line', x, y, w, h)
+        love.graphics.rectangle('line', x, y, w, h, rx, ry)
     end
 end
 

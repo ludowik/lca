@@ -22,6 +22,8 @@ requireLib(
     'config',
     'engine',
     'event',
+    'events',
+    'mouse',
     'gesture',
     'parameter',
     'fs',

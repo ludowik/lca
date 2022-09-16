@@ -1,4 +1,3 @@
--- graphics
 color = Color
 font = fontName
 strokeWidth = strokeSize

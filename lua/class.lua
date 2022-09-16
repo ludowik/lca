@@ -11,7 +11,7 @@ function classes.setup()
     for i=1,#classes.list do
         local k = classes.list[i]
         classWithProperties(k)
-        
+
         table.insert(classes.ref, k)
 
         if k.setup then
@@ -45,7 +45,7 @@ function class(className, ...)
     setmetatable(k, k.mt)
 
     k.init = nilf
-    
+
     function k.instance()
         return interface(k(), k)
     end
@@ -59,6 +59,8 @@ function class(className, ...)
                     if not k[name] or (name == 'init' and k[name] == nilf) then
                         k[name] = f
                     end
+                elseif type(f) == 'table' and name == 'properties' then
+                    k[name] = f
                 end
             end
         end
@@ -71,7 +73,7 @@ function class(className, ...)
     function k.meta(self, __base)
         k.setup = nilf
         k.test = nilf
-        
+
         k.init = function (self)
             return self
         end
@@ -119,7 +121,7 @@ function interface(instance, klass)
             end
         end
     end
-    
+
     instance.interface = interface    
     interface.instance = instance
     interface.interface = interface

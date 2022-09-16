@@ -8,7 +8,7 @@ function autotest(dt)
     currentApp.__autotest = false
 
     local ram = {
-        before = format_ram()
+        beforeTest = format_ram()
     }
 
     appsList.saveCurrentIndex = appsList.saveCurrentIndex or 1
@@ -27,7 +27,7 @@ function autotest(dt)
                     setActiveApp(newApp)
 
                     local start = time()
-                    for i=1,60 do                        
+                    for i=1,10 do                        
                         Engine.update(1/60)
                         local current = time()
                         if current - start > 1 then
@@ -43,23 +43,21 @@ function autotest(dt)
         end
     end
 
-    ram.after = format_ram()
+    ram.afterTest = format_ram()
 
-    gc()
---    resetApps()
-    GraphicsBase.release()
-    Image.release()
-    gc()
-
+    Engine.release()
+    
     ram.afterRelease = format_ram()
-
+    
     output.clear()
 
-    print('avant : '..ram.before)
-    print('après : '..ram.after)
-    print('release & gc : '..ram.afterRelease)
+    print('before   : '..ram.beforeTest)
+    print('after    : '..ram.afterTest)
+    print('release  : '..ram.afterRelease)
 
     setActiveApp(currentApp)
+    
+    quit()
 end
 
 function draw()

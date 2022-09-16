@@ -46,7 +46,8 @@ function BBTan:draw()
     translate(BBTan.position.x, BBTan.position.y)
     self.scene:draw()
     
-    rect(0, 0, BBTan.size.w, BBTan.size.h, CORNER)
+    rectMode(CORNER)
+    rect(0, 0, BBTan.size.w, BBTan.size.h)
     
     self.physics:draw()
 end
@@ -100,7 +101,8 @@ end
 function Block:draw()
     stroke(colors.white)
     local x, y = self.position.x, self.position.y
-    rect(x, y, self.size.w, self.size.h, CENTER)
+    rectMode(CENTER)
+    rect(x, y, self.size.w, self.size.h)
     text(self.count, x, y)
 end
     

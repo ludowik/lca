@@ -18,9 +18,10 @@ function randomInt(min, max)
     return math.ceil(random(min, max))
 end
 
-local function isinteger(val)
-    return val == math.floor(val)
+function randomBoolean()
+    return __random() <= 0.5
 end
+
 
 class 'Random'
 

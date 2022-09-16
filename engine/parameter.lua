@@ -7,7 +7,10 @@ end
 function Parameter:clear()    
     self.scene = UIScene()
     
+    _G.env.bottom_left = getOrigin() == BOTTOM_LEFT
+    
     self:action('apps', function () loadApp('apps', 'apps') end)
+    self:boolean('bottom_left', false, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
 end
 
 function Parameter:update(dt)
@@ -16,14 +19,17 @@ end
 function Parameter:default(name, min, max, default, notify)
     local value = loadstring('return _G.env.'..name)()
 
-    if value == nil or value == _G[name] then
+    if value == nil then
         default = default or min
         if default ~= nil then
             global.__value__ = default
             loadstring('_G.env.'..name..'=global.__value__')()
             self:notify(nil, default, notify)
+            return default
         end
     end
+    
+    return value
 end
 
 function Parameter:set(ui, name, value, notify)
@@ -61,36 +67,36 @@ function Parameter:text(name, text, callback)
 end
 
 function Parameter:boolean(name, default, callback)
-    self:default(name, false, true, default, callback)
+    local value = self:default(name, false, true, default, callback)
     self.scene:add(
-        CheckBox(name, default,
+        CheckBox(name, value,
             function (ui, value)
                 self:set(ui, name, value, callback)
             end))
 end
 
 function Parameter:number(name, min, max, default, callback)
-    self:default(name, min, max, default, callback)
+    local value = self:default(name, min, max, default, callback)
     self.scene:add(
-        Slider(name, min, max, default, false,
+        Slider(name, min, max, value, false,
             function (ui, value)
                 self:set(ui, name, value, callback)
             end))
 end
 
 function Parameter:integer(name, min, max, default, callback)
-    self:default(name, min, max, default, callback)
+    local value = self:default(name, min, max, default, callback)
     self.scene:add(
-        Slider(name, min, max, default, true,
+        Slider(name, min, max, value, true,
             function (ui, value)
                 self:set(ui, name, value, callback)
             end))
 end
 
 function Parameter:color(name, clr, callback)
-    self:default(name, colors.white, colors.black, clr, callback)
+    local value = self:default(name, colors.white, colors.black, clr, callback)
     self.scene:add(
-        ColorPicker(name, clr,
+        ColorPicker(name, value,
             function (ui, value)
                 self:set(ui, name, value, callback)
             end))
