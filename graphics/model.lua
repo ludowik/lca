@@ -137,8 +137,6 @@ function Model.computeIndices(vertices, texCoords, normals, colors)
         end        
     end
 
-    log(string.format('Generate {indices} indices for {vertices} vertices', {indices=#v, vertices=#vertices}))
-
     return v, t, n, c, indices
 end
 
@@ -183,7 +181,6 @@ end
 
 function Model.transform(vertices, matrix)
     for i=1,#vertices do
---        vertices[i] = matrix:mulVector(vertices[i])
         vertices[i] = matByVector(matrix, vertices[i])
     end
 
@@ -856,7 +853,7 @@ function Model.computeNormals(vertices, indices, mode)
 
     local v1, v2, v3
 
-    if mode == nil then
+    if not mode then
         for i=1,n,3 do
             if indices then
                 v1 = vertices[indices[i]]
@@ -878,6 +875,7 @@ function Model.computeNormals(vertices, indices, mode)
             normals[i+2] = normal:clone()
         end
     else
+        -- TODO : bizarre l'algo ??
         for i=1,n-2 do
             if indices then
                 v1 = vertices[indices[i]]

@@ -35,7 +35,7 @@ function getSourcePath()
 end
 
 function getLibPath(libName, libNamewindows, libDir)
-    if windows then
+    if oswindows then
         local home = getHomePath()
         Path.libraryPath = 'C:/Windows/System32'
     else
@@ -61,8 +61,6 @@ function getLibPath(libName, libNamewindows, libDir)
 
     return libPath
 end
-
-
 
 function getDataPath()
     return validatePath('res/data')
@@ -98,7 +96,6 @@ function getSavePath(path)
     if love then
         return (
             love.filesystem.getSaveDirectory()..'/'..
---            love.filesystem.getIdentity()..'/'..
             path
         )
     else

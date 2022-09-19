@@ -1,4 +1,3 @@
--- quaternion
 quat = class 'Quaternion'
 
 function Quaternion.eulerAngles()

@@ -1,6 +1,10 @@
 local __floor = math.floor
 local __format, __byte = string.format, string.byte
 
+function isinteger(val)
+    return val == math.floor(val)
+end
+
 function tointeger(number)
     return __floor(tonumber(number) or 0)
 end

@@ -55,7 +55,7 @@ function Dashboard:draw()
         local w, h = textSize(value)
         columnsSize[columnName] = max(columnsSize[columnName] or 0, w)
 
-        if area:contains(x, y) then -- and fData.stat.count > 0 then
+        if area:contains(x, y) then
             line(x, y-h, x+columnsSize[columnName], y-h)
             line(x, y, x, y-h)
 
@@ -93,9 +93,6 @@ function Dashboard:draw()
                 for _,v in ipairs(attrPath) do
                     if value == nil then break end
                     value = attributeof(v, value)
---                    if value and type(value) == 'table' and #value > 0 then
---                        value = value[1]
---                    end
                 end
 
                 if value then

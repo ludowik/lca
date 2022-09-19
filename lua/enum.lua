@@ -1,4 +1,4 @@
-class('Enum', table)
+class 'Enum' : extends(table)
 
 function Enum:next(value)
     return table.next(self.constants, value)

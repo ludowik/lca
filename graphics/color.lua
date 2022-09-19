@@ -5,6 +5,7 @@ function Color.setup()
         white = Color(1, 1, 1),
         black = Color(0, 0, 0),
 
+        lightgray = Color(0.75, 0.75, 0.75),
         gray = Color(0.5, 0.5, 0.5),
 
         red = Color(210, 70, 50), -- 1, 0, 0),

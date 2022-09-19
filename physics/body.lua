@@ -211,7 +211,7 @@ function Body:update(dt)
     local position = self.position / self.world.pixelRatio
     local linearVelocity = self.linearVelocity / self.world.pixelRatio
 
-    local linearAcceleration = self.force -- + self.world.gravityForce * self.gravityScale * self.mass
+    local linearAcceleration = self.force
     linearAcceleration = linearAcceleration / self.world.pixelRatio
 
     linearVelocity = linearVelocity - self.linearDamping * linearVelocity * dt

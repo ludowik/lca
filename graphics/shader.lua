@@ -18,7 +18,6 @@ function Shader:complete(shaderType, source)
     local includes =
     (
         io.read(self.path..'/'..'_include.glsl')..
---        io.read(self.path..'/'..'_math.glsl')..
         io.read(self.path..'/'..'_noise2D.glsl')..
         io.read(self.path..'/'..'_noise3D.glsl')
     )
@@ -26,6 +25,7 @@ function Shader:complete(shaderType, source)
     source = (
         '#pragma language glsl3'..NL..
         includes..NL..
+        '#line 1'..NL..
         source)
     
     return source

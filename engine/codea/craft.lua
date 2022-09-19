@@ -1,20 +1,19 @@
--- craft
-NORTH = 'NORTH'
-EAST  = 'EAST'
-SOUTH = 'SOUTH'
-WEST  = 'WEST'
-UP    = 'UP'
-DOWN  = 'DOWN'
-
-MODELS = 'models'
-
-AR_NOT_AVAILABLE = 'AR_NOT_AVAILABLE'
-AR_LIMITED = 'AR_LIMITED'
-AR_NORMAL = 'AR_NORMAL'
-
 craft = class 'Craft'
 
 function Craft.setup()
+    NORTH = 'NORTH'
+    EAST  = 'EAST'
+    SOUTH = 'SOUTH'
+    WEST  = 'WEST'
+    UP    = 'UP'
+    DOWN  = 'DOWN'
+
+    MODELS = 'models'
+
+    AR_NOT_AVAILABLE = 'AR_NOT_AVAILABLE'
+    AR_LIMITED = 'AR_LIMITED'
+    AR_NORMAL = 'AR_NORMAL'
+
     Craft.ar = {
         isSupported = false,
     }

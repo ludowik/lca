@@ -1,5 +1,7 @@
 if os.name == 'ios' then return end
     
+-- TODO : faire le ménage sur le code en commentaire
+
 --lfs = lfs or require('lfs')
 
 class('Directory', Table)

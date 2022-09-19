@@ -72,7 +72,7 @@ function Library.compileFile(srcName, moduleName, headers, links, options)
 
         print('compile '..moduleName)
 
-        if windows then
+        if oswindows then
             params.compiler = compilerC
 
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)
@@ -112,7 +112,7 @@ function Library.compileFileCPP(srcName, moduleName, headers, links, options)
 
         print('compile '..moduleName)
 
-        if windows then
+        if oswindows then
             params.compiler = compilerCPP
 
             local command = string.format('{compiler} -Wall {options} {headers} -o {libName} {srcName} {links}', params)

@@ -30,7 +30,7 @@ function Grid:cell(i, j)
     local offset = self:offset(i, j)
     if offset == -1 then return nil end
 
-    self.cells[offset] = self.cells[offset] or self:newCell(i, j) -- table()
+    self.cells[offset] = self.cells[offset] or self:newCell(i, j)
 
     self.cells[offset].x = i
     self.cells[offset].y = j

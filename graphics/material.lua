@@ -1,5 +1,9 @@
 class('Material')
 
+function Material.setup()
+    global.currentMaterial = nil
+end
+
 function Material:init()
     self.ambientStrength = 2.5
     self.diffuseStrength = 2
@@ -16,6 +20,10 @@ function Material.sea()
     return sea
 end
 
-defaultMaterial = Material()
+function material(material)
+    global.currentMaterial = material
+end
 
-currentMaterial = defaultMaterial
+function noMaterial()
+    global.currentMaterial = nil
+end

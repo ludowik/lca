@@ -58,11 +58,11 @@ function MeshRender:update()
     self.__verticesSave = self.vertices
 
     self.mesh = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
-    
+
     if self.indices and #self.indices > 0 then
         self.mesh:setVertexMap(self.indices)
     end
-    
+
 end
 
 function MeshRender:draw(...)
@@ -100,7 +100,7 @@ function MeshRender:drawModel(x, y, z, w, h, d)
 
     local previousShader = love.graphics.getShader()
     love.graphics.setShader(shader.shader)
-    
+
     pushMatrix()
     do
         if x then
@@ -126,39 +126,66 @@ function MeshRender:drawInstanced(n)
     self:draw()
 end
 
-function MeshRender:sendUniforms(shader)    
+function MeshRender:sendUniforms(shader)
     local uniforms = self.uniforms or shader.uniforms or {}
     uniforms.pvm = {pvmMatrix():getMatrix()}
+
+    -- TODO : compute the reverse matrix before and send it to the shader    
     uniforms.model = {modelMatrix():getMatrix()}
-    
+
     uniforms.matrixModel = {modelMatrix():getMatrix()}
     uniforms.matrixPV = {pvMatrix():getMatrix()}
 
-    shader = shader.shader
-    
+    if getCamera() then
+        uniforms.cameraPos = getCamera().vEye
+    end
+
+    uniforms.light = lights
+    uniforms.material = currentMaterial
+
+    self:_sendUniforms(shader, uniforms)
+end
+
+function MeshRender:_sendUniforms(_shader, uniforms, baseName)
+    -- TODO : enhance naming
+    local shader = _shader.shader
+
     if uniforms then        
-        for k,u in pairs(uniforms) do
-            if shader:hasUniform(k) then                
-                local className = classnameof(u)
-                if className == 'Color' then
-                    shader:send(k, {u:unpack()})
+        for uniformName,uniform in pairs(uniforms) do
+            local className = typeof(uniform)
 
-                elseif className == 'vec2' then
-                    shader:send(k, {u:unpack()})
+            if className == 'table' and #uniform > 0 and classnameof(uniform[1]) == 'Light' then
+                for i,light in ipairs(uniform) do
+                    self:_sendUniforms(_shader, uniform[i], 'light['..(i-1)..'].')
+                end
+                
+            elseif className == 'Material' then
+                self:_sendUniforms(_shader, uniform, 'material.')
 
-                elseif className == 'vec3' then                
-                    shader:send(k, {u:unpack()})
+            else
+                uniformName = (baseName or '')..uniformName
 
-                elseif className == 'vec4' then
-                    shader:send(k, {u:unpack()})
+                if shader:hasUniform(uniformName) then
+                    if className == 'Color' then
+                        shader:send(uniformName, {uniform:unpack()})
 
-                elseif className == 'Image' then
-                    shader:send(k, u.data)
+                    elseif className == 'vec2' then
+                        shader:send(uniformName, {uniform:unpack()})
 
-                else
-                    shader:send(k, u)
+                    elseif className == 'vec3' then                
+                        shader:send(uniformName, {uniform:unpack()})
+
+                    elseif className == 'vec4' then
+                        shader:send(uniformName, {uniform:unpack()})
+
+                    elseif className == 'Image' then
+                        shader:send(uniformName, uniform.data)
+
+                    else
+                        shader:send(uniformName, uniform)
+                    end
                 end
             end
         end
-    end 
+    end
 end

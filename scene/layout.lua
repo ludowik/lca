@@ -2,7 +2,7 @@ class 'Layout'
 
 function Layout.setup()
     Layout.outerMarge = 5
-    Layout.innerMarge = 2
+    Layout.innerMarge = 5
 end
 
 function Layout:computeNodeSize(node)

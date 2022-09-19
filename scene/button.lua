@@ -2,9 +2,13 @@ class 'Button' : extends(UI)
 
 function Button:init(label, callback)
     UI.init(self, label, callback)
+    
     self.styles:attribs{
         bgColor = colors.blue,
+        strokeColor = colors.white,
         textColor = colors.white,
+        rx = 3
+        
     }
 end
 
@@ -28,7 +32,7 @@ function ButtonIconFont:computeSize()
 end
 
 function ButtonIconFont:draw()
-    local x, y = 0, 0 -- self.position.x, self.position.y
+    local x, y = 0, 0
 
     pushStyle()
     do

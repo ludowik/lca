@@ -24,8 +24,6 @@ end
 function keyboard(key)
     if state == 'play' then
         if key:inList(env.commands) then
-            log(key)
-
             grid:action(key)
             grid:save()
 

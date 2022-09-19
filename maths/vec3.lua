@@ -37,6 +37,8 @@ function vec3:clone()
     return table.clone(self)
 end
 
+
+-- TODO : always usefull ?
 --function vec3:__newindex(key, value)
 --    if key == 'w' then
 --        self.x = value

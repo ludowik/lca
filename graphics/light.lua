@@ -1,4 +1,4 @@
-class('Light')
+class 'Light'
 
 function Light.setup()
     lights = table()
@@ -13,11 +13,6 @@ function Light.reset()
 
     lights:add(Light.ambient(0.5, red))
     lights:add(Light.sun())
-
---    lights:add(Light.random())
---    lights:add(Light.random())
-
---    lights:add(Light.spot())
 end
 
 function Light:init()
@@ -53,7 +48,7 @@ end
 function Light:draw()
     pushMatrix()
     translate(self.position.x, self.position.y, self.position.z)
---    sphere(1)
+    sphere(1)
     popMatrix()
 end
 
@@ -72,8 +67,8 @@ function Light.sun(diffuseStrength, specularStrength)
     local light = Light()
     light.type = 1
 
-    light.position = vec3(500000., 1000000., 1000.)
-    light.color = Color(clr or colors.yellow)
+    light.position = vec3(-500000., -500000., -1000.)
+    light.color = Color(clr or colors.white)
 
     light.ambientStrength = ambientStrength or 0.4
     light.diffuseStrength = diffuseStrength or 0.8

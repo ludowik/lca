@@ -5,6 +5,7 @@ function classItem:init(className, classRef)
 
     self.id = id('classItem')
     self.description = className
+    self.label = className
 
     self.classRef = classRef
 
@@ -31,8 +32,11 @@ function classItem:init(className, classRef)
 end
 
 function classItem:draw()
+    pushMatrix()
+    translate(self.position.x, self.position.y)
+    
     zLevel(-1)
-
+    
     for i,v in ipairs(self.basesRef) do
         local base = env.scene:ui(v.__className)
         if base then
@@ -53,7 +57,7 @@ function classItem:draw()
             point(to.x, to.y)
         end
     end
-
+    
     zLevel(0)
 
     fill(colors.cyan)
@@ -63,6 +67,8 @@ function classItem:draw()
 
     textMode(CENTER)
     text(self.description, 0, 0)
+    
+    popMatrix()
 end
 
 function setup()
@@ -88,7 +94,7 @@ function setup()
         end
     end
 
-    parameter.number('pivot', 1, 1000, 80)
+    parameter.number('pivot', 1, 1000, 250)
     parameter.number('attraction', 1, 1000, 160)
 end
 

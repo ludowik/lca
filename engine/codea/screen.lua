@@ -1,4 +1,3 @@
--- screen
 FULLSCREEN = 'fullscreen'
 
 viewer = {

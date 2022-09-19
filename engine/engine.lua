@@ -44,6 +44,15 @@ function Engine.unload()
     saveConfig()
 end
 
+function Engine.release()
+--    resetApps()
+    
+    Image.release()
+    GraphicsBase.release()
+    
+    gc()
+end
+
 function Engine.needDraw()
     if env.__loop > 0 then
         return true
@@ -84,32 +93,14 @@ function Engine.autotest()
     for i,ui in ipairs(env.parameter.instance.scene:items()) do
         if ui.__className == 'Slider' then
             ui:setValue(random(ui.min, ui.max))
-        end
-    end 
 
---    if not env.__autotestParameters then
---        env.__autotestParameters = table()
---        for i,ui in ipairs(env.parameter.instance.scene:items()) do
---            if ui.__className == 'Slider' then
---                env.__autotestParameters:add(ui)
---            end
---        end        
---    else
---        local ui = env.__autotestParameters[1]
---        if ui then
---            if not ui.tween then
---                ui:setValue(ui.min)
---                ui.tween = tween(2, ui, {value=ui.max})
---            elseif not ui.tween.active then
---                ui:setValue(random(ui.min, ui.max))
---                env.__autotestParameters:remove(1)
---            else
---                ui:setValue(ui.value)
---            end
---        else           
---            env.__autotest = false
---        end
---    end    
+        elseif ui.__className == 'CheckBox' then
+            ui:setValue(randomBoolean())
+
+        elseif ui.__className == 'ColorPicker' then
+            ui:setValue(Color.random())
+        end
+    end   
 end
 
 function Engine.render(f, x, y)
@@ -216,7 +207,7 @@ function Engine.draw3d()
         do
             Engine.render(function ()
                     depthMode(true)
---                    cullingMode(true)
+                    cullingMode(true)
                     love.graphics.clear()
                     if getCamera() and getCamera().lookAt then getCamera():lookAt() end
                     draw()

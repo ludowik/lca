@@ -4,7 +4,7 @@ function debugging() return inDebugging end
 
 function debugStart()
     inDebugging = true
-    local debug = require("mobdebug") -- require("luajit.lualibs.mobdebug.mobdebug")
+    local debug = require("mobdebug")
     debug.start()
     debug.coro()
     debug.on()
@@ -14,7 +14,7 @@ function debugStop(check)
     if not check then return end
     
     inDebugging = true
-    local debug = require("mobdebug") -- require("luajit.lualibs.mobdebug.mobdebug")
+    local debug = require("mobdebug")
     debug.start()
     debug.on()
     debug.pause()

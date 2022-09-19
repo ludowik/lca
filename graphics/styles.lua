@@ -75,9 +75,6 @@ NORMAL = 'alpha'
 ADDITIVE = 'add'
 MULTIPLY = 'multiply'
 
--- alphamultiply
--- premultiplied
-
 function blendMode(mode, alphamode)
     if mode then
         styles.blendMode = mode

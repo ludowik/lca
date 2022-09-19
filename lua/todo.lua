@@ -20,7 +20,7 @@ function scanTODO()
                             for _,todoName in ipairs(todos) do
                                 local i,j,v = line:find('([ -]'..todoName..'[ :]*.*)')
                                 if i then
-                                    local ref = file -- :gsub(Path.sourcePath..'/', '')
+                                    local ref = file
                                     todoLists[todoName]:insert(ref..':'..iline..': '..v)
                                 end
                             end

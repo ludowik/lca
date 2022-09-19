@@ -9,8 +9,9 @@ varying vec3 VaryingNormal;
 vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
     FragPos = vec3(model * VertexPosition);
-    VaryingNormal = VertexNormal;
     
-    // return transform_projection * vertex_position;
+    //VaryingNormal = VertexNormal;    
+    VaryingNormal = mat3(transpose(inverse(model))) * VertexNormal;
+    
     return pvm * vertex_position;
 }

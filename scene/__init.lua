@@ -3,6 +3,7 @@ requireLib(
     'scene',
     'bind',
     'ui',
+    'uiscene',
     'layout',
     'label',
     'expression',
