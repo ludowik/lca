@@ -43,8 +43,8 @@ function initWindow(mode)
         ht = h / SCALE + y*2
     end
 
-    w = round(love.window.toPixels(w))
-    h = round(love.window.toPixels(h))
+    w = round(w)
+    h = round(h)
 
     if mode == 'landscape' then
         w, h = h, w

@@ -22,8 +22,9 @@ function classItem:init(className, classRef)
         basesRef = attributeof('__bases', basesRef[1])
     end
 
-    self.position = vec2.random(W, H)
+    self.position = vec2(W/2, H/2) -- .random(10, 10)
     self.force = vec2()
+    self.speed = vec2()
 
     fontName(DEFAULT_FONT_NAME)
     fontSize(10)
@@ -34,9 +35,14 @@ end
 function classItem:draw()
     pushMatrix()
     translate(self.position.x, self.position.y)
-    
+
     zLevel(-1)
-    
+
+    fontName(DEFAULT_FONT_NAME)
+    fontSize(10)
+
+    local w, h = textSize(self.description)
+
     for i,v in ipairs(self.basesRef) do
         local base = env.scene:ui(v.__className)
         if base then
@@ -45,29 +51,29 @@ function classItem:draw()
 
             local direction = b - a
 
-            local start = direction * 0.1
-            local to = direction * 0.9
-
-            stroke(colors.gray)
-            strokeSize(1)
-            line(start.x, start.y, to.x, to.y)
+            local start = vec2(0, h/2)
+            local to = direction - vec2(0, h/2)
 
             stroke(colors.red)
+            strokeSize(1)
+            line(-w/2, h/2, w/2, h/2)
+
+            stroke(colors.gray)
+            line(start.x, start.y, to.x, to.y)
+
+            stroke(colors.green)
             strokeSize(5)
             point(to.x, to.y)
         end
     end
-    
+
     zLevel(0)
 
-    fill(colors.cyan)
-
-    fontName(DEFAULT_FONT_NAME)
-    fontSize(10)
+    textColor(colors.cyan)
 
     textMode(CENTER)
     text(self.description, 0, 0)
-    
+
     popMatrix()
 end
 
@@ -94,7 +100,7 @@ function setup()
         end
     end
 
-    parameter.number('pivot', 1, 1000, 250)
+    parameter.number('pivot', 1, 1000, 50)
     parameter.number('attraction', 1, 1000, 160)
 end
 
@@ -104,44 +110,39 @@ function constraints(dt)
     local nodes = env.scene:items()
     local n = #nodes
 
-    local a, b, direction, dist, a_position, a_force
+    local direction, dist
 
-    dt = dt * 5
+    dt = dt * 50
 
     for i=1,n do
         nodes[i].force:set()
     end
 
     for i=1,n do
-        a = nodes[i]
-
-        a_position = a.position
-        a_force = a.force
+        local a = nodes[i]
 
         for j=i+1,n do
-            b = nodes[j]
+            local b = nodes[j]
+            if a ~= b then
+                direction = b.position - a.position
+                dist = direction:len()
 
-            direction = b.position - a_position
-            dist = direction:len()
+                direction:normalizeInPlace(100000)
 
-            direction:div(dist)
-
-            if dist < pivot then
-                direction:mul(map(dist, 0, pivot, 10, 0))
-
-            elseif a.childs[b] or a.parents[b] then
-                direction:mul(-map(dist, pivot, W, 0, attraction))
-
-            else
-                direction:mul(-map(dist, pivot, W, 0, 10))
+                if a.childs[b] or b.childs[a] then
+                else
+                    a.force:add(-direction/dist)
+                    b.force:add( direction/dist)
+                end
             end
-
-            a_force:sub(direction)
-            b.force:add(direction)
-            
         end
+    end
 
-        a_position:add(a_force:mul(dt))
+    for i=1,n do
+        local a = nodes[i]
+
+        a.speed:add(a.force:mul(dt))
+        a.position:add(a.speed:mul(dt))
     end
 end
 
