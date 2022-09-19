@@ -22,7 +22,7 @@ function classItem:init(className, classRef)
         basesRef = attributeof('__bases', basesRef[1])
     end
 
-    self.position = vec2(W/2, H/2) -- .random(10, 10)
+    self.position = vec2.random(10, 10)
     self.force = vec2()
     self.speed = vec2()
 
