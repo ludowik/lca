@@ -34,7 +34,7 @@ function initWindow(mode)
         h = ht - 2*y
 
     else
-        x = 250
+        x = 160
         y = 24
         h = SCALE * 900
         w = h * 9/16
