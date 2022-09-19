@@ -13,6 +13,5 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
     //VaryingNormal = VertexNormal;    
     VaryingNormal = mat3(transpose(inverse(model))) * VertexNormal;
     
-    // return transform_projection * vertex_position;
     return pvm * vertex_position;
 }

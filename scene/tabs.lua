@@ -44,12 +44,12 @@ function Tabs:addTabs(...)
     return self
 end
 
---function Tabs:draw()
---    self.buttons:draw()
---    if self.currentTab then
---        self.currentTab:draw()
---    end
---end
+function Tabs:draw()
+    self.buttons:draw()
+    if self.currentTab then
+        self.currentTab:draw()
+    end
+end
 
 function Tabs:inRect(position)
     local over = self.buttons:inRect(position)

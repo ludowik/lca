@@ -57,7 +57,7 @@ function initWindow(mode)
 
     local xpos, ypos = 100, 50 -- love.window.getPosition()
 
-    love.window.setMode(
+    love.window.updateMode(
         wt,
         ht, {
             highdpi = true,
@@ -69,8 +69,6 @@ function initWindow(mode)
             y = ypos,
             display = 1,
         })
-    
-    love.mouse.setPosition(wt/2, ht/2)
     
     return x, y, w, h
 end

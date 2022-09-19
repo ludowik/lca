@@ -13,6 +13,7 @@ function Action:__tostring(...)
     return self.description
 end
 
+-- TODO : used ?
 function callback(...) -- description, object, f, ...)
     --if not description and not object and not f then return end
 

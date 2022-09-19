@@ -137,8 +137,6 @@ function Model.computeIndices(vertices, texCoords, normals, colors)
         end        
     end
 
-    log(string.format('Generate {indices} indices for {vertices} vertices', {indices=#v, vertices=#vertices}))
-
     return v, t, n, c, indices
 end
 
@@ -183,7 +181,6 @@ end
 
 function Model.transform(vertices, matrix)
     for i=1,#vertices do
---        vertices[i] = matrix:mulVector(vertices[i])
         vertices[i] = matByVector(matrix, vertices[i])
     end
 

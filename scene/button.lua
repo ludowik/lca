@@ -32,7 +32,7 @@ function ButtonIconFont:computeSize()
 end
 
 function ButtonIconFont:draw()
-    local x, y = 0, 0 -- self.position.x, self.position.y
+    local x, y = 0, 0
 
     pushStyle()
     do

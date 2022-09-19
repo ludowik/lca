@@ -27,7 +27,7 @@ function disableGlobal()
             __newindex = function(_, name, value) -- Once the global environment is assigned, it will call the... Set here __newindex Metamethod , Prompt error , Assignment is not performed 
                 print(string.format("Use 'global.%s = value' instead of set global variable", name))
                 rawset(__g, name, value)
-                assert()
+                assert(false, string.format("Use 'global.%s = value' instead of set global variable", name))
             end,                                  -- Therefore, when accessing , Direct access _G that will do :print(a)  -- Print 2
 
             __index = function(_, name)

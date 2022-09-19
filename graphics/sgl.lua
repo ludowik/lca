@@ -85,50 +85,51 @@ function rasterTriangle()
     end
 
     function fillBottomFlatTriangle(v1, v2, v3)
-        invslope1 = (v2.x - v1.x) / (v2.y - v1.y);
-        invslope2 = (v3.x - v1.x) / (v3.y - v1.y);
+        invslope1 = (v2.x - v1.x) / (v2.y - v1.y)
+        invslope2 = (v3.x - v1.x) / (v3.y - v1.y)
 
-        curx1 = v1.x;
-        curx2 = v1.x;
+        curx1 = v1.x
+        curx2 = v1.x
 
         for scanlineY = v1.y, v2.y - 1 do
-            drawLine(curx1, scanlineY, curx2, scanlineY);
-            curx1 = curx1 + invslope1;
-            curx2 = curx2 + invslope2;
+            drawLine(curx1, scanlineY, curx2, scanlineY)
+            curx1 = curx1 + invslope1
+            curx2 = curx2 + invslope2
         end
     end
 
     function fillTopFlatTriangle(v1, v2, v3)
-        invslope1 = (v3.x - v1.x) / (v3.y - v1.y);
-        invslope2 = (v3.x - v2.x) / (v3.y - v2.y);
+        invslope1 = (v3.x - v1.x) / (v3.y - v1.y)
+        invslope2 = (v3.x - v2.x) / (v3.y - v2.y)
 
-        curx1 = v3.x;
-        curx2 = v3.x;
+        curx1 = v3.x
+        curx2 = v3.x
 
         for scanlineY = v3.y, v1.y + 1, -1 do
-            drawLine(curx1, scanlineY, curx2, scanlineY);
-            curx1 = curx1 - invslope1;
-            curx2 = curx2 - invslope2;
+            drawLine(curx1, scanlineY, curx2, scanlineY)
+            curx1 = curx1 - invslope1
+            curx2 = curx2 - invslope2
         end
     end
 
     -- at first sort the three vertices by y-coordinate ascending so v1 is the topmost vertice
-    sortVerticesAscendingByY();
+    sortVerticesAscendingByY()
 
     -- here we know that v1.y <= v2.y <= v3.y
     -- check for trivial case of bottom-flat triangle
     if (v2.y == v3.y) then
-        fillBottomFlatTriangle(v1, v2, v3);
+        fillBottomFlatTriangle(v1, v2, v3)
 
         -- check for trivial case of top-flat triangle
     elseif (vt1.y == vt2.y) then
-        fillTopFlatTriangle(g, vt1, vt2, vt3);
+        fillTopFlatTriangle(g, vt1, vt2, vt3)
+        
     else
         -- general case - split the triangle in a topflat and bottom-flat one
-        v4 = vec4((int)(vt1.x + ((float)(vt2.y - vt1.y) / (float)(vt3.y - vt1.y)) * (vt3.x - vt1.x)), vt2.y);
+        v4 = vec4((int)(vt1.x + ((float)(vt2.y - vt1.y) / (float)(vt3.y - vt1.y)) * (vt3.x - vt1.x)), vt2.y)
 
-        fillBottomFlatTriangle(g, vt1, vt2, v4);
-        fillTopFlatTriangle(g, vt2, v4, vt3);
+        fillBottomFlatTriangle(g, vt1, vt2, v4)
+        fillTopFlatTriangle(g, vt2, v4, vt3)
     end
 end
 

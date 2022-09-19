@@ -134,7 +134,7 @@ function appMap:draw()
     
     box(s*(x-1), y, -s*(z-1), w, w, w)
     
-    currentMaterial = defaultMaterial
+    noMaterial()
 
     MeshAxes()
     MeshAxes(self.scene.camera:at())
@@ -149,7 +149,7 @@ function appMap:draw()
 
     noLight()
 
-    currentMaterial = Material.sea()
+    material(Material.sea())
 
     sea:setColors(colors.blue:alpha(opacity))
     sea:draw()

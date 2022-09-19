@@ -185,7 +185,7 @@ end
 function typeof(object)
     local typeof = type(object)
     if typeof == 'table' then
-        return classnameof(object) or 'table'
+        return attributeof('__className', object) or 'table'
 
     elseif typeof == 'cdata' then
         typeof = ffi.typeof(object)

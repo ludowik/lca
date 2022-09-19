@@ -44,7 +44,7 @@ function Log.draw(x, y)
         if x then translate(x, y) end
 
         local n = #logs
-        local start = 1 -- max(1, n-50)
+        local start = 1
         for i=n,start,-1 do
             local log = logs[i]
             text(log.count..' '..log.text)

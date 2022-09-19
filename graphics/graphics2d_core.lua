@@ -312,9 +312,7 @@ function Graphics.box(...)
             {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
         }
 
-        local m = Model.box(x, y, z, w, h, d)
-
-        Graphics.boxMesh = m -- Graphics.newMesh(format, m.vertices, 'triangles', 'static')
+        Graphics.boxMesh = Model.box(x, y, z, w, h, d)
     end
 
     Graphics.boxMesh:draw(x, y, z, w, h, d)
@@ -331,8 +329,7 @@ function Graphics.sphere(...)
             {"VertexColor", "byte", 4} -- The r,g,b,a color of each vertex.
         }
 
-        local m = Model.sphere(x, y, z, w, h, d)
-        Graphics.sphereMesh = m -- Graphics.newMesh(format, m.vertices, 'triangles', 'static')
+        Graphics.sphereMesh = Model.sphere(x, y, z, w, h, d)
     end
 
     Graphics.sphereMesh:draw(x, y, z, w, h, d)

@@ -27,6 +27,7 @@ require 'lua.timer'
 require 'lua.global'
 require 'lua.http'
 require 'lua.decorator'
+require 'lua.enum'
 
 --require 'lua.bit'
 bit32 = require 'bit'
