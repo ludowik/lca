@@ -477,3 +477,11 @@ function table:avg(var)
 
     return v / n
 end
+
+function table:extract(from)
+    local t = table()
+    for i=(from or 1),#self do
+        t:add(self[i])
+    end
+    return t
+end

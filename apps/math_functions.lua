@@ -17,6 +17,7 @@ function draw()
     for i,f in ipairs(Functions.list) do
         f:draw(i == current)
     end
+    Functions.list[current]:draw(true)
 
     stroke(colors.blue)
 
@@ -40,9 +41,11 @@ function keyboard(key)
     end
 end
 
+dx = 0.01
+
 class 'Functions'
 
-Functions.functions = {
+Functions.functions = table{
     {'exp'  , math.exp},
     {'log 2' , math.log, 2},
     {'log e' , math.log},
@@ -79,6 +82,10 @@ function Functions:init()
 
     parameter.number('a', -10, 10, 2.0, function () Functions.needUpdate = true end)
     parameter.number('b', -10, 10, 0.5, function () Functions.needUpdate = true end)
+    
+    for name,f in pairs(tween.easing) do
+        Functions.functions:insert(0, {name, f, 0, W/8*dx, W/8*dx})
+    end    
 
     Functions.list = table(Functions.functions):map(function (list, i, t) return Function(t) end)
 end
@@ -97,7 +104,7 @@ class 'Function'
 function Function:init(t)
     self.label = t[1]
     self.f = t[2]
-    self.param = table({t[3], t[4]})
+    self.param = table.extract(t, 3)
 
     self:set()
 end
