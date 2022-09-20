@@ -128,8 +128,8 @@ function __math.test()
         ut.assertEqual('map', math.map(i, 1, 10, 11, 20), i+10)
     end
 
-    ut.assertEqual('map', math.map(0, 1, 10, 2, 10), 2)
-    ut.assertEqual('map', math.map(11, 1, 10, 2, 5), 5)
+    ut.assertEqual('map', math.map( 0, 1, 10, 2, 10), 2)
+    ut.assertEqual('map', math.map(11, 1, 10, 2,  5), 5)
 
     ut.assertEqual('map', math.map(5.5, 0, 10, 0, 100), 55)
 end

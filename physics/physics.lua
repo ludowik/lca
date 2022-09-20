@@ -62,8 +62,9 @@ end
 function Physics:update(dt)
     if not self.active then return end
     local n = 10
+    local dtn = dt/n
     for i=1,n do
-        self:step(dt/n)
+        self:step(dtn)
     end
     self:updateProperties()
 end

@@ -46,10 +46,10 @@ end
 
 function Engine.release()
 --    resetApps()
-    
+
     Image.release()
     GraphicsBase.release()
-    
+
     gc()
 end
 
@@ -95,7 +95,9 @@ function Engine.autotest()
             ui:setValue(random(ui.min, ui.max))
 
         elseif ui.__className == 'CheckBox' then
-            ui:setValue(randomBoolean())
+            if not ui.label:inList('bottom_left') then
+                ui:setValue(randomBoolean())
+            end
 
         elseif ui.__className == 'ColorPicker' then
             ui:setValue(Color.random())

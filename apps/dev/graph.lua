@@ -22,7 +22,7 @@ function classItem:init(className, classRef)
         basesRef = attributeof('__bases', basesRef[1])
     end
 
-    self.position = vec2.random(10, 10)
+    self.position = vec2.random(1, 1)
     self.force = vec2()
     self.speed = vec2()
 
@@ -81,7 +81,7 @@ function setup()
     env.scene = Scene()
 
     for k,v in pairs(_G) do
-        if type(v) == 'table' then
+        if type(v) == 'table' and v.__className then
             local item = env.scene:ui(v.__className)
             if item == nil then
                 item = classItem(k, v)
@@ -104,15 +104,11 @@ function setup()
     parameter.number('attraction', 1, 1000, 160)
 end
 
-local map = math.map
-
 function constraints(dt)
     local nodes = env.scene:items()
     local n = #nodes
 
     local direction, dist
-
-    dt = dt * 50
 
     for i=1,n do
         nodes[i].force:set()
@@ -123,18 +119,29 @@ function constraints(dt)
 
         for j=i+1,n do
             local b = nodes[j]
+
             if a ~= b then
                 direction = b.position - a.position
                 dist = direction:len()
 
-                direction:normalizeInPlace(100000)
+                direction:normalizeInPlace()
 
                 if a.childs[b] or b.childs[a] then
-                else
-                    a.force:add(-direction/dist)
-                    b.force:add( direction/dist)
+--                    if dist < pivot then
+                    local speed = math.map(dist, pivot, 2*pivot, 0, 100)
+                    local speed = math.exp(dist) * 100
+
+                    a.force:add(-speed*direction)
+                    b.force:add( speed*direction)
+--                    end
                 end
+
+                local speed = math.log(dist+1) * 100 --  math.map(dist, 0, 10*pivot, 1000, 0)
+
+                a.force:add(-speed*direction)
+                b.force:add( speed*direction)
             end
+
         end
     end
 
@@ -143,6 +150,8 @@ function constraints(dt)
 
         a.speed:add(a.force:mul(dt))
         a.position:add(a.speed:mul(dt))
+
+        a.speed:mul(0.9)
     end
 end
 
@@ -173,10 +182,14 @@ function rebase()
 end
 
 function update(dt)
-    for i=1,2 do
-        constraints(0.015)
-        rebase()
+    dt = dt *2
+
+    local n = 4
+    local dtn = dt/n
+    for i=1,n do
+        constraints(dt)
     end
+    rebase()
 end
 
 function draw()

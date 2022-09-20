@@ -92,7 +92,7 @@ function Graphics.text(txt, x, y)
         love.graphics.setColor(clr:unpack())
 
         if Engine.origin == BOTTOM_LEFT then
-            love.graphics.draw(res.text, x, y, 0, 1, -1)
+            love.graphics.draw(res.text, x, y+h, 0, 1, -1)
         else
             love.graphics.draw(res.text, x, y, 0, 1, 1)
         end
