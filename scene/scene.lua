@@ -11,8 +11,19 @@ function Scene:draw()
 
     self:layout(self.position.x, self.position.y)
 
-
+    if not self.parent and not self:getFocus() then
+        self:computeNavigation(self, self)
+        self:nextFocus()
+    end
+    
     Node.draw(self)
+    
+    local focusItem = self:getFocus()
+    if focusItem then
+        stroke(colors.red)
+        noFill()
+        rect(focusItem.absolutePosition.x, focusItem.absolutePosition.y, focusItem.size.x, focusItem.size.y)
+    end    
 end
 
 function Scene:touched(touch)

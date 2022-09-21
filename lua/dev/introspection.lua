@@ -1,9 +1,7 @@
 function introspection()
     local env = _G.env
 
-    env.ui = env.ui or Scene()
-    
-    env.ui:setLayoutFlow(Layout.row)
+    env.ui = env.ui or UIScene(Layout.row)
 
     local function addGroup(filterType)
         local group = env.ui:ui(filterType)
@@ -19,8 +17,8 @@ function introspection()
         local function addRef(k, v)
             if type(v) == filterType then
                 if tostring(k):lower() ~= tostring(v):lower() then -- exclude macro
-                    local ui = Expression("'"..k.." = '..tostring("..k..")")
-                    ui.fontSize = 8
+                    local ui = Expression(k, "tostring("..k..")")
+                    ui.styles.fontSize = 12
                     group:add(ui)
                 end
             end
@@ -41,8 +39,7 @@ function introspection()
     addGroup('table')
     addGroup('function')
     
-    env.draw = function ()
+    return function ()
         env.ui:draw()
-    end
-    
+    end    
 end

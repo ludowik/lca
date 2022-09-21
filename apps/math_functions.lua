@@ -12,7 +12,7 @@ end
 function draw()
     background()
 
-    translate(W/4, H/4)
+    translate(H/6, H/6)
 
     for i,f in ipairs(Functions.list) do
         f:draw(i == current)
@@ -47,44 +47,47 @@ class 'Functions'
 
 Functions.functions = table{
     {'exp'  , math.exp},
-    {'log 2' , math.log, 2},
+
+    {'log 2' , math.log, param={2}},
     {'log e' , math.log},
     {'log 10', math.log10},
 
     {'cos'  , math.cos},
     {'cosh' , math.cosh},
+    {'acos' , math.acos},
     {'sin'  , math.sin},
     {'sinh' , math.sinh},
+    {'asin' , math.asin},
     {'tan'  , math.tan},
     {'tanh' , math.tanh},
-
-    {'acos' , math.acos},
-    {'asin' , math.asin},
     {'atan' , math.atan},
 
     {'sqrt' , math.sqrt},
-    {'pow2' , math.pow, 2},
+    {'pow2' , math.pow, param={2}},
 
-    {'fmod' , math.fmod, 2},
-
+    {'fmod' , math.fmod, param={2}},
     {'ceil' , math.ceil},
     {'floor', math.floor},
 
     {'noise', noise},
 
-    {'a * x + b', function (x) return a*x+b end, 2, 0.5},
+    {'a * x + b', function (x) return a*x+b end, param={2, 0.5}},
 }
 
 function Functions:init()
     parameter.integer('current', 1, #Functions.functions, 1)
-    
+
     parameter.number('dx', 0.001, 0.1, 0.01, function () Functions.needUpdate = true end)
 
     parameter.number('a', -10, 10, 2.0, function () Functions.needUpdate = true end)
     parameter.number('b', -10, 10, 0.5, function () Functions.needUpdate = true end)
-    
+
     for name,f in pairs(tween.easing) do
-        Functions.functions:insert(0, {name, f, 0, W/8*dx, W/8*dx})
+        Functions.functions:add({
+                name,
+                f,
+                param = {0, W/3*dx, W/3*dx},
+                range = {0, W/3}})
     end    
 
     Functions.list = table(Functions.functions):map(function (list, i, t) return Function(t) end)
@@ -104,7 +107,8 @@ class 'Function'
 function Function:init(t)
     self.label = t[1]
     self.f = t[2]
-    self.param = table.extract(t, 3)
+    self.param = table(t.param)
+    self.range = table(t.range)
 
     self:set()
 end
@@ -112,11 +116,11 @@ end
 function Function:set()
     self.points = table()
 
-    -- dx = 0.01
+    local from = self.range and self.range[1] or -max(W, H)
+    local to = self.range and self.range[2] or max(W, H)
 
-    local size = max(W, H)
-    local x = -size * dx
-    for i=-size,size do
+    local x = from * dx
+    for i=from,to do
         self.points:add(x / dx)
         self.points:add(self.f(x, self.param:unpack()) / dx)
 

@@ -90,11 +90,11 @@ function Node:contains(...)
 end
 
 function Node:nextFocus()
-    self:setFocus(self.focus and self.focus.next or self)
+    self:setFocus(self.focus and self.focus.nextItem or self)
 end
 
 function Node:previousFocus()
-    self:setFocus(self.focus and self.focus.previous or self)
+    self:setFocus(self.focus and self.focus.previousItem or self)
 end
 
 function Node:setFocus(newFocus)
@@ -105,10 +105,12 @@ function Node:setFocus(newFocus)
         newFocus.hasFocus = true
     end
     self.focus = newFocus
+    
+    print('setfocus '..self.focus.__className)
 end
 
 function Node:getFocus()
-    if self.focus then return self end
+    if self.hasFocus then return self end
     local nodes = self:items()
     for i,v in ipairs(nodes) do
         if v.getFocus then
@@ -121,21 +123,23 @@ function Node:getFocus()
 end
 
 function Node:computeNavigation(previousUpNode, nextUpNode)
-    previousUpNode.next = self.nodes[1]
-    nextUpNode.previous = self.nodes[#self.nodes]
-
+    if previousUpNode then
+        previousUpNode.nextItem = self.nodes[1]
+        nextUpNode.previousItem = self.nodes[#self.nodes]
+    end
+    
     for i=1,#self.nodes do
         local currentNode = self.nodes[i]
         local nextNode = self.nodes[i+1] or nextUpNode
 
-        currentNode.previous, previousUpNode = previousUpNode, currentNode
+        currentNode.previousItem, previousUpNode = previousUpNode, currentNode
 
         currentNode.parent = self
 
         if currentNode.nodes and #currentNode.nodes > 0 then
             currentNode:computeNavigation(currentNode, nextNode)
         else
-            currentNode.next = nextNode
+            currentNode.nextItem = nextNode
         end
     end
 end

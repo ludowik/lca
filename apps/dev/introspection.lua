@@ -1,3 +1,3 @@
 function setup()
-    introspection()
+    draw = introspection()
 end

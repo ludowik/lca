@@ -1,9 +1,68 @@
-class 'classItem' : extends(Object)
+function setup()
+    env.scene = Scene()
 
-function classItem:init(className, classRef)
+    local list = {}
+    for k,v in pairs(_G) do
+        if type(v) == 'table' and v.__className then
+            local item = env.scene:ui(v.__className)
+            if item == nil and not list[v] then
+                list[v] = v
+                item = ClassItem(k, v)
+                env.scene:add(item)
+            end
+        end
+    end
+
+    for _,item in env.scene:iter() do
+        for i,base in ipairs(item.basesRef) do
+            local node = env.scene:ui(base.__className)
+            if node then
+                node.childs[item] = true
+                item.parents[node] = true
+            end
+        end
+    end
+
+    parameter.action('restart', reset)
+    parameter.number('pivot', 1, 1000, 75)
+    parameter.number('attraction', 1, 2500, 1250)
+    parameter.number('damping', 0, 1, 0.9)
+    
+    parameter.number('dt_ratio', 1, 10, 1)
+end
+
+function update(dt)
+    local n = 2
+    local dtn = dt/n
+    for i=1,n do
+        constraints(dtn)
+    end
+    rebase()
+end
+
+function draw()
+    background()
+    env.scene:draw()
+end
+
+function keyboard(key)
+    if key == 'return' then
+        reset()
+    end
+end
+
+function reset()
+    for _,item in env.scene:iter() do
+        item:reset()
+    end
+end
+
+class 'ClassItem' : extends(Object)
+
+function ClassItem:init(className, classRef)
     Object.init(self, classRef.__className or className)
 
-    self.id = id('classItem')
+    self.id = id('ClassItem')
     self.description = className
     self.label = className
 
@@ -22,24 +81,26 @@ function classItem:init(className, classRef)
         basesRef = attributeof('__bases', basesRef[1])
     end
 
-    self.position = vec2.random(1, 1)
-    self.force = vec2()
-    self.speed = vec2()
+    self:reset()
 
-    fontName(DEFAULT_FONT_NAME)
-    fontSize(10)
-
-    self.size = vec2(textSize(self.description))
+    self.fontName = DEFAULT_FONT_NAME
+    self.fontSize = 12
 end
 
-function classItem:draw()
+function ClassItem:reset()
+    self.position = vec2.random(1, 1) + vec2(W/2, H/2)
+    self.force = vec2()
+    self.velocity = vec2()
+end
+
+function ClassItem:draw()
     pushMatrix()
     translate(self.position.x, self.position.y)
 
     zLevel(-1)
 
-    fontName(DEFAULT_FONT_NAME)
-    fontSize(10)
+    fontName(self.fontName)
+    fontSize(self.fontSize)
 
     local w, h = textSize(self.description)
 
@@ -77,66 +138,40 @@ function classItem:draw()
     popMatrix()
 end
 
-function setup()
-    env.scene = Scene()
-
-    for k,v in pairs(_G) do
-        if type(v) == 'table' and v.__className then
-            local item = env.scene:ui(v.__className)
-            if item == nil then
-                item = classItem(k, v)
-                env.scene:add(item)
-            end
-        end
-    end
-
-    for _,item in env.scene:iter() do
-        for i,base in ipairs(item.basesRef) do
-            local node = env.scene:ui(base.__className)
-            if node then
-                node.childs[item] = true
-                item.parents[node] = true
-            end
-        end
-    end
-
-    parameter.number('pivot', 1, 1000, 50)
-    parameter.number('attraction', 1, 1000, 160)
-end
-
 function constraints(dt)
+    dt = dt * dt_ratio
+    
     local nodes = env.scene:items()
     local n = #nodes
-
-    local direction, dist
 
     for i=1,n do
         nodes[i].force:set()
     end
 
+    local a, b, v, direction, dist
     for i=1,n do
-        local a = nodes[i]
+        a = nodes[i]
 
         for j=i+1,n do
-            local b = nodes[j]
+            b = nodes[j]
 
-            if a ~= b then
-                direction = b.position - a.position
-                dist = direction:len()
+            v = b.position - a.position
+            dist = v:len()
 
-                direction:normalizeInPlace()
+            direction = v:normalize()
 
-                if a.childs[b] or b.childs[a] then
---                    if dist < pivot then
-                    local speed = math.map(dist, pivot, 2*pivot, 0, 100)
-                    local speed = math.exp(dist) * 100
+            if a.childs[b] or b.childs[a] then
+                if dist > pivot then
+                    local speed = (1 - 0.99^dist) * attraction
 
-                    a.force:add(-speed*direction)
-                    b.force:add( speed*direction)
---                    end
+                    a.force:add( speed*direction)
+                    b.force:add(-speed*direction)
                 end
 
-                local speed = math.log(dist+1) * 100 --  math.map(dist, 0, 10*pivot, 1000, 0)
+            end
+
+            if dist < pivot then
+                local speed = (0.99^dist) * attraction
 
                 a.force:add(-speed*direction)
                 b.force:add( speed*direction)
@@ -146,22 +181,20 @@ function constraints(dt)
     end
 
     for i=1,n do
-        local a = nodes[i]
+        a = nodes[i]
 
-        a.speed:add(a.force:mul(dt))
-        a.position:add(a.speed:mul(dt))
+        a.velocity:add(a.force:mul(dt))
+        a.position:add(a.velocity:mul(dt))
 
-        a.speed:mul(0.9)
+        a.velocity:mul(math.pow(damping, dt))
     end
 end
 
 function rebase()
     local xmin, ymin, xmax, ymax = math.maxinteger, math.maxinteger, -math.maxinteger, -math.maxinteger
 
-    local position
-
     for _,item in env.scene:iter() do
-        position = item.position
+        local position = item.position
         xmin = min(xmin, position.x)
         ymin = min(ymin, position.y)
         xmax = max(xmax, position.x)
@@ -171,36 +204,15 @@ function rebase()
     local w = xmax - xmin
     local h = ymax - ymin
 
-    local rx = W/w
-    local ry = H/h
+    local wb = W 
+    local hb = H
+
+    local rx = 0.9 * wb/w
+    local ry = 0.9 * hb/h
 
     for _,item in env.scene:iter() do
-        position = item.position
-        position.x = (position.x - xmin) * rx * 0.9 + 0.05 * W
-        position.y = (position.y - ymin) * ry * 0.9 + 0.05 * H
-    end
-end
-
-function update(dt)
-    dt = dt *2
-
-    local n = 4
-    local dtn = dt/n
-    for i=1,n do
-        constraints(dt)
-    end
-    rebase()
-end
-
-function draw()
-    background()
-    env.scene:draw()
-end
-
-function keyboard(key)
-    if key == 'return' then
-        for _,item in env.scene:iter() do
-            item.position = vec2.random(W, H)
-        end
+        local position = item.position
+        position.x = (position.x - xmin) * rx + 0.05 * wb
+        position.y = (position.y - ymin) * ry + 0.05 * hb
     end
 end
