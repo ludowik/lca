@@ -95,7 +95,7 @@ function Engine.autotest()
             ui:setValue(random(ui.min, ui.max))
 
         elseif ui.__className == 'CheckBox' then
-            if not ui.label:inList('bottom_left') then
+            if not ui.label:inList{'bottom_left', 'landscape'} then
                 ui:setValue(randomBoolean())
             end
 

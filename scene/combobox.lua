@@ -1,11 +1,11 @@
-class 'ComboBox' : extends(UI)
+class 'ComboBox' : extends(Node)
 
-function ComboBox:ComboBox(label)
-    UI.init(self, label)
+function ComboBox:init(label)
+    Node.init(self, label)
 
-    self.uiValue = UIValue(label)
+    self.uiValue = Button(label)
     self:add(self.uiValue:attribs{
-            backgroundColor = blue * 2,
+            backgroundColor = colors.blue * 2,
             click = function (_, ...) self.click(self, ...) end
         })
 

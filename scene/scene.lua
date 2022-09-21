@@ -9,15 +9,16 @@ function Scene:draw()
         self.camera:lookAt()
     end
 
-    self:layout(self.position.x, self.position.y)
-
-    if not self.parent and not self:getFocus() then
-        self:computeNavigation(self, self)
-        self:nextFocus()
+    if not self.parent then
+        self:layout(self.position.x, self.position.y)
+        if not self:getFocus() then
+            self:computeNavigation(self, self)
+            self:nextFocus()
+        end
     end
-    
+
     Node.draw(self)
-    
+
     local focusItem = self:getFocus()
     if focusItem then
         stroke(colors.red)

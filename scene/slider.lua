@@ -20,7 +20,7 @@ end
 
 function Slider:computeSize()
     UI.computeSize(self)
-    self.size.x = max(self.size.x, 100) 
+    self.size.x = max(self.size.x, 100)
 end
 
 function Slider:draw()
@@ -29,9 +29,11 @@ function Slider:draw()
     local x = map(self.value, self.min, self.max, 0, self.size.x)
     stroke(colors.red)
     strokeSize(2)
-    line(x, 0, x, self.size.y)   
+    line(x, 0, x, self.size.y)
     
-    text(self.value, self.size.x, 0)
+    local w, h = textSize(self.value)
+    textMode(CORNER)
+    text(self.value, self.size.x-w, 0)
 end
 
 function Slider:setValue(value)

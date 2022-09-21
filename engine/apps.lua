@@ -56,7 +56,7 @@ function resetApps()
         listByName = {},
         listByIndex = {},
     }
-    
+
     package.loaded = {}
 
     addApps()
@@ -102,9 +102,24 @@ function loadApp(path, name, garbage)
 
         local env = {
             __vsync = 1,
-            
+
             setup = function () end,
-            draw = function () if env.scene then env.scene:draw() end end,
+            
+            draw = function ()
+                background()
+                local scene = env.scene or env.ui
+                if scene then
+                    scene:draw()
+                end
+            end,
+            
+            touched = function (touch)
+                background()
+                local scene = env.scene or env.ui
+                if scene then
+                    scene:touched(touch)
+                end
+            end,
         }
 
         setmetatable(env, {__index = _G})
@@ -179,7 +194,7 @@ function loadApp(path, name, garbage)
 
         love.window.setTitle(name)
     end
-    
+
     setMode(env.__mode)
 
     return _G.env

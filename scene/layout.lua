@@ -41,7 +41,11 @@ function Layout:layout(mode, n)
         node.position.x = position.x
         node.position.y = position.y
 
-        Layout.computeNodeSize(self, node)
+        if node.nodes then
+            node:layout(n)
+        else
+            Layout.computeNodeSize(self, node)
+        end
 
         self.colSize[i] = self.colSize[i] or vec2()
         self.rowSize[j] = self.rowSize[j] or vec2()
@@ -61,7 +65,7 @@ function Layout:layout(mode, n)
 
         elseif mode == 'column' then
             position.y = position.y + node.size.y + innerMarge
-            j =j + 1
+            j = j + 1
 
         elseif mode == 'grid' then
             node.size.x = self.nodeSize.x
@@ -138,7 +142,7 @@ end
 function Layout:align()
     local outerMarge = self.outerMarge or Layout.outerMarge
     local innerMarge = self.innerMarge or Layout.innerMarge
-    
+
     local w, h
     if self.parent then
         w = self.parent.size.x
@@ -158,7 +162,7 @@ function Layout:align()
     if alignments:findItem('center') or alignments:findItem('v-center') then
         self.position.y = self.position.y + (h - self.size.y) / 2
     end
-    
+
     if alignments:findItem('right') then
         self.position.x = (w - self.size.x)
     end
