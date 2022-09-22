@@ -61,7 +61,7 @@ function UI:draw()
             noStroke()
         end
         
-        rect(0, 0, self.size.w, self.size.h, self.styles.rx, self.styles.ry)
+        rect(0, 0, self.size.x, self.size.y, self.styles.rx, self.styles.ry)
     end
 
     textColor(self.styles.textColor or colors.white)

@@ -105,8 +105,6 @@ function Node:setFocus(newFocus)
         newFocus.hasFocus = true
     end
     self.focus = newFocus
-    
-    print('setfocus '..self.focus.__className)
 end
 
 function Node:getFocus()

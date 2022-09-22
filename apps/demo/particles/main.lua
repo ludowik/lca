@@ -12,6 +12,7 @@ function update(dt)
 end
 
 function draw()
+    background()
     env.scene:draw()
 end
 

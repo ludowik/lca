@@ -83,11 +83,6 @@ function loadApp(path, name, garbage)
         return loadApp('apps', 'apps')
     end
 
-    config.appPath = path
-    config.appName = name
-
-    saveConfig()
-
     if not apps.listByName[filePath].loaded then
         log('load app : '..path..'/'..name)
     else
@@ -185,9 +180,7 @@ function loadApp(path, name, garbage)
             if apps.listByIndex[index] == apps.listByName[filePath] then
                 apps.currentIndex = index
                 local env = apps.listByIndex[apps.currentIndex].env
-                _G.env = env
-                setfenv(0, env)
-                love.window.setVSync(_G.env.__vsync)
+                setActiveApp(env)
                 break
             end
         end
@@ -236,6 +229,11 @@ function setActiveApp(env)
     _G.env = env
     setfenv(0, env)
     love.window.setVSync(_G.env.__vsync)
+    
+    config.appPath = _G.env.appPath
+    config.appName = _G.env.appName
+
+    saveConfig()
 end
 
 function setApp(index, garbage)

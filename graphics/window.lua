@@ -1,9 +1,10 @@
 function setupWindow(mode, scale)
     mode = mode or getMode()
+    
     SCALE = scale or 1
-    
+
     X, Y, W, H = initWindow(mode)
-    
+
     WIDTH, HEIGHT = W, H
 
     safeArea = {
@@ -38,7 +39,7 @@ function initWindow(mode)
         y = 24
         h = SCALE * 900
         w = h * 9/16
-        
+
         wt = w / SCALE + x*3
         ht = h / SCALE + y*2
     end
@@ -50,26 +51,28 @@ function initWindow(mode)
         w, h = h, w
         wt = w / SCALE + x*3
         ht = h / SCALE + y*2
-        
+
     elseif w > h then
         w, h, wt, ht, x, y = h, w, ht, wt, y, x
     end
 
     local xpos, ypos = 100, 50 -- love.window.getPosition()
 
-    love.window.updateMode(
-        wt,
-        ht, {
-            highdpi = true,
-            usedpiscale = true,
-            msaa = 8,
-            depth = 24,
-            vsync = 0,
-            x = xpos,
-            y = ypos,
-            display = 1,
-        })
-    
+    if not global.__autotest then
+        love.window.updateMode(
+            wt,
+            ht, {
+                highdpi = true,
+                usedpiscale = true,
+                msaa = 8,
+                depth = 24,
+                vsync = 0,
+                x = xpos,
+                y = ypos,
+                display = 1,
+            })
+    end
+
     return x, y, w, h
 end
 

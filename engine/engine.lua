@@ -47,6 +47,7 @@ end
 function Engine.release()
 --    resetApps()
 
+    output.clear()
     Image.release()
     GraphicsBase.release()
 

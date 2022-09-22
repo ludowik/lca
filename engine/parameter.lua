@@ -13,7 +13,6 @@ function Parameter:clear()
     
     self:boolean('bottom_left', false, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
     self:boolean('landscape', false, function (val) supportedOrientations(val and LANDSCAPE_ANY or PORTRAIT) end)
-    self:watch('', '_G.env.ui:getFocus().__className')
 end
 
 function Parameter:update(dt)

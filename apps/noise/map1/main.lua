@@ -110,7 +110,7 @@ function appMap:init()
 
     self.player = vec3(0, 0, 0)
     
-    camera(500, 100, 500, -100, 0, -500)
+    self.scene.camera = camera(500, 100, 500, -100, 0, -500)
 end
 
 function appMap:draw()

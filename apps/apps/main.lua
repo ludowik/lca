@@ -4,6 +4,8 @@ function setup()
 end
 
 function autotest(dt)
+    global.__autotest = true
+    
     local currentApp = env
     currentApp.__autotest = false
 
@@ -12,14 +14,22 @@ function autotest(dt)
     }
 
     appsList.saveCurrentIndex = appsList.saveCurrentIndex or 1
+    
+    Engine.draw(true)
+    Engine.captureImage()
+    
+    local __print = _G.print
+    local __log = _G.log
+    _G.print = function () end
+    _G.log = function () end
         
     local apps = enum('apps')
-    for i=appsList.saveCurrentIndex,#apps do
+    for i = appsList.saveCurrentIndex, #apps do        
         if pumpEvent() then break end
         
         item = apps[i]
-        if isApp(item) then        
-            local path, name, ext = splitFilePath(item )
+        if isApp(item) then            
+            local path, name, ext = splitFilePath(item)            
             local newApp = loadApp(path, name)
             if newApp ~= currentApp then
                 newApp.__autotest = true
@@ -27,35 +37,40 @@ function autotest(dt)
                     setActiveApp(newApp)
 
                     local start = time()
-                    for i=1,10 do                        
+                    for i=1,30 do
                         Engine.update(1/60)
+                        Engine.draw()
                         local current = time()
-                        if current - start > 1 then
+                        if current - start >= 1 then
                             break
                         end
                     end
-
-                    Engine.draw(true)
+                    
+                    Engine.draw()
                     Engine.captureImage()
                 end
                 newApp.__autotest = false
             end
         end
+        
     end
-
+    
     ram.afterTest = format_ram()
 
-    Engine.release()
-    
+    Engine.release()    
     ram.afterRelease = format_ram()
     
-    output.clear()
+    _G.print = __print
+    _G.log = __log
 
-    print('before   : '..ram.beforeTest)
-    print('after    : '..ram.afterTest)
-    print('release  : '..ram.afterRelease)
+    print('n appps : '..#apps)
+    print('before  : '..ram.beforeTest)
+    print('after   : '..ram.afterTest)
+    print('release : '..ram.afterRelease)
 
     setActiveApp(currentApp)
+    
+    global.__autotest = false
     
     quit()
 end

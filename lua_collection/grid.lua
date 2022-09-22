@@ -160,11 +160,11 @@ function Grid:save()
 
     str = str..NL..'}'
 
-    return io.write(config.appName:replace('/', '.')..'.mygrid', str)
+    return io.write(_G.env.appName:replace('/', '.')..'.mygrid', str)
 end
 
 function Grid:load()
-    local str = io.read(config.appName:replace('/', '.')..'.mygrid')
+    local str = io.read(_G.env.appName:replace('/', '.')..'.mygrid')
     if str then
         local data = loadstring('return '..str)()
         if data then

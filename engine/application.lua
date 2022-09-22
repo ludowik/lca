@@ -5,8 +5,6 @@ function Application:init()
 
     self.scene = Scene()
     self.ui = Scene()
-
-    self.scene.camera = Camera()
 end
 
 function Application:update(dt)

@@ -1,5 +1,5 @@
 function listProjectTabs()
-    dir, name = config.appPath, config.appName
+    dir, name = _G.env.appPath, _G.env.appName
 
     local path = dir..'/'..name
     local content = love.filesystem.read(path..'/'..'Info.plist')
@@ -22,6 +22,6 @@ end
 function readProjectTab(filePath)
     return (
         readText(filePath..'.lua') or
-        readText(config.appPath..'/'..config.appName..'/'..filePath..'.lua')
+        readText(_G.env.appPath..'/'.._G.env.appName..'/'..filePath..'.lua')
     )
 end

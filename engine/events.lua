@@ -83,22 +83,32 @@ Engine.keys = {
     },
 
     ['tab'] = {
+        desc = 'Navigate thru ui',
+        f = function ()
+            if _G.env.ui then 
+                if isDown('lshift') then
+                    _G.env.ui:previousFocus()
+                else
+                    _G.env.ui:nextFocus()
+                end
+            end
+        end
+    },
+
+    ['right'] = {
         desc = 'Navigate thru apps',
         f = function ()
             if isDown('lctrl') then
-                if isDown('lshift') then
-                    previousApp()
-                else
-                    nextApp()
-                end
-            else
-                if _G.env.ui then 
-                    if isDown('lshift') then
-                        _G.env.ui:previousFocus()
-                    else
-                        _G.env.ui:nextFocus()
-                    end
-                end
+                nextApp()
+            end
+        end
+    },
+
+    ['left'] = {
+        desc = 'Navigate thru apps',
+        f = function ()
+            if isDown('lctrl') then
+                previousApp()
             end
         end
     },
