@@ -4,7 +4,16 @@ function Application:init()
     _G.env.app = self
 
     self.scene = Scene()
-    self.ui = Scene()
+    self.ui = UIScene()
+end
+
+function Application:pushScene(scene)
+    push(self, self.scene)
+    self.scene = scene
+end
+
+function Application:popScene()
+    self.scene = pop(scene)
 end
 
 function Application:update(dt)
@@ -34,12 +43,17 @@ end
 
 function Application:draw()
     background(colors.black)
-    
+
     self.scene:draw()
     self.ui:draw()
 end
 
-function App(name)
+function Application:touched(touch)
+    self.scene:touched(touch)
+    self.ui:touched(touch)
+end
+
+function App(name)    
     local k = class(name) : extends(Application)
 
     local app

@@ -39,7 +39,6 @@ function autotest(dt)
                     local start = time()
                     for i=1,30 do
                         Engine.update(1/60)
-                        Engine.draw()
                         local current = time()
                         if current - start >= 1 then
                             break

@@ -268,10 +268,10 @@ end
 
 function callApp(fname, ...)
     if _G.env then
-        if _G.env[fname] then 
-            return _G.env[fname](...)
-        elseif _G.env.app and _G.env.app[fname] then 
+        if _G.env.app and _G.env.app[fname] then 
             return _G.env.app[fname](_G.env.app, ...)
+        elseif _G.env[fname] then 
+            return _G.env[fname](...)
         end
     end
     return false
