@@ -98,23 +98,23 @@ function loadApp(path, name, garbage)
         local env = {
             __vsync = 1,
 
-            setup = function () end,
+--            setup = function () end,
             
-            draw = function ()
-                background()
-                local scene = env.scene or env.ui
-                if scene then
-                    scene:draw()
-                end
-            end,
+--            draw = function ()
+--                background()
+--                local scene = env.scene or env.ui
+--                if scene then
+--                    scene:draw()
+--                end
+--            end,
             
-            touched = function (touch)
-                background()
-                local scene = env.scene or env.ui
-                if scene then
-                    scene:touched(touch)
-                end
-            end,
+--            touched = function (touch)
+--                background()
+--                local scene = env.scene or env.ui
+--                if scene then
+--                    scene:touched(touch)
+--                end
+--            end,
         }
 
         setmetatable(env, {__index = _G})

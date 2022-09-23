@@ -39,7 +39,7 @@ function Application:draw()
     self.ui:draw()
 end
 
-function App(name)    
+function App(name)
     local k = class(name) : extends(Application)
 
     local app
@@ -63,6 +63,12 @@ function App(name)
         if k.draw3d then
             _G.env.draw3d = function ()
                 app:draw3d()
+            end
+        end
+        
+        if k.touched then
+            _G.env.touched = function ()
+                app:touched()
             end
         end
     end
