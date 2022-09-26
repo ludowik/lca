@@ -10,7 +10,11 @@ function getnApps()
 end
 
 function addApps(path)
-    path = path or 'apps'
+    if app == nil then
+        addAppOfTheApps()
+    end
+
+    path = path or APPS
 
     local files = love.filesystem.getDirectoryItems(path)
     for _,file in ipairs(files) do
@@ -62,6 +66,14 @@ function resetApps()
     addApps()
 end
 
+function addAppOfTheApps()
+    addApp('apps', 'apps')
+end
+
+function loadAppOfTheApps()
+    return loadApp('apps', 'apps')
+end
+
 function loadApp(path, name, garbage)
     if garbage then
         gc()
@@ -80,7 +92,8 @@ function loadApp(path, name, garbage)
     end
 
     if not apps.listByName[filePath] then
-        return loadApp('apps', 'apps')
+        loadAppOfTheApps()
+        return
     end
 
     if not apps.listByName[filePath].loaded then
@@ -99,7 +112,7 @@ function loadApp(path, name, garbage)
             __vsync = 1,
 
             setup = function () end,
-            
+
             draw = function ()
                 background()
                 local scene = env.scene or env.ui
@@ -107,7 +120,7 @@ function loadApp(path, name, garbage)
                     scene:draw()
                 end
             end,
-            
+
             touched = function (touch)
                 background()
                 local scene = env.scene or env.ui
@@ -132,9 +145,9 @@ function loadApp(path, name, garbage)
             local chunk
             if isAppcodea(path..'/' .. name) then
                 local code = [[
-                    package.loaded['engine.codea'] = false
-                    require 'engine.codea'
-                    loadAppCodea('path', 'name')
+                package.loaded['engine.codea'] = false
+                require 'engine.codea'
+                loadAppCodea('path', 'name')
                 ]]                
                 code = code:gsub('path', path):gsub('name', name)
                 chunk = load(code)
@@ -229,7 +242,7 @@ function setActiveApp(env)
     _G.env = env
     setfenv(0, env)
     love.window.setVSync(_G.env.__vsync)
-    
+
     config.appPath = _G.env.appPath
     config.appName = _G.env.appName
 

@@ -31,14 +31,7 @@ Engine.keys = {
     ['a'] = {
         desc = 'Apps App',
         f = function ()
-            loadApp('apps', 'apps')
-        end
-    },
-
-    ['i'] = {
-        desc = 'Info App',
-        f = function ()
-            loadApp('apps', 'info')
+            loadAppOfTheApps()
         end
     },
 
@@ -52,7 +45,7 @@ Engine.keys = {
     ['l'] = {
         desc = 'Autotest all Apps',
         f = function ()
-            loadApp('apps', 'apps').__autotest = true
+            loadAppOfTheApps().__autotest = true
         end
     },
 

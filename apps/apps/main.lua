@@ -1,6 +1,6 @@
 function setup()
     scene = UIScene()
-    browse('apps')
+    browse(APPS)
 end
 
 function autotest(dt)
@@ -23,7 +23,7 @@ function autotest(dt)
     _G.print = function () end
     _G.log = function () end
         
-    local apps = enum('apps')
+    local apps = enum(APPS)
     for i = appsList.saveCurrentIndex, #apps do        
         if pumpEvent() then break end
         
@@ -109,7 +109,7 @@ function browse(path, previousPath)
 
     for i,item in ipairs(list) do
         local path, name, ext = splitFilePath(item)
-        if name ~= 'apps' then
+        if name ~= APPS then
             if isApp(item) then
                 scene:add(
                     UI(name,
@@ -139,6 +139,6 @@ end
 
 function keyboard(key)
     if key == 'a' then
-        browse('apps')
+        browse(APPS)
     end
 end

@@ -11,11 +11,12 @@ App('AppSound')
 function AppSound:init()
     Application.init(self)
 
-    audio = sound(SOUND_BLIT)
+    audio = sound(SOUND_POWERUP)
 
     keyNumber = 49
     hz = hzFromKey(keyNumber)
     sampleRate = 44100
+    amplitude = 50
 
     parameter.action('play', function ()
             audio:play()
@@ -30,27 +31,36 @@ function AppSound:init()
     parameter.action('load', function ()
             audio:loadBufferFromSfxr('res/sounds/random')
         end)
-    parameter.action('blit', function ()
-            audio = sound(SOUND_BLIT)
-        end)
-    parameter.action('explode', function ()
-            audio = sound(SOUND_EXPLODE)
-        end)
-    parameter.action('hit', function ()
-            audio = sound(SOUND_HIT)
-        end)
-    parameter.action('jump', function ()
-            audio = sound(SOUND_JUMP)
-        end)
-    parameter.action('pickup', function ()
+    
+    parameter.action('Pickup/Coin', function ()
             audio = sound(SOUND_PICKUP)
+            audio:play()
         end)
-    parameter.action('powerup', function ()
-            audio = sound(SOUND_POWERUP)
-        end)
-    parameter.action('shoot', function ()
+    parameter.action('Laser/Shoot', function ()
             audio = sound(SOUND_SHOOT)
+            audio:play()
         end)
+    parameter.action('Explosion', function ()
+            audio = sound(SOUND_EXPLODE)
+            audio:play()
+        end)
+    parameter.action('Powerup', function ()
+            audio = sound(SOUND_POWERUP)
+            audio:play()
+        end)
+    parameter.action('Hit/Hurt', function ()
+            audio = sound(SOUND_HIT)
+            audio:play()
+        end)
+    parameter.action('Jump', function ()
+            audio = sound(SOUND_JUMP)
+            audio:play()
+        end)
+    parameter.action('Blip/Select', function ()
+            audio = sound(SOUND_BLIT)
+            audio:play()
+        end)
+    
     parameter.action('square', function ()
             audio = sound({
                     Waveform = SOUND_SQUAREWAVE
@@ -74,21 +84,27 @@ function AppSound:init()
             audio:loadBuffer(amplitude, hz, sampleRate)
             audio:play(true)
         end)
-    parameter.number('keyNumber', 1, 102, keyNumber,
+    parameter.integer('keyNumber', 1, 102, keyNumber,
         function ()
             hz = hzFromKey(keyNumber)
+            
             audio:stop()
             audio:loadBuffer(amplitude, hz, sampleRate)
             audio:play(true)
         end)
-    parameter.number('sampleRate', 0, 44100, 44100,
+    parameter.number('amplitude', 0, 100, 50,
         function ()
             audio:stop()
             audio:loadBuffer(amplitude, hz, sampleRate)
             audio:play(true)
         end)
-
-    parameter.watch('al.nbuffers')
+    parameter.number('volume', 0, 100, 5,
+        function ()
+            love.audio.setVolume(volume)
+            
+            audio:stop()
+            audio:play(true)
+        end)
 end
 
 function AppSound:draw()
@@ -101,30 +117,15 @@ function AppSound:draw()
     local verticesFin = Buffer('vec3')
 
     for i=0,sampleCount-1 do
-        vertices:add(#vertices, audio:getSample(i))
+        vertices:add(#vertices, audio:getSample(i)*100)
     end
-
-    for i=max(0, sampleCount-100),sampleCount-1 do
-        verticesFin:add(#verticesFin, audio:getSample(i))
-    end
-
-    pushMatrix()
-    do
-        translate(100, HEIGHT/2)
-        scale(1, 100/AMPLITUDE_MAX)
-
-        noFill()
-        polyline(vertices)
-    end
-    popMatrix()
 
     pushMatrix()
     do
         translate(0, HEIGHT/2)
-        scale(1, 100/AMPLITUDE_MAX)
 
         noFill()
-        polyline(verticesFin)
+        polyline(vertices)
     end
     popMatrix()
 end

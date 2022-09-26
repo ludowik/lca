@@ -194,7 +194,7 @@ function Sdl:event()
 
         elseif event.type == sdl.SDL_MULTIGESTURE then
             if event.mgesture.numFingers == 3 then
-                loadApp('apps', 'apps')
+                loadAppOfTheApps()
             end
 
         elseif event.type == sdl.SDL_FINGERDOWN then

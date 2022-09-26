@@ -1,13 +1,13 @@
 -- Main.lua
 DEV_MODE = false
 NO_MUSIC = true
+SCALE = 1.6
 
 function setup()
     --IO.clearAll()
     --IO.printSolution("Mirror 3")
     viewer.mode = FULLSCREEN
     --if not DEV_MODE then viewer.mode = FULLSCREEN_NO_BUTTONS end
-    parameter.watch("dt")
     elapsedTimes = {}
 
     sounds = Sounds()

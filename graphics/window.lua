@@ -1,7 +1,7 @@
 function setupWindow(mode, scale)
     mode = mode or getMode()
     
-    SCALE = scale or 1
+    SCALE = scale or (env and env.SCALE) or 1
 
     X, Y, W, H = initWindow(mode)
 

@@ -32,12 +32,8 @@ function Engine.load()
     disableGlobal()
 
     addApps()
-
-    if config.appName then
-        loadApp(config.appPath, config.appName)
-    else
-        loadApp('apps', 'info')
-    end
+    
+    loadApp(config.appPath, config.appName)
 end
 
 function Engine.unload()

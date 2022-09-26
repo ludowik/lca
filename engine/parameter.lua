@@ -9,7 +9,7 @@ function Parameter:clear()
     
     _G.env.bottom_left = getOrigin() == BOTTOM_LEFT
     
-    self:action('apps', function () loadApp('apps', 'apps') end)
+    self:action('apps', loadAppOfTheApps)
     
     self:boolean('bottom_left', false, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
     self:boolean('landscape', false, function (val) supportedOrientations(val and LANDSCAPE_ANY or PORTRAIT) end)
