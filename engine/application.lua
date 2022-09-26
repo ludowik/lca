@@ -79,5 +79,11 @@ function App(name)
                 app:draw3d()
             end
         end
+        
+        if k.touched then
+            _G.env.touched = function ()
+                app:touched()
+            end
+        end
     end
 end

@@ -122,7 +122,6 @@ function loadApp(path, name, garbage)
             end,
 
             touched = function (touch)
-                background()
                 local scene = env.scene or env.ui
                 if scene then
                     scene:touched(touch)
