@@ -16,6 +16,15 @@ function Application:popScene()
     self.scene = pop(scene)
 end
 
+function Application:pushUI(ui)
+    push(self, self.ui)
+    self.ui = ui
+end
+
+function Application:popUI()
+    self.ui = pop(ui)
+end
+
 function Application:update(dt)
     self:updateCoroutine(dt)
 end

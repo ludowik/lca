@@ -36,7 +36,7 @@ function setup()
     loadGame()
 
     env.scene = Scene()
-    env.scene:add(balls, bricks, bonuses, physics)
+    env.scene:add(balls, bricks, bonuses) -- , physics)
 
     parameter.watch('#emitter')
     parameter.watch('#emitterCart')

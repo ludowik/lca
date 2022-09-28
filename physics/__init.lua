@@ -1,6 +1,6 @@
 requireLib(
     'physics',
-    'body_new',
+    'body',
     'joint',
     'object',
     'collision',

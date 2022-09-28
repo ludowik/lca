@@ -49,12 +49,12 @@ function AppCalc:initUI()
         row:add(unite)
 
         unite.fixedSize = size(1, 0.5)
-        unite.touched = function ()
-            self:pushScene(ChoiceList("unite?", self.unites, function (unite)
+        unite.callback = function ()
+            self:pushUI(ChoiceList("unite?", self.unites, function (unite)
                         self.unites[id] = unite
                         saveLocalData(id, unite)
                         self:setResult(self.valeurSaisie)
-                        self:popScene()
+                        self:popUI()
                     end))
         end
 
@@ -70,12 +70,12 @@ function AppCalc:initUI()
 
     self.uniteLabel = Button('unite'):attribs{
         fixedSize = size(4, 1),
-        touched = function ()
-            self:pushScene(ChoiceList("unites?", unites, function (k, unite)
+        callback = function ()
+            self:pushUI(ChoiceList("unites?", unites, function (k, unite)
                         self.unites = unite
                         saveLocalData("unite", k)
                         self:setResult(self.valeurSaisie)
-                        self:popScene()
+                        self:popUI()
                     end))
         end
     }

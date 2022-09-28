@@ -17,7 +17,7 @@ function Physics:init()
 end
 
 function Physics:gravity(g)
-    self.g = g or self.g
+    Gravity = g or Gravity
 end
 
 function Physics:setArea(x, y, w, h)
@@ -31,10 +31,11 @@ function Physics:addItems()
 end
 
 function Physics:add(object, shapeType, ...)
-    object.body = self:body(...)
-    object.body.type = shapeType
-    if item then
-        object.body.item, object.body = object, body
+    local body = self:body(...)
+    body.type = shapeType
+    if object then
+        object.body, body.object = body, object
+        body.position = object.position
     end
 end
 
@@ -74,7 +75,7 @@ function Physics:step(dt)
 
     for i,body in ipairs(self.bodies) do
         if body.type == DYNAMIC then
-            body:applyForce(Gravity)
+            body:applyForce(Gravity * body.gravityScale)
             body:update(dt)
         end        
     end
@@ -88,9 +89,9 @@ end
 
 function Physics:updateProperties()
     for _,body in ipairs(self.bodies) do
-        if body.item then
-            body.item.position = body.position
-            body.item.angle = body.angle
+        if body.object then
+            body.object.position = body.position
+            body.object.angle = body.angle
         end
     end
 end
@@ -156,7 +157,6 @@ function Physics:solveCollisions()
             for j=i+1,#bodies do
                 local b2 = bodies[j]
                 if self:canCollide(b1.categories, b2.mask) then
-
                     self.checkCollisionsCount = self.checkCollisionsCount + 1
 
                     local direction = b2.position - b1.position 

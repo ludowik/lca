@@ -11,6 +11,7 @@ function Ball:init(size)
         size,
         size)
 
+    -- TODEL : normally
     self.body.bullet = true
     self.body.linearVelocity = vec2()
     self.body.linearDamping = 0
