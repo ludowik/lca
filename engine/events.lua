@@ -69,8 +69,14 @@ Engine.keys = {
 
     ['j'] = {
         desc = 'Generate lovejs',
-        f = function () -- js
+        f = function ()
             makelovejs()
+        end
+    },
+
+    ['z'] = {
+        desc = 'Generate zip',
+        f = function ()
             makezip()
         end
     },
