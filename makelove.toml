@@ -17,3 +17,6 @@ love_files = [
     "./conf.lua",
     "./main.lua",
 ]
+
+[lovejs]
+memory = "2000000000"  # starting memory of the webpage (default is 20 MB)
