@@ -10,6 +10,7 @@ function UI:init(label, callback)
             fontName = DEFAULT_FONT_NAME,
             fontSize = DEFAULT_FONT_SIZE,
             bgColor = colors.lightgray,
+            textMode = CORNER,
         })
     
     self.marge = vec2(6, 0)
@@ -46,7 +47,7 @@ function UI:update(dt)
 end
 
 function UI:draw()
-    self:computeSize()
+    --self:computeSize()
 
     if self.styles.bgColor or self.styles.strokeColor then
         if self.styles.bgColor then
@@ -69,8 +70,13 @@ function UI:draw()
     fontName(self.styles.fontName or DEFAULT_FONT_NAME)
     fontSize(self.styles.fontSize or DEFAULT_FONT_SIZE)
 
-    textMode(CORNER)
-    text(self:getLabel(), self.marge.x, self.marge.y)
+    if self.styles.textMode == CORNER then
+        textMode(CORNER)
+        text(self:getLabel(), self.marge.x, self.marge.y)
+    else
+        textMode(CENTER)
+        text(self:getLabel(), self.size.x/2, self.size.y/2)
+    end
 end
 
 function UI:touched(touch)

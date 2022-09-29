@@ -2,13 +2,13 @@ class 'Button' : extends(UI)
 
 function Button:init(label, callback)
     UI.init(self, label, callback)
-    
+
     self.styles:attribs{
         bgColor = colors.blue,
         strokeColor = colors.white,
         textColor = colors.white,
-        rx = 3
-        
+        textMode = CENTER,
+        rx = 3,        
     }
 end
 

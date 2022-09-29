@@ -22,7 +22,7 @@ function Application:pushUI(ui)
 end
 
 function Application:popUI()
-    self.ui = pop(ui)
+    self.ui = pop(self)
 end
 
 function Application:update(dt)

@@ -13,41 +13,18 @@ function Action:__tostring(...)
     return self.description
 end
 
--- TODO : used ?
 function callback(...) -- description, object, f, ...)
-    --if not description and not object and not f then return end
-
     local args = args(...)
-    
+
     local description, object, f = args:get(
         {'string', '???'},
         {'table', niltable},
         {'function', nilf})
-    
+
     if object == niltable then
         object = nil
     end
 
---    if typeof(description) == 'action' then
---        return description
---    end
-    
---    if type(description) == 'function' then
---        args = Table{object, f, ...}
---        f = description
---        object = nil
---        description = '???'
-
---    elseif type(description) == 'table' and type(object) == 'function' then
---        args = Table{f, ...}
---        f = object
---        object = description
---        description = '???'
-
---    elseif type(description) == 'string'  and type(object) == 'table' and type(f) == 'function' then
---        args = Table{...}
-
---    else
     if not f then
         error('bad parameters')
     end

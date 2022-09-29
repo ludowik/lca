@@ -11,14 +11,14 @@ function AppCalc:init()
 
     setupUnit()
 
-    self.unites = unites[readLocalData("unite", "devise")] or unites[1]
+    self.unites = unites[readProjectData("unite", "devise")] or unites[1]
 
-    self.unites.uniteSaisie = readLocalData("uniteSaisie", self.unites.uniteSaisie)
+    self.unites.uniteSaisie = readProjectData("uniteSaisie", self.unites.uniteSaisie)
     if self.unites[self.unites.uniteSaisie] == nil then
         self.unites.uniteSaisie = self.unites.uniteDeBase
     end
 
-    self.unites.uniteConvertie = readLocalData("uniteConvertie", self.unites.uniteConvertie)
+    self.unites.uniteConvertie = readProjectData("uniteConvertie", self.unites.uniteConvertie)
     if self.unites[self.unites.uniteConvertie] == nil then
         self.unites.uniteConvertie = self.unites.uniteDeBase
     end
@@ -51,8 +51,8 @@ function AppCalc:initUI()
         unite.fixedSize = size(1, 0.5)
         unite.callback = function ()
             self:pushUI(ChoiceList("unite?", self.unites, function (unite)
-                        self.unites[id] = unite
-                        saveLocalData(id, unite)
+                        self.unites[id] = unite.abrev
+                        saveProjectData(id, unite.abrev)
                         self:setResult(self.valeurSaisie)
                         self:popUI()
                     end))
@@ -61,7 +61,7 @@ function AppCalc:initUI()
         local valeur = Label()
         row:add(valeur)
 
-        valeur.fixedSize = size(1, 0.5)
+        valeur.fixedSize = size(2, 0.55)
         valeur.alignmentMode = 'right'
         valeur.unite = unite
 
@@ -71,9 +71,9 @@ function AppCalc:initUI()
     self.uniteLabel = Button('unite'):attribs{
         fixedSize = size(4, 1),
         callback = function ()
-            self:pushUI(ChoiceList("unites?", unites, function (k, unite)
+            self:pushUI(ChoiceList("unites?", unites, function (unite)
                         self.unites = unite
-                        saveLocalData("unite", k)
+                        saveProjectData("unite", unite.abrev)
                         self:setResult(self.valeurSaisie)
                         self:popUI()
                     end))
@@ -85,18 +85,18 @@ function AppCalc:initUI()
     self.result = setProperties(self.uiCalc, "uniteSaisie")
 
     local Button = function (label, textColor, bgColor, w, h, object, f)
-        local button = Button(label, object, f)
+        local button = Button(label, callback(object, f))
         button.styles.bgColor = bgColor
         button.styles.textColor = textColor
-        button.styles.fontSize = 65
---        button.fixedSize = vec2(w, h)
+        button.styles.fontSize = 60
+        button.fixedSize = vec2(w, h)
         return button
     end
 
     self.buttons = UIScene():setLayoutFlow(Layout.grid, 4)
     self.uiCalc:add(self.buttons)
 
-    local w = WIDTH > HEIGHT and hs(1) or ws(1)
+    local w = WIDTH > HEIGHT and hs(1, 5) or ws(1, 5)
 
     self.buttons:add(
         Button('AC' , white, darkgray, w, w, self, self.ac),

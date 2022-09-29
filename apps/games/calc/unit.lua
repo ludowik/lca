@@ -2,7 +2,7 @@
 
 unites = {
     {
-        name = 'devise',
+        name = 'Devise',
         abrev = 'devise',
 
         uniteSaisie = "Euro",

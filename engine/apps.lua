@@ -81,7 +81,7 @@ function loadApp(path, name, garbage)
 
     local filePath, ext
     if not name then
-        path, name, ext = splitPath(path)
+        path, name, ext = splitPath(path or '')
         if name then
             filePath = path..'/'..name
         else

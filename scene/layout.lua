@@ -7,7 +7,10 @@ end
 
 function Layout:computeNodeSize(node)
     node:computeSize()
+    Layout.computeNodeFixedSize(self, node)
+end
 
+function Layout:computeNodeFixedSize(node)
     if node.fixedSize then
         node.size:set(
             node.fixedSize.x,
@@ -69,6 +72,8 @@ function Layout:layout(mode, n)
 
         elseif mode == 'grid' then
             node.size.x = self.nodeSize.x
+            Layout.computeNodeFixedSize(self, node)
+            
             if i == n then
                 position.x = outerMarge
                 i = 1
@@ -140,6 +145,10 @@ function Layout:computeAbsolutePosition(x, y)
 end
 
 function Layout:align()
+    self.position = vec2()
+    
+    if not self.alignment then return end
+    
     local outerMarge = self.outerMarge or Layout.outerMarge
     local innerMarge = self.innerMarge or Layout.innerMarge
 
@@ -150,8 +159,8 @@ function Layout:align()
         w = w - outerMarge * 2
         h = h - outerMarge * 2
     else
-        w = screen.W
-        h = screen.H
+        w = W
+        h = H
     end
 
     local alignments = self.alignment:split(',')
