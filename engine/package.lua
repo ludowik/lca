@@ -21,7 +21,6 @@ function makelovejs()
         os.execute('cp '..build_directory..'/lovejs/lca/game.data .')
     end
     
---    os.execute('open python3 -m http.server 8080 --directory lca')
-    
+    os.execute('cmd.exe python3 -m http.server 8080 --directory lca')
     openURL('http://localhost:8080')
 end
