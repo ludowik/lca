@@ -10,7 +10,7 @@ end
 
 tween = class 'Tween'
 
-function Tween:init(delay, object, target, easingAndLoop, callback)
+function Tween:init(delay, object, target, easingAndLoop, _callback, ...)
     _G.env.tweensManager.tweens:insert(self)
 
     self.active = true
@@ -31,7 +31,7 @@ function Tween:init(delay, object, target, easingAndLoop, callback)
         self.loop = tween.loop.once
     end
 
-    self.callback = callback
+    self.callback = callback(_callback, ...)
 end
 
 function Tween.sequence(...)
@@ -131,7 +131,7 @@ function Tween:update(dt)
             self.active = false
 
             if self.callback then
-                self.callback(self)
+                self.callback()
             end
 
             if self.next then

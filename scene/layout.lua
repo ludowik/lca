@@ -130,6 +130,7 @@ function Layout:computeAbsolutePosition(x, y)
     x = x or self.position.x
     y = y or self.position.y
 
+    self.absolutePosition = self.absolutePosition or vec2()
     self.absolutePosition.x = x
     self.absolutePosition.y = y
 

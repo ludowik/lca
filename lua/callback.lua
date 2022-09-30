@@ -30,7 +30,7 @@ function callback(...) -- description, object, f, ...)
     end
 
     return Action(description, function (...)
-            local args2 = Table{...} + args
+            local args2 = Table{...} + args.args
             if object then
                 f(object, unpack(args2))
             else

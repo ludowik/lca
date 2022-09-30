@@ -63,7 +63,7 @@ function textStyle(size, clr, mode)
 
     fontSize(size)
     if clr and clr ~= transparent then
-        fill(clr)
+        textColor(clr)
     else
         noFill()
     end

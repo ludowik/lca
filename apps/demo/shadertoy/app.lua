@@ -53,6 +53,34 @@ function initUI(zoom)
     return ui
 end
 
+function loadShaders(all)
+    local directoryItems = dir(shadersPath)
+
+    for i,shaderFileName in ipairs(directoryItems) do
+        local _path,_name,extension = splitFilePath(shaderFileName)
+        if extension ~= 'vertex' then
+            local shader = ShaderToy(_name, _path)
+            if shader and shader.error == nil then
+                initShader(shader, #shadertoys == 1)
+                shadertoys:add(shader)
+            end
+
+            if env.thread then
+                if all then
+                    coroutine.yield()
+                else
+                    loadNext = false
+                    while loadNext == false do
+                        coroutine.yield()
+                    end
+                end
+            elseif not all then
+                break
+            end
+        end
+    end
+end
+
 function initShader(shader, active)
     shader.active = active
 
@@ -83,6 +111,10 @@ function drawShader(shader, ui)
 
         local touch = mouse
         if Rect.contains(ui, touch) then
+            stroke(colors.red)
+            strokeSize(10)
+            rect(0, 0, ui.size.x, ui.size.y)
+            
             local x, y = touch.x, touch.y
 
             x = x - ui.absolutePosition.x

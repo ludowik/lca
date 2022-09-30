@@ -13,10 +13,10 @@ function AppFreeCell.setup()
     suitLabels[CLUB]    = 'TREFLE'
 
     suitColor = {}
-    suitColor[SPADE]   = black
-    suitColor[HEART]   = red
-    suitColor[DIAMOND] = red
-    suitColor[CLUB]    = black
+    suitColor[SPADE]   = colors.black
+    suitColor[HEART]   = colors.red
+    suitColor[DIAMOND] = colors.red
+    suitColor[CLUB]    = colors.black
 
     values = {
         'A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'V', 'Q', 'K'
@@ -24,9 +24,9 @@ function AppFreeCell.setup()
 
     local ratio
     if WIDTH > HEIGHT then
-        ratio = 1
-    else
         ratio = 1.4
+    else
+        ratio = 1
     end
 
     CARD_WIDTH  = floor(ws(1)*ratio)
@@ -73,7 +73,7 @@ function AppFreeCell:createSuits()
     createSuit(DIAMOND)
     createSuit(CLUB)
 
-    self.deck:mix()
+    self.deck:shuffle()
 end
 
 function AppFreeCell:draw()
@@ -118,6 +118,8 @@ function AppFreeCell:touchDesk(touch)
 end
 
 function AppFreeCell:move(from, to)
+    assert(from and to)
+    
     local i,card = to:canCardsMoveTo(from)
     if i ~= nil then
         from:remove(i)
@@ -210,7 +212,7 @@ function Card:draw()
 end
 
 function Card:makeImage(x, y)
-    style(s1, red, white)
+    style(s1, colors.red, colors.white)
 
     rectMode(CORNER)
     rect(
@@ -246,10 +248,10 @@ function Pile:init(x, y, dx, dy)
     self.dy = dy or 0
 end
 
-function Pile:mix()
+function Pile:shuffle()
     for i = 1, randomInt(200,300) do
         local nodes = self:items()
-        
+
         local j = randomInt(1, #nodes)
         local k = randomInt(1, #nodes)
 
@@ -284,14 +286,14 @@ function Pile:draw(x, y)
 
     if self.focus then
         local last = self:items():last()
-        stroke(green)
+        stroke(colors.green)
         rectMode(CORNER)
         rect(last.position.x, last.position.y, CARD_WIDTH, CARD_HEIGHT)
     end
 
     style(self.focus and s2 or s1,
-        self.focus and red or blue,
-        transparent)
+        self.focus and colors.red or colors.blue,
+        colors.transparent)
 
     rectMode(CORNER)
     rect(self.position.x, self.position.y, self.size.x, self.size.y)

@@ -21,9 +21,10 @@ function Scene:draw()
 
     local focusItem = self:getFocus()
     if focusItem then
+        local focusPosition = self:getPosition()
         stroke(colors.red)
         noFill()
-        rect(focusItem.absolutePosition.x, focusItem.absolutePosition.y, focusItem.size.x, focusItem.size.y)
+        rect(focusPosition.x, focusPosition.y, focusItem.size.x, focusItem.size.y)
     end    
 end
 

@@ -25,7 +25,8 @@ function ListBox:computeSize()
 end
 
 function ListBox:draw()
-    clip(self.absolutePosition.x, self.absolutePosition.y, self.size.x, self.size.y)
+    local position = self:getPosition()
+    clip(position.x, position.y, self.size.x, self.size.y)
 
     self.needScrollBar = false
 
@@ -39,7 +40,7 @@ function ListBox:draw()
         local w, h = textSize(item)
         y = y - h
 
-        local position = vec2(self.absolutePosition.x+x, self.absolutePosition.y+y)
+        local position = vec2(position.x+x, position.y+y)
         if self:contains(position) then
             text(item, x, y)
             self.areas:add({item=item, rect=Rect(position.x, position.y, w, h)})

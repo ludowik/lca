@@ -23,9 +23,8 @@ function Shader:complete(shaderType, source)
     )
 
     source = (
-        '#pragma language glsl3'..NL..
         includes..NL..
-        '#line 1'..NL..
+        '#line 0'..NL..
         source)
     
     return source
@@ -46,15 +45,17 @@ function Shader:compile()
         io.read(self.path..'/'..self.name..'.glsl') or
         io.read(self.path..'/'..'default.fragment'))
 
+    local version = '#pragma language glsl3'..NL
+    
     if vertexShader then
-        vertexShader = self:complete(GL_VERTEX_SHADER, vertexShader)
+        vertexShader = version..self:complete(GL_VERTEX_SHADER, vertexShader)
     end
 
     if fragmentShader then
-        fragmentShader = self:complete(GL_FRAGMENT_SHADER, fragmentShader)
+        fragmentShader = version..self:complete(GL_FRAGMENT_SHADER, fragmentShader)
     end
 
-    if vertexShader or fragmentShader then
+    if vertexShader or fragmentShader then        
         io.write('_shader.vertex', vertexShader)
         io.write('_shader.fragment', fragmentShader)
         

@@ -3,8 +3,8 @@ class 'Rect'
 function Rect:init(x, y, w, h)
     self.position = vec2(x, y)
     self.size = vec2(w, h)
-    
-    self.absolutePosition = self.position:clone()
+
+--    self.absolutePosition = self.position:clone()
 
     self.rotation = 0
 end
@@ -24,6 +24,10 @@ end
 function Rect:draw()
     rectMode(self.alignMode or CORNER)
     rect(self.position.x, self.position.y, self.size.x, self.size.y)
+end
+
+function Rect:getPosition()
+    return self.absolutePosition or self.position
 end
 
 function Rect:setPosition(x, y)
@@ -52,7 +56,7 @@ function Rect:contains(x, y)
     if type(x) == 'table' or type(x) == 'cdata' then x, y = x.x, x.y end
     assert(type(x) == 'number', type(x))
 
-    local position = self.absolutePosition or self.position
+    local position = self:getPosition()
     local size = self.size
     return (
         position.x <= x and x <= position.x + size.w and
@@ -73,33 +77,39 @@ function Rect:h()
 end
 
 function Rect:x1()
+    local position = self:getPosition()
     local dx = self.alignMode == CENTER and (self.size.x / 2) or 0
-    return self.absolutePosition.x - dx
+    return position.x - dx
 end
 
 function Rect:x2()
+    local position = self:getPosition()
     local dx = self.alignMode == CENTER and (self.size.x / 2) or 0
-    return self.absolutePosition.x + self.size.x - dx
+    return self.position.x + self.size.x - dx
 end
 
 function Rect:y1()
+    local position = self:getPosition()
     local dy = self.alignMode == CENTER and (self.size.y / 2) or 0
-    return self.absolutePosition.y - dy
+    return position.y - dy
 end
 
 function Rect:y2()
+    local position = self:getPosition()
     local dy = self.alignMode == CENTER and (self.size.y / 2) or 0
-    return self.absolutePosition.y + self.size.y - dy
+    return position.y + self.size.y - dy
 end
 
 function Rect:xc()
+    local position = self:getPosition()
     local dx = self.alignMode == CENTER and 0 or (self.size.x / 2)
-    return self.absolutePosition.x + dx
+    return position.x + dx
 end
 
 function Rect:yc()
+    local position = self:getPosition()
     local dy = self.alignMode == CENTER and 0 or (self.size.y / 2)
-    return self.absolutePosition.y + dy
+    return position.y + dy
 end
 
 function Rect:xmin()

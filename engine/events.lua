@@ -84,30 +84,21 @@ Engine.keys = {
     ['tab'] = {
         desc = 'Navigate thru ui',
         f = function ()
-            if _G.env.ui then 
+            if isDown('lctrl') then
                 if isDown('lshift') then
-                    _G.env.ui:previousFocus()
+                    previousApp()
                 else
-                    _G.env.ui:nextFocus()
+                    nextApp()
                 end
-            end
-        end
-    },
-
-    ['right'] = {
-        desc = 'Navigate thru apps',
-        f = function ()
-            if isDown('lctrl') then
-                nextApp()
-            end
-        end
-    },
-
-    ['left'] = {
-        desc = 'Navigate thru apps',
-        f = function ()
-            if isDown('lctrl') then
-                previousApp()
+            else
+                local scene = _G.env.ui or _G.env.scene
+                if scene then
+                    if isDown('lshift') then
+                        scene:previousFocus()
+                    else
+                        scene:nextFocus()
+                    end
+                end
             end
         end
     },
