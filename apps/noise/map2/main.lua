@@ -62,7 +62,7 @@ function setup()
     env.scene = Scene()
     env.scene.camera = Camera(50, 200, -50, 100, 0, 100)
     
-    env.scene:add(m)
+    env.scene:add(MeshObject(m))
 end
 
 function draw3d()

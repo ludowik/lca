@@ -1,9 +1,9 @@
-function renderFunction(f, context)
+function render2context(f, context)
     pushMatrix()
     pushStyle()
     do
         noClip()
-        
+
         noLight()
 
         resetMatrix(true)

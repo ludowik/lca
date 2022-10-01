@@ -143,6 +143,7 @@ else
                 getSafeArea = window.getSafeArea,
                 toPixels = window.toPixels,
                 setMode = window.setMode,
+                updateMode = window.updateMode,
                 minimize = window.minimize,
                 restore = window.restore,
             },

@@ -32,7 +32,7 @@ end
 function Cube:createTexture()
     self.aaa = Image(size*4, size*3)
 
-    renderFunction(function ()
+    render2context(function ()
             noStroke()
             rectMode(CORNER)
 
@@ -85,7 +85,7 @@ function Cube:update(dt)
 --        local self = getCamera()
 --        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, 2, 0, constrainPitch)
 --        self:updateVectors()
-        
+
 --    elseif isDown('left') then
 --        local self = getCamera()
 --        self.yaw, self.pitch = self:processMovement(self.yaw, self.pitch, -2, 0, constrainPitch)
@@ -103,7 +103,7 @@ function Cube:draw()
     background(51)
 
     perspective()
-    
+
     for i,chunk in ipairs(self.chunks) do
         chunk.texture = self.aaa
         chunk:drawInstanced(#chunk.inst_pos)

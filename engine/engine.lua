@@ -189,7 +189,7 @@ function Engine.draw2d()
         Engine.beginDraw(getOrigin())
         if Engine.needDraw() then
             Engine.render(function ()
-                    depthMode(true)
+                    depthMode(false)
                     cullingMode(false)
                     if getCamera() and getCamera().lookAt then getCamera():lookAt() end
                     draw()

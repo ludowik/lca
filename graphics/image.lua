@@ -25,11 +25,11 @@ function Image:init(name, ...)
     if type(name) == 'table' and name.__className == 'Image' then
         return name
     end
-    
+
     if type(name) == 'string' then
         local res, data = pcall(function () return love.graphics.newImage(name) end)
         if not res then return Image() end
-        
+
         self.data = data
         self.imageData = love.image.newImageData(name)
 
@@ -51,7 +51,7 @@ function Image:init(name, ...)
         self.ptrb = self.ptr + 2
         self.ptra = self.ptr + 3
     end
-    
+
     self.depths = {}
 
     self.width = self.data:getWidth()
@@ -77,12 +77,12 @@ end
 function Image:copy(x, y, w, h)
     x = x or 0
     y = y or 0
-    
+
     w = w or self:getWidth()
     h = h or self:getHeight()
 
     local copy = Image(w, h)
-    copy.imageData:paste(self.imageData, x, y, w, h)
+    copy.imageData:paste(self.imageData, 0, 0, x, y+h, w, h)
 
     return copy
 end
@@ -98,6 +98,13 @@ function Image:update()
     if self.imageData then
         self.data:replacePixels(self.imageData)
     end
+end
+
+function Image:scale(scale)
+    local w, h = self.width * scale, self.height * scale
+    local img = Image(w, h)
+    render2context(function () self:draw(0, 0, w, h) end, img)
+    return img
 end
 
 function Image:draw(x, y, w, h)
@@ -134,10 +141,10 @@ function setContext(context)
     else
         local canvas = pop('canvas')
         love.graphics.setCanvas(canvas)
-        
+
         local context = pop('context')        
         context.imageData = context.canvas:newImageData()
         context.data = love.graphics.newImage(context.imageData)
-        
+
     end
 end
