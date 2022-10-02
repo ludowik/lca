@@ -1,12 +1,12 @@
 local grayScale = Color.grayScaleIntensity
 
 function setup()
-    source = Image('res/images/joconde.png')
+    source = Image('documents:joconde')
     target = Image(source.width, source.height)
 
     parameter.action('Reset',
         function ()
-            source = Image('res/images/joconde.png')
+            source = Image('documents:joconde')
             target = Image(source.width, source.height)
         end)
 

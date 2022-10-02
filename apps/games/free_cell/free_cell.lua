@@ -43,7 +43,7 @@ function AppFreeCell:init()
 
     self:createSuits()
 
-    self.lists = Piles(Pile, 8, 0, DESK_MARGE*2)
+    self.lists = Piles(Pile, 8, 0, DESK_MARGE*4)
     self.temps = Piles(Temp, 4)
     self.suits = Piles(Suit, 4)
     self.moves = Piles(Pile, 1)
@@ -51,7 +51,7 @@ function AppFreeCell:init()
     self.usable_desks = {
         self.lists,
         self.temps,
-        self.suits
+        self.suits,
     }
 
     self.thread = coroutine.create(function (dt)
@@ -106,20 +106,20 @@ end
 function AppFreeCell:touchDesk(touch)
     for _, desks in ipairs(self.usable_desks) do
         for _, desk in ipairs(desks) do
-            if desk:contains(touch) then
+            if Rect.contains(desk, touch) then
                 return desk
             end
         end
     end
 
-    if self.deck:contains(touch) then
+    if Rect.contains(self.deck, touch) then
         return self.deck
     end
 end
 
 function AppFreeCell:move(from, to)
     assert(from and to)
-    
+
     local i,card = to:canCardsMoveTo(from)
     if i ~= nil then
         from:remove(i)
@@ -131,13 +131,14 @@ function AppFreeCell:move(from, to)
             to:add(card)
         end
 
-        local x = to:items():last() and to:items():last().x or to.x
-        local y = to:items():last() and to:items():last().y or to.y
+        local last = to:items():last()
+        local x = last and last.position.x or to.position.x
+        local y = last and last.position.y or to.position.y
 
-        tween(0.5, card, {
-                x = x,
-                y = y
-                }, tween.easing.sine, endMove, card, to)
+        tween(0.2, card, {
+                position = vec2(x, y)
+            },
+            tween.easing.sine, endMove, card, to)
     end
 end
 
@@ -170,12 +171,12 @@ function AppFreeCell:touched(touch)
 end
 
 function AppFreeCell:distrib()
-    local p = 0
-    for i = 1, #self.deck:items() do
-        self.lists:get(p+1):add(self.deck:items():pop())
-        p = (p+1) % #self.lists
-        if self.thread then
-            coroutine.yield()
+    for j = 1, 8 do
+        for i = j, #self.lists do
+            self.lists:get(i):add(self.deck:items():pop())
+            if self.thread then
+                coroutine.yield()
+            end
         end
     end
 end
@@ -212,26 +213,23 @@ function Card:draw()
 end
 
 function Card:makeImage(x, y)
-    style(s1, colors.red, colors.white)
+    style(s4, colors.black, colors.white)
 
     rectMode(CORNER)
     rect(
         x,
         y,
         self.size.x,
-        self.size.y)
+        self.size.y,
+        s4)
 
     local val = values[self.value]
+
     local clr = suitColor[self.suit]
 
     textStyle(s16, clr, CENTER)
     text(val, self:x1()-x+s20/2, self:y1()-y+s20/2)
     text(val, self:x2()-x-s20/2, self:y2()-y-s20/2)
-
---    textStyle(s10, clr, CENTER)
---    text(suitLabels[self.suit],
---        self:xc()-x,
---        self:yc()-y)
 
     spriteMode(CENTER)
     sprite('cards:'..suitLabels[self.suit],
@@ -286,9 +284,11 @@ function Pile:draw(x, y)
 
     if self.focus then
         local last = self:items():last()
-        stroke(colors.green)
-        rectMode(CORNER)
-        rect(last.position.x, last.position.y, CARD_WIDTH, CARD_HEIGHT)
+        if last then
+            stroke(colors.green)
+            rectMode(CORNER)
+            rect(last.position.x, last.position.y, CARD_WIDTH, CARD_HEIGHT)
+        end
     end
 
     style(self.focus and s2 or s1,
@@ -350,7 +350,7 @@ end
 function Suit:canCardsMoveTo(from)
     local fromCard = from:items():last()
     if fromCard and self:canCardMoveTo(fromCard) then
-        return from:items():count(),fromCard
+        return #from:items(), fromCard
     end
 end
 

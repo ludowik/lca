@@ -19,18 +19,15 @@ function setup()
     scores = {
         x = 0,
         o = 0,
-        n = 0
+        n = 0,
     }
-    
+
     parameter.watch('x', "scores['x']")
     parameter.watch('o', "scores['o']")
 
     parameter.watch('nul', "scores['n']")
 
-    parameter.action(players['x'].type, function (btn)
-            players['x'].type = players['x'].type == 'player' and 'ia' or 'player'
-            btn.label = players['x'].type
-        end)
+    parameter.integer('depth', 1, 10, 6)
 
     minimax = Minimax(cells)
 end
@@ -154,7 +151,7 @@ function Minimax:gamePlay(grid, player)
 
         grid:set(move.x, move.y, player)
 
-        local value = self:minimax(grid, 6, false, self:nextPlayer(player), MIN, MAX)
+        local value = self:minimax(grid, depth, false, self:nextPlayer(player), MIN, MAX)
         if value > bestValue then
             bestValue = value
             bestMove = move
@@ -227,14 +224,18 @@ function drawCell(x, y, cell)
     do
         local x = (x-1)*cells.cellSize + cells.cellSize
         local y = (y-1)*cells.cellSize + cells.cellSize
-        
+
         translate(x, y)
 
+        strokeSize(1)
         stroke(colors.white)
+
         noFill()
 
         rectMode(CENTER)
         rect(0, 0, cells.cellSize, cells.cellSize)
+
+        strokeSize(8)
 
         if value == 'x' then
             stroke(colors.red)

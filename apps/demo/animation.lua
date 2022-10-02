@@ -1,14 +1,14 @@
 function setup()
     parameter.integer('config.framerate', 1, 200, 30)
 
-    atlas = Image('res/images/sheep.jpg')    
+    atlas = Image('documents:sheep.jpg')    
 
     function loadSprites(img, ws, hs, n, x, y, ms)
         ms = ms or 0
-        
+
         x = x or 0
         y = y or img.height
-        
+
         ws = ws or 1
         hs = hs or 1
 
@@ -23,7 +23,7 @@ function setup()
         for i=1,n do
             animation[#animation+1] = atlas:copy(x + ms + ws * index, y - line * hs, ws, hs)
 
---            fillFromPosition(animation[#animation])
+            fillFromPosition(animation[#animation])
 
             index = index + 1
             if ms + ws * index + ws > img.width then
@@ -49,29 +49,30 @@ function setup()
         end)
 
     animation = loadSprites(atlas, ww, hh, 6, xx, yy)
-    
+
     n = 0
 end
 
 function fillFromPosition(self, x, y)
-    x, y = x or 1, y or 1
     local w, h = self.width, self.height
+    x, y = x or 0, y or 0
 
-    local fromColor = self:get(x, y)
     function propagation(x, y)
-        if self:get(x, y) > 0.9 then
-            self:set(x, y, Color(0, 0, 0, 0))
-            if x < w-1 then
-                propagation(x+1, y)
-            end
-            if y < h-1 then
-                propagation(x, y+1)
-            end
-            if x > 0 then
-                propagation(x-1, y)
-            end
-            if y > 0 then
-                propagation(x, y-1)
+        if x >= 0 and x < self:getWidth() and y >= 0 and y < self:getHeight() then
+            if self:get(x, y) > 0.9 then
+                self:set(x, y, Color(0, 0, 0, 0))
+                if x < w-1 then
+                    propagation(x+1, y)
+                end
+                if y < h-1 then
+                    propagation(x, y+1)
+                end
+                if x > 0 then
+                    propagation(x-1, y)
+                end
+                if y > 0 then
+                    propagation(x, y-1)
+                end
             end
         end
     end

@@ -1,5 +1,5 @@
 function setup()
-    joconde = Image('res/images/joconde.png')
+    joconde = Image('documents:joconde')
 end
 
 function update(dt)

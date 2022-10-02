@@ -40,6 +40,7 @@ function ShaderToy:complete(shaderType, source)
             #define PI 3.14159265359
             
             #define love_texture Texel
+            #define texture2D Texel
             #define precision
             #define highp
             

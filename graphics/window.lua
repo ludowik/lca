@@ -1,6 +1,6 @@
 function setupWindow(mode, scale)
     mode = mode or getMode()
-    
+
     SCALE = scale or (env and env.SCALE) or 1
 
     X, Y, W, H = initWindow(mode)
@@ -14,6 +14,50 @@ function setupWindow(mode, scale)
         bottom = Y * 2 + H
     }
 end
+
+local initModes = {}
+function initModes.portrait()
+    local x, y, w, h, wt, ht
+    
+    x = 160
+    y = 24
+    h = SCALE * 900
+    w = h * 9/16
+
+    wt = w / SCALE + x*3
+    ht = h / SCALE + y*2
+    
+    return x, y, w, h, wt, ht
+end
+
+function initModes.landscape()
+    local x, y, w, h, wt, ht
+    
+    x = 160
+    y = 24
+    w = SCALE * 900
+    h = w * 9/16
+
+    wt = w / SCALE + x*3
+    ht = h / SCALE + y*2
+
+    return x, y, w, h, wt, ht
+end
+
+function initModes.square()
+    local x, y, w, h, wt, ht
+    
+    x = 160
+    y = 24
+    w = SCALE * 900
+    h = w
+
+    wt = w / SCALE + x*3
+    ht = h / SCALE + y*2
+    
+    return x, y, w, h, wt, ht
+end
+
 
 function initWindow(mode)
     local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
@@ -35,26 +79,11 @@ function initWindow(mode)
         h = ht - 2*y
 
     else
-        x = 160
-        y = 24
-        h = SCALE * 900
-        w = h * 9/16
-
-        wt = w / SCALE + x*3
-        ht = h / SCALE + y*2
+        x, y, w, h, wt, ht = initModes[mode]()
     end
 
     w = round(w)
     h = round(h)
-
-    if mode == 'landscape' then
-        w, h = h, w
-        wt = w / SCALE + x*3
-        ht = h / SCALE + y*2
-
-    elseif w > h then
-        w, h, wt, ht, x, y = h, w, ht, wt, y, x
-    end
 
     local xpos, ypos = 100, 50 -- love.window.getPosition()
 
@@ -62,8 +91,8 @@ function initWindow(mode)
         love.window.updateMode(
             wt,
             ht, {
-                highdpi = true,
-                usedpiscale = true,
+                highdpi = false,
+                usedpiscale = false,
                 msaa = 8,
                 depth = 24,
                 vsync = 0,

@@ -272,12 +272,15 @@ end
 PORTRAIT = 'portrait'
 LANDSCAPE = 'landscape'
 LANDSCAPE_ANY = 'landscape_any'
+SQUARE = 'square'
 
 function supportedOrientations(orientations)
     if orientations == PORTRAIT then
         setMode(PORTRAIT)
-    elseif orientations == LANDSCAPE_ANY then
+    elseif orientations == LANDSCAPE_ANY or orientations == LANDSCAPE then
         setMode(LANDSCAPE)
+    elseif orientations == SQUARE then
+        setMode(SQUARE)
     end
 end
 

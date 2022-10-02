@@ -14,7 +14,7 @@ function appMap:init()
 
     skybox = Model.skybox(100000)
     skybox.shader = Shader('default')
-    skybox.texture = Image('res/images/skybox.png')
+    skybox.texture = Image('documents:skybox')
 
     self.s = 10
     local s = self.s

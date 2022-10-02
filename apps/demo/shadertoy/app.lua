@@ -112,7 +112,6 @@ function drawShader(shader, ui)
         local touch = mouse
         if Rect.contains(ui, touch) then
             stroke(colors.red)
-            strokeSize(10)
             rect(0, 0, ui.size.x, ui.size.y)
             
             local x, y = touch.x, touch.y

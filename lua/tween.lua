@@ -124,7 +124,10 @@ function Tween:update(dt)
         self.elapsed = self.elapsed + dt
 
         for k,v in pairs(self.target) do
-            self.object[k] = self.easing(self.elapsed, self.source[k], self.target[k]-self.source[k], self.delay)
+            self.object[k] = self.easing(self.elapsed,
+                self.source[k],
+                self.target[k]-self.source[k],
+                self.delay)
         end
 
         if self.elapsed >= self.delay then 

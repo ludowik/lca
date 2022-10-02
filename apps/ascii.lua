@@ -1,24 +1,61 @@
 function setup()
-    local source = Image('res/images/documents/marsu.jpeg')
-    
-    scaleFactor = 0.25
-    img = source:scale(scaleFactor)
+    supportedOrientations(SQUARE)
 
-    parameter.integer('ww', 0, 8, 2)
-    parameter.number('scaleFactor', 0.1, 0.8, 0.5, function (scale) img = source:scale(scaleFactor) end)
-    
+    baseImageList = {
+        'documents:joconde',
+        'documents:marsu',
+        'documents:wikipedia',
+    }
+
+--    baseImageList = dirr('res/images')
+
+--    baseImageList:sort(
+--        function (a, b)
+--            return love.filesystem.getInfo(a).size > love.filesystem.getInfo(b).size
+--        end)
+
+    local function getSource()
+        local baseImage = Image(baseImageList[baseImageIndex])
+
+        local w = W/2
+        local scaleFactor = w / max(baseImage.width, baseImage.height)
+
+        local source = Image(w)
+
+        render2context(
+            function ()
+                background(colors.white)
+                spriteMode(CENTER)
+                sprite(baseImage:scale(scaleFactor), w/2, w/2)
+            end,
+            source)
+        return source
+    end
+
+    local function setSource()
+        img = getSource()
+    end
+
+    parameter.watch('characters')
+    parameter.integer('baseImageIndex', 1, #baseImageList, 1, setSource)
+    parameter.integer('tileSize', 0, 5, 1)
+    parameter.boolean('standardCharactersSet', false,
+        function ()
+            characters = defineCharactersSet()
+        end)
     parameter.boolean('grayScale', true)
-
-    characters = defineCharactersSet()
 end
 
 function defineCharactersSet()
+    if standardCharactersSet then return ' .:-=+_?*#%@' end
+
     fontName('Arial')
     fontSize(20)
 
     local sw, sh = 0, 0
 
-    local code1, code2, step = 32, 48, 1
+    local code1, code2 = 32, 54
+    local step = floor(code2 - code1) / 10
     for i=code1, code2, step do
         local character = string.char(i)
         local w, h = textSize(character)
@@ -71,86 +108,89 @@ function defineCharactersSet()
     characters = characters:concat()
 
     assert(characters:sub(1,1) == ' ')
---    characters = ' .:-=+_?*#%@'
 
-    log(characters)
     return characters
 end
 
 function draw()
+    local w, h = img.width, img.height
 
     background(colors.black)
 
+    translate(W/2, H/2)
+
     spriteMode(CORNER)
-    sprite(img, 0, 0)
+    sprite(img, -w, -h)
+
+    drawImage(vec2( 0, -h), ascii, false)
+    drawImage(vec2(-w,  0), ascii, true)
+    drawImage(vec2( 0,  0), pixel)
+end
+
+function drawImage(position, f, reverse)
+    local w = 2^(tileSize)
+    local h = 2^(tileSize+1)
+
+    fontSize(h)
+
+    pushMatrix()
+    translate(position.x, position.y)
+
+    if not reverse then
+        fill(colors.white)
+    else
+        fill(colors.black)
+    end
 
     noStroke()
+    rectMode(CORNER)
+    rect(0, 0, img.width, img.height)
 
-    local w = 2^ww
-    fontSize(w)
+    rectMode(CENTER)
+    textMode(CENTER)
 
-    function drawImage(position, f, reverse)
-        pushMatrix()
-        translate(position.x, position.y)
+    for x=0,img.width,w do
 
-        if not reverse then
-            fill(colors.white)
-        else
-            fill(colors.black)
-        end
-        rect(0, 0, img.width, img.height)
+        for y=0,img.height,h do
 
-        textMode(CENTER)
+            local r, g, b, a, n = 0, 0, 0, 0, 0, n
+            for dx=0,w-1 do
+                if x+dx >= img.width then break end
 
-        for x=0,img.width,w do
-            
-            for y=0,img.height,w do
-                
-                local r, g, b, a = 0, 0, 0, 0, 0
-                for dx=0,w-1 do
-                    if x+dx >= img.width then break end
-                    
-                    for dy=0,w-1 do
-                        if y+dy >= img.height then break end
-                        
-                        local r1, g1, b1, a1 = img:get(x+dx, y+dy)
-                        r = r + r1
-                        g = g + g1
-                        b = b + b1
-                        a = a + a1
+                for dy=0,w-1 do
+                    if y+dy >= img.height then break end
 
-                    end
+                    local r1, g1, b1, a1 = img:get(x+dx, y+dy)
+                    r = r + r1
+                    g = g + g1
+                    b = b + b1
+                    a = a + a1
+
+                    n = n + 3
                 end
-
-                local light = (r+g+g)/(3*w*w)
-                f(position, light, reverse, x, y, w, h, r, g, b, a)
             end
-        end
-        popMatrix()
-    end
 
-    function ascii(position, light, reverse, x, y, w, h)
-        local i = floor(map(light, 0, 1, 1, characters:len()))
-
-        if not reverse then
-            i = characters:len() -  i + 1
-            textColor(colors.black)
-            text(characters:sub(i, i), x+w/2, y+w/2)
-        else
-            textColor(colors.white)
-            text(characters:sub(i, i), x+w/2, y+w/2)
+            local light = (r + g + b)/(n)
+            f(position, light, reverse, x+w/2, y+h/2, w, h)
         end
     end
+    popMatrix()
+end
 
-    function pixel(position, light, reverse, x, y, w, h, r, g, b, a)
-        fill((r+g+g)/(3*w*w))
-        noStroke()
-        rect(x, y, w, w)
+function ascii(position, light, reverse, x, y, w, h)
+    local i = floor(map(light, 0, 1, 1, characters:len()))
+
+    if not reverse then
+        i = characters:len() -  i + 1
+        textColor(colors.black)
+    else
+        textColor(colors.white)
     end
+    text(characters:sub(i, i), x, y)
+end
 
-    drawImage(vec2(img.width, 0), ascii, false)
-    drawImage(vec2(0, img.height), ascii, true)
-    drawImage(vec2(img.width, img.height), pixel)
-
-    sprite(lastCanvas, img.width, img.height)
+function pixel(position, light, reverse, x, y, w, h)
+    fill(light)
+    noStroke()
+    rect(x, y, w, h)
 end

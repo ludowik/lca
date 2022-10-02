@@ -58,9 +58,10 @@ function Rect:contains(x, y)
 
     local position = self:getPosition()
     local size = self.size
+    
     return (
-        position.x <= x and x <= position.x + size.w and
-        position.y <= y and y <= position.y + size.h
+        position.x <= x and x <= position.x + size.x and
+        position.y <= y and y <= position.y + size.y
     )
 end
 

@@ -8,13 +8,27 @@ function Image.release()
     Image.images = table()
 end
 
+function Image.findImage(name)
+    if love.filesystem.getInfo(name) then return name end
+
+    if name:find(':') then
+        local searchName = 'res/images/'..name:replace(':', '/')
+        if love.filesystem.getInfo(searchName) then return searchName end
+        searchName = 'res/images/'..name:replace(':', '/')..'.png'
+        if love.filesystem.getInfo(searchName) then return searchName end
+        searchName = 'res/images/'..name:replace(':', '/')..'.jpeg'
+        if love.filesystem.getInfo(searchName) then return searchName end
+    end
+
+    log('image not found : '..name)
+    
+    return name
+end
+
 function Image.getImage(res)
     if type(res) == 'string' then
         if not Image.images[res] then
-            if res:find(':') then
-                res = 'res/images/'..res:replace(':', '/')..'.png'
-            end
-            Image.images[res] = Image(res)
+            Image.images[res] = Image(Image.findImage(res))
         end
         return Image.images[res]
     end
@@ -27,7 +41,10 @@ function Image:init(name, ...)
     end
 
     if type(name) == 'string' then
-        local res, data = pcall(function () return love.graphics.newImage(name) end)
+        name = Image.findImage(name)
+        local res, data = pcall(function ()
+                return love.graphics.newImage(Image.findImage(name))
+            end)
         if not res then return Image() end
 
         self.data = data

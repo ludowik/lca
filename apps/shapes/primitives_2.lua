@@ -192,7 +192,7 @@ primitives = {
     end,
 
     function (self, w, h)
-        sprite('res/images/joconde.png', 0, 0, w, h)
+        sprite('documents:joconde', 0, 0, w, h)
     end,
 
     function (self, w, h)
