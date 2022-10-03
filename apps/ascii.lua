@@ -43,21 +43,31 @@ function setup()
         function ()
             characters = defineCharactersSet()
         end)
-    parameter.boolean('grayScale', true)
+    parameter.boolean('grayScale', true,
+        function ()
+            characters = defineCharactersSet()
+        end)
 end
 
 function defineCharactersSet()
-    if standardCharactersSet then return ' .:-=+_?*#%@' end
-
     fontName('Arial')
     fontSize(20)
 
     local sw, sh = 0, 0
 
-    local code1, code2 = 32, 54
-    local step = floor(code2 - code1) / 10
-    for i=code1, code2, step do
-        local character = string.char(i)
+    local from = ''
+    if standardCharactersSet then
+        from = ' .:-=+_?*#%@'
+    else
+        from = ' -+0#%@'
+        
+--        for i=32,127 do
+--            from = from..string.char(i)
+--        end
+    end
+
+    for i=1,from:len() do
+        local character = from:sub(i,i)
         local w, h = textSize(character)
         sw = max(w, sw)
         sh = max(h, sh)
@@ -70,9 +80,9 @@ function defineCharactersSet()
     textColor(colors.white)
 
     local characters = table()
-    for i=code1, code2, step do
-        local character = string.char(i)
-
+    for i=1,from:len() do
+        local character = from:sub(i,i)
+    
         setContext(img)
         do
             background(colors.black)
@@ -108,6 +118,7 @@ function defineCharactersSet()
     characters = characters:concat()
 
     assert(characters:sub(1,1) == ' ')
+    print(characters)
 
     return characters
 end
