@@ -114,7 +114,7 @@ function MeshRender:drawModel(x, y, z, w, h, d)
         if __fill() then
             self:sendUniforms(shader)
             love.graphics.setColor(__fill():unpack())
-            love.graphics.draw(self.mesh)            
+            love.graphics.draw(self.mesh)
         end
     end
     popMatrix()
@@ -123,7 +123,63 @@ function MeshRender:drawModel(x, y, z, w, h, d)
 end
 
 function MeshRender:drawInstanced(n)
-    self:draw()
+    if not self.vertices or #self.vertices == 0 then return end
+
+    self:update()
+
+    local vertices = self.__vertices
+    if #vertices < 3 then return end
+
+    love.graphics.setColor(colors.white:unpack())
+
+    if type(self.texture) == 'string' then
+        self.texture = Image.getImage(self.texture)
+    end
+
+    if self.texture then
+        self.mesh:setTexture(self.texture.data)
+    end
+
+    local shader = self:getShader()
+
+    local previousShader = love.graphics.getShader()
+    love.graphics.setShader(shader.shader)
+
+    pushMatrix()
+    do
+        if x then
+            translate(x, y, z)
+        end
+
+        if w then
+            scale(w, h, d)
+        end
+
+        self.instancePosition = self.instancePosition or {{1, 1, 1}}
+        self.instanceScale = self.instanceScale or {{.5, .5, .5}}
+        if not self.instanceMeshPosition then
+            self.instanceMeshPosition = love.graphics.newMesh({
+                    {"InstancePosition", "float", 3}
+                },
+                self.instancePosition, nil, "static")
+            self.mesh:attachAttribute("InstancePosition", self.instanceMeshPosition, "perinstance")
+            
+            self.instanceMeshScale = love.graphics.newMesh({
+                    {"InstanceScale", "float", 3},
+                },
+                self.instanceScale, nil, "static")
+            self.mesh:attachAttribute("InstanceScale", self.instanceMeshScale, "perinstance")
+        end
+
+        if __fill() then
+            self:sendUniforms(shader)
+            love.graphics.setColor(__fill():unpack())
+            love.graphics.drawInstanced(self.mesh, #self.instancePosition)
+        end
+    end
+    popMatrix()
+
+    love.graphics.setShader(previousShader)
 end
 
 function MeshRender:sendUniforms(shader)
@@ -158,7 +214,7 @@ function MeshRender:_sendUniforms(_shader, uniforms, baseName)
                 for i,light in ipairs(uniform) do
                     self:_sendUniforms(_shader, uniform[i], 'light['..(i-1)..'].')
                 end
-                
+
             elseif className == 'Material' then
                 self:_sendUniforms(_shader, uniform, 'material.')
 

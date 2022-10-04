@@ -2,13 +2,23 @@ uniform mat4 pvm;
 uniform mat4 model;
 
 attribute vec3 VertexNormal;
+attribute vec3 InstancePosition;
+attribute vec3 InstanceScale;
 
 varying vec3 FragPos;
 varying vec3 VaryingNormal;
 
 vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
-    FragPos = vec3(model * VertexPosition);
+    vertex_position = VertexPosition;
+    if (InstanceScale.x > 0.) {
+        vertex_position.x *= InstanceScale.x;
+        vertex_position.y *= InstanceScale.y;
+        vertex_position.z *= InstanceScale.z;
+    }
+    vertex_position += vec4(InstancePosition.xyz, 0.);
+    
+    FragPos = vec3(model * vertex_position);
     
     //VaryingNormal = VertexNormal;    
     VaryingNormal = mat3(transpose(inverse(model))) * VertexNormal;

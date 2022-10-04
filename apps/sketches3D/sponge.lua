@@ -1,10 +1,12 @@
 function setup()
     boxes = table()
     boxes:add(Cube(0, 0, 0, 1))
+    
+    m = Model.box()
 
     parameter.watch('#boxes')
 
-    camera(3, 3, 3)
+    camera(2, 2, 2)
 end
 
 function draw3d()
@@ -13,7 +15,8 @@ function draw3d()
     perspective()    
     light(true)
 
-    boxes:draw()
+--    boxes:draw()
+    m:drawInstanced()
 end
 
 function keyboard(key)
@@ -23,8 +26,16 @@ function keyboard(key)
                 nextBoxes:addItems(b:generate())
             end)
         boxes = nextBoxes
+        
+        m.instancePosition = table()
+        m.instanceScale = table()
+        for i,v in ipairs(boxes) do
+            m.instancePosition:add({v.position:unpack()})
+            m.instanceScale:add({v.size, v.size, v.size})
+        end
+        m.instanceMeshPosition = nil
+        m.instanceMeshScale = nil
     end
-
 end
 
 class('Cube')
