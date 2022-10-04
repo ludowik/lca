@@ -20,17 +20,17 @@ function Box.random(w, h, d, size)
 end
 
 function Box:z1()
-    local dz = self.alignMode == CENTER and (self.size.d / 2) or 0
+    local dz = self.alignMode == CENTER and (self.size.z / 2) or 0
     return self.absolutePosition.z - dz
 end
 
 function Box:z2()
-    local dz = self.alignMode == CENTER and (self.size.d / 2) or 0
-    return self.absolutePosition.z + self.size.d - dz
+    local dz = self.alignMode == CENTER and (self.size.z / 2) or 0
+    return self.absolutePosition.z + self.size.z - dz
 end
 
 function Box:zc()
-    local zx = self.alignMode == CENTER and 0 or (self.size.d / 2)
+    local zx = self.alignMode == CENTER and 0 or (self.size.z / 2)
     return self.absolutePosition.z + dz
 end
 
@@ -43,7 +43,7 @@ function Box:zmax()
 end
 
 function Box:draw()
-    box(self.position.x, self.position.y, self.position.z, self.size.w, self.size.h, self.size.d)
+    box(self.position.x, self.position.y, self.position.z, self.size.x, self.size.y, self.size.z)
 end
 
 function Box:intersect(cube)

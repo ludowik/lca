@@ -93,21 +93,39 @@ function splitFilePath(strFilename)
     return path:gsub('/$', ''), name, extension
 end
 
-function isAppcodea(path)
-    if isFile(path..'/'..'Info.plist') then
-        return true
+function getInfo(...)
+    return love.filesystem.getInfo(...)
+end
+
+local appFilesReference = {
+    '{path}/Info.plist',
+    '{path}/#.lua',
+    '{path}/init.lua',
+    '{path}/__init.lua',
+    '{path}/main.lua',
+    '{path}/{name}.lua',
+    '{path}',
+}
+
+function getInfoPath(path)
+    local pathParent, name, extension = splitFilePath(path)
+    for _,fileReference in ipairs(appFilesReference) do
+        local filePath = string.format(fileReference, {path=path, name=name})
+        local info = getInfo(filePath)
+        if info then
+            info.path = filePath
+            return info
+        end
     end
-    return false
+    return nil
 end
 
 function isApp(path)
-    if (isFile(path..'/'..'Info.plist') or
-        isFile(path..'/'..'#.lua') or
-        isFile(path..'/'..'init.lua') or
-        isFile(path..'/'..'__init.lua') or
-        isFile(path..'/'..'main.lua'))
-    then
-        return true
+    local pathParent, name, extension = splitFilePath(path)
+    for _,fileReference in ipairs(appFilesReference) do
+        if isFile(string.format(fileReference, {path=path, name=name})) then
+            return true
+        end
     end
 
     local info = love.filesystem.getInfo(path)
@@ -118,6 +136,13 @@ function isApp(path)
         return false
     end
 
+    return false
+end
+
+function isAppcodea(path)
+    if isFile(path..'/'..'Info.plist') then
+        return true
+    end
     return false
 end
 

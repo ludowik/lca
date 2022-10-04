@@ -23,6 +23,10 @@ function love.keyreleased(key, scancode)
     return Engine.keyreleased(key)
 end
 
+--function love.textinput(text)
+--    print(text)
+--end
+
 function love.mousepressed(...)
     return Engine.mousepressed(...)
 end

@@ -13,8 +13,7 @@ end
 
 function log(...)
     local level = 3
-    print('Log: '..__FILE__(level)..':'..__LINE__(level)..': '..__FUNC__(level)..' ')
-    print(...)
+    print('Log: '..__FILE__(level)..':'..__LINE__(level)..': '..__FUNC__(level)..' => ', ...)
 end
 
 function __log(...)

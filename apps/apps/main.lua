@@ -1,36 +1,40 @@
 function setup()
     scene = UIScene()
     browse(APPS)
+
+    parameter.watch('searchTime')
+    parameter.watch('searchText')
 end
 
 function autotest(dt)
     global.__autotest = true
-    
+
     local currentApp = env
     currentApp.__autotest = false
 
     local ram = {
-        beforeTest = format_ram()
+        beforeTest = formatRAM()
     }
 
     appsList.saveCurrentIndex = appsList.saveCurrentIndex or 1
-    
+
     Engine.draw(true)
     Engine.captureImage()
-    
+
     local __print = _G.print
     local __log = _G.log
     _G.print = function () end
     _G.log = function () end
-        
+
     local apps = enum(APPS)
     for i = appsList.saveCurrentIndex, #apps do        
         if pumpEvent() then break end
-        
+
         item = apps[i]
         if isApp(item) then            
             local path, name, ext = splitFilePath(item)            
             local newApp = loadApp(path, name)
+            assert(newApp, path, name)
             if newApp ~= currentApp then
                 newApp.__autotest = true
                 do
@@ -44,21 +48,21 @@ function autotest(dt)
                             break
                         end
                     end
-                    
+
                     Engine.draw()
                     Engine.captureImage()
                 end
                 newApp.__autotest = false
             end
         end
-        
+
     end
-    
-    ram.afterTest = format_ram()
+
+    ram.afterTest = formatRAM()
 
     Engine.release()    
-    ram.afterRelease = format_ram()
-    
+    ram.afterRelease = formatRAM()
+
     _G.print = __print
     _G.log = __log
 
@@ -68,9 +72,9 @@ function autotest(dt)
     print('release : '..ram.afterRelease)
 
     setActiveApp(currentApp)
-    
+
     global.__autotest = false
-    
+
     quit()
 end
 
@@ -137,8 +141,37 @@ function browse(path, previousPath)
     end
 end
 
+searchText = ''
+searchTime = 0
+
 function keyboard(key)
-    if key == 'a' then
+    if key == 'a' and isDown('lalt') then
         browse(APPS)
+        return
+    end
+
+    if key == 'return' then
+        local ui = scene:getFocus()
+        if ui.callback then
+            ui.callback(ui)
+        end
+
+    else
+        if time() - searchTime > 2 then
+            searchText = ''
+        end
+
+        searchTime = time()
+
+        if key == 'backspace' then
+            searchText = searchText:sub(1, searchText:len()-1)
+        else
+            searchText = searchText..key
+        end
+
+        local ui = scene:ui(searchText)
+        if ui then
+            scene:setFocus(ui)
+        end
     end
 end

@@ -1,7 +1,7 @@
 function setup()
     parameter.integer('config.framerate', 1, 200, 30)
 
-    atlas = Image('documents:sheep.jpg')    
+    atlas = Image('documents:sheep.jpg')
 
     function loadSprites(img, ws, hs, n, x, y, ms)
         ms = ms or 0
@@ -35,16 +35,16 @@ function setup()
         return animation
     end
 
-    parameter.integer('xx', 0, atlas.height, 20, function ()
+    parameter.integer('xx', 0, atlas.width-1, 20, function ()
             animation = loadSprites(atlas, ww, hh, 6, xx, yy)
         end)
-    parameter.integer('yy', 0, atlas.height, 140, function ()
+    parameter.integer('yy', 0, atlas.height-1, 140, function ()
             animation = loadSprites(atlas, ww, hh, 6, xx, yy)
         end)
-    parameter.integer('ww', 0, atlas.height, 101, function ()
+    parameter.integer('ww', 1, 120, 101, function ()
             animation = loadSprites(atlas, ww, hh, 6, xx, yy)
         end)
-    parameter.integer('hh', 0, atlas.height, 84, function ()
+    parameter.integer('hh', 1, 100, 84, function ()
             animation = loadSprites(atlas, ww, hh, 6, xx, yy)
         end)
 

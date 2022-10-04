@@ -33,10 +33,6 @@ function vec4:clone()
     return table.clone(self)
 end
 
-function vec4:__index(key)
-    return rawget(vec4, key)
-end
-
 function vec4.random(w, h, d)
     if w and h and d then
         return vec4(

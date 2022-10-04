@@ -14,42 +14,42 @@ Engine.keys = {
         end
     },
 
-    ['r'] = {
+    ['lalt+r'] = {
         desc = 'Restart',
         f = function ()
             restart()
         end
     },
 
-    [','] = {
+    ['lalt+,'] = {
         desc = 'Random App',
         f = function () -- ?
             randomApp()
         end
     },
 
-    ['a'] = {
+    ['lalt+a'] = {
         desc = 'Apps App',
         f = function ()
             loadAppOfTheApps()
         end
     },
 
-    ['t'] = {
+    ['lalt+t'] = {
         desc = 'Autotest App',
         f = function ()
             _G.env.__autotest = not _G.env.__autotest
         end
     },
 
-    ['l'] = {
+    ['lalt+l'] = {
         desc = 'Autotest all Apps',
         f = function ()
             loadAppOfTheApps().__autotest = true
         end
     },
 
-    ['m'] = {
+    ['lalt+m'] = {
         desc = 'Orientation',
         f = function ()
             if getMode() == PORTRAIT then
@@ -60,57 +60,65 @@ Engine.keys = {
         end
     },
 
-    ['s'] = {
+    ['lalt+s'] = {
         desc = 'Scan toxxxx',
         f = function ()
             scanTODO()
         end
     },
 
-    ['j'] = {
+    ['lalt+j'] = {
         desc = 'Generate lovejs',
         f = function ()
             makelovejs()
         end
     },
 
-    ['z'] = {
+    ['lalt+z'] = {
         desc = 'Generate zip',
         f = function ()
             makezip()
         end
     },
 
+    ['lctrl+tab'] = {
+        desc = 'Navigate thru apps - next',
+        f = nextApp
+    },
+
+    ['lctrl+lshift+tab'] = {
+        desc = 'Navigate thru apps - previous',
+        f = previousApp
+    },
+
     ['tab'] = {
-        desc = 'Navigate thru ui',
+        desc = 'Navigate thru ui - next focus',
         f = function ()
-            if isDown('lctrl') then
-                if isDown('lshift') then
-                    previousApp()
-                else
-                    nextApp()
-                end
-            else
-                local scene = _G.env.ui or _G.env.scene
-                if scene then
-                    if isDown('lshift') then
-                        scene:previousFocus()
-                    else
-                        scene:nextFocus()
-                    end
-                end
+            local scene = _G.env.ui or _G.env.scene
+            if scene then
+                scene:nextFocus()
             end
         end
     },
 
-    ['w'] = {
+    ['lshift+tab'] = {
+        desc = 'Navigate thru ui - previous focus',
+        f = function ()
+            local scene = _G.env.ui or _G.env.scene
+            if scene then
+                scene:previousFocus()
+            end
+        end
+    },
+
+    ['lalt+w'] = {
         desc = 'Wireframe',
         f = function ()
             config.wireFrame = not config.wireFrame
         end
     },
 
-    ['f'] = {
+    ['lalt+f'] = {
         desc = 'Framework mode',
         f = function ()
             if config.framework == 'love2d' then
@@ -123,7 +131,7 @@ Engine.keys = {
         end
     },
 
-    ['g'] = {
+    ['lalt+g'] = {
         desc = 'Graphics mode',
         f = function ()
             if config.renderer == 'love2d' then
@@ -139,7 +147,7 @@ Engine.keys = {
         end
     },
 
-    ['p'] = {
+    ['lalt+p'] = {
         desc = 'Capture Image',
         f = function ()
             Engine.captureImage()

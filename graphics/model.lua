@@ -181,7 +181,7 @@ end
 
 function Model.transform(vertices, matrix)
     for i=1,#vertices do
-        vertices[i] = matByVector(matrix, vertices[i])
+        vertices[i] = matByVector(matrix, vertices[i]):tovec3()
     end
 
     return vertices

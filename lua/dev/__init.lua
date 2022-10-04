@@ -5,8 +5,6 @@ requireLib(
     'reporting',
     'introspection')
 
---requirePlist('lua/dev/#.plist')
-
 function profile()
     Profiler.resetClasses()
 

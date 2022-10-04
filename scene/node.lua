@@ -6,9 +6,7 @@ end
 
 function Node:clear()
     Rect.init(self)
-
     self.nodes = table()
-
     return self
 end
 
@@ -108,6 +106,7 @@ function Node:setFocus(newFocus)
 end
 
 function Node:getFocus()
+    if self.focus then return self.focus end
     if self.hasFocus then return self end
     local nodes = self:items()
     for i,v in ipairs(nodes) do
@@ -116,6 +115,8 @@ function Node:getFocus()
             if who then
                 return who
             end
+        elseif v.hasFocus then
+            return v
         end
     end
 end
@@ -125,7 +126,7 @@ function Node:computeNavigation(previousUpNode, nextUpNode)
         previousUpNode.nextItem = self.nodes[1]
         nextUpNode.previousItem = self.nodes[#self.nodes]
     end
-    
+
     for i=1,#self.nodes do
         local currentNode = self.nodes[i]
         local nextNode = self.nodes[i+1] or nextUpNode

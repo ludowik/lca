@@ -18,17 +18,10 @@ function addApps(path)
 
     local files = love.filesystem.getDirectoryItems(path)
     for _,file in ipairs(files) do
-        local info = (
-            love.filesystem.getInfo(path..'/' .. file .. '/#.lua') or
-            love.filesystem.getInfo(path..'/' .. file .. '/init.lua') or
-            love.filesystem.getInfo(path..'/' .. file .. '/__init.lua') or
-            love.filesystem.getInfo(path..'/' .. file .. '/main.lua') or
-            love.filesystem.getInfo(path..'/' .. file))
-
-        if info.type == 'file' then
+        if isApp(path..'/' .. file) then
             addApp(path, file:gsub('.lua', ''))
 
-        elseif info.type == 'directory' then
+        else
             addApps(path..'/'..file)
 
         end
@@ -131,6 +124,7 @@ function loadApp(path, name, garbage)
 
         setmetatable(env, {__index = _G})
 
+        -- TODO : sipmlify the compute of the file entry
         local info = (
             love.filesystem.getInfo(path..'/' .. name .. '.lua') or
             love.filesystem.getInfo(path..'/' .. name))
@@ -155,11 +149,8 @@ function loadApp(path, name, garbage)
                 chunk = love.filesystem.load(path..'/' .. name .. '.lua')
 
             else
-                chunk = (
-                    love.filesystem.load(path..'/' .. name .. '/#.lua') or
-                    love.filesystem.load(path..'/' .. name .. '/init.lua') or
-                    love.filesystem.load(path..'/' .. name .. '/__init.lua') or
-                    love.filesystem.load(path..'/' .. name .. '/main.lua'))
+                local info = getInfoPath(path..'/' .. name)
+                chunk = love.filesystem.load(info.path)
             end
             assert(chunk)
 

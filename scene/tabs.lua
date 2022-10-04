@@ -71,5 +71,5 @@ function Tab:draw()
     
     stroke(colors.blue)
     noFill()
-    rect(self.position.x, self.position.y, self.size.w, self.size.h)
+    rect(self.position.x, self.position.y, self.size.x, self.size.y)
 end

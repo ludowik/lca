@@ -165,7 +165,7 @@ function Engine.endDraw()
 end
 
 function Engine.draw(present)
-    love.graphics.clear(.5, .5, .5, 1)
+    love.graphics.clear(.5, .5, .5, 1, true, true)
 
     local x, y = love.mouse.getPosition()
     if x < X then
@@ -189,7 +189,7 @@ function Engine.draw2d()
         Engine.beginDraw(getOrigin())
         if Engine.needDraw() then
             Engine.render(function ()
-                    depthMode(false)
+                    depthMode(true)
                     cullingMode(false)
                     if getCamera() and getCamera().lookAt then getCamera():lookAt() end
                     draw()

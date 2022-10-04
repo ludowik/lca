@@ -163,7 +163,6 @@ end
 function vertexShader(vt)
     local pv = pvMatrix()
     local m = modelMatrix()
-    --    local v = (pv*m):mulVector(vt)
     local v = matByVector((pv*m), vt)
     --    v = v / v.w
     return v -- vec3((v.x + 1) * W / 2, (v.y + 1) * H / 2, v.z)

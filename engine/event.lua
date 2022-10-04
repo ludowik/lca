@@ -3,6 +3,14 @@ end
 
 function Engine.keyreleased(key)
     local res = callApp('keyboard', key)
+    
+    key = (
+        (isDown('lalt'  ) and 'lalt+'   or '')..
+        (isDown('lctrl' ) and 'lctrl+'  or '')..
+        (isDown('lshift') and 'lshift+' or '')..
+        key
+    )
+    
     if Engine.keys[key] then 
         Engine.keys[key].f()
     end

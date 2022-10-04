@@ -4,6 +4,12 @@ function Scene:init()
     Node.init(self)
 end
 
+function Scene:clear()
+    Node.clear(self)
+    self.focus = nil
+    return self
+end
+
 function Scene:draw()
     if self.camera then
         self.camera:lookAt()
@@ -21,7 +27,7 @@ function Scene:draw()
 
     local focusItem = self:getFocus()
     if focusItem then
-        local focusPosition = self:getPosition()
+        local focusPosition = focusItem:getPosition()
         stroke(colors.red)
         noFill()
         rect(focusPosition.x, focusPosition.y, focusItem.size.x, focusItem.size.y)
