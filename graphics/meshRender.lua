@@ -16,53 +16,79 @@ end
 
 function MeshRender:clear()
     self.__vertices = nil
+    self.__buffers = table()
+end
+
+function MeshRender:bufferHasChanged(name, b)
+    if (not self.__buffers[name] or
+        self.__buffers[name].buffer ~= b or
+        self.__buffers[name].size ~= #b)
+    then
+        self.__buffers[name] = {
+            buffer = b,
+            size = #b
+        }
+        return true
+    end
+
+    return false
 end
 
 function MeshRender:update()
     if not self.vertices or #self.vertices == 0 then return end
 
-    if (not self.needUpdate and
-        self.__vertices and
-        #self.__vertices == #self.vertices and
-        self.__verticesSave == self.vertices)
-    then
-        return
+    if self.needUpdate or self:bufferHasChanged('vertices', self.vertices) then
+        local vertices
+        if self.vertices[1].x then
+            vertices = table()
+            for i,v in ipairs(self.vertices) do
+                local clr = self.colors[i] or colors.white
+                vertices:insert({
+                        v.x,
+                        v.y,
+                        v.z,
+                        #self.texCoords > 0 and self.texCoords[i].x or 0,
+                        #self.texCoords > 0 and self.texCoords[i].y or 0,
+                        clr.r,
+                        clr.g,
+                        clr.b,
+                        clr.a,
+                        #self.normals > 0 and self.normals[i].x or 0,
+                        #self.normals > 0 and self.normals[i].y or 0,
+                        #self.normals > 0 and self.normals[i].z or 0,
+                    })
+            end
+        else
+            vertices = self.vertices
+        end
+        self.__vertices = vertices
+        self.__verticesSave = self.vertices
+
+        self.mesh = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
+
+        if self.indices and #self.indices > 0 then
+            self.mesh:setVertexMap(self.indices)
+        end
+    end
+
+    if self.needUpdate or self:bufferHasChanged('instancePosition', self.instancePosition) then
+        self.instancePosition = self.instancePosition or {{1, 1, 1}}
+        self.instanceScale = self.instanceScale or {{.5, .5, .5}}
+
+        self.instanceMeshPosition = love.graphics.newMesh({
+                {"InstancePosition", "float", 3}
+            },
+            self.instancePosition, nil, "static")
+        self.mesh:attachAttribute("InstancePosition", self.instanceMeshPosition, "perinstance")
+
+        self.instanceMeshScale = love.graphics.newMesh({
+                {"InstanceScale", "float", 3},
+            },
+            self.instanceScale, nil, "static")
+        self.mesh:attachAttribute("InstanceScale", self.instanceMeshScale, "perinstance")
     end
 
     self.needUpdate = false
-
-    local vertices
-    if self.vertices[1].x then
-        vertices = table()
-        for i,v in ipairs(self.vertices) do
-            local clr = self.colors[i] or colors.white
-            vertices:insert({
-                    v.x,
-                    v.y,
-                    v.z,
-                    #self.texCoords > 0 and self.texCoords[i].x or 0,
-                    #self.texCoords > 0 and self.texCoords[i].y or 0,
-                    clr.r,
-                    clr.g,
-                    clr.b,
-                    clr.a,
-                    #self.normals > 0 and self.normals[i].x or 0,
-                    #self.normals > 0 and self.normals[i].y or 0,
-                    #self.normals > 0 and self.normals[i].z or 0,
-                })
-        end
-    else
-        vertices = self.vertices
-    end
-    self.__vertices = vertices
-    self.__verticesSave = self.vertices
-
-    self.mesh = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
-
-    if self.indices and #self.indices > 0 then
-        self.mesh:setVertexMap(self.indices)
-    end
-
 end
 
 function MeshRender:draw(...)
@@ -114,7 +140,12 @@ function MeshRender:drawModel(x, y, z, w, h, d)
         if __fill() then
             self:sendUniforms(shader)
             love.graphics.setColor(__fill():unpack())
-            love.graphics.draw(self.mesh)
+
+            if self.instancePosition and #self.instancePosition > 1 then
+                love.graphics.drawInstanced(self.mesh, #self.instancePosition)
+            else
+                love.graphics.draw(self.mesh)
+            end
         end
     end
     popMatrix()
@@ -123,63 +154,8 @@ function MeshRender:drawModel(x, y, z, w, h, d)
 end
 
 function MeshRender:drawInstanced(n)
-    if not self.vertices or #self.vertices == 0 then return end
-
-    self:update()
-
-    local vertices = self.__vertices
-    if #vertices < 3 then return end
-
-    love.graphics.setColor(colors.white:unpack())
-
-    if type(self.texture) == 'string' then
-        self.texture = Image.getImage(self.texture)
-    end
-
-    if self.texture then
-        self.mesh:setTexture(self.texture.data)
-    end
-
-    local shader = self:getShader()
-
-    local previousShader = love.graphics.getShader()
-    love.graphics.setShader(shader.shader)
-
-    pushMatrix()
-    do
-        if x then
-            translate(x, y, z)
-        end
-
-        if w then
-            scale(w, h, d)
-        end
-
-        self.instancePosition = self.instancePosition or {{1, 1, 1}}
-        self.instanceScale = self.instanceScale or {{.5, .5, .5}}
-        if not self.instanceMeshPosition then
-            self.instanceMeshPosition = love.graphics.newMesh({
-                    {"InstancePosition", "float", 3}
-                },
-                self.instancePosition, nil, "static")
-            self.mesh:attachAttribute("InstancePosition", self.instanceMeshPosition, "perinstance")
-            
-            self.instanceMeshScale = love.graphics.newMesh({
-                    {"InstanceScale", "float", 3},
-                },
-                self.instanceScale, nil, "static")
-            self.mesh:attachAttribute("InstanceScale", self.instanceMeshScale, "perinstance")
-        end
-
-        if __fill() then
-            self:sendUniforms(shader)
-            love.graphics.setColor(__fill():unpack())
-            love.graphics.drawInstanced(self.mesh, #self.instancePosition)
-        end
-    end
-    popMatrix()
-
-    love.graphics.setShader(previousShader)
+    assert(not n)
+    self:draw()
 end
 
 function MeshRender:sendUniforms(shader)
@@ -203,6 +179,8 @@ function MeshRender:sendUniforms(shader)
 end
 
 function MeshRender:_sendUniforms(_shader, uniforms, baseName)
+    assert(uniforms)
+
     -- TODO : enhance naming
     local shader = _shader.shader
 

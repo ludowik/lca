@@ -4,7 +4,9 @@ function setup()
     
     m = Model.box()
 
+    param = {light = true}
     parameter.watch('#boxes')
+    parameter.boolean('param.light')
 
     camera(2, 2, 2)
 end
@@ -13,7 +15,7 @@ function draw3d()
     background()
 
     perspective()    
-    light(true)
+    light(param.light)
 
 --    boxes:draw()
     m:drawInstanced()
