@@ -3,14 +3,14 @@ end
 
 function Engine.keyreleased(key)
     local res = callApp('keyboard', key)
-    
+
     key = (
         (isDown('lalt'  ) and 'lalt+'   or '')..
         (isDown('lctrl' ) and 'lctrl+'  or '')..
         (isDown('lshift') and 'lshift+' or '')..
         key
     )
-    
+
     if Engine.keys[key] then 
         Engine.keys[key].f()
     end
@@ -75,6 +75,10 @@ end
 function Engine.wheelmoved(dx, dy)
     callApp('wheelmoved', dx, dy)
     _G.env.parameter.wheelmoved(dx, dy)
+
+    if getCamera() then
+        getCamera():processWheelMoveOnCamera({dx=dx, dy=dy})
+    end
 end
 
 function Engine.buttondown(button)

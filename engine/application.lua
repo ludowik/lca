@@ -7,6 +7,12 @@ function Application:init()
     self.ui = UIScene()
 end
 
+function Application:pause()
+end
+
+function Application:resume()
+end
+
 function Application:pushScene(scene)
     push(self, self.scene)
     self.scene = scene
@@ -27,6 +33,9 @@ end
 
 function Application:update(dt)
     self:updateCoroutine(dt)
+    
+    self.scene:update(dt)
+    self.ui:update(dt)
 end
 
 function Application:updateCoroutine(dt)

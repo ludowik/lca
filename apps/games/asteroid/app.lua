@@ -18,7 +18,7 @@ function AppAsteroid:init()
     self.scene:add(self.ship)
     self.scene:add(self.ship.bullets)
 
-    self.asteroids = Scene()
+    self.asteroids = UIScene()
     self.scene:add(self.asteroids)
     for i=1,10 do
         self.asteroids:add(Asteroid())

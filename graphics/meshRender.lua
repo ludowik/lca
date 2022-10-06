@@ -20,6 +20,7 @@ function MeshRender:clear()
 end
 
 function MeshRender:bufferHasChanged(name, b)
+    assert(b)
     if (not self.__buffers[name] or
         self.__buffers[name].buffer ~= b or
         self.__buffers[name].size ~= #b)
@@ -71,21 +72,23 @@ function MeshRender:update()
         end
     end
 
-    if self.needUpdate or self:bufferHasChanged('instancePosition', self.instancePosition) then
-        self.instancePosition = self.instancePosition or {{1, 1, 1}}
-        self.instanceScale = self.instanceScale or {{.5, .5, .5}}
+    if self.instancePosition then
+        if self.needUpdate or self:bufferHasChanged('instancePosition', self.instancePosition) then
+            self.instancePosition = self.instancePosition or {{1, 1, 1}}
+            self.instanceScale = self.instanceScale or {{.5, .5, .5}}
 
-        self.instanceMeshPosition = love.graphics.newMesh({
-                {"InstancePosition", "float", 3}
-            },
-            self.instancePosition, nil, "static")
-        self.mesh:attachAttribute("InstancePosition", self.instanceMeshPosition, "perinstance")
+            self.instanceMeshPosition = love.graphics.newMesh({
+                    {"InstancePosition", "float", 3}
+                },
+                self.instancePosition, nil, "static")
+            self.mesh:attachAttribute("InstancePosition", self.instanceMeshPosition, "perinstance")
 
-        self.instanceMeshScale = love.graphics.newMesh({
-                {"InstanceScale", "float", 3},
-            },
-            self.instanceScale, nil, "static")
-        self.mesh:attachAttribute("InstanceScale", self.instanceMeshScale, "perinstance")
+            self.instanceMeshScale = love.graphics.newMesh({
+                    {"InstanceScale", "float", 3},
+                },
+                self.instanceScale, nil, "static")
+            self.mesh:attachAttribute("InstanceScale", self.instanceMeshScale, "perinstance")
+        end
     end
 
     self.needUpdate = false
@@ -121,7 +124,7 @@ function MeshRender:getShader()
 end
 
 
-function MeshRender:drawModel(x, y, z, w, h, d)
+function MeshRender:drawModel(n, x, y, z, w, h, d)
     local shader = self:getShader()
 
     local previousShader = love.graphics.getShader()
@@ -143,6 +146,10 @@ function MeshRender:drawModel(x, y, z, w, h, d)
 
             if self.instancePosition and #self.instancePosition > 1 then
                 love.graphics.drawInstanced(self.mesh, #self.instancePosition)
+            
+            elseif n and n > 1 then
+                love.graphics.drawInstanced(self.mesh, n)
+            
             else
                 love.graphics.draw(self.mesh)
             end
@@ -153,9 +160,8 @@ function MeshRender:drawModel(x, y, z, w, h, d)
     love.graphics.setShader(previousShader)
 end
 
-function MeshRender:drawInstanced(n)
-    assert(not n)
-    self:draw()
+function MeshRender:drawInstanced(...)
+    self:draw(...)
 end
 
 function MeshRender:sendUniforms(shader)

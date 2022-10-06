@@ -3,9 +3,9 @@ function setup()
 
     m.instancePosition = table()
     m.instanceScale = table()
-    for x=-50,50 do
-        for y=-50,50 do
-            for z=-50,50 do
+    for x=-30,30 do
+        for y=-30,30 do
+            for z=-30,30 do
                 m.instancePosition:add({x, y, z})
                 m.instanceScale:add({.1,.1,.1})
             end
@@ -20,5 +20,5 @@ end
 function draw()
     background()
     perspective()
-    m:drawInstanced(1)
+    m:drawInstanced()
 end
