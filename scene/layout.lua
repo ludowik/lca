@@ -26,8 +26,8 @@ function Layout:computeNodeFixedSize(node)
 end
 
 function Layout:layout(mode, n)
-    local outerMarge = self.outerMarge or Layout.outerMarge
-    local innerMarge = self.innerMarge or Layout.innerMarge
+    local outerMarge = self.outerMarge or (self.parent and self.parent.outerMarge or Layout.outerMarge)
+    local innerMarge = self.innerMarge or (self.parent and self.parent.innerMarge or Layout.innerMarge)
 
     local position = vec2(outerMarge, outerMarge)
     local size = vec2()
