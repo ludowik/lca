@@ -15,7 +15,7 @@ end
 function Tabs:addTab(tab)
     local button = Button(tab.label)
     button.tab = tab
-    button.action = function (button)
+    button.callback = function (button)
         self.currentTab.visible = false
         self.currentTab = button.tab
         button.tab.visible = true
@@ -62,14 +62,16 @@ end
 
 class 'Tab' : extends(UIScene)
 
-function Tab:init()
+function Tab:init(label)
     UIScene.init(self)
+    self.label = label or id(Tab)
 end
 
 function Tab:draw()
+    local position = self.absolutePosition or self.position
     UIScene.draw(self)
     
     stroke(colors.blue)
     noFill()
-    rect(self.position.x, self.position.y, self.size.x, self.size.y)
+    rect(position.x, position.y, self.size.x, self.size.y)
 end
