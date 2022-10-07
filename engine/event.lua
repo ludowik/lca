@@ -1,8 +1,5 @@
 function Engine.keypressed(key, isrepeat)
-end
-
-function Engine.keyreleased(key)
-    local res = callApp('keyboard', key)
+    local res = callApp('keyboard', key, isrepeat)
 
     key = (
         (isDown('lalt'  ) and 'lalt+'   or '')..
@@ -14,6 +11,9 @@ function Engine.keyreleased(key)
     if Engine.keys[key] then 
         Engine.keys[key].f()
     end
+end
+
+function Engine.keyreleased(key)
 end
 
 function Engine.mousepressed(x, y, button, istouch, presses)

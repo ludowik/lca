@@ -9,6 +9,11 @@ function UITimer:init(label, time, callback)
     self.callback = callback
 
     self.active = false
+    
+    self.styles:attribs({
+            bgColor = colors.transparent,
+            textMode = CENTER,
+        })
 end
 
 function UITimer:getLabel()

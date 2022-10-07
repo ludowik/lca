@@ -149,12 +149,20 @@ function Grid:copy(array, xt, yt)
     end
 end
 
+function Grid:saveValue(cell)
+    return cell and cell.value
+end
+
+function Grid:loadValue(value)
+    return value
+end
+
 function Grid:save()
     local str = '{'..NL
 
     self:applyFunction(function (i, j, cell)
             if cell and cell.value then
-                str = str..'    {i='..i..', j='..j..', value='..cell.value..'},'..NL
+                str = str..'    {i='..i..', j='..j..', value='..self:saveValue(cell)..'},'..NL
             end
     end)
 
@@ -169,7 +177,7 @@ function Grid:load()
         local data = loadstring('return '..str)()
         if data then
             for i,cell in ipairs(data) do
-                self:set(cell.i, cell.j, cell.value)
+                self:set(cell.i, cell.j, self:loadValue(cell.value))
             end
 
             return true

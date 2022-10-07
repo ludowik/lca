@@ -34,4 +34,5 @@ function UIScene:computeSize()
 end
 
 function UIScene:setGridSize(n, m)
+    self.gridSize = vec2(n, m)
 end

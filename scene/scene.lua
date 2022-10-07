@@ -17,6 +17,7 @@ function Scene:draw()
 
     if not self.parent then
         self:layout(self.position.x, self.position.y)
+        Layout.align(self)
         if not self:getFocus() then
             self:computeNavigation(self, self)
             self:nextFocus()

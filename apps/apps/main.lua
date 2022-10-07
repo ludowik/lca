@@ -1,5 +1,7 @@
 function setup()
     scene = UIScene()
+    scene:setAlignment('v-center,h-center')
+    
     browse(APPS)
 
     parameter.watch('searchTime')
@@ -94,7 +96,6 @@ end
 
 function browse(path, previousPath)
     scene:clear()
-    scene.position = vec2(100, 100)
 
     if previousPath then
         scene:add(UI('..', function ()

@@ -157,7 +157,6 @@ end
 function Node:layout()
     if self.layoutFlow then
         self.layoutFlow(self, self.layoutParam)
---        Layout.align(self)
         Layout.computeAbsolutePosition(self)
     end
 end

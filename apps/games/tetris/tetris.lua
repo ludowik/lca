@@ -1,41 +1,45 @@
 App('Tetris')
 
-Tetris.itemSize = floor(WIDTH/30)
-Tetris.gridSize = vec2(10, 12)
+Tetris.itemSize = floor(min(min(W,H)/10, max(W,H)/20)*2/3)
+Tetris.gridSize = vec2(10, 20)
 
 function Tetris:init()
+    love.keyboard.setKeyRepeat(true)
+
     Application.init(self)
 
     supportedOrientations(PORTRAIT)
+    setOrigin(BOTTOM_LEFT)
 
-    self.ui = UIScene(Layout.row)
+    self.ui = UIScene(Layout.column)
     self.ui.alignment = 'v-center,h-center'
 
     self.ui.state = UITimer('pause', 3, function ()
             self.active = true
         end)
 
-    self.ui:add(UIScene(Layout.column):add(
-            Label('level'),
-            Expression('app.level'),
-            Label('score'),
-            Expression('app.score'),
-            Label('line'),
-            Expression('app.lines'),
-            ButtonIconFont('burst_new', callback(self, self.newGame)),
-            ButtonIconFont('pause', function ()
-                    if self.active then
-                        self:pause()
-                    else
-                        self:resume()
-                    end
-                end),
-            self.ui.state))
+    self.ui:add(
+        UIScene(Layout.row):add(
+            UIScene(Layout.column):add(
+                ButtonIconFont('burst_new', callback(self, self.newGame)),
+                ButtonIconFont('pause', function ()
+                        if self.active then
+                            self:pause()
+                        else
+                            self:resume()
+                        end
+                    end),
+                self.ui.state),
+            UIScene(Layout.column):add(
+                Expression('app.level'),
+                Expression('app.score'),
+                Expression('app.lines'))
+        ))
 
     self.grid = TetrisGrid(self.gridSize.x, self.gridSize.y, self.itemSize)
     self.tetrimino = UIScene()
 
-    self.ui:add(UIScene():add(self.grid, self.tetrimino))
+    self.ui:add(UIScene():add(self.grid)) -- , self.tetrimino))
 
     self.tetriminos = {
         Tetrimino('I', {0,0,2,3,4,5,0,0}, colors.blue:lighten()),
@@ -110,15 +114,24 @@ function Tetris:update(dt)
 end
 
 function Tetris:keyboard(key, isrepeat)
+    if key == 'return' then
+        self.active = true
+    end
+
     if not self.active then return end
+
     if key == 'left' then
         self.mino:left()
+
     elseif key == 'right' then
         self.mino:right()
+
     elseif key == 'up' then
         self.mino:rotate()
+
     elseif key == 'down' then
         self.mino:down()
+
     elseif key == 'space' then
         self.mino:bottom()
     end
@@ -136,7 +149,9 @@ function Tetris:nextTetrimino()
         self:hasLines()
     end
 
-    local i = randomInt(1,#self.tetriminos)
+    local i = randomInt(1, #self.tetriminos)
+    io.flush()
+
     self.mino = self.tetriminos[i]
     self.mino:reset()
 
@@ -199,25 +214,19 @@ class('TetrisGrid', Grid, UI)
 
 function TetrisGrid:init(w, h, itemSize)
     self.itemSize = itemSize
-    
+
     UI.init(self)
     Grid.init(self, w, h)
-    
+
     self.alignMode = CORNER
 end
 
 function TetrisGrid:saveValue(cell)
-    if cell and cell.value then
-        return cell.value
-    end
+    return cell and 'Color('..table.tolua(cell.value)..')'
 end
 
 function TetrisGrid:loadValue(value)
-    if value then
-        if typeof(value) == 'color' then
-            return value
-        end
-    end
+    return typeof(value) == 'Color' and value
 end
 
 function TetrisGrid:computeSize()
@@ -227,10 +236,10 @@ end
 
 function TetrisGrid:computePosition()
     self.position = vec2(
-        self.itemSize * (self.gridPosition.x - 1),
-        self.itemSize * (self.gridPosition.y - 1))
+        self.itemSize * (self.gridPosition.x),
+        self.itemSize * (self.gridPosition.y))
 
-    self.position = self.position -- + app.grid.absolutePosition
+    self.position = self.position
 end
 
 function TetrisGrid:touched(touch)
@@ -257,7 +266,7 @@ function TetrisGrid:draw()
     local size = self.itemSize
 
     translate(-size, -size)
-
+    
     stroke(110)
     strokeSize(1)
 
@@ -267,6 +276,17 @@ function TetrisGrid:draw()
         for x=1,self.n do
             rectMode(CORNER)
             rect(x*size, y*size, size, size)
+        end
+    end
+
+    if self.parent ~= app.tetrimino then
+        local tetrimino = app.tetrimino:get(1)
+        if tetrimino then
+            tetrimino:computePosition()
+            pushMatrix()
+            translate(tetrimino.position.x, tetrimino.position.y)
+            TetrisGrid.draw(app.tetrimino:get(1))
+            popMatrix()
         end
     end
 
@@ -327,6 +347,8 @@ end
 class('Tetrimino', TetrisGrid)
 
 function Tetrimino:init(label, init, clr)
+    assert(clr)
+
     self.label = label
 
     local n = table.getnKeys(init)

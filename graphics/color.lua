@@ -17,6 +17,7 @@ function Color.setup()
         magenta = Color(1, 0, 1),
         cyan = Color(0, 1, 1),
         orange = Color(1, 165, 0),
+        purple = Color(0.5, 0, 0.5),
 
         brown = Color(165,  42,  42),
         beige = Color(245, 245, 220),
