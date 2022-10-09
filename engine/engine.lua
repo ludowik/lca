@@ -37,6 +37,9 @@ function Engine.load()
 end
 
 function Engine.unload()
+    local width, height, flags = love.window.getMode()    
+    config.flags = flags
+        
     saveConfig()
 end
 

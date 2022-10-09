@@ -32,10 +32,22 @@ function Layout:layout(mode, n)
     local position = vec2(outerMarge, outerMarge)
     local size = vec2()
 
-    self.rowSize = self.rowSize or {}
-    self.colSize = self.colSize or {}
+    if not self.rowSize then
+        self.rowSize = table()
+        self.colSize = table()
 
-    self.nodeSize = self.nodeSize or vec2()
+        self.nodeSize = vec2()
+    else
+        for _,size in ipairs(self.rowSize) do
+            size:set()
+        end
+
+        for _,size in ipairs(self.colSize) do
+            size:set()
+        end
+
+        self.nodeSize:set()
+    end
 
     local i, j = 1, 1
     for index=1,#self.nodes do
@@ -73,7 +85,7 @@ function Layout:layout(mode, n)
         elseif mode == 'grid' then
             node.size.x = self.nodeSize.x
             Layout.computeNodeFixedSize(self, node)
-            
+
             if i == n then
                 position.x = outerMarge
                 i = 1
@@ -147,9 +159,9 @@ end
 
 function Layout:align()
     self.position = vec2()
-    
+
     if not self.alignment then return end
-    
+
     local outerMarge = self.outerMarge or Layout.outerMarge
     local innerMarge = self.innerMarge or Layout.innerMarge
 

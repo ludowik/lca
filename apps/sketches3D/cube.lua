@@ -14,7 +14,6 @@ function draw3d()
     end
     
     fill(colors.white)
-
     box(1)
     
     fill(colors.gray)

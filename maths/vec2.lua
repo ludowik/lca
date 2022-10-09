@@ -1,6 +1,6 @@
 class 'vec2'
 
-local __cos, __sin, __sqrt, __atan2, __degrees, __round = math.cos, math.sin, math.sqrt, math.atan2, math.deg, math.round
+local __cos, __sin, __sqrt, __atan2, __degrees, __round, __floor = math.cos, math.sin, math.sqrt, math.atan2, math.deg, math.round, math.floor
 
 if ffi then
     ffi.cdef [[

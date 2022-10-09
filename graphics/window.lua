@@ -18,7 +18,7 @@ end
 local initModes = {}
 function initModes.portrait()
     local x, y, w, h, wt, ht
-    
+
     x = 160
     y = 24
     h = SCALE * 900
@@ -26,13 +26,13 @@ function initModes.portrait()
 
     wt = w / SCALE + x*3
     ht = h / SCALE + y*2
-    
+
     return x, y, w, h, wt, ht
 end
 
 function initModes.landscape()
     local x, y, w, h, wt, ht
-    
+
     x = 160
     y = 24
     w = SCALE * 900
@@ -46,7 +46,7 @@ end
 
 function initModes.square()
     local x, y, w, h, wt, ht
-    
+
     x = 160
     y = 24
     w = SCALE * 900
@@ -54,7 +54,7 @@ function initModes.square()
 
     wt = w / SCALE + x*3
     ht = h / SCALE + y*2
-    
+
     return x, y, w, h, wt, ht
 end
 
@@ -85,20 +85,22 @@ function initWindow(mode)
     w = round(w)
     h = round(h)
 
-    local xpos, ypos = 100, 50 -- love.window.getPosition()
-
     if not global.__autotest then
         love.window.updateMode(
             wt,
             ht, {
                 highdpi = false,
+
                 usedpiscale = false,
+
                 msaa = 8,
                 depth = 24,
                 vsync = 0,
-                x = xpos,
-                y = ypos,
-                display = 1,
+
+                x = config.flags and config.flags.x or 100,
+                y = config.flags and config.flags.y or 50,
+
+                display = config.flags and config.flags.display or 1,
             })
     end
 

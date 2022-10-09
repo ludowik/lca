@@ -3,8 +3,8 @@ class 'Grid'
 function Grid:init(n, m)
     assert(n)
     
-    self.n = n
-    self.m = m or n
+    self.n = floor(n)
+    self.m = floor(m or n)
 
     self.cells = table()
 end

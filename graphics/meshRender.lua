@@ -124,7 +124,8 @@ function MeshRender:getShader()
 end
 
 
-function MeshRender:drawModel(n, x, y, z, w, h, d)
+function MeshRender:drawModel(x, y, z, w, h, d, n)
+    assert(not n)
     local shader = self:getShader()
 
     local previousShader = love.graphics.getShader()

@@ -47,8 +47,6 @@ function UI:update(dt)
 end
 
 function UI:draw()
-    --self:computeSize()
-
     if self.styles.bgColor or self.styles.strokeColor then
         if self.styles.bgColor then
             fill(self.styles.bgColor)

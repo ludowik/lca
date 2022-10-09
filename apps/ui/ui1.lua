@@ -10,7 +10,7 @@ function setup()
 
     tab:add(Label('Label'))
     tab:add(Button('Button', function () print('button clicked') end))
-    tab:add(ButtonImage('documents:joconde'))
+    tab:add(ButtonImage('documents:joconde', function () print('joconde clicked') end))
     tab:add(Sprite('documents:joconde'))
     tab:add(Separator())
     tab:add(UISpace())

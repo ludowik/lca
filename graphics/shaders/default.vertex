@@ -10,18 +10,18 @@ varying vec3 VaryingNormal;
 
 vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
-    vertex_position = VertexPosition;
+    vec4 vp = VertexPosition;
     if (InstanceScale.x > 0.) {
-        vertex_position.x *= InstanceScale.x;
-        vertex_position.y *= InstanceScale.y;
-        vertex_position.z *= InstanceScale.z;
+        vp.x *= InstanceScale.x;
+        vp.y *= InstanceScale.y;
+        vp.z *= InstanceScale.z;
     }
-    vertex_position += vec4(InstancePosition.xyz, 0.);
+    //vp += vec4(InstancePosition.xyz, 0.);
     
-    FragPos = vec3(model * vertex_position);
+    FragPos = vec3(model * vp);
     
     //VaryingNormal = VertexNormal;    
     VaryingNormal = mat3(transpose(inverse(model))) * VertexNormal;
     
-    return pvm * vertex_position;
+    return pvm * vp;
 }

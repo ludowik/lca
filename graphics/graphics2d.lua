@@ -11,7 +11,7 @@ function Graphics.release()
     for k,res in pairs(Graphics.resources) do
         Graphics.resources[k] = nil
     end
-    
+
     Graphics.resources = {}
 end
 
@@ -34,15 +34,21 @@ function Graphics.noClip()
     love.graphics.setScissor()
 end
 
-function Graphics.textResource(txt)
+function Graphics.textResource(txt, wraplimit)
     local font = love.graphics.getFont()
 
     local fontRef = fontName()..'.'..fontSize()
     local resName = fontRef..':'..txt
     local res = Graphics.resources[resName]
     if not res then
+        local drawableText = love.graphics.newText(font)
+        if wraplimit then
+            drawableText:setf(txt, wraplimit, 'left')
+        else
+            drawableText:set(txt)
+        end
         Graphics.resources[resName] = {
-            text = love.graphics.newText(font, txt),
+            text = drawableText,
         }
         Graphics.resources[resName].w, Graphics.resources[resName].h = Graphics.resources[resName].text:getDimensions()
         res = Graphics.resources[resName]
@@ -56,7 +62,7 @@ function Graphics.textSize(txt)
     return res.w, res.h
 end
 
-function Graphics.text(txt, x, y)
+function Graphics.text(txt, x, y, wraplimit, maxheight)
     if type(txt) == 'table' then
         local t = txt
         txt = ''
@@ -67,7 +73,7 @@ function Graphics.text(txt, x, y)
         txt = tostring(txt)
     end
 
-    local res = Graphics.textResource(txt)    
+    local res = Graphics.textResource(txt, wraplimit)
     local w, h = res.w, res.h
 
     x = x or 0
@@ -88,14 +94,46 @@ function Graphics.text(txt, x, y)
 
     local clr = __textColor() or __stroke()
     if clr then
-        love.graphics.setBlendMode('alpha')
-        love.graphics.setColor(clr:unpack())
+        pushMatrix()
+        do
+            if Engine.origin == BOTTOM_LEFT then
+                if maxheight then
+                    translate(x, y)
+                else
+                    translate(x, y+h)
+                end
+            else
+                translate(x, y)
+            end
 
-        if Engine.origin == BOTTOM_LEFT then
-            love.graphics.draw(res.text, x, y+h, 0, 1, -1)
-        else
-            love.graphics.draw(res.text, x, y, 0, 1, 1)
+            if maxheight then
+                pushMatrix()
+                resetMatrix()
+                res.img = res.img or Image(wraplimit, maxheight)
+                setContext(res.img)
+                background(colors.white)
+            end
+
+            love.graphics.setBlendMode('alpha')
+            love.graphics.setColor(clr:unpack())
+
+            if Engine.origin == BOTTOM_LEFT then
+                if maxheight then
+                    love.graphics.draw(res.text, 0, maxheight, 0, 1, -1)
+                else
+                    love.graphics.draw(res.text, 0, 0, 0, 1, -1)
+                end
+            else
+                love.graphics.draw(res.text, 0, 0, 0, 1, 1)
+            end
+
+            if maxheight then
+                setContext()
+                popMatrix()
+                sprite(res.img)
+            end
         end
+        popMatrix()
     end
 
     return w, h
@@ -129,7 +167,7 @@ function Graphics.sprite(img, x, y, w, h)
 
     local clr = __tint() or colors.white
     love.graphics.setColor(clr:unpack())
-    
+
     img:draw(x, y, w, h)
 end
 
