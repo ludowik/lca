@@ -1,16 +1,19 @@
 App('AppAsteroid')
 
+setOrigin(BOTTOM_LEFT)
+
 function AppAsteroid:init()
     Application.init(self)
 
+    self.ui = Scene()
     self.joystick1 = Joystick(ws(1), hs(1))
-    self.joystick2 = Joystick(ws(9), hs(1))
+    self.joystick2 = Joystick(ws(6), hs(1))
 
     self.ui:add(self.joystick1)
     self.ui:add(self.joystick2)
 
     self.objectSize = 20
-    
+
     physics.gravity(vec3())
     physics.debug = true
 
@@ -18,7 +21,7 @@ function AppAsteroid:init()
     self.scene:add(self.ship)
     self.scene:add(self.ship.bullets)
 
-    self.asteroids = UIScene()
+    self.asteroids = Scene()
     self.scene:add(self.asteroids)
     for i=1,10 do
         self.asteroids:add(Asteroid())

@@ -60,7 +60,7 @@ end
 
 function Ship:applyForce(force)
     self.body:applyForce(
-        vec2(force,0):rotateInPlace(rad(self.body.angle)))
+        vec2(force,0):rotateInPlace(self.body.angle))
 end
 
 function Ship:applyTorque(torque)
@@ -88,7 +88,7 @@ function Ship:updateUserAction(dt)
         self.body.angularVelocity = 0
     end
 
-    local force = 100
+    local force = 200
     if isDown('up') then
         self:applyForce(force)
     end
@@ -109,5 +109,5 @@ function Ship:draw()
     for i,point in ipairs(points) do
         vertex(point.x, point.y)
     end
-    endShape(CLOSE)
+    endShape(CLOSED)
 end

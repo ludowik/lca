@@ -8,16 +8,16 @@ function Bullet:init(ship)
     self.body.position = (
         vec2(ship.position.x, ship.position.y)
         :add(vec2(30,0)
-            :rotateInPlace(rad(ship.angle))))
+            :rotateInPlace(ship.angle)))
 
-    self.body.linearVelocity = vec2(300,0):rotateInPlace(rad(ship.angle))
+    self.body.linearVelocity = vec2(300,0):rotateInPlace(ship.angle)
     self.body.linearDamping = 0
 
     self.body.radius = 2
 end
 
 function Bullet:draw()
-    fill(white)
+    fill(colors.white)
     noStroke()
 
     circle(0, 0, self.body.radius)

@@ -167,24 +167,24 @@ function Body:computeSize()
     self.radius = self.w / 2
 end
 
-function Body:destroy()
-end
+--function Body:destroy()
+--end
 
-function Body:applyForce(force)
-    self.force = self.force + force
-end
+--function Body:applyForce(force)
+--    self.force = self.force + force
+--end
 
-function Body:applyLinearImpulse(impulse)
-    self.linearVelocity = self.linearVelocity + impulse
-end
+--function Body:applyLinearImpulse(impulse)
+--    self.linearVelocity = self.linearVelocity + impulse
+--end
 
 function Body:applyTorque(torque)
     self.torque = self.torque + torque
 end
 
-function Body:applyAngularImpulse(impulse)
-    self.anle = self.angle + impulse
-end
+--function Body:applyAngularImpulse(impulse)
+--    self.anle = self.angle + impulse
+--end
 
 function Body:testOverlap(otherBody)
     return Collision.collide(self, otherBody)

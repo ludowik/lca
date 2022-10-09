@@ -13,6 +13,8 @@ function Joystick:init(x, y)
     self.scope = (self.diameterOut - self.diameterIn)
 
     self.direction = vec2()
+    
+    self.position:set(x, y)
 
     self:computeSize()
 end

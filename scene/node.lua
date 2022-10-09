@@ -174,11 +174,15 @@ end
 function Node:draw()
     local nodes = self:items()
     for i,node in ipairs(nodes) do
-        local position = node.absolutePosition
+        local position = node.absolutePosition or node.position
 
         if position and node.items == nil then
             pushMatrix()
             translate(position.x, position.y)
+
+            if node.angle then
+                rotate(node.angle)
+            end
         end
 
         if node.visible == nil or node.visible then
