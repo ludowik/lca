@@ -42,7 +42,7 @@ function Asteroid:init(asteroid, part)
     self.body.linearDamping = 0
     self.body.angularDamping = 0
 
-    self.body.angularVelocity = deg(random(-PI, PI))
+    self.body.angularVelocity = random(-PI, PI)
 
     self.body.keepInArea = true
 end

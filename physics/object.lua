@@ -5,8 +5,7 @@ function Object:init()
 end
 
 function Object:addToPhysics(shapeType, ...)
-    self.body = env.physics.body(...)
-    self.body.type = shapeType
+    self.body = env.physics.add(self, shapeType, ...)
     return self
 end
 

@@ -37,6 +37,7 @@ function Physics:add(object, shapeType, ...)
         object.body, body.object = body, object
         body.position = object.position
     end
+    return body
 end
 
 function Physics:body(...)
@@ -75,7 +76,7 @@ function Physics:step(dt)
 
     for i,body in ipairs(self.bodies) do
         if body.type == DYNAMIC then
-            body:applyForce(Gravity * body.gravityScale)
+            body:applyForce(Gravity * body.gravityScale * self.pixelRatio)
             body:update(dt)
         end        
     end

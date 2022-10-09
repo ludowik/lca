@@ -18,12 +18,14 @@ function Body:init(bodyType, shapeType, ...)
     self.shapeType = shapeType
 
     self.position = vec2()
-    self.positionOld = self.position
+    self.positionPrevious = self.position:clone()
 
+    self.angle = 0
+    self.anglePrevious = 0
+    
     self.radius = 0
+    
     self.points = table()
-
-    self.angle = 0    
 
     if shapeType == CIRCLE then
         local radius = ...
@@ -41,8 +43,9 @@ function Body:init(bodyType, shapeType, ...)
     self.gravityScale = 1
     
     self.acceleration = vec2()
-
     self.linearVelocity = vec2()
+    
+    self.torque = 0
     self.angularVelocity = 0
 
     self.mass = 1
@@ -71,17 +74,38 @@ function Body.properties.get:y()
 end
 
 function Body:applyForce(force)
-    self.acceleration = self.acceleration + force * 32
+    self.acceleration = self.acceleration + force
 end
 
-function Body:applyLinearImpulse(ix, iy)
+function Body:applyLinearImpulse(impulse)
+    self.linearVelocity = self.linearVelocity + impulse
+end
+
+function Body:applyTorque(torque)
+    self.torque = self.torque + torque
+end
+
+function Body:applyAngularImpulse(impulse)
+    self.anle = self.angle + impulse
+end
+
+function Body:testOverlap(otherBody)
+    return Collision.collide(self, otherBody)
+end
+
+function Body:getLocalPoint(worldPoint)
+    return worldPoint - self.position
+end
+
+function Body:getWorldPoint(localPoint)
+    return localPoint + self.position
 end
 
 function Body:update(dt)
     -- linear velocity
     self.linearVelocity = self.linearVelocity + self.acceleration * dt
 
-    self.positionOld = self.position
+    self.positionPrevious:set(self.position)
     self.position = self.position + self.linearVelocity * dt
 
     self.acceleration = vec2()
@@ -91,7 +115,12 @@ function Body:update(dt)
     self.linearVelocity = self.linearVelocity * math.pow(damping, dt)
 
     -- angular velocity
+    self.angularVelocity = self.angularVelocity + self.torque * dt
+    
+    self.anglePrevious = self.angle
     self.angle = self.angle + self.angularVelocity * dt
+    
+    self.torque = 0
 end
 
 function Body:draw()
@@ -102,7 +131,4 @@ end
 
 function Body:testPoint(x, y)
     return false
-end
-
-function Body:testOverlap()
 end

@@ -16,15 +16,26 @@ function Scene:draw()
     end
 
     if not self.parent then
-        self:layout(self.position.x, self.position.y)
-        Layout.align(self)
+        if self.layoutFlow then
+            self:layout(self.position.x, self.position.y)
+            Layout.align(self)
+        end
         if not self:getFocus() then
             self:computeNavigation(self, self)
             self:nextFocus()
         end
     end
 
+    if not self.parent and self.position and not self.layoutFlow then
+        pushMatrix()
+        translate(self.position.x, self.position.y)
+    end
+
     Node.draw(self)
+
+    if not self.parent and self.position and not self.layoutFlow then
+        popMatrix()
+    end
 
     local focusItem = self:getFocus()
     if focusItem then

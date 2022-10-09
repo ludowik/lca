@@ -30,7 +30,7 @@ function Shape:draw(mode)
     if mode == LINES then
         lines(self.vertices)
     else
-        polyline(self.vertices)
+        polygon(self.vertices)
     end
 
     popMatrix()
