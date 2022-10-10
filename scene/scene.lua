@@ -11,11 +11,19 @@ function Scene:clear()
 end
 
 function Scene:draw()
+    if not self.parent then
+        self:drawScene()
+    else
+        assert()
+    end
+end
+
+function Scene:drawScene()
     if self.camera then
         self.camera:lookAt()
     end
 
-    if not self.parent then
+--    if not self.parent then
         if self.layoutFlow then
             self:layout(self.position.x, self.position.y)
             Layout.align(self)
@@ -24,16 +32,16 @@ function Scene:draw()
             self:computeNavigation(self, self)
             self:nextFocus()
         end
-    end
+--    end
 
-    if not self.parent and self.position and not self.layoutFlow then
+    if self.position and not self.layoutFlow then
         pushMatrix()
         translate(self.position.x, self.position.y)
     end
 
     Node.draw(self)
 
-    if not self.parent and self.position and not self.layoutFlow then
+    if self.position and not self.layoutFlow then
         popMatrix()
     end
 
