@@ -1,11 +1,13 @@
-class 'ToolBar' : extends(UIScene)
+class 'ToolBar' : extends(Node)
 
 function ToolBar:init()
-    UIScene.init(self, Layout.row)
+    Node.init(self)
+    self:setLayoutFlow(Layout.row)
 end
 
-class 'MenuBar' : extends(UIScene)
+class 'MenuBar' : extends(Node)
 
 function MenuBar:init()
-    UIScene.init(self, Layout.column)
+    Node.init(self)
+    self:setLayoutFlow(Layout.column)
 end

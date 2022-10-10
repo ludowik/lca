@@ -14,7 +14,8 @@ function Scene:draw()
     if not self.parent then
         self:drawScene()
     else
-        assert()
+        assert(fsle, 'peux mieux faire')
+        Node.draw(self)
     end
 end
 

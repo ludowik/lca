@@ -1,3 +1,4 @@
+
 niltable = {}
 function nilf()
 end

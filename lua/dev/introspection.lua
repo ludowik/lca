@@ -6,7 +6,7 @@ function introspection()
     local function addGroup(filterType)
         local group = env.ui:ui(filterType)
         if group == nil then
-            group = UIScene(Layout.column)
+            group = Node(Layout.column)
             env.ui:add(group)
         else
             group:clear()

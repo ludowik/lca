@@ -136,7 +136,7 @@ function drawShader(shader, ui)
             mesh.uniforms.iChannel0 = shader.texture
         end
 
-        mesh:draw(1, 0, 0, 0, ui.size.x, ui.size.y, 1)
+        mesh:draw(0, 0, 0, ui.size.x, ui.size.y, 1)
     end
     setContext()
 end

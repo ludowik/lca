@@ -1,7 +1,7 @@
-class('Emitter', Object)
+class('Emitter', Node)
 
 function Emitter:init(n)
-    Object.init(self)
+    Node.init(self)
 
     self.absolutePosition = vec2(WIDTH/2, HEIGHT/2)
     self.path = table()

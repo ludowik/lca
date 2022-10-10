@@ -22,6 +22,8 @@ function setup()
 
     menu:add(Button('clear', function (btn) grid:clear() end))
     menu:add(Button('reset', function (btn) grid:reset() end))
+    
+    parameter.link('https://beltoforion.de/en/game_of_life/')
 end
 
 function update(dt)

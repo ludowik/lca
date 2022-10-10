@@ -1,7 +1,8 @@
 class 'Node' : extends(Rect, table)
 
-function Node:init()
+function Node:init(...)
     self:clear()
+    self:setLayoutFlowFromParam(...)
 end
 
 function Node:clear()
@@ -27,10 +28,12 @@ function Node:add(...)
     return self
 end
 
-function Node:addItems(items)    
+function Node:addItems(items)
     for _,item in ipairs(items) do
         item.parent = self
         table.insert(self:items(), item)
+        
+        assert(item.className ~= 'Scene')
     end
     return self
 end
@@ -143,6 +146,37 @@ function Node:computeNavigation(previousUpNode, nextUpNode)
     end
 end
 
+function Node:setLayoutFlowFromParam(...)
+    local label, layoutFlow, layoutParam
+
+    local args = {...}
+    if #args == 1 then
+        if type(args[1]) == 'string' then
+            label = ...
+        else
+            layoutFlow = ...
+        end
+
+    elseif #args == 2 then
+        if type(args[1]) == 'string' then
+            label, layoutFlow = ...
+        else
+            layoutFlow, layoutParam = ...
+        end
+
+    elseif #args == 3 then
+        label, layoutFlow, layoutParam = ...
+    end
+
+    assert(label == nil or type(label) == 'string')
+    assert(layoutFlow == nil or type(layoutFlow) == 'function')
+    assert(layoutParam == nil or type(layoutParam) == 'number')
+
+    if layoutFlow then
+        self:setLayoutFlow(layoutFlow, layoutParam)
+    end
+end
+
 function Node:setLayoutFlow(layoutFlow, layoutParam)
     self.layoutFlow = layoutFlow
     self.layoutParam = layoutParam
@@ -159,6 +193,13 @@ function Node:layout()
         self.layoutFlow(self, self.layoutParam)
         Layout.computeAbsolutePosition(self)
     end
+end
+
+function Node:computeSize()
+end
+
+function Node:setGridSize(n, m)
+    self.gridSize = vec2(n, m)
 end
 
 function Node:update(dt)
