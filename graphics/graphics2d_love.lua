@@ -5,6 +5,22 @@ function Graphics:init()
     love.graphics.setLineStyle('smooth')
 end
 
+function Graphics.table2points(t, ...)
+    if type(t) ~= 'table' then t = {t, ...} end
+
+    local points
+    if type(t[1]) == 'table' and t[1].x then
+        points = table()
+        for i,v in ipairs(t) do
+            points:insert(v.x)
+            points:insert(v.y)
+        end
+    else
+        points = t
+    end
+    return points
+end
+
 --[[
 love.graphics.points : draw one or more points
     x, y, ...
@@ -15,8 +31,8 @@ function Graphics.point(...)
     Graphics.points(...)
 end
 
-function Graphics.points(t, ...)
-    if type(t) ~= 'table' then t = {t, ...} end
+function Graphics.points(...)
+    local t = Graphics.table2points(...)
     if #t == 0 then return end
 
     if __stroke() then
@@ -35,9 +51,10 @@ function Graphics.line(...)
     Graphics.lines(...)
 end
 
-function Graphics.lines(t, ...)
+function Graphics.lines(...)
     if not __stroke() then return end
-    if type(t) ~= 'table' then t = {t, ...} end
+    
+    local t = Graphics.table2points(...)
     if #t == 0 then return end    
 
     love.graphics.setColor(__stroke():unpack())
@@ -48,8 +65,9 @@ function Graphics.lines(t, ...)
     end
 end
 
-function Graphics.polyline(t, ...)
-    if type(t) ~= 'table' then t = {t, ...} end
+function Graphics.polyline(...)
+    local t = Graphics.table2points(...)
+    
     if #t < 2 then return end
     if #t % 2 == 1 then table.insert(t, t[#t]) end
 
@@ -62,30 +80,18 @@ end
 love.graphics.polygon : draw a polygon (3 points at least)
     x1, y1, x2, y2, x3, y3, ... 
     {x1, y1, x2, y2, x3, y3, ...}
-
 ]]
-function Graphics.polygon(t, ...)
-    if type(t) ~= 'table' then t = {t, ...} end
-
-    local points
-    if type(t[1]) == 'table' and t[1].x then
-        points = table()
-        for i,v in ipairs(t) do
-            points:insert(v.x)
-            points:insert(v.y)
-        end
-    else
-        points = t
-    end
+function Graphics.polygon(...)
+    local t = Graphics.table2points(...)
 
     if __fill() then
         love.graphics.setColor(__fill():unpack())
-        love.graphics.polygon('fill', points)
+        love.graphics.polygon('fill', t)
     end
     if __stroke() then
         love.graphics.setColor(__stroke():unpack())
         love.graphics.setLineWidth(strokeSize())
-        love.graphics.polygon('line', points)
+        love.graphics.polygon('line', t)
     end
 end
 

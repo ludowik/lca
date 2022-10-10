@@ -11,7 +11,7 @@ function Shape:init()
     self.scaleFactor = 1
 end
 
-function Shape:vertex(x, y)
+function Shape:vertex(x, y, z)
     table.insert(self.vertices, x)
     table.insert(self.vertices, y)
 end
@@ -28,7 +28,7 @@ function Shape:draw(mode)
     
     mode = mode or self.mode
     if mode == LINES then
-        lines(self.vertices)
+        polyline(self.vertices)
     else
         polygon(self.vertices)
     end

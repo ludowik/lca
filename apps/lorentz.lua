@@ -12,15 +12,10 @@ function setup()
     --colorMode(HSB)
 
     parameter.watch('#points')
-    camera(30,30,30)
+    --camera(30,30,30)
 end
 
-function draw3d()
-    background()
-
-    perspective()
-
-    local dt = 0.01
+local function step(dt)
     local dx = (a * (y - x)) * dt
     local dy = (x * (b - z) - y) * dt
     local dz = (x * y - c * z) * dt
@@ -29,14 +24,26 @@ function draw3d()
     y = y + dy
     z = z + dz
 
-    points:add(vec3(x, y, z))
+    points:add(vec3(x*10, y*10, z*10))
+end
+
+function update(dt)
+    for i = 1,10 do
+        step(dt/10)
+    end
+end
+
+function draw3d()
+    background()
+
+    perspective()
 
     translate(W/2, H/2, -80)
 
     local camX = map(mouse.x, 0, W, -200, 200)
     local camY = map(mouse.y, 0, H, -200, 200)
 
-    camera(camX, camY, -(H / 2.0) / tan(PI * 30.0 / 180.0))
+    --camera(camX, camY, -(H / 2.0) / tan(PI * 30.0 / 180.0))
 
     --translate(W/2, H/2)
 
@@ -49,7 +56,7 @@ function draw3d()
     local hu = 0
     beginShape()
     for i,v in ipairs(points) do
-        --stroke(hu, 255, 255)
+        stroke(hu, 255, 255)
         vertex(v.x, v.y, v.z)
 
         hu = hu + 1
@@ -58,5 +65,5 @@ function draw3d()
             hu = 0
         end
     end
-    endShape()
+    endShape(LINES)
 end
