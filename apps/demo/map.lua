@@ -25,7 +25,7 @@ function setup()
             
             vertex(x, y)
         end
-        local shape = endShape()
+        local shape = endShape(LINES)
 
         ugas:add(shape)
     end

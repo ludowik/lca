@@ -32,7 +32,7 @@ function Node:addItems(items)
     for _,item in ipairs(items) do
         item.parent = self
         table.insert(self:items(), item)
-        
+
         assert(item.className ~= 'Scene')
     end
     return self
@@ -192,6 +192,10 @@ function Node:layout()
     if self.layoutFlow then
         self.layoutFlow(self, self.layoutParam)
         Layout.computeAbsolutePosition(self)
+
+        if self.origin == BOTTOM_LEFT then
+            Layout.reverse(self)
+        end
     end
 end
 
@@ -237,4 +241,26 @@ function Node:draw()
 end
 
 function Node:touched(touch)
+    local x, y = 0, 0
+    local nodes = self:items()
+    for i,node in ipairs(nodes) do
+        if node:contains(touch) then
+            node:touched(touch)
+            break
+        end
+    end
+end
+
+function Node:wheelmoved(dx, dy)
+    local x, y = love.mouse.getPosition()
+    x = x - X
+    y = y - Y
+
+    local nodes = self:items()
+    for i,node in ipairs(nodes) do
+        if node:contains(vec2(x, y)) then
+            node:wheelmoved(dx, dy)
+            break
+        end
+    end
 end

@@ -1,7 +1,7 @@
-class('UI_grid', UIScene)
+class('UI_grid', Node)
 
-function UI_grid:init(grid)
-    UIScene.init(self)
+function UI_grid:init(grid, ...)
+    Node.init(self, ...)
 
     self.grid = grid
 
@@ -11,8 +11,7 @@ function UI_grid:init(grid)
     self.innerMarge = 0
 
     for j = 1, grid.m do
-        local ui_line = UIScene()
-        ui_line:setLayoutFlow(Layout.column)
+        local ui_line = Node(Layout.column)
 
         ui_line.outerMarge = 0
         ui_line.innerMarge = 0

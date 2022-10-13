@@ -64,7 +64,7 @@ function __draw2d()
         scaleShape((W/4)/maxLen)
     end
 
-    endShape()
+    endShape(LINES)
 end
 
 function __draw3d()

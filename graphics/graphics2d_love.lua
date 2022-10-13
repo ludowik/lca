@@ -5,22 +5,6 @@ function Graphics:init()
     love.graphics.setLineStyle('smooth')
 end
 
-function Graphics.table2points(t, ...)
-    if type(t) ~= 'table' then t = {t, ...} end
-
-    local points
-    if type(t[1]) == 'table' and t[1].x then
-        points = table()
-        for i,v in ipairs(t) do
-            points:insert(v.x)
-            points:insert(v.y)
-        end
-    else
-        points = t
-    end
-    return points
-end
-
 --[[
 love.graphics.points : draw one or more points
     x, y, ...

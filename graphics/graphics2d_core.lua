@@ -46,8 +46,8 @@ function Graphics.line(x1, y1, x2, y2)
     Graphics.drawMesh(Graphics.lineMesh)
 end
 
-function Graphics.lines(t, ...)
-    if type(t) ~= 'table' then t = {t, ...} end
+function Graphics.lines(...)
+    local t = Graphics.table2points(...)
 
     love.graphics.setColor(__stroke():unpack())
     for i=1,#t,4 do
@@ -55,8 +55,8 @@ function Graphics.lines(t, ...)
     end
 end
 
-function Graphics.polyline(t, ...)
-    if type(t) ~= 'table' then t = {t, ...} end
+function Graphics.polyline(...)
+    local t = Graphics.table2points(...)
     Graphics.polyline_(t)
 end
 
@@ -91,17 +91,19 @@ function Graphics.polyline_(t, x, y, w, h)
     Graphics.drawMesh(Graphics.polylineMesh)
 end
 
-function Graphics.polygon(t, ...)
-    if type(t) ~= 'table' then t = {t, ...} end
+function Graphics.polygon(...)
+    local t = Graphics.table2points(...)
 
-    love.graphics.setColor(__stroke():unpack())
+    if __stroke() then
+        love.graphics.setColor(__stroke():unpack())
 
-    local x, y = t[1], t[2]
-    for i=3,#t,2 do
-        Graphics.line(x, y, t[i], t[i+1])
-        x, y = t[i], t[i+1]
+        local x, y = t[1], t[2]
+        for i=3,#t,2 do
+            Graphics.line(x, y, t[i], t[i+1])
+            x, y = t[i], t[i+1]
+        end
+        Graphics.line(x, y, t[1], t[2])
     end
-    Graphics.line(x, y, t[1], t[2])
 end
 
 function Graphics.rect(x, y, w, h)

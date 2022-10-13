@@ -49,14 +49,13 @@ function draw3d()
             model.uniforms.n = N
             
             model:drawInstanced(
-                N^2,
-                nil,
                 dx*w + x - w/2,
                 0,
                 dz*w + z - w/2,
                 n,
                 n,
-                n)
+                n,
+                nil) -- N^2)
         end
     end
 end

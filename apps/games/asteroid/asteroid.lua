@@ -35,7 +35,7 @@ function Asteroid:init(asteroid, part)
         end
 
     else
-        self.body.position = vec2.random(W, H)
+        self.body.position = vec2.randomInScreen()
         self.body.linearVelocity = vec2.random(10)
     end
 

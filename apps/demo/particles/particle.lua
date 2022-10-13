@@ -24,7 +24,7 @@ function Particle:draw()
     local size = map(self.life, 0, MAX_LIFE, 5, 25)
 
     spriteMode(CENTER)
-    sprite(Particle.img, 0, 0, size, size)
+    sprite(Particle.img, self.position.x, self.position.y, size, size)
 end
 
 function Particle:touched(touch)

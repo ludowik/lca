@@ -15,7 +15,7 @@ function AppSudoku:init()
     self.grid:load()
     self.grid:check_grid()
 
-    self.ui.toolbar = UIScene()
+    self.ui.toolbar = MenuBar()
     self.ui.toolbar.alignment = 'v-center'
     self.ui.toolbar:add(
         Button('help'    , self.grid, self.grid.help    ),
@@ -30,7 +30,7 @@ function AppSudoku:init()
 
     self.ui.grid = UI_grid(self.grid)
 
-    self.ui.numbers = UIScene():setLayoutFlow(Layout.grid, 3)
+    self.ui.numbers = Node(Layout.grid, 3)
     self.ui.numbers.alignment = 'v-center'
 
     self.scene:add(

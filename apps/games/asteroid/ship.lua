@@ -22,7 +22,7 @@ function Ship:init()
 
     self.keepInArea = true
 
-    self.bullets = Scene()
+    self.bullets = Node()
     self.countSinceLastBullet = 0
 end
 

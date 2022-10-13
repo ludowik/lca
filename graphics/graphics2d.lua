@@ -189,3 +189,19 @@ function Graphics.endShape(mode)
     shape:draw(mode)
     return shape
 end
+
+function Graphics.table2points(t, ...)
+    if type(t) ~= 'table' then t = {t, ...} end
+
+    local points
+    if type(t[1]) == 'table' and t[1].x then
+        points = table()
+        for i,v in ipairs(t) do
+            points:insert(v.x)
+            points:insert(v.y)
+        end
+    else
+        points = t
+    end
+    return points
+end

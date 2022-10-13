@@ -2,6 +2,7 @@ class 'Scene' : extends(Node)
 
 function Scene:init()
     Node.init(self)
+    self.origin = getOrigin()
 end
 
 function Scene:clear()
@@ -12,10 +13,14 @@ end
 
 function Scene:draw()
     if not self.parent then
-        self:drawScene()
+        if self.layoutFlow then
+            self.draw = self.drawUIScene
+        else
+            self.draw = self.drawScene
+        end
+--        self:drawScene()
     else
-        assert(fsle, 'peux mieux faire')
-        Node.draw(self)
+        assert(false, 'Scene => '..self.__className)
     end
 end
 
@@ -24,27 +29,32 @@ function Scene:drawScene()
         self.camera:lookAt()
     end
 
---    if not self.parent then
-        if self.layoutFlow then
-            self:layout(self.position.x, self.position.y)
-            Layout.align(self)
-        end
-        if not self:getFocus() then
-            self:computeNavigation(self, self)
-            self:nextFocus()
-        end
---    end
-
-    if self.position and not self.layoutFlow then
+    if self.position then
         pushMatrix()
         translate(self.position.x, self.position.y)
     end
 
     Node.draw(self)
 
-    if self.position and not self.layoutFlow then
+    if self.position then
         popMatrix()
     end
+end
+
+function Scene:drawUIScene()
+--    if self.camera then
+--        self.camera:lookAt()
+--    end
+
+    self:layout(self.position.x, self.position.y)
+    Layout.align(self)
+    
+    if not self:getFocus() then
+        self:computeNavigation(self, self)
+        self:nextFocus()
+    end
+
+    Node.draw(self)
 
     local focusItem = self:getFocus()
     if focusItem then
@@ -53,29 +63,4 @@ function Scene:drawScene()
         noFill()
         rect(focusPosition.x, focusPosition.y, focusItem.size.x, focusItem.size.y)
     end    
-end
-
-function Scene:touched(touch)
-    local x, y = 0, 0
-    local nodes = self:items()
-    for i,node in ipairs(nodes) do
-        if node:contains(touch) then
-            node:touched(touch)
-            break
-        end
-    end
-end
-
-function Scene:wheelmoved(dx, dy)
-    local x, y = love.mouse.getPosition()
-    x = x - X
-    y = y - Y
-
-    local nodes = self:items()
-    for i,node in ipairs(nodes) do
-        if node:contains(vec2(x, y)) then
-            node:wheelmoved(dx, dy)
-            break
-        end
-    end
 end

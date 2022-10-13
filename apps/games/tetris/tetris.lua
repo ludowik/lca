@@ -19,8 +19,8 @@ function Tetris:init()
         end)
 
     self.ui:add(
-        UIScene(Layout.row):add(
-            UIScene(Layout.column):add(
+        UINode(Layout.row):add(
+            UINode(Layout.column):add(
                 ButtonIconFont('burst_new', callback(self, self.newGame)),
                 ButtonIconFont('pause', function ()
                         if self.active then
@@ -30,16 +30,16 @@ function Tetris:init()
                         end
                     end),
                 self.ui.state),
-            UIScene(Layout.column):add(
+            UINode(Layout.column):add(
                 Expression('app.level'),
                 Expression('app.score'),
                 Expression('app.lines'))
         ))
 
     self.grid = TetrisGrid(self.gridSize.x, self.gridSize.y, self.itemSize)
-    self.tetrimino = UIScene()
+    self.tetrimino = UINode()
 
-    self.ui:add(UIScene():add(self.grid)) -- , self.tetrimino))
+    self.ui:add(UINode():add(self.grid)) -- , self.tetrimino))
 
     self.tetriminos = {
         Tetrimino('I', {0,0,2,3,4,5,0,0}, colors.blue:lighten()),

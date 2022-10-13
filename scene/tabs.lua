@@ -1,10 +1,10 @@
-class 'Tabs' : extends(UIScene)
+class 'Tabs' : extends(UINode)
 
 function Tabs:init(label)
-    UIScene.init(self, label or 'tabs')
+    UINode.init(self, label or 'tabs')
 
-    self.buttons = UIScene('buttons', Layout.row)
-    self.tabs = UIScene(Layout.topleft)
+    self.buttons = UINode('buttons', Layout.row)
+    self.tabs = UINode(Layout.topleft)
 
     self:add(self.buttons)
     self:add(self.tabs)
@@ -60,16 +60,16 @@ function Tabs:inRect(position)
     return self.currentTab:inRect(position)
 end
 
-class 'Tab' : extends(UIScene)
+class 'Tab' : extends(UINode)
 
 function Tab:init(label)
-    UIScene.init(self)
+    UINode.init(self)
     self.label = label or id(Tab)
 end
 
 function Tab:draw()
     local position = self.absolutePosition or self.position
-    UIScene.draw(self)
+    UINode.draw(self)
     
     stroke(colors.blue)
     noFill()

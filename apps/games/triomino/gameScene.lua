@@ -17,13 +17,13 @@ function GameScene:init()
 
     self.grid = TrioGrid(10)
 
-    self:add(UIScene()
+    self:add(UINode()
         :attribs{alignment = 'h-center'}
         :add(self.grid))
 
-    self.minos = UIScene(Layout.row)
+    self.minos = UINode(Layout.row)
     for i=1,3 do
-        self.minos:add(UIScene()
+        self.minos:add(UINode()
             :setGridSize(2, 2))
     end
     self:resetMinos()

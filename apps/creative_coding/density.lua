@@ -4,7 +4,9 @@ function setup()
     density_new = Buffer('float'):resize(N*N)
     
     for i=1,N*N do
-        density[i] = 0
+        density[i] = noise(
+            ((i+8554.25) / N) / 12.45,
+            ((i+6945.36) % N) / 12.45) * 2^8
         density_new[i] = 0
     end
 
@@ -32,8 +34,8 @@ function update(dt)
     local a = dt * N * N
 
     for x=1,20 do
-        for y=1,N-2 do
-            for x=1,N-2 do
+        for y=2,N-2 do
+            for x=2,N-2 do
                 density_new[index(x, y)] = density[index(x, y)] + dt * (
                     density_new[index(x-1, y)] +
                     density_new[index(x+1, y)] +

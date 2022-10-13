@@ -37,12 +37,12 @@ function AppCalc:init()
 end
 
 function AppCalc:initUI()
-    self.uiCalc = UIScene(Layout.column)
+    self.uiCalc = Node(Layout.column)
 
     self.ui:add(self.uiCalc)	
 
     function setProperties(node, id)
-        local row = UIScene(Layout.row)
+        local row = Node(Layout.row)
         node:add(row)
 
         local unite = Button()
@@ -93,7 +93,7 @@ function AppCalc:initUI()
         return button
     end
 
-    self.buttons = UIScene():setLayoutFlow(Layout.grid, 4)
+    self.buttons = Node():setLayoutFlow(Layout.grid, 4)
     self.uiCalc:add(self.buttons)
 
     local w = WIDTH > HEIGHT and hs(1, 5) or ws(1, 5)

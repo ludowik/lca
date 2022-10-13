@@ -1,4 +1,6 @@
 function setup()
+    env.ui = UIScene()
+    
     env.uiScene = MenuBar(0, HEIGHT)
     env.uiScene.alignment = 'v-center,h-center'
 
@@ -27,7 +29,7 @@ function setup()
     tab:add(CheckBox('yesno'))
     tab:add(Editor('Editor'))
 
-    gridScene = UIScene(Layout.grid, gridSize)
+    gridScene = UINode(Layout.grid, gridSize)
     tab = Tab()
     tabs:addTab(tab)
     tab:add(gridScene)
@@ -57,13 +59,13 @@ function reset()
 
     gridSize = gridSize or 2
 
-    env.ui = env.uiScene
+    env.ui:add(env.uiScene)
     env.ui.alignment = 'v-center,h-center'
     
     gridScene:clear()
 
     for i=1,nbGroups do
-        local node = UIScene(Layout.grid, gridSize)
+        local node = UINode(Layout.grid, gridSize)
         gridScene:add(node)
 
         bgColor = Color(i/4, 0, 0)

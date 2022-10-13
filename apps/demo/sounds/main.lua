@@ -17,7 +17,17 @@ function AppSound:init()
     hz = hzFromKey(keyNumber)
     sampleRate = 44100
     amplitude = 50
+    
+    volume = 0
+    love.audio.setVolume(0)
 
+    parameter.number('volume', 0, 100, 5,
+        function ()
+            love.audio.setVolume(volume)
+            
+            audio:stop()
+            audio:play(true)
+        end)
     parameter.action('play', function ()
             audio:play()
         end)
@@ -96,13 +106,6 @@ function AppSound:init()
         function ()
             audio:stop()
             audio:loadBuffer(amplitude, hz, sampleRate)
-            audio:play(true)
-        end)
-    parameter.number('volume', 0, 100, 5,
-        function ()
-            love.audio.setVolume(volume)
-            
-            audio:stop()
             audio:play(true)
         end)
 end

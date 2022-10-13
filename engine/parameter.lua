@@ -6,6 +6,7 @@ end
 
 function Parameter:clear()    
     self.scene = UIScene()
+    self.scene.origin = nil
     
     _G.env.bottom_left = getOrigin() == BOTTOM_LEFT
     

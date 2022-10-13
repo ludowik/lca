@@ -16,8 +16,10 @@ function Physics:init()
     interface(self, Physics)
 end
 
-function Physics:gravity(g)
-    Gravity = g or Gravity
+function Physics:gravity(g, ...)
+    if g then
+        Gravity = vec3(g, ...)
+    end
 end
 
 function Physics:setArea(x, y, w, h)
