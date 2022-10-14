@@ -1,7 +1,3 @@
-local angle, mode
-
--- https://easings.net
-
 function easeInSine(x)
     return 1 - cos((x * PI) / 2)
 end
@@ -30,7 +26,11 @@ local functions = {
 
 function setup()
     angle = 0
-    mode = 0
+    mode = 1
+    
+    parameter.link('https://easings.net')
+    
+    parameter.integer('mode', 1, #functions, 1)
 end
 
 function update(dt)
@@ -55,7 +55,7 @@ function draw()
     strokeSize(0.1)
     stroke(colors.black)
 
-    local f = functions[mode+1]
+    local f = functions[mode]
     seed(12345)
 
     for j=0,ny-1 do
@@ -74,19 +74,10 @@ function draw()
                 rect(0, 0, w*0.9, h*0.9)
                 
                 textColor(clr:contrast())
-                text(('BON ANNIVERSAIRE LOU'):random(), 0, 0)
+                text(('BON ANNIVERSAIRE LOULOU'):random(), 0, 0)
             end
             popMatrix()
         end
         popMatrix()
     end
-end
-
-function drawInfo()
-    text(mode)
-end
-
-function mousereleased()
-    angle = 0
-    mode = (mode + 1) % #functions
 end

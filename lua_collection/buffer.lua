@@ -1,6 +1,8 @@
 local __max = math.max
 
-if true then 
+-- TODO : reconnecter buffer ffi
+
+if true then
     class 'Buffer' : extends(table)
 
     function Buffer.setup()
@@ -68,9 +70,7 @@ function __buffer.__init(buffer, buffer_class, data, ...)
 
     buffer.idBuffer = 0
 
-    buffer.data = ffi.cast(buffer_class.ctype,
-        ffi.C.malloc(
-            buffer.size))
+    buffer.data = ffi.cast(buffer_class.ctype, ffi.C.malloc(buffer.size))
 
     ffi.C.memset(buffer.data, 0, buffer.size)
 
