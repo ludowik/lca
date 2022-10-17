@@ -7,9 +7,22 @@ end
 function Parameter:clear()    
     self.scene = UIScene()
     self.scene.getOrigin = function () return TOP_LEFT end
-    
-    _G.env.bottom_left = getOrigin() == BOTTOM_LEFT
-    
+
+--    _G.env.bottom_left = getOrigin() == BOTTOM_LEFT
+
+    -------
+    self.group = UINode()
+    self.group.visible = config.showAppsMenu
+    local group = self.group
+    self.button = Button('Apps menu', function ()
+            group.visible = not group.visible
+            config.showAppsMenu = group.visible
+            group.size:set()
+        end)
+
+    self.scene:add(self.button)
+    self.scene:add(group)
+
     self:action('restart', restart)
     self:action('apps', loadAppOfTheApps)
     self:action('tests all apps', function () loadAppOfTheApps().__autotest = true end)
@@ -17,9 +30,12 @@ function Parameter:clear()
     self:action('next app', nextApp)
     self:action('previous app', previousApp)
     self:action('random app', randomApp)
-    
+
     self:boolean('bottom_left', false, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
     self:boolean('landscape', false, function (val) supportedOrientations(val and LANDSCAPE_ANY or PORTRAIT) end)
+    -------
+
+    self.group = self.scene
 end
 
 function Parameter:update(dt)
@@ -37,7 +53,7 @@ function Parameter:default(name, min, max, default, notify)
             return default
         end
     end
-    
+
     return value
 end
 
@@ -54,7 +70,7 @@ function Parameter:notify(ui, value, notify)
 end
 
 function Parameter:action(name, callback)
-    self.scene:add(
+    self.group:add(
         Button(name,
             function (ui)
                 self:notify(ui, ui.label, callback)
@@ -62,13 +78,13 @@ function Parameter:action(name, callback)
 end
 
 function Parameter:watch(name, expression)
-    self.scene:add(
+    self.group:add(
         Expression(name, expression or name))
 end
 
 function Parameter:text(name, text, callback)
     self:default(name, '', '', text, callback)
-    self.scene:add(
+    self.group:add(
         Editor(name,
             function (ui)
                 self:notify(ui, nil, callback)
@@ -77,7 +93,7 @@ end
 
 function Parameter:boolean(name, default, callback)
     local value = self:default(name, false, true, default, callback)
-    self.scene:add(
+    self.group:add(
         CheckBox(name, value,
             function (ui, value)
                 self:set(ui, name, value, callback)
@@ -86,7 +102,7 @@ end
 
 function Parameter:number(name, min, max, default, callback)
     local value = self:default(name, min, max, default, callback)
-    self.scene:add(
+    self.group:add(
         Slider(name, min, max, value, false,
             function (ui, value)
                 self:set(ui, name, value, callback)
@@ -95,7 +111,7 @@ end
 
 function Parameter:integer(name, min, max, default, callback)
     local value = self:default(name, min, max, default, callback)
-    self.scene:add(
+    self.group:add(
         Slider(name, min, max, value, true,
             function (ui, value)
                 self:set(ui, name, value, callback)
@@ -104,7 +120,7 @@ end
 
 function Parameter:color(name, clr, callback)
     local value = self:default(name, colors.white, colors.black, clr, callback)
-    self.scene:add(
+    self.group:add(
         ColorPicker(name, value,
             function (ui, value)
                 self:set(ui, name, value, callback)
@@ -113,7 +129,7 @@ end
 
 function Parameter:link(name, url)
     url = url or name
-    self.scene:add(
+    self.group:add(
         Button(name,
             function (ui)
                 openURL(url)
@@ -124,7 +140,7 @@ function Parameter:draw(x, y)
     if x then
         self.scene.position:set(x, y)
     end
-    
+
     self.scene:draw()
 end
 

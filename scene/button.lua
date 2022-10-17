@@ -5,10 +5,10 @@ function Button:init(label, callback)
 
     self.styles:attribs{
         bgColor = colors.blue,
-        strokeColor = colors.white,
+        strokeColor = colors.lightgray,
         textColor = colors.white,
         textMode = CENTER,
-        rx = 3,        
+        rx = 4,
     }
 end
 

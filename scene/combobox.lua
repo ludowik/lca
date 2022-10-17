@@ -43,9 +43,7 @@ function ComboBox:list(values, i)
 end
 
 function ComboBox:click()
-    if self.uiList.visible then
-        self.uiList.visible = false
-    else
+    if self.uiList.visible == false then
         self.uiList.visible = true
         self.uiList:clear()
 
@@ -60,6 +58,8 @@ function ComboBox:click()
                         self.action(value)
                     end})
         end
+    else
+        self.uiList.visible = false
     end
 end
 

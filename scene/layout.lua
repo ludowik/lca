@@ -52,59 +52,60 @@ function Layout:layout(mode, n)
     local i, j = 1, 1
     for index=1,#self.nodes do
         local node = self.nodes[index]
+        if node.visible ~= false then
+            node.position.x = position.x
+            node.position.y = position.y
 
-        node.position.x = position.x
-        node.position.y = position.y
+            if node.nodes then
+                node:layout(n)
+            else
+                Layout.computeNodeSize(self, node)
+            end
 
-        if node.nodes then
-            node:layout(n)
-        else
-            Layout.computeNodeSize(self, node)
-        end
+            self.colSize[i] = self.colSize[i] or vec2()
+            self.rowSize[j] = self.rowSize[j] or vec2()
 
-        self.colSize[i] = self.colSize[i] or vec2()
-        self.rowSize[j] = self.rowSize[j] or vec2()
+            self.colSize[i].x = max(self.colSize[i].x, node.size.x)
+            self.colSize[i].y = max(self.colSize[i].y, node.size.y)
 
-        self.colSize[i].x = max(self.colSize[i].x, node.size.x)
-        self.colSize[i].y = max(self.colSize[i].y, node.size.y)
+            self.rowSize[j].x = max(self.rowSize[j].x, node.size.x)
+            self.rowSize[j].y = max(self.rowSize[j].y, node.size.y)
 
-        self.rowSize[j].x = max(self.rowSize[j].x, node.size.x)
-        self.rowSize[j].y = max(self.rowSize[j].y, node.size.y)
+            self.nodeSize.x = max(self.nodeSize.x, node.size.x)
+            self.nodeSize.y = max(self.nodeSize.y, node.size.y)
 
-        self.nodeSize.x = max(self.nodeSize.x, node.size.x)
-        self.nodeSize.y = max(self.nodeSize.y, node.size.y)
+            if mode == 'row' then
+                position.x = position.x + node.size.x + innerMarge
+                i = i + 1
 
-        if mode == 'row' then
-            position.x = position.x + node.size.x + innerMarge
-            i = i + 1
-
-        elseif mode == 'column' then
-            position.y = position.y + node.size.y + innerMarge
-            j = j + 1
-
-        elseif mode == 'grid' then
-            node.size.x = self.nodeSize.x
-            Layout.computeNodeFixedSize(self, node)
-
-            if i == n then
-                position.x = outerMarge
-                i = 1
-
-                position.y = (position.y +
-                    self.nodeSize.y +
-                    innerMarge)
+            elseif mode == 'column' then
+                position.y = position.y + node.size.y + innerMarge
                 j = j + 1
 
-            else
-                position.x = (position.x +
-                    node.size.x +
-                    innerMarge)
-                i = i + 1
-            end
-        end
+            elseif mode == 'grid' then
+                node.size.x = self.nodeSize.x
+                Layout.computeNodeFixedSize(self, node)
 
-        size.x = max(size.x, node.position.x + node.size.x + outerMarge)
-        size.y = max(size.y, node.position.y + node.size.y + outerMarge)
+                if i == n then
+                    position.x = outerMarge
+                    i = 1
+
+                    position.y = (position.y +
+                        self.nodeSize.y +
+                        innerMarge)
+                    j = j + 1
+
+                else
+                    position.x = (position.x +
+                        node.size.x +
+                        innerMarge)
+                    i = i + 1
+                end
+            end
+
+            size.x = max(size.x, node.position.x + node.size.x + outerMarge)
+            size.y = max(size.y, node.position.y + node.size.y + outerMarge)
+        end
     end
 
     self.size = size
@@ -162,7 +163,7 @@ function Layout:align()
 
     local outerMarge = self.outerMarge or Layout.outerMarge
     local innerMarge = self.innerMarge or Layout.innerMarge
-    
+
     self.position = vec2()
 
     local w, h

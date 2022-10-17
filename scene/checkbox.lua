@@ -2,8 +2,14 @@ class 'CheckBox' : extends(UI)
 
 function CheckBox:init(label, value, callback)
     UI.init(self, label, callback)
+    
     Bind.init(self, label, value, callback)
     self.value = value
+    
+    self.styles:attribs{
+        textMode = CENTER,
+        rx = 4,
+    }
 end
 
 function CheckBox:touched(touch)

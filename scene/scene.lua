@@ -42,11 +42,7 @@ function Scene:drawScene()
 end
 
 function Scene:drawUIScene()
---    if self.camera then
---        self.camera:lookAt()
---    end
-
-    self:layout() -- self.position.x, self.position.y)
+    self:layout()
     Layout.align(self)
     Layout.computeAbsolutePosition(self)
     if self:getOrigin() == BOTTOM_LEFT then

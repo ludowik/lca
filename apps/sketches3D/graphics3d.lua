@@ -9,7 +9,7 @@ function setup()
     local modelName = readProjectData('modelName', 'teapot')
     setModelName(modelName)
 
-    env.scene.camera = Camera(2, 2, 2)
+    env.scene.camera = Camera(2, 1, 3)
 end
 
 function createUI()
@@ -144,18 +144,16 @@ function update(dt)
     env.scene:update(dt)
 end
 
-function draw3d()
+function draw()
     background()
+    
+    perspective()
+    light(true)
+    
+    env.scene:draw()
 
     resetMatrix(true)
     env.ui:draw()
-
-    resetMatrix(true)
-    perspective()
-
-    light(true)
-
-    env.scene:draw()
 end
 
 function touched(touch)

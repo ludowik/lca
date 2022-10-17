@@ -3,6 +3,8 @@ class 'Node' : extends(Rect, table)
 function Node:init(...)
     self:clear()
     self:setLayoutFlowFromParam(...)
+
+    self.visible = true
 end
 
 function Node:clear()
@@ -245,7 +247,7 @@ function Node:draw()
             end
         end
 
-        if node.visible == nil or node.visible then
+        if node.visible ~= false then
             node:draw()
         end
 

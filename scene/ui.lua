@@ -73,9 +73,10 @@ function UI:draw()
     if self.styles.textMode == CORNER then
         textMode(CORNER)
         text(self:getLabel(), self.marge.x, self.marge.y)
+        
     else
         textMode(CENTER)
-        text(self:getLabel(), self.size.x/2, self.size.y/2)
+        text(self:getLabel(), self.size.x/2, self.size.y/2-1)
     end
 end
 
