@@ -78,6 +78,13 @@ function Layout:layout(mode, n)
                 position.x = position.x + node.size.x + innerMarge
                 i = i + 1
 
+                if position.x > W then
+                    position.x = 0
+                    position.y = position.y + node.size.y + innerMarge
+                    node.position.x = position.x
+                    node.position.y = position.y
+                end
+
             elseif mode == 'column' then
                 position.y = position.y + node.size.y + innerMarge
                 j = j + 1

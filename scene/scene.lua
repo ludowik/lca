@@ -24,7 +24,7 @@ function Scene:draw()
     end
 end
 
-function Scene:drawScene()
+function Scene:drawScene(x, y)
     if self.camera then
         self.camera:lookAt()
     end
@@ -41,7 +41,13 @@ function Scene:drawScene()
     end
 end
 
-function Scene:drawUIScene()
+function Scene:drawUIScene(x, y)
+    if x then
+        self.position:set(x, y)
+    else
+        self.position:set()
+    end
+
     self:layout()
     Layout.align(self)
     Layout.computeAbsolutePosition(self)
