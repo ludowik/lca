@@ -1,7 +1,7 @@
-class('UI_grid', Node)
+class 'UI_grid' : extends(UINode)
 
 function UI_grid:init(grid, ...)
-    Node.init(self, ...)
+    UINode.init(self, ...)
 
     self.grid = grid
 
@@ -11,7 +11,7 @@ function UI_grid:init(grid, ...)
     self.innerMarge = 0
 
     for j = 1, grid.m do
-        local ui_line = Node(Layout.column)
+        local ui_line = UINode(Layout.column)
 
         ui_line.outerMarge = 0
         ui_line.innerMarge = 0
@@ -25,12 +25,14 @@ function UI_grid:init(grid, ...)
 end
 
 function UI_grid:draw()
-    Node.draw(self)
+    UINode.draw(self)
 
     local ui_cell = self.nodes[1].nodes[1]
-    style(s3, brown, transparent, LEFT)
+    style(s3, colors.brown, colors.transparent, LEFT)
 
     rectMode(CORNER)
+    
+    translate(self.position.x, self.position.y)
 
     for i = 0, 2 do
         for j = 0, 2 do

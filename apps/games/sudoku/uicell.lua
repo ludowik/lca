@@ -1,4 +1,4 @@
-class('UI_cell', UI)
+class 'UI_cell' : extends(UI)
 
 function UI_cell:init(grid, i, j)
     UI.init(self)
@@ -20,7 +20,7 @@ function UI_cell:draw()
     local ui_cellSelection = app.ui.numbers.ui_cell
 
     -- draw border
-    style(s1, gray, white)
+    style(s1, colors.gray, colors.white)
 
     rectMode(CORNER)
     rect(0, 0, self.size.x, self.size.y)
@@ -39,19 +39,20 @@ function UI_cell:draw()
     )
     then
         local marge = 3
+        style(s1, colors.gray, colors.gray, LEFT)
         rect(marge, marge,
             self.size.x - marge * 2,
-            self.size.y - marge * 2, 0, gray, gray, LEFT)
+            self.size.y - marge * 2)
     end
 
     -- draw number
     local cell = grid:cell(self.i, self.j)
 
     if cell.value then
-        local clr = cell.system and blue or green
+        local clr = cell.system and colors.blue or colors.green
 
         if not cell.numbers[cell.value] then
-            clr = red
+            clr = colors.red
         end
 
         local fontSize = hs(0.5)
@@ -59,9 +60,10 @@ function UI_cell:draw()
             local cellSelection = grid:cell(ui_cellSelection.i, ui_cellSelection.j)
             if cell.value == cellSelection.value then
                 fontSize = hs(0.65)
+                style(s2, clr:mix(colors.red), transparent, CENTER)
                 circle(
                     self.size.x/2, self.size.y/2,
-                    fontSize, s2, clr:mix(red), transparent, CENTER)
+                    fontSize)
             end
         end
 
@@ -71,7 +73,7 @@ function UI_cell:draw()
 
     -- show possibilities
     if cell.numbers and app.showPossibilities then
-        textStyle(12, black, CORNER)
+        textStyle(8, colors.black, CORNER)
         local _,h = textSize('123456789')
 
         for i = 1, grid.n do

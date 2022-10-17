@@ -1,4 +1,4 @@
-class('GridSudoku', Grid)
+class 'GridSudoku' : extends(Grid)
 
 function GridSudoku:init()
     Grid.init(self, 9, 9)

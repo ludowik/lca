@@ -1,4 +1,4 @@
-class('Number', Button)
+class 'Number' : extends(Button)
 
 function Number:init(label, f)
     Button.init(self, label, f)

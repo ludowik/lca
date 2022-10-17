@@ -5,7 +5,7 @@ function AppSudoku:init()
 
     supportedOrientations(PORTRAIT)
 
-    self.scene = UIScene(Layout.row)
+    self.scene = UIScene(Layout.column)
     self.scene.alignment = 'v-center,h-center'
 
     self.showPossibilities = readProjectData('showPossibilities', true)
@@ -15,18 +15,18 @@ function AppSudoku:init()
     self.grid:load()
     self.grid:check_grid()
 
-    self.ui.toolbar = MenuBar()
+    self.ui.toolbar = ToolBar()
     self.ui.toolbar.alignment = 'v-center'
     self.ui.toolbar:add(
-        Button('help'    , self.grid, self.grid.help    ),
-        Button('resolve' , self.grid, self.grid.resolve ),
-        Button('clear'   , self.grid, self.grid.clear   ),
-        Button('first'   , self.grid, self.grid.first   ),
-        Button('next'    , self.grid, self.grid.next    ),
-        Button('generate', self.grid, self.grid.generate),
-        Button('save'    , self.grid, self.grid.save    ),
-        Button('load'    , self.grid, self.grid.load    ),
-        Button('options' , self, self.options))
+        Button('help'    , callback(self.grid, self.grid.help    )),
+        Button('resolve' , callback(self.grid, self.grid.resolve )),
+        Button('clear'   , callback(self.grid, self.grid.clear   )),
+        Button('first'   , callback(self.grid, self.grid.first   )),
+        Button('next'    , callback(self.grid, self.grid.next    )),
+        Button('generate', callback(self.grid, self.grid.generate)),
+        Button('save'    , callback(self.grid, self.grid.save    )),
+        Button('load'    , callback(self.grid, self.grid.load    )),
+        Button('options' , callback(self, self.options)))
 
     self.ui.grid = UI_grid(self.grid)
 
