@@ -15,7 +15,9 @@ function random(min, max)
 end
 
 function randomInt(min, max)
-    return math.ceil(random(min, max))
+    assert(min)
+    if not max then min, max = 1, min end
+    return math.ceil(random(min-1, max))
 end
 
 function randomBoolean()

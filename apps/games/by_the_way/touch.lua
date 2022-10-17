@@ -1,13 +1,13 @@
 function setupTouch()
     onTouch = {
-            [PRESSED] = touchedBegan,
+        [PRESSED] = touchedBegan,
         [MOVED] = touchedMoving,
         [RELEASED] = touchedEnded,
         [CANCELLED] = touchedCancelled
     }
 end
 
-function touched(touch)
+function touchedHandler(touch)
     onTouch[touch.state](touch)
 end
 
@@ -17,7 +17,7 @@ end
 
 function touchedMoving(touch)
     touchs[touch.id] = touchs[touch.id] or table()
-    
+
     local v = vec2(touch.x, touch.y)
     touchs[touch.id]:insert(v)
 end
@@ -30,7 +30,7 @@ function touchedEnded(touch)
         addArea(touchs[touch.id])
     end
     touchs[touch.id] = nil
-    
+
 --    save()
 end
 

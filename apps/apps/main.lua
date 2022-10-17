@@ -28,7 +28,9 @@ function autotest(dt)
     _G.print = function () end
     _G.log = function () end
 
-    local apps = enum(APPS)
+    local apps = enumFiles(APPS)
+    apps:sort()
+    
     for i = appsList.saveCurrentIndex, #apps do        
         if pumpEvent() then break end
 
@@ -36,7 +38,7 @@ function autotest(dt)
         if isApp(item) then            
             local path, name, ext = splitFilePath(item)            
             local newApp = loadApp(path, name)
-            assert(newApp, path, name)
+            assert(newApp, item..','..path..','..name)
             if newApp ~= currentApp then
                 newApp.__autotest = true
                 do

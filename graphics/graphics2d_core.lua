@@ -47,7 +47,10 @@ function Graphics.line(x1, y1, x2, y2)
 end
 
 function Graphics.lines(...)
+    if not __stroke() then return end
+    
     local t = Graphics.table2points(...)
+    if #t == 0 then return end    
 
     love.graphics.setColor(__stroke():unpack())
     for i=1,#t,4 do
@@ -57,6 +60,10 @@ end
 
 function Graphics.polyline(...)
     local t = Graphics.table2points(...)
+    
+    if #t < 2 then return end
+    if #t % 2 == 1 then table.insert(t, t[#t]) end
+    
     Graphics.polyline_(t)
 end
 
@@ -93,6 +100,8 @@ end
 
 function Graphics.polygon(...)
     local t = Graphics.table2points(...)
+    
+    if #t < 3 then return end
 
     if __stroke() then
         love.graphics.setColor(__stroke():unpack())

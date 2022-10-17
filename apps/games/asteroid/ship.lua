@@ -109,5 +109,5 @@ function Ship:draw()
     for i,point in ipairs(points) do
         vertex(point.x, point.y)
     end
-    endShape(CLOSED)
+    endShape(CLOSE)
 end

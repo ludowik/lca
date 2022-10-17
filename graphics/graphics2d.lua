@@ -172,8 +172,8 @@ function Graphics.sprite(img, x, y, w, h)
 end
 
 local shape
-function Graphics.beginShape()
-    shape = Shape()
+function Graphics.beginShape(shapeMode)
+    shape = Shape(shapeMode)
 end
 
 function Graphics.vertex(x, y)
@@ -184,9 +184,9 @@ function Graphics.scaleShape(n)
     shape:scale(n)
 end
 
-function Graphics.endShape(mode)
-    shape.mode = mode or shape.mode
-    shape:draw(mode)
+function Graphics.endShape(drawMode)
+    shape:setDrawMode(drawMode)
+    shape:draw()
     return shape
 end
 

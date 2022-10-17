@@ -150,7 +150,7 @@ function Tetris:nextTetrimino()
     end
 
     local i = randomInt(1, #self.tetriminos)
-    io.flush()
+    print(i)
 
     self.mino = self.tetriminos[i]
     self.mino:reset()
@@ -299,49 +299,49 @@ function TetrisGrid:draw()
             if fillColor then
                 fill(fillColor)
 
-                if self:get(x-1, y) == fillColor then
-                    rect(x*size, y*size, 1, size)
-                end
-                if self:get(x+1, y) == fillColor then
-                    rect(x*size+size, y*size, 1, size)
-                end
-                if self:get(x, y-1) == fillColor then
-                    rect(x*size, y*size, size, 1)
-                end
-                if self:get(x, y+1) == fillColor then
-                    rect(x*size, y*size+size, size, 1)
-                end
+--                if self:get(x-1, y) == fillColor then
+--                    rect(x*size, y*size, 1, size)
+--                end
+--                if self:get(x+1, y) == fillColor then
+--                    rect(x*size+size, y*size, 1, size)
+--                end
+--                if self:get(x, y-1) == fillColor then
+--                    rect(x*size, y*size, size, 1)
+--                end
+--                if self:get(x, y+1) == fillColor then
+--                    rect(x*size, y*size+size, size, 1)
+--                end
 
-                rect(x*size+1, y*size+1, size-1, size-1)
+                rect(x*size+2, y*size+2, size-2, size-2)
             end
         end
     end
 
-    for y=1,self.m do
-        for x=1,self.n do
-            local fillColor = self:get(x, y)
+--    for y=1,self.m do
+--        for x=1,self.n do
+--            local fillColor = self:get(x, y)
 
-            if fillColor then
-                stroke(227, 222, 219)
-                strokeSize(4)
+--            if fillColor then
+--                stroke(227, 222, 219)
+--                strokeSize(4)
 
-                lineCapMode(ROUND)
+--                lineCapMode(ROUND)
 
-                if self:get(x-1, y) == nil then
-                    line(x*size, y*size, x*size, y*size+size)
-                end
-                if self:get(x+1, y) == nil then
-                    line(x*size+size, y*size, x*size+size, y*size+size)
-                end
-                if self:get(x, y-1) == nil then
-                    line(x*size, y*size, x*size+size, y*size)
-                end
-                if self:get(x, y+1) == nil then
-                    line(x*size, y*size+size, x*size+size, y*size+size)
-                end
-            end
-        end
-    end
+--                if self:get(x-1, y) == nil then
+--                    line(x*size, y*size, x*size, y*size+size)
+--                end
+--                if self:get(x+1, y) == nil then
+--                    line(x*size+size, y*size, x*size+size, y*size+size)
+--                end
+--                if self:get(x, y-1) == nil then
+--                    line(x*size, y*size, x*size+size, y*size)
+--                end
+--                if self:get(x, y+1) == nil then
+--                    line(x*size, y*size+size, x*size+size, y*size+size)
+--                end
+--            end
+--        end
+--    end
 end
 
 class('Tetrimino', TetrisGrid)

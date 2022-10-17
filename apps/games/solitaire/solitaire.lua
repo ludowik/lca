@@ -1,0 +1,10 @@
+--function AppSolitaire:distrib()
+--    for j = 1, #self.lists do
+--        for i = j, #self.lists do
+--            self.lists:get(i):add(self.deck:items():pop())
+--            if self.thread then
+--                coroutine.yield()
+--            end
+--        end
+--    end
+--end

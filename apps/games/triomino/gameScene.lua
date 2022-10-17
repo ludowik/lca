@@ -8,7 +8,7 @@ function GameScene:init()
     self.touch = table()
 
     self.layoutFlow = Layout.column
-    self.alignment = 'h-center'
+    self.alignment = 'v-center, h-center'
 
     self.marge = 0
 

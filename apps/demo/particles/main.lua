@@ -1,4 +1,6 @@
 function setup()
+    setOrigin(BOTTOM_LEFT)
+    
     parameter.watch('#env.emitter.particles')
 
     env.emitter = Emitter()

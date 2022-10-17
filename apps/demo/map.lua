@@ -25,7 +25,7 @@ function setup()
             
             vertex(x, y)
         end
-        local shape = endShape(LINES)
+        local shape = endShape(CLOSE)
 
         ugas:add(shape)
     end
@@ -50,6 +50,8 @@ function draw()
     translate(-minx, -miny)
     
     strokeSize(scalex/W)
+    
+    noFill()
     
     ugas:draw()
 end

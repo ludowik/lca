@@ -2,6 +2,8 @@ App('Horloge')
 
 function Horloge:init(lieu, decalage, x, y, rayon)
     Application.init(self)
+    
+    setOrigin(BOTTOM_LEFT)
 
     self.lieu = lieu or 'Garches'
 
@@ -44,7 +46,7 @@ function Horloge:aiguille(clr, x, y, a, l, size)
 
     translate(x, y)
 
-    rotate(-a, 0, 0, 1)
+    rotate(-rad(a), 0, 0, 1)
 
     if self.m == nil then
         self.m = Mesh()

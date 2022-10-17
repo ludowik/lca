@@ -16,7 +16,7 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
         vp.y *= InstanceScale.y;
         vp.z *= InstanceScale.z;
     }
-    //vp += vec4(InstancePosition.xyz, 0.);
+    vp += vec4(InstancePosition.xyz, 0.);
     
     FragPos = vec3(model * vp);
     

@@ -14,7 +14,7 @@ function draw()
     noFill()
 
     local attributes = {
-        position = vec2.random(W, H),
+        position = vec2.randomInScreen(),
         size = vec3.random():normalizeInPlace(100),
         width = random(1, 10),
         rotation = random(360)

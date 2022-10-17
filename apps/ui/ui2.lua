@@ -1,7 +1,11 @@
 function setup()
-    env.ui = MenuBar()
+    env.ui = UIScene()
+    env.ui:setAlignment('v-center,h-center')
     
-    env.ui:add(
+    env.ui.menu = MenuBar()
+    env.ui:add(env.ui.menu)
+    
+    env.ui.menu:add(
         Tabs('tabs')
         :addTab(Tab():add(Label('Hello')))
         :addTab(Tab())
@@ -16,36 +20,36 @@ function setup()
         :addTab(Tab())
         :addTab(Tab()))
 
---    env.ui:add(UIScene(Layout.row):addItems{
---            Slider('slider', 0, 100, 50),
---            ButtonImage('documents:joconde'),
---            Button('button'),
---        })
+    env.ui.menu:add(UINode(Layout.row):addItems{
+            Slider('slider', 0, 100, 50),
+            ButtonImage('documents:joconde'),
+            Button('button'),
+        })
 
---    env.ui:add(UIScene(Layout.row):addItems{
---            Slider('slider', 0, 100, 50),
---            ButtonImage('documents:joconde'),
---            Button('button'),
---        })
+    env.ui.menu:add(UINode(Layout.row):addItems{
+            Slider('slider', 0, 100, 50),
+            ButtonImage('documents:joconde'),
+            Button('button'),
+        })
 
---    env.ui:add(UIScene(Layout.column):addItems{
---            Slider('slider', 0, 100, 50),
---            ButtonImage('documents:joconde'),
---            Button('button'),
---        })
+    env.ui.menu:add(UINode(Layout.column):addItems{
+            Slider('slider', 0, 100, 50),
+            ButtonImage('documents:joconde'),
+            Button('button'),
+        })
 
---    env.ui:add(UIScene(Layout.grid, 3):addItems{
---            Slider('slider', 0, 100, 50),
---            ButtonImage('documents:joconde'),
+    env.ui.menu:add(UINode(Layout.grid, 3):addItems{
+            Slider('slider', 0, 100, 50),
+            ButtonImage('documents:joconde'),
+            Button('button'),
+            Button('button'),
+            ColorPicker(),
+            Button('button'),
+            CheckBox('button'),
+            ComboBox('button'):list({'1', '2'}, 1),
 --            Button('button'),
 --            Button('button'),
---            ColorPicker(),
---            Button('button'),
---            CheckBox('button'),
---            ComboBox('button'):list({'1', '2'}, 1),
 --            Button('button'),
 --            Button('button'),
---            Button('button'),
---            Button('button'),
---        })
+        })
 end

@@ -16,9 +16,18 @@ function addApps(path)
 
     path = path or APPS
 
-    local files = love.filesystem.getDirectoryItems(path)
-    for _,file in ipairs(files) do
-        if isApp(path..'/' .. file) then
+    local files = dir(path) -- love.filesystem.getDirectoryItems(path)
+    files:sort()
+    
+    for _,ref in ipairs(files) do
+        local _path, file = splitPath(ref)
+        
+        if (file:lower():contains('.ds_store') or 
+            file:lower():contains('.git'))
+        then
+            -- continue
+            
+        elseif isApp(path..'/' .. file) then
             addApp(path, file:gsub('.lua', ''))
 
         else
@@ -88,6 +97,8 @@ function loadApp(path, name, garbage)
         loadAppOfTheApps()
         return
     end
+    
+    callApp('pause')
 
     if not apps.listByName[filePath].loaded then
         log('load app : '..path..'/'..name)
@@ -138,9 +149,9 @@ function loadApp(path, name, garbage)
             local chunk
             if isAppcodea(path..'/' .. name) then
                 local code = [[
-                package.loaded['engine.codea'] = false
-                require 'engine.codea'
-                loadAppCodea('path', 'name')
+                    package.loaded['engine.codea'] = false
+                    require 'engine.codea'
+                    loadAppCodea('path', 'name')
                 ]]                
                 code = code:gsub('path', path):gsub('name', name)
                 chunk = load(code)
@@ -152,7 +163,7 @@ function loadApp(path, name, garbage)
                 local info = getInfoPath(path..'/' .. name)
                 chunk = love.filesystem.load(info.path)
             end
-            assert(chunk)
+            assert(chunk, path, name)
 
             if chunk then
                 chunk()
@@ -237,6 +248,8 @@ function setActiveApp(env)
     config.appName = _G.env.appName
 
     saveConfig()
+    
+    callApp('resume')
 end
 
 function setApp(index, garbage)
@@ -255,7 +268,7 @@ function nextApp()
 end
 
 function randomApp()
-    local index = random(#apps.listByIndex)
+    local index = randomInt(#apps.listByIndex)
     return setApp(index)
 end
 

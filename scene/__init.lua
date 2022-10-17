@@ -20,7 +20,7 @@ requireLib(
     'separator',
     'space',
     'combobox',
-    'listbox',
+    'list_box',
     'timer',
     'message',
     'fps',

@@ -12,6 +12,14 @@ function setup()
     parameter.integer('mode', 1, 2, 1)
 end
 
+function pause()
+    status = device:stop()
+end
+
+function resume()
+    status = device:start(2048)
+end
+
 function update(dt)
     data = device:getData()
     while data do

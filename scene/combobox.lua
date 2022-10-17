@@ -1,7 +1,11 @@
-class 'ComboBox' : extends(Node)
+class 'ComboBox' : extends(UINode, UI)
 
-function ComboBox:init(label)
-    Node.init(self, label)
+function ComboBox:init(label, values, ...)
+    UINode.init(self, label)
+    UI.init(self)
+
+    self.values = type(values) == 'table' and values or table()
+    self.action = callback(type(values) == 'function' and values or ...)
 
     self.uiValue = Button(label)
     self:add(self.uiValue:attribs{
@@ -9,7 +13,7 @@ function ComboBox:init(label)
             click = function (_, ...) self.click(self, ...) end
         })
 
-    self.uiList = UI('select a value')
+    self.uiList = UINode('select a value')
     self.uiList.visible = false
 
     self:add(self.uiList)
@@ -43,16 +47,17 @@ function ComboBox:click()
         self.uiList.visible = false
     else
         self.uiList.visible = true
-
         self.uiList:clear()
 
         for i,value in ipairs(self.values) do
             self.uiList:add(Label(value):attribs{
                     click = function(ui)
-                        self.uiList.visible = true
+                        self.uiList.visible = false
 
                         self:setValue(value)
                         self:onSelectItem(i, value)
+
+                        self.action(value)
                     end})
         end
     end

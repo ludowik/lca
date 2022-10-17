@@ -6,11 +6,17 @@ end
 
 function Parameter:clear()    
     self.scene = UIScene()
-    self.scene.origin = nil
+    self.scene.getOrigin = function () return TOP_LEFT end
     
     _G.env.bottom_left = getOrigin() == BOTTOM_LEFT
     
+    self:action('restart', restart)
     self:action('apps', loadAppOfTheApps)
+    self:action('tests all apps', function () loadAppOfTheApps().__autotest = true end)
+    self:action('test app', function () env.__autotest = not env.__autotest end)
+    self:action('next app', nextApp)
+    self:action('previous app', previousApp)
+    self:action('random app', randomApp)
     
     self:boolean('bottom_left', false, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
     self:boolean('landscape', false, function (val) supportedOrientations(val and LANDSCAPE_ANY or PORTRAIT) end)

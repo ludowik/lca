@@ -37,7 +37,8 @@ function Cell:draw(grid)
         else
             noFill()
         end
-
+        
+        circleMode(CENTER)
         circle(x, y, self.size.x/2)
     end
 end

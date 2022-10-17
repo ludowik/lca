@@ -1,5 +1,5 @@
 function setup()
-    background(colors.      white)
+    background(colors.white)
 end
 
 function draw()
@@ -22,15 +22,15 @@ end
 function drawCircles(n, a)
     local w = ceil(H / (n+1))
 
-    for x = 0,2+n*W/H do
-        for y = 0,n+1 do
-            local radius = w / 2 * sin(elapsedTime+100*noise(x, y))
+    for x = 0, 2 + n * (W / H) do
+        for y = 0, n + 1 do
+            local radius = w / 2 * sin(elapsedTime + 100 * noise(x, y))
 
-            local r = 0.5+cos(elapsedTime*10*noise(x, y))/2
+            local r = 0.5 + cos(elapsedTime * 10 * noise(x, y))/2
 
             fill(1-r, 0.25, 0.5, a)
             
-            strokeSize(sin(elapsedTime*noise(x, y))*radius)
+            strokeSize(sin(elapsedTime * noise(x, y)) * radius / 4)
             stroke(r, 0.5, 0.5, a)
 
             circle(x*w, y*w, abs(radius))

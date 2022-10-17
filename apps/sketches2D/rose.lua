@@ -29,6 +29,8 @@ function draw()
         for n = 1,9 do
             local y = radius + diameter * (n-1) - (9 * diameter) / 2
 
+            noFill()
+            
             if roses[m..n] then
                 roses[m..n]:draw()
             else

@@ -12,8 +12,10 @@ function UI:init(label, callback)
             bgColor = colors.lightgray,
             textMode = CORNER,
         })
-    
+
     self.marge = vec2(6, 0)
+
+    self.visible = true
 end
 
 function UI.properties.set:value(value)
@@ -53,13 +55,13 @@ function UI:draw()
         else
             noFill()
         end
-        
+
         if self.styles.strokeColor then
             stroke(self.styles.strokeColor)
         else
             noStroke()
         end
-        
+
         rect(0, 0, self.size.x, self.size.y, self.styles.rx, self.styles.ry)
     end
 
@@ -78,8 +80,13 @@ function UI:draw()
 end
 
 function UI:touched(touch)
-    if self.callback and touch.state == RELEASED then
-        self.callback(self, self.value)
+    if touch.state == RELEASED then
+        if self.callback then
+            self.callback(self, self.value)
+            
+        elseif self.click then
+            self:click()
+        end
     end
 end
 

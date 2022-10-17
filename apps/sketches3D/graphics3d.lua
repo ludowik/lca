@@ -1,16 +1,15 @@
 function setup()    
-    app = env
-    app.ui = Scene()
-    app.scene = Scene()
-    
+--    setOrigin(BOTTOM_LEFT)
+
+    env.ui = UIScene()
+    env.scene = Scene()
+
     createUI()
 
     local modelName = readProjectData('modelName', 'teapot')
     setModelName(modelName)
 
-    app.scene.camera = Camera(2, 2, 2)
-    
-    setOrigin(BOTTOM_LEFT)
+    env.scene.camera = Camera(2, 2, 2)
 end
 
 function createUI()
@@ -22,18 +21,15 @@ function createUIObjects()
     menuObjects = menuObjects or MenuBar()
     menuObjects:clear()
 
-    menuObjects:add(Expression('app.model.shader.name'))
-    menuObjects:add(Expression('#app.model.vertices'))
-    menuObjects:add(Expression('#app.model.texCoords'))
-    menuObjects:add(Expression('#app.model.colors'))
-    menuObjects:add(Expression('#app.model.normals'))
+    menuObjects:add(Expression('env.model.shader.name'))
 
-    local function changeModel(btn)
-        setModelName(btn.label)
-    end
+    menuObjects:add(Expression('#env.model.vertices'))
+    menuObjects:add(Expression('#env.model.texCoords'))
+    menuObjects:add(Expression('#env.model.colors'))
+    menuObjects:add(Expression('#env.model.normals'))
 
     menuObjects:add(
-        ListBox(
+        ListBox('model', 
             {
                 'plane',
                 'box',
@@ -49,9 +45,12 @@ function createUIObjects()
                 'dragon',
                 'musclecar',
                 "rubyk's cube"
-                }, function (ui, modelName) setModelName(modelName) end))
+            },
+            function (ui, modelName) 
+                setModelName(modelName)
+            end))
 
-    app.ui:add(menuObjects)
+    env.ui:add(menuObjects)
 end
 
 function createUILight(reset)
@@ -76,7 +75,7 @@ function createUILight(reset)
     end
 
     if reset == nil then
-        app.ui:add(menuLights)
+        env.ui:add(menuLights)
     end
 end
 
@@ -128,10 +127,10 @@ function setModelName(modelName)
 end
 
 function setModel(model, keepColor)
-    app.model = model
+    env.model = model
 
-    app.scene:clear()
-    app.scene:add(model)
+    env.scene:clear()
+    env.scene:add(model)
 
     if not keepColor then
         model:setColors(colors.white)
@@ -141,26 +140,26 @@ function setModel(model, keepColor)
 end
 
 function update(dt)
-    app.scene:update(dt)
-    app.ui:update(dt)
+    env.ui:update(dt)
+    env.scene:update(dt)
 end
 
-function draw()
+function draw3d()
     background()
-    
+
     resetMatrix(true)
-    app.ui:draw()
+    env.ui:draw()
 
     resetMatrix(true)
     perspective()
-    
+
     light(true)
-    
-    app.scene:draw()
+
+    env.scene:draw()
 end
 
 function touched(touch)
-    app.ui:touched(touch)
+    env.ui:touched(touch)
 end
 
 function keypressed(key)

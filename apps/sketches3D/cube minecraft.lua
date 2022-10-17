@@ -106,6 +106,7 @@ function Cube:draw()
 
     for i,chunk in ipairs(self.chunks) do
         chunk.texture = self.aaa
-        chunk:drawInstanced(#chunk.inst_pos)
+        chunk:draw()
+--        chunk:drawInstanced(#chunk.inst_pos)
     end
 end

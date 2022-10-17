@@ -67,6 +67,8 @@ love.graphics.polygon : draw a polygon (3 points at least)
 ]]
 function Graphics.polygon(...)
     local t = Graphics.table2points(...)
+    
+    if #t < 3 then return end
 
     if __fill() then
         love.graphics.setColor(__fill():unpack())

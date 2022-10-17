@@ -12,7 +12,7 @@ function setup()
     --colorMode(HSB)
 
     parameter.watch('#points')
-    --camera(30,30,30)
+    camera(30,30,30)
 end
 
 local function step(dt)
@@ -36,9 +36,10 @@ end
 function draw3d()
     background()
 
-    perspective()
+--    perspective()
+    isometric()
 
-    translate(W/2, H/2, -80)
+--    translate(W/2, H/2, -80)
 
     local camX = map(mouse.x, 0, W, -200, 200)
     local camY = map(mouse.y, 0, H, -200, 200)
@@ -65,5 +66,5 @@ function draw3d()
             hu = 0
         end
     end
-    endShape(LINES)
+    endShape()
 end

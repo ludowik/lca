@@ -171,12 +171,15 @@ function AppFreeCell:touched(touch)
 end
 
 function AppFreeCell:distrib()
-    for j = 1, 8 do
-        for i = j, #self.lists do
-            self.lists:get(i):add(self.deck:items():pop())
-            if self.thread then
-                coroutine.yield()
-            end
+    local i = 1
+    while #self.deck:items() > 0 do
+        self.lists:get(i):add(self.deck:items():pop())
+        i = i + 1
+        if i > #self.lists then
+            i = 1
+        end
+        if self.thread then
+            coroutine.yield()
         end
     end
 end

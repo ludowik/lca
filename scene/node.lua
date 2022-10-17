@@ -91,11 +91,25 @@ function Node:contains(...)
 end
 
 function Node:nextFocus()
-    self:setFocus(self.focus and self.focus.nextItem or self)
+    if not self.focus then self:setFocus(self) return end
+
+    local focus = self.focus.nextItem
+    while focus and focus.visible == false do
+        focus = focus.nextItem
+    end
+
+    self:setFocus(focus)
 end
 
 function Node:previousFocus()
-    self:setFocus(self.focus and self.focus.previousItem or self)
+    if not self.focus then self:setFocus(self) return end
+
+    local focus = self.focus.previousItem
+    while focus and focus.visible == false do
+        focus = focus.previousItem
+    end
+
+    self:setFocus(focus)
 end
 
 function Node:setFocus(newFocus)
@@ -191,11 +205,12 @@ end
 function Node:layout()
     if self.layoutFlow then
         self.layoutFlow(self, self.layoutParam)
-        Layout.computeAbsolutePosition(self)
+        --        Layout.align(self)
+        --        Layout.computeAbsolutePosition(self)
 
-        if self.origin == BOTTOM_LEFT then
-            Layout.reverse(self)
-        end
+        --        if self.origin == BOTTOM_LEFT then
+        --            Layout.reverse(self)
+        --        end
     end
 end
 

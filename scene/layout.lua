@@ -158,12 +158,12 @@ function Layout:computeAbsolutePosition(x, y)
 end
 
 function Layout:align()
-    self.position = vec2()
-
     if not self.alignment then return end
 
     local outerMarge = self.outerMarge or Layout.outerMarge
     local innerMarge = self.innerMarge or Layout.innerMarge
+    
+    self.position = vec2()
 
     local w, h
     if self.parent then

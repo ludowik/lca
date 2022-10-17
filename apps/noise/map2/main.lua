@@ -1,4 +1,4 @@
-function release()
+function pause()
     env.scene = Scene()
 end
 

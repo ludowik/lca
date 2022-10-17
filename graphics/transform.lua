@@ -216,17 +216,19 @@ end
 
 function isometric(n)
     ortho()
+    
+    -- TODo :with model and not projection ????
 
-    translate_matrix(projection, W/2, H/2)
+    translate_matrix(model, W/2, H/2)
 
-    local alpha = __deg(__atan(1/__sqrt(2)))
-    local beta = 45
+    local alpha = __atan(1/__sqrt(2))
+    local beta = PI/4
 
-    rotate_matrix(projection, alpha, 1, 0, 0)
-    rotate_matrix(projection, beta, 0, 1, 0)
+    rotate_matrix(model, alpha, 1, 0, 0)
+    rotate_matrix(model, beta, 0, 1, 0)
 
     if n then
-        scale_matrix(projection, n, n, n)
+        scale_matrix(model, n, n, n)
     end
 
     setTransformation()

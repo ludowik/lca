@@ -18,10 +18,10 @@ function AppSound:init()
     sampleRate = 44100
     amplitude = 50
     
-    volume = 0
+    volume = 0.2
     love.audio.setVolume(0)
 
-    parameter.number('volume', 0, 100, 5,
+    parameter.number('volume', 0, 1, 0.5,
         function ()
             love.audio.setVolume(volume)
             

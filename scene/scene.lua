@@ -2,7 +2,7 @@ class 'Scene' : extends(Node)
 
 function Scene:init()
     Node.init(self)
-    self.origin = getOrigin()
+    self.getOrigin = getOrigin
 end
 
 function Scene:clear()
@@ -46,9 +46,13 @@ function Scene:drawUIScene()
 --        self.camera:lookAt()
 --    end
 
-    self:layout(self.position.x, self.position.y)
+    self:layout() -- self.position.x, self.position.y)
     Layout.align(self)
-    
+    Layout.computeAbsolutePosition(self)
+    if self:getOrigin() == BOTTOM_LEFT then
+        Layout.reverse(self)
+    end
+
     if not self:getFocus() then
         self:computeNavigation(self, self)
         self:nextFocus()

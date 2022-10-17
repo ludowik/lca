@@ -1,7 +1,7 @@
 -- dir : files list
 function dir(path, fileType)
     local list = table()
-    for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do        
+    for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do   
         if (not item:lower():contains('.ds_store') and 
             not item:lower():contains('.git'))
         then
@@ -52,11 +52,13 @@ function dirr(path, fileType, list)
 end
 
 -- enum : enum apps
-function enum(path, list)
+function enumFiles(path, list)
     list = list or table()
     for i,item in ipairs(love.filesystem.getDirectoryItems(path)) do
         local subPath = (#path > 0 and path..'/'..item) or item
-        if subPath == '.git' then
+        if (subPath:lower():contains('.ds_store') or
+            subPath:lower():contains('.git'))
+        then
             -- continue
 
         elseif isApp(subPath) then
@@ -65,7 +67,7 @@ function enum(path, list)
         else
             local info = love.filesystem.getInfo(subPath)
             if info.type == 'directory' then
-                enum(subPath, list)            
+                enumFiles(subPath, list)            
             end
         end
     end

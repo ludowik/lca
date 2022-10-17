@@ -1,11 +1,9 @@
 function setup()
     env.ui = UIScene()
-    
-    env.uiScene = MenuBar(0, HEIGHT)
-    env.uiScene.alignment = 'v-center,h-center'
+    env.ui.alignment = 'v-center,h-center'
 
     local tabs = Tabs('boîte à onglet')
-    env.uiScene:add(tabs)
+    env.ui:add(tabs)
 
     local tab = Tab()
     tabs:addTab(tab)
@@ -15,6 +13,8 @@ function setup()
     tab:add(ButtonImage('documents:joconde', function () print('joconde clicked') end))
     tab:add(Sprite('documents:joconde'))
     tab:add(Separator())
+    tab:add(ListBox('list'):list({'1', '2', '3', '4'}, 1))
+    tab:add(ComboBox('combo'):list({'1', '2'}, 1))
     tab:add(UISpace())
     tab:add(Separator())
 
@@ -29,11 +29,12 @@ function setup()
     tab:add(CheckBox('yesno'))
     tab:add(Editor('Editor'))
 
-    gridScene = UINode(Layout.grid, gridSize)
     tab = Tab()
     tabs:addTab(tab)
+
+    gridScene = UINode(Layout.grid, gridSize)
     tab:add(gridScene)
-    
+
     parameter.watch('parameter')
     parameter.watch('yesno')
 
@@ -49,8 +50,8 @@ function setup()
 
     parameter.integer('gridSize' , 2, 6, 2, reset)
 
-    parameter.integer('env.uiScene.innerMarge' , 0, 20, 5, reset)
-    parameter.integer('env.uiScene.outerMarge' , 0, 20, 5, reset)
+    parameter.integer('env.ui.innerMarge' , 0, 20, 5, reset)
+    parameter.integer('env.ui.outerMarge' , 0, 20, 5, reset)
 end
 
 function reset()
@@ -59,9 +60,6 @@ function reset()
 
     gridSize = gridSize or 2
 
-    env.ui:add(env.uiScene)
-    env.ui.alignment = 'v-center,h-center'
-    
     gridScene:clear()
 
     for i=1,nbGroups do

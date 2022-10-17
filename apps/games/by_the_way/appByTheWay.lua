@@ -35,7 +35,7 @@ function AppByTheWay:init()
 end
 
 function AppByTheWay:touched(touch)
-    touched(touch)
+    touchedHandler(touch)
 end
 
 function AppByTheWay:update(dt)

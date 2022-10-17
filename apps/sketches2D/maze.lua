@@ -22,7 +22,7 @@ function initShape(l)
         end
     end
 
-    beginShape()
+    beginShape(LINES)
     grid:draw(
         function (i, j, value)
             if value == 1 then
@@ -35,7 +35,7 @@ function initShape(l)
                 line(i*l, j*l, i*l, (j-1)*l)
             end
         end)
-    shape = endShape(LINES)
+    shape = endShape()
 end
 
 function draw()
