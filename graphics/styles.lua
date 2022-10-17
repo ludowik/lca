@@ -41,7 +41,8 @@ for i = 2, 20 do
     _G['s'..i] = i
 end
 
-function style(size, clr1, clr2)
+-- TODO : alignment
+function style(size, clr1, clr2, alignment)
     assert(size)
 
     strokeSize(size)

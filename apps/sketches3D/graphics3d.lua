@@ -1,5 +1,5 @@
 function setup()    
---    setOrigin(BOTTOM_LEFT)
+    setOrigin(BOTTOM_LEFT)
 
     env.ui = UIScene()
     env.scene = Scene()

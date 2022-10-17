@@ -137,11 +137,7 @@ function Parameter:link(name, url)
 end
 
 function Parameter:draw(x, y)
-    if x then
-        self.scene.position:set(x, y)
-    end
-
-    self.scene:draw()
+    self.scene:draw(x, y)
 end
 
 function Parameter:touched(touch)
