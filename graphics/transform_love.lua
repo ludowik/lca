@@ -1,3 +1,5 @@
+assert()
+
 local love2d = love
 
 function resetMatrix()

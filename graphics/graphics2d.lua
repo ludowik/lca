@@ -176,8 +176,8 @@ function Graphics.beginShape(shapeMode)
     shape = Shape(shapeMode)
 end
 
-function Graphics.vertex(x, y)
-    shape:vertex(x, y)
+function Graphics.vertex(...)
+    shape:vertex(...)
 end
 
 function Graphics.scaleShape(n)

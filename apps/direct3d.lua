@@ -1,14 +1,16 @@
 function setup()
     parameter.boolean('viewMode', true)
+    
+    if viewMode then   
+        camera(0, 0, 1)
+    end
 end
 
 function draw()
     background()
 
     if viewMode then 
---        perspective()        
---        camera(0, 0, 1500)
-        isometric(3)
+        perspective()
     else
         ortho()
 
@@ -23,12 +25,19 @@ function draw()
         scale(3, 3, 3)
     end
 
+    scale(2/W)
+    strokeSize(2)
+    stroke(colors.blue)
+    
     line(-W, -H, W, H)
     line(-W, H, W, -H)
 
     noFill()
     rectMode(CENTER)
-    rect(0, 0, 100, 100)
+    rect(0, 0, 50, 50)
+    
+--    box()
 
-    text('pefpoazefjôajzef^ja^fj')
+    textMode(CENTER)
+    text('Hello world!')
 end

@@ -68,7 +68,7 @@ class 'Shaders' : extends(table)
 function Shaders.setup()
     shaders = Shaders()
 
-    shaders.default = Shader()
+    shaders.default = Shader('default')
     shaders.terrain = shaders.default
     shaders.terrain2d = shaders.default
     shaders.rect = shaders.default

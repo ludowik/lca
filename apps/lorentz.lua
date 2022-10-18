@@ -12,7 +12,7 @@ function setup()
     --colorMode(HSB)
 
     parameter.watch('#points')
-    camera(30,30,30)
+    camera(0, 0, 1)
 end
 
 local function step(dt)
@@ -24,40 +24,42 @@ local function step(dt)
     y = y + dy
     z = z + dz
 
-    points:add(vec3(x*10, y*10, z*10))
+    points:add(vec3(x, y, z))
 end
 
 function update(dt)
-    for i = 1,10 do
+    for i = 1,100 do
         step(dt/10)
     end
 end
 
-function draw3d()
+function draw()
     background()
 
---    perspective()
-    isometric()
-
---    translate(W/2, H/2, -80)
-
+    perspective()
+    
+    scale(2/W)
+    
+    strokeSize(0.1)
+    stroke(colors.blue)
+    
+    noFill()
+    
     local camX = map(mouse.x, 0, W, -200, 200)
     local camY = map(mouse.y, 0, H, -200, 200)
 
     --camera(camX, camY, -(H / 2.0) / tan(PI * 30.0 / 180.0))
 
-    --translate(W/2, H/2)
-
-    --scale(50)
-    stroke(255)
-    --noFill()
-
+    stroke(colors.white)
+    
     if #points <3 then return end
 
     local hu = 0
+    
     beginShape()
     for i,v in ipairs(points) do
-        stroke(hu, 255, 255)
+        stroke(Color.hsl(hu, 1, 1))
+        
         vertex(v.x, v.y, v.z)
 
         hu = hu + 1

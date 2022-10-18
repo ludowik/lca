@@ -63,7 +63,6 @@ function MeshRender:update()
             vertices = self.vertices
         end
         self.__vertices = vertices
-        self.__verticesSave = self.vertices
 
         self.mesh = love.graphics.newMesh(format, vertices, self.drawMode or 'triangles', 'static')
 
@@ -123,7 +122,6 @@ function MeshRender:getShader()
     return shaders.default
 end
 
-
 function MeshRender:drawModel(x, y, z, w, h, d, n)
     assert(not n)
     local shader = self:getShader()
@@ -140,10 +138,12 @@ function MeshRender:drawModel(x, y, z, w, h, d, n)
         if w then
             scale(w, h, d)
         end
+        
+        local clr = __fill() or __stroke()
 
-        if __fill() then
+        if clr then
             self:sendUniforms(shader)
-            love.graphics.setColor(__fill():unpack())
+            love.graphics.setColor(clr:unpack())
 
             if self.instancePosition and #self.instancePosition > 1 then
                 love.graphics.drawInstanced(self.mesh, #self.instancePosition)

@@ -7,14 +7,14 @@ local projection_matrices = {}
 
 local model, view, projection
 
-local function setTransformation()
-    local t = love.math.newTransform()
-    scale_matrix(t, (W)/2, (H)/2, 1)
-
-    love.graphics.replaceTransform(projectionMatrix())
-    love.graphics.applyTransform(t)
+local function setTransformation()    
+    love.graphics.replaceTransform(scale_matrix(nil, (W)/2, (H)/2, 1))
+    love.graphics.applyTransform(translate_matrix(nil, 1, 1, 0))
+    
+    love.graphics.applyTransform(projectionMatrix())
     love.graphics.applyTransform(viewMatrix())
     love.graphics.applyTransform(modelMatrix())
+    
 end
 
 local function setMatrix(m, mode, ...)
@@ -115,6 +115,8 @@ function translate(x, y, z)
 end
 
 function translate_matrix(m, x, y, z)
+    m = m or love.math.newTransform()
+    
     assert(x)
     y = y or x
     z = z or 0
@@ -126,6 +128,8 @@ function translate_matrix(m, x, y, z)
         0,0,1,z or 0,
         0,0,0,1)
     m:apply(translate)
+    
+    return m
 end
 
 function scale(w, h, d)
@@ -134,6 +138,8 @@ function scale(w, h, d)
 end
 
 function scale_matrix(m, w, h, d)
+    m = m or love.math.newTransform()
+    
     assert(w)
     h = h or w
     d = d or w
@@ -145,6 +151,8 @@ function scale_matrix(m, w, h, d)
         0,0,d,0,
         0,0,0,1)
     m:apply(scale)
+    
+    return m
 end
 
 function rotate(angle, x, y, z)
@@ -153,6 +161,8 @@ function rotate(angle, x, y, z)
 end
 
 function rotate_matrix(m, angle, x, y, z)
+    m = m or love.math.newTransform()
+    
     x = x or 0
     y = y or 0
     z = z or 1
@@ -160,35 +170,37 @@ function rotate_matrix(m, angle, x, y, z)
     local c, s = __cos(angle), __sin(angle)
 
     if x == 1 then
-        local m = love.math.newTransform()
-        setMatrix(m, nil,
+        local rotate = love.math.newTransform()
+        setMatrix(rotate, nil,
             1,0,0,0,
             0,c,-s,0,
             0,s,c,0,
             0,0,0,1)
-        model:apply(m)
+        m:apply(rotate)
     end
 
     if y == 1 then
-        local m = love.math.newTransform()
-        setMatrix(m, nil,
+        local rotate = love.math.newTransform()
+        setMatrix(rotate, nil,
             c,0,s,0,
             0,1,0,0,
             -s,0,c,0,
             0,0,0,1)
-        model:apply(m)
+        m:apply(rotate)
 
     end
 
     if z == 1 then -- default
-        local m = love.math.newTransform()
-        setMatrix(m, nil,
+        local rotate = love.math.newTransform()
+        setMatrix(rotate, nil,
             c,-s,0,0,
             s,c,0,0,
             0,0,1,0,
             0,0,0,1)
-        model:apply(m)
-    end    
+        m:apply(rotate)
+    end
+    
+    return m
 end
 
 function ortho(left, right, bottom, top, near, far)
