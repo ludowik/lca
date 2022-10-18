@@ -73,10 +73,11 @@ function initWindow(mode)
         wt, ht = w, h
 
     elseif os.name == 'ios' then
-        x, y = love.window.getSafeArea()
+        x, y, w, h = love.window.getSafeArea()
+        x = x * 3
+        w = w - x * 2
         wt, ht = love.window.getMode()
-        w = wt - 2*x
-        h = ht - 2*y
+        wt, ht = min(wt, ht), max(wt, ht)
 
     else
         x, y, w, h, wt, ht = initModes[mode]()
@@ -86,22 +87,25 @@ function initWindow(mode)
     h = round(h)
 
     if not global.__autotest then
-        love.window.updateMode(
-            wt,
-            ht, {
-                highdpi = false,
+        if os.name == 'ios' then
+            love.window.setMode(wt, ht)
+        else
+            love.window.updateMode(
+                wt,
+                ht, {
+                    highdpi = false,
+                    usedpiscale = false,
 
-                usedpiscale = false,
+                    msaa = 8,
+                    depth = 24,
+                    vsync = 0,
 
-                msaa = 8,
-                depth = 24,
-                vsync = 0,
+                    x = config.flags and config.flags.x or 100,
+                    y = config.flags and config.flags.y or 50,
 
-                x = config.flags and config.flags.x or 100,
-                y = config.flags and config.flags.y or 50,
-
-                display = config.flags and config.flags.display or 1,
-            })
+                    display = config.flags and config.flags.display or 1,
+                })
+        end
     end
 
     return x, y, w, h

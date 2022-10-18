@@ -51,7 +51,7 @@ vec4 specular(Light light) {
     vec3 viewDir = normalize(cameraPos - FragPos);
     vec3 reflectDir = reflect(-cameraToLight, norm);  
 
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.);
     
     vec4 specular = light.specularStrength * spec * vec4(1., 0., 0., 1.); 
     return specular;

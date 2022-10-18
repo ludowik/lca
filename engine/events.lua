@@ -28,7 +28,14 @@ Engine.keys = {
         end
     },
 
-    ['lalt+a'] = {
+    ['lctrl+a'] = {
+        desc = 'Apps App',
+        f = function ()
+            loadAppOfTheApps()
+        end
+    },
+
+    ['f3'] = {
         desc = 'Apps App',
         f = function ()
             loadAppOfTheApps()

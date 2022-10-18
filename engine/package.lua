@@ -1,7 +1,7 @@
 function makezip()
     log('makezip')
     
-    if osx then
+    if osx or os.simulator then
         local zip = 'zip'
         os.execute(zip..' -u -1 -r lca.love . -x *.git* *.DS_Store* lca.love __archive/\\*')
 

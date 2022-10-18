@@ -8,7 +8,7 @@ function Engine.keypressed(key, isrepeat)
         key
     )
 
-    if Engine.keys[key] then 
+    if Engine.keys[key] then
         Engine.keys[key].f()
     end
 end
@@ -88,5 +88,6 @@ function Engine.buttonup(button)
 end
 
 function Engine.captureImage()
+    love.filesystem.createDirectory('screenshots')
     _G.env.canvas:newImageData():encode('png', 'screenshots/'.._G.env.appName..'.png')
 end

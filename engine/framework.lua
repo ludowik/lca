@@ -55,7 +55,8 @@ function exit()
     os.exit()
 end
 
-os.name = (
+os.name = os.name or (
+    (love.filesystem.getSaveDirectory():find('CoreSimulator') and 'ios') or
     (jit and jit.os) or
     (love and love.system.getOS()) or
     (os and os.getenv('OS')) or
