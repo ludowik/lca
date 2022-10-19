@@ -1,5 +1,5 @@
-os.name = 'ios'
-os.simulator = true
+--os.name = 'ios'
+--os.simulator = true
 
 require 'engine'
 
