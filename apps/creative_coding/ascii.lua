@@ -1,5 +1,5 @@
 function setup()
-    supportedOrientations(SQUARE)
+    supportedOrientations(LANDSCAPE_ANY, true)
 
     baseImageList = {
         'documents:joconde',
@@ -60,7 +60,7 @@ function defineCharactersSet()
         from = ' .:-=+_?*#%@'
     else
         from = ' -+0#%@'
-        
+
 --        for i=32,127 do
 --            from = from..string.char(i)
 --        end
@@ -82,7 +82,7 @@ function defineCharactersSet()
     local characters = table()
     for i=1,from:len() do
         local character = from:sub(i,i)
-    
+
         setContext(img)
         do
             background(colors.black)

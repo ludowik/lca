@@ -3,7 +3,7 @@ class 'Button' : extends(UI)
 function Button:init(label, callback)
     UI.init(self, label, callback)
 
-    self.styles:attribs{
+    self:setstyles{
         bgColor = colors.blue,
         strokeColor = colors.lightgray,
         textColor = colors.white,
@@ -16,7 +16,7 @@ class 'ButtonColor' : extends(UI)
 
 function ButtonColor:init(bgColor, callback)
     UI.init(self, '', callback)
-    self.styles:attribs{
+    self:setstyles{
         bgColor = bgColor,
     }
 end

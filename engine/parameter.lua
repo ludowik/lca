@@ -4,25 +4,41 @@ function Parameter:init()
     Parameter.clear(self)
 end
 
-function Parameter:clear()    
+function getScreenSize() 
+    local w, h = love.window.getMode()
+    return w..'x'..h
+end
+
+function getSafeAreaSize() 
+    local x, y, w, h = love.window.getSafeArea()
+    return x..'x'..y..' '..w..'x'..h
+end
+
+function getWindowSize() 
+    return W..'x'..H
+end
+
+function getMousePosition()    
+    return mouse.x..'x'..mouse.y
+end
+
+function Parameter:clear()
     self.scene = UIScene()
     self.scene.getOrigin = function () return TOP_LEFT end
+    
+    self.scene:setstyles{
+        fontSize = 12
+    }
 
---    _G.env.bottom_left = getOrigin() == BOTTOM_LEFT
+    ----------------
+    self:menu('Info', true)
+    self:watch('screen', 'getScreenSize()')
+    self:watch('safe area', 'getSafeAreaSize()')
+    self:watch('window', 'getWindowSize()')
+    self:watch('mouse', 'getMousePosition()')
 
-    -------
-    self.group = UINode()
-    self.group.visible = config.showAppsMenu
-    local group = self.group
-    self.button = Button('Apps menu', function ()
-            group.visible = not group.visible
-            config.showAppsMenu = group.visible
-            group.size:set()
-        end)
-
-    self.scene:add(self.button)
-    self.scene:add(group)
-
+    ----------------
+    self:menu('Apps menu', true, Layout.row)
     self:action('restart', restart)
     self:action('apps', loadAppOfTheApps)
     self:action('tests all apps', function () loadAppOfTheApps().__autotest = true end)
@@ -33,7 +49,6 @@ function Parameter:clear()
 
     self:boolean('bottom_left', false, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
     self:boolean('landscape', false, function (val) supportedOrientations(val and LANDSCAPE_ANY or PORTRAIT) end)
-    -------
 
     self.group = self.scene
 end
@@ -67,6 +82,21 @@ function Parameter:notify(ui, value, notify)
     if notify then
         notify(value) -- notify(ui, value)
     end
+end
+
+function Parameter:menu(name, visible, layout)
+    self.group = UINode()
+    self.group.visible = not not visible
+    if layout then self.group:setLayoutFlow(layout) end
+    
+    local group = self.group
+    local button = Button(name, function ()
+            group.visible = not group.visible
+            group.size:set()
+        end)
+
+    self.scene:add(button)
+    self.scene:add(group)
 end
 
 function Parameter:action(name, callback)

@@ -6,7 +6,7 @@ function CheckBox:init(label, value, callback)
     Bind.init(self, label, value, callback)
     self.value = value
     
-    self.styles:attribs{
+    self:setstyles{
         textMode = CENTER,
         rx = 4,
     }
@@ -24,9 +24,9 @@ end
 
 function CheckBox:draw()
     if self.value then
-        self.styles.textColor = colors.green
+        self:setstyles{textColor = colors.green}
     else
-        self.styles.textColor = colors.red
+        self:setstyles{textColor = colors.red}
     end
 
     UI.draw(self)

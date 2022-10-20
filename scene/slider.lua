@@ -12,7 +12,7 @@ function Slider:init(variable, min, max, default, integer, callback)
 
     self.integer = integer
     
-    self.styles:attribs{
+    self:setstyles{
         bgColor = colors.green,
         textColor = colors.white,
     }

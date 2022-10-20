@@ -168,7 +168,8 @@ function Engine.endDraw()
 end
 
 function Engine.draw(present)
-    love.graphics.clear(.5, .5, .5, 1, true, true)
+    local clr = Color(51)
+    love.graphics.clear(clr.r, clr.g, clr.b, 1, true, true)
 
     local x, y = love.mouse.getPosition()
     if x < X then
@@ -230,14 +231,11 @@ function Engine.drawInfo()
     resetMatrix(true)
     ortho()
 
+    local width, height, flags = love.window.getMode()    
     Engine.render(function()
             text(getFPS())
             text(os.name)
             text(env.appPath..'/'..env.appName)
-            text(W..'x'..H)
-
-            text(string.format('%d,%d,%d,%d', love.window.getSafeArea()))
-            text(string.format('%d,%d', mouse.x, mouse.y))
 
             text(config.framework)
             text(config.renderer)
@@ -275,29 +273,31 @@ end
 PORTRAIT = 'portrait'
 LANDSCAPE = 'landscape'
 LANDSCAPE_ANY = 'landscape_any'
-SQUARE = 'square'
 
-function supportedOrientations(orientations)
+function supportedOrientations(orientations, square)
     if orientations == PORTRAIT then
-        setMode(PORTRAIT)
+        setMode(PORTRAIT, square)
     elseif orientations == LANDSCAPE_ANY or orientations == LANDSCAPE then
-        setMode(LANDSCAPE)
-    elseif orientations == SQUARE then
-        setMode(SQUARE)
+        setMode(LANDSCAPE, square)
     end
 end
 
-local __mode
-function setMode(mode)
+local __mode, __square
+function setMode(mode, square)
     env.__mode = mode or PORTRAIT
-    if __mode == env.__mode then return end
+    env.__square = square
+    if __mode == env.__mode and __square == env.__square then return end
     setupWindow()
     env.canvas = nil
     __mode = env.__mode
+    __square = env.__square
 end
 
 function getMode()
-    return env and env.__mode or PORTRAIT
+    if env then
+        return env.__mode, env.__square
+    end
+    return PORTRAIT, false
 end
 
 FULLSCREEN_NO_BUTTONS = 'FULLSCREEN_NO_BUTTONS'

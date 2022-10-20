@@ -1,8 +1,8 @@
 requireLib(
-    'node',
-    'scene',
     'bind',
     'ui',
+    'node',
+    'scene',
     'uiscene',
     'layout',
     'label',

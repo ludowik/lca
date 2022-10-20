@@ -6,16 +6,23 @@ function UI:init(label, callback)
     self.label = label or ''
     self.callback = callback
 
-    self.styles = table({
-            fontName = DEFAULT_FONT_NAME,
-            fontSize = DEFAULT_FONT_SIZE,
-            bgColor = colors.lightgray,
-            textMode = CORNER,
-        })
+    self:setstyles{
+        fontName = DEFAULT_FONT_NAME,
+        fontSize = DEFAULT_FONT_SIZE,
+        textMode = CORNER,        
+    }
 
     self.marge = vec2(6, 0)
 
     self.visible = true
+end
+
+function UI:setstyles(...)
+    if not self.styles then
+        self.styles = {}
+    end
+    table.attribs(self.styles, ...)
+    return self
 end
 
 function UI.properties.set:value(value)
@@ -24,11 +31,6 @@ end
 
 function UI.properties.get:value()
     return self:getValue()
-end
-
-function UI:setstyles(...)
-    self.styles:attribs(...)
-    return self
 end
 
 function UI:computeSize()
@@ -73,7 +75,7 @@ function UI:draw()
     if self.styles.textMode == CORNER then
         textMode(CORNER)
         text(self:getLabel(), self.marge.x, self.marge.y)
-        
+
     else
         textMode(CENTER)
         text(self:getLabel(), self.size.x/2, self.size.y/2-1)
@@ -84,7 +86,7 @@ function UI:touched(touch)
     if touch.state == RELEASED then
         if self.callback then
             self.callback(self, self.value)
-            
+
         elseif self.click then
             self:click()
         end

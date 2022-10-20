@@ -10,7 +10,7 @@ function UITimer:init(label, time, callback)
 
     self.active = false
     
-    self.styles:attribs({
+    self:setstyles({
             bgColor = colors.transparent,
             textMode = CENTER,
         })
