@@ -1,11 +1,108 @@
 function setup()
-    scene = UIScene()
+    scene = UIScene(Layout.grid, 2)
     scene:setAlignment('v-center,h-center')
     
     browse(APPS)
 
     parameter.watch('searchTime')
     parameter.watch('searchText')
+end
+
+function browse(path, previousPath)
+    scene:clear()
+    
+    if previousPath then
+        scene:add(UI('..', function ()
+                    browse(previousPath)
+                end))
+    end
+
+    local list = dir(path)
+    list:sort(
+        function (a, b)
+            if isApp(a) == isApp(b) then
+                return a < b
+            end
+            return not isApp(a) --and isApp(b)
+        end)
+
+    for i,item in ipairs(list) do
+        local path, name, ext = splitFilePath(item)
+        if name ~= APPS then
+            if isApp(item) then
+                scene:add(
+                    UI(name,
+                        function (_)
+                            loadApp(path, name)
+                        end)
+                    :attribs{
+                        info = item}
+                    :setstyles{
+                        textColor = colors.green,
+                        fontSize = 26})
+            else
+                scene:add(
+                    UI(name,
+                        function (_)
+                            browse(item, path)
+                        end)
+                    :attribs{
+                        info = item}
+                    :setstyles{
+                        textColor = colors.blue,
+                        fontSize = 26})
+            end
+        end
+    end
+end
+
+function draw()
+    background()
+    scene:draw()
+end
+
+function touched(touch)
+    if touch.state == RELEASED then
+        scene:touched(touch)
+
+    elseif touch.state == MOVING then
+        scene.position.y = scene.position.y + touch.dy
+    end
+end
+
+searchText = ''
+searchTime = 0
+
+function keyboard(key)
+    if key == 'f3' then
+        browse(APPS)
+        return
+    end
+
+    if key == 'return' then
+        local ui = scene:getFocus()
+        if ui.callback then
+            ui.callback(ui)
+        end
+
+    else
+        if time() - searchTime > 2 then
+            searchText = ''
+        end
+
+        searchTime = time()
+
+        if key == 'backspace' then
+            searchText = searchText:sub(1, searchText:len()-1)
+        else
+            searchText = searchText..key
+        end
+
+        local ui = scene:ui(searchText)
+        if ui then
+            scene:setFocus(ui)
+        end
+    end
 end
 
 function autotest(dt)
@@ -80,101 +177,5 @@ function autotest(dt)
     global.__autotest = false
 
     quit()
-end
-
-function draw()
-    background()
-    scene:draw()
-end
-
-function touched(touch)
-    if touch.state == RELEASED then
-        scene:touched(touch)
-
-    elseif touch.state == MOVING then
-        scene.position.y = scene.position.y + touch.dy
-    end
-end
-
-function browse(path, previousPath)
-    scene:clear()
-
-    if previousPath then
-        scene:add(UI('..', function ()
-                    browse(previousPath)
-                end))
-    end
-
-    local list = dir(path)
-    list:sort(
-        function (a, b)
-            if isApp(a) == isApp(b) then
-                return a < b
-            end
-            return not isApp(a) --and isApp(b)
-        end)
-
-    for i,item in ipairs(list) do
-        local path, name, ext = splitFilePath(item)
-        if name ~= APPS then
-            if isApp(item) then
-                scene:add(
-                    UI(name,
-                        function (_)
-                            loadApp(path, name)
-                        end)
-                    :attribs{
-                        info = item}
-                    :setstyles{
-                        textColor = colors.green,
-                        fontSize = 26})
-            else
-                scene:add(
-                    UI(name,
-                        function (_)
-                            browse(item, path)
-                        end)
-                    :attribs{
-                        info = item}
-                    :setstyles{
-                        textColor = colors.blue,
-                        fontSize = 26})
-            end
-        end
-    end
-end
-
-searchText = ''
-searchTime = 0
-
-function keyboard(key)
-    if key == 'a' and isDown('lalt') then
-        browse(APPS)
-        return
-    end
-
-    if key == 'return' then
-        local ui = scene:getFocus()
-        if ui.callback then
-            ui.callback(ui)
-        end
-
-    else
-        if time() - searchTime > 2 then
-            searchText = ''
-        end
-
-        searchTime = time()
-
-        if key == 'backspace' then
-            searchText = searchText:sub(1, searchText:len()-1)
-        else
-            searchText = searchText..key
-        end
-
-        local ui = scene:ui(searchText)
-        if ui then
-            scene:setFocus(ui)
-        end
-    end
+    
 end

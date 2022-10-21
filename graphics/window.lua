@@ -1,9 +1,9 @@
-function setupWindow(mode, scale)
-    mode = mode or getMode()
+function setupWindow(__mode, scale)
+    local mode, square = getMode()
 
     SCALE = scale or (env and env.SCALE) or 1
 
-    X, Y, W, H = initWindow(mode)
+    X, Y, W, H = initWindow(mode, square)
 
     WIDTH, HEIGHT = W, H
 
@@ -15,51 +15,56 @@ function setupWindow(mode, scale)
     }
 end
 
+screenConfig = {
+    W = 500,
+    H = 500, -- * 9/16,
+    X = 80,
+    Y = 24,
+    WP = 500
+}
+
 local initModes = {}
+
 function initModes.portrait()
     local x, y, w, h, wt, ht
 
-    x = 160
-    y = 24
-    h = SCALE * 900
-    w = h * 9/16
+    x = screenConfig.X
+    y = screenConfig.Y
 
-    wt = w / SCALE + x*3
-    ht = h / SCALE + y*2
+    h = SCALE * screenConfig.W
+    w = SCALE * screenConfig.H
 
-    return x, y, w, h, wt, ht
-end
-
-function initModes.landscape()
-    local x, y, w, h, wt, ht
-
-    x = 160
-    y = 24
-    w = SCALE * 900
-    h = w * 9/16
-
-    wt = w / SCALE + x*3
-    ht = h / SCALE + y*2
+    wt = w / SCALE + screenConfig.WP
+    ht = h / SCALE + 2 * screenConfig.Y
 
     return x, y, w, h, wt, ht
 end
 
-function initModes.square()
+function initModes.landscape(square)
     local x, y, w, h, wt, ht
 
-    x = 160
-    y = 24
-    w = SCALE * 900
+    x = screenConfig.X
+    y = screenConfig.Y
+
+    if square then
+        w = SCALE * screenConfig.H
+        h = w
+    else
+        w = SCALE * screenConfig.W
+        h = SCALE * screenConfig.H
+    end
+    
+    w = SCALE * screenConfig.H
     h = w
-
-    wt = w / SCALE + x*3
-    ht = h / SCALE + y*2
+    
+    wt = w / SCALE + screenConfig.WP
+    ht = h / SCALE + 2 * screenConfig.Y
 
     return x, y, w, h, wt, ht
 end
 
 
-function initWindow(mode)
+function initWindow(mode, square)
     local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
 
     if os.name == 'web' then
@@ -80,7 +85,7 @@ function initWindow(mode)
         wt, ht = min(wt, ht), max(wt, ht)
 
     else
-        x, y, w, h, wt, ht = initModes[mode]()
+        x, y, w, h, wt, ht = initModes[mode](square)
     end
 
     w = round(w)
@@ -93,11 +98,11 @@ function initWindow(mode)
             love.window.updateMode(
                 wt,
                 ht, {
-                    highdpi = false,
-                    usedpiscale = false,
+                    highdpi = not oswindows,
+                    usedpiscale = not oswindows,
 
-                    msaa = 8,
-                    depth = 24,
+                    msaa = 1,
+                    depth = 16,
                     vsync = 0,
 
                     x = config.flags and config.flags.x or 100,

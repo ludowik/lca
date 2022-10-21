@@ -207,7 +207,7 @@ function loadApp(path, name, garbage)
         love.window.setTitle(name)
     end
 
-    setMode(env.__mode)
+    setMode(env.__mode, env.__square)
 
     return _G.env
 end

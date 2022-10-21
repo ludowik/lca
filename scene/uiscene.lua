@@ -7,6 +7,10 @@ function UIScene:init(...)
     self.layoutFlow = self.layoutFlow or Layout.column
 end
 
+function UIScene:draw()
+    self:drawUIScene()
+end
+
 class 'UINode' : extends(Node)
 
 function UINode:init(...)

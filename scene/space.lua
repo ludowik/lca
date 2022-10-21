@@ -6,7 +6,7 @@ function UISpace:init(nw, nh)
     self.nw = nw or 1
     self.nh = nh or 1
     
-    self.styles.bgColor = transparent
+    self:setstyles{bgColor = transparent}
 end
 
 function UISpace:computeSize()

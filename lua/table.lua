@@ -61,7 +61,7 @@ function table:iterator(reverse)
             i = i + 1
             if i <= n then return i, self[i] end
         end
-        
+
     else
         local i = #self + 1
         local n = 0
@@ -80,8 +80,10 @@ function table:__add(t)
 end
 
 function table:attribs(attribs)
-    for k,v in pairs(attribs) do
-        self[k] = v
+    if attribs then
+        for k,v in pairs(attribs) do
+            self[k] = v
+        end
     end
     return self
 end
@@ -262,16 +264,16 @@ function table:tolua(level, __recursive)
             local className = classnameof(v)
             if className == 'Color' then
                 val = 'Color('..v.r..', '..v.g..', '..v.b..', '..v.a..')'
-                
+
             elseif className == 'vec2' then
                 val = 'vec2('..v.x..', '..v.y..')'
-                
+
             elseif className == 'vec3' then                
                 val = 'vec3('..v.x..', '..v.y..', '..v.z..')'
-                
+
             elseif className == 'vec4' then
                 val = 'vec4('..v.x..', '..v.y..', '..v.z..', '..v.w..')'
-                
+
             else
                 val = table.tolua(v, level+1, __recursive)
             end

@@ -38,15 +38,15 @@ function Layout:layout(mode, n)
 
         self.nodeSize = vec2()
     else
-        for _,size in ipairs(self.rowSize) do
-            size:set()
-        end
+--        for _,size in ipairs(self.rowSize) do
+--            size:set()
+--        end
 
-        for _,size in ipairs(self.colSize) do
-            size:set()
-        end
+--        for _,size in ipairs(self.colSize) do
+--            size:set()
+--        end
 
-        self.nodeSize:set()
+--        self.nodeSize:set()
     end
 
     local i, j = 1, 1
@@ -78,11 +78,14 @@ function Layout:layout(mode, n)
                 position.x = position.x + node.size.x + innerMarge
                 i = i + 1
 
-                if position.x > W then
-                    position.x = 0
+                if position.x > screenConfig.WP then
+                    position.x = outerMarge
                     position.y = position.y + node.size.y + innerMarge
+                    
                     node.position.x = position.x
                     node.position.y = position.y
+                    
+                    position.x = position.x + node.size.x + innerMarge
                 end
 
             elseif mode == 'column' then
