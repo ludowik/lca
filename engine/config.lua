@@ -14,8 +14,8 @@ function loadConfig()
     end
     
     config.framework = config.framework or 'love2d'
-    config.renderer = config.renderer or 'core'
-
+    config.renderer = config.renderer or 'love2d'
+    
     return config
 end
 

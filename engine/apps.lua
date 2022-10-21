@@ -77,6 +77,11 @@ function loadAppOfTheApps()
 end
 
 function loadApp(path, name, garbage)
+    if not path then
+        loadAppOfTheApps()
+        return
+    end
+    
     if garbage then
         gc()
     end
