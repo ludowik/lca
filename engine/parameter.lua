@@ -47,19 +47,35 @@ function Parameter:clear()
 
     ----------------
     self:menu('Apps menu', Layout.row)
-    self:action('tests all apps', function () loadAppOfTheApps().__autotest = true end)
+    self.group:add(ButtonIconFont('die_six', function () loadAppOfTheApps().__autotest = true end))
     self.group:add(ButtonIconFont('loop', restart))
-    self:action('apps', loadAppOfTheApps)
+    self.group:add(ButtonIconFont('list_bullet', loadAppOfTheApps))
 
     self:newline()
-    
-    self:action('test app', function () env.__autotest = not env.__autotest end)
-    
+
+    self.group:add(ButtonIconFont('die_one', function () env.__autotest = not env.__autotest end))
+
     self.group:add(ButtonIconFont('heart', randomApp))
     self.group:add(ButtonIconFont('previous', previousApp))
     self.group:add(ButtonIconFont('next', nextApp))
 
     self.group = self.scene
+end
+
+function Parameter:random()
+    for i,ui in ipairs(self.group:items()) do
+        if ui.__className == 'Slider' then
+            ui:setValue(random(ui.min, ui.max))
+
+        elseif ui.__className == 'CheckBox' then
+            if not ui.label:inList{'bottom_left', 'landscape'} then
+                ui:setValue(randomBoolean())
+            end
+
+        elseif ui.__className == 'ColorPicker' then
+            ui:setValue(Color.random())
+        end
+    end 
 end
 
 function Parameter:update(dt)

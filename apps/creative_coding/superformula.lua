@@ -7,7 +7,7 @@ function setup()
 
     model = models[1]
 
-    parameter.number('shape_size', 0, 100, 100)
+    parameter.integer('shape_size', 0, 50, 50)
 
     parameter.number('a', 0, 25, 2)
     parameter.number('b', 0, 25, 2)
@@ -17,11 +17,14 @@ function setup()
     parameter.number('na', 0, 20, model.na)
     parameter.number('nb', 0, 20, model.nb)
 
-    parameter.number('n', 0, 20, model.n)
+    parameter.number('n', 2, 15, model.n)
 
     array = Buffer('vec3')
     parameter.integer('parts', 2, 128, 16, function () array:reset() end)
 
+    seed(time())
+    parameter.random()
+    
     parameter.boolean('scale_shape', true)
 
     parameter.boolean('_3d', false, function ()
@@ -31,7 +34,7 @@ function setup()
                 ortho3D()
                 draw = __draw3d
             end
-        end)
+        end)   
 end
 
 function __draw2d()

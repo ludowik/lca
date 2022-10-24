@@ -3,9 +3,6 @@ Prendre une capture d’image
 En mode portrait modifier le layout des paramètres : mettre à droite les paramètres de l’application 
 Améliorer les infos globales : fps os app name….
 
-Apps
-Utiliser les ButtonImage adaptés avec une couleur différente pour chaque bouton 
-
 Density 
 Taille des éléments ajoutés trop petite et sans continuité 
 
@@ -36,7 +33,6 @@ Porter la version Js
 Ou si tu le sens intégrer un translator js lua
 
 Superformula
-commencer avec un affichage aléatoire
 Faire marche la version 3D : éloigner la caméra ?
 
 Dashboard

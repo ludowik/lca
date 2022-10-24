@@ -91,19 +91,7 @@ function Engine.update(dt)
 end
 
 function Engine.autotest()
-    for i,ui in ipairs(env.parameter.instance.scene:items()) do
-        if ui.__className == 'Slider' then
-            ui:setValue(random(ui.min, ui.max))
-
-        elseif ui.__className == 'CheckBox' then
-            if not ui.label:inList{'bottom_left', 'landscape'} then
-                ui:setValue(randomBoolean())
-            end
-
-        elseif ui.__className == 'ColorPicker' then
-            ui:setValue(Color.random())
-        end
-    end   
+    env.parameter.random()
 end
 
 function Engine.render(f, x, y)

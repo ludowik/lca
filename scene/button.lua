@@ -25,6 +25,10 @@ class('ButtonIconFont', Button)
 
 function ButtonIconFont:init(label, action)
     Button.init(self, label, action)
+    
+    self:setstyles{
+        textColor = Color.random()
+        }
 end
 
 function ButtonIconFont:computeSize()
@@ -38,7 +42,7 @@ function ButtonIconFont:draw()
     do
         noStroke()
 
-        fill(colors.white)
+        textColor(self.styles.textColor or colors.white)
 
         fontName('Foundation-Icons')
         fontSize(self.size.x)
