@@ -1,5 +1,6 @@
 function setup()
     supportedOrientations(PORTRAIT)
+    setOrigin(BOTTOM_LEFT)
 
     GRID_MARGE = 5
     CELL_MARGE = 2

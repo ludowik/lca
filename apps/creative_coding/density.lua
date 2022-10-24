@@ -16,11 +16,6 @@ function setup()
     end
 
     img = Image(N)
-
-    config.interpolate = false
-
-    parameter.boolean('config.interpolate')    
-    parameter.watch('total')
 end
 
 function index(x, y)
@@ -30,7 +25,13 @@ end
 function touched(touch)
     local x, y = floor(touch.x/pixelSize), floor(touch.y/pixelSize)
     if x >= 0 and x < N and y >= 0 and y < N then
-        density[index(x+1, y+1)] = 2^8
+        local size = 5
+        for i=max(0,x-size),min(N,x+size) do
+            for j=max(0,y-size),min(N,y+size) do
+                local distance = 1-(vec2(x, y) - vec2(i, j)):len()/(2*size)
+                density[index(i+1, j+1)] = max(density[index(i+1, j+1)], 2^8 * distance)
+            end
+        end
     end
 end
 

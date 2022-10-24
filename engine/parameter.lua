@@ -23,29 +23,32 @@ function getMousePosition()
 end
 
 function Parameter:clear()
-    self.scene = UIScene()
+    self.scene = UIScene(Layout.row)
     self.scene.getOrigin = function () return TOP_LEFT end
 
     self.scene:setstyles{
         fontSize = 16
     }
 
+    local group = UINode()
+    self.scene:add(group)
+
     ----------------
-    self:menu('Info')
+    self.group = group
+    self:menu(env.appPath..'/'..env.appName)
     self:watch('screen', 'getScreenSize()')
     self:watch('safe area', 'getSafeAreaSize()')
     self:watch('window', 'getWindowSize()')
     self:watch('mouse', 'getMousePosition()')
 
     ----------------
+    self.group = group
     self:menu('Screen')
-    global.bottom_left = false
-    global.landscape = env.__mode ~= PORTRAIT
-
-    self:boolean('bottom_left', bottom_left, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
-    self:boolean('landscape', landscape, function (val) supportedOrientations(val and LANDSCAPE_ANY or PORTRAIT) end)
+    self:watch('config.framework')
+    self:watch('config.renderer')
 
     ----------------
+    self.group = group
     self:menu('Apps menu', Layout.row)
     self.group:add(ButtonIconFont('die_six', function () loadAppOfTheApps().__autotest = true end))
     self.group:add(ButtonIconFont('loop', restart))
@@ -54,12 +57,27 @@ function Parameter:clear()
     self:newline()
 
     self.group:add(ButtonIconFont('die_one', function () env.__autotest = not env.__autotest end))
-
     self.group:add(ButtonIconFont('heart', randomApp))
     self.group:add(ButtonIconFont('previous', previousApp))
     self.group:add(ButtonIconFont('next', nextApp))
+    self.group:add(ButtonIconFont('photo', function () Engine.captureImage('captures') end))
 
-    self.group = self.scene
+    self:newline()
+
+    self.group:add(ButtonIconFont(getOrigin() == TOP_LEFT and 'arrow_up' or 'arrow_down',
+            function (btn)
+                setOrigin(getOrigin() == TOP_LEFT and BOTTOM_LEFT or TOP_LEFT)
+                btn.label = getOrigin() == TOP_LEFT and 'arrow_up' or 'arrow_down'
+            end))
+
+    self.group:add(ButtonIconFont(getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait',
+            function (btn)
+                supportedOrientations(getOrientation() == PORTRAIT and LANDSCAPE_ANY or PORTRAIT)
+                btn.label = getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait'
+            end))
+
+    self.group = UINode()
+    self.scene:add(self.group)
 end
 
 function Parameter:random()
@@ -68,9 +86,7 @@ function Parameter:random()
             ui:setValue(random(ui.min, ui.max))
 
         elseif ui.__className == 'CheckBox' then
-            if not ui.label:inList{'bottom_left', 'landscape'} then
-                ui:setValue(randomBoolean())
-            end
+            ui:setValue(randomBoolean())
 
         elseif ui.__className == 'ColorPicker' then
             ui:setValue(Color.random())
@@ -112,19 +128,20 @@ end
 function Parameter:menu(name, layout)
     config.show = config.show or table()
 
-    self.group = UINode()
-    self.group.visible = not not config.show[name]
-    if layout then self.group:setLayoutFlow(layout) end
+    local group = UINode(layout)
+    group.visible = not not config.show[name]
 
-    local group = self.group
-    local button = Button(name, function ()
+    local button = Button(name,
+        function ()
             group.visible = not group.visible
             config.show[name] = group.visible
             group.size:set()
         end)
 
-    self.scene:add(button)
-    self.scene:add(group)
+    self.group:add(button)
+    self.group:add(group)
+
+    self.group = group
 end
 
 function Parameter:newline()

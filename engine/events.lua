@@ -1,4 +1,4 @@
-Engine.keys = {
+Engine.keys = table{
     ['f1'] = {
         desc = 'Help',
         f = function ()
@@ -151,13 +151,6 @@ Engine.keys = {
                 config.renderer = 'love2d'
             end
             restart()
-        end
-    },
-
-    ['lalt+p'] = {
-        desc = 'Capture Image',
-        f = function ()
-            Engine.captureImage()
         end
     },
 }

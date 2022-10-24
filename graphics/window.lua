@@ -48,26 +48,28 @@ function displayMode(mode)
 end
 
 local orientation = LANDSCAPE
-local W, H = love.graphics.getDimensions()
 
 function getOrientation()
     return orientation
 end
 
 function setOrientation(newOrientation)
+    local wt, ht = love.graphics.getDimensions()
+
     newOrientation = newOrientation or orientation
     if newOrientation == LANDSCAPE then
-        W, H = math.max(W, H), math.min(W, H)
+        wt, ht = math.max(wt, ht), math.min(wt, ht)
     else
-        W, H = math.min(W, H), math.max(W, H)
+        wt, ht = math.min(wt, ht), math.max(wt, ht)
     end
 
     orientation = newOrientation
 
-    love.window.updateMode(W, H)
-
-    print(orientation)
-    print(W, H)
+    local w, h = love.window.getMode()
+    if w ~= wt or h ~= ht then
+        love.window.updateMode(wt, ht)
+        print('update mode '..wt..'x'..ht)
+    end
 end
 
 --debugStart()
@@ -77,24 +79,24 @@ do
     local x
     if os.name == 'ios' then
         SCALE = 1 / 0.85
-        
+
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
 
     else        
-        SCALE = 1 / 1.2
+        SCALE = 1 / 1.25
 
         wt = 812 / SCALE
         ht = 375 / SCALE
 
-        x = 40
+        x, y = 40, 40
     end
 
     setOrientation(LANDSCAPE)
 
     screenConfig = {
-        WT = wt,
-        HT = ht,
+        WT = floor(wt),
+        HT = floor(ht),
 
         W = floor(wt * (0.75)),
         H = floor(ht * (0.98)),
@@ -103,6 +105,7 @@ do
     }
 
     screenConfig.Y = (screenConfig.HT - screenConfig.H) / 2
+
     screenConfig.WP = screenConfig.WT - screenConfig.X - screenConfig.W
 end
 
@@ -120,6 +123,8 @@ function initModes.portrait()
     wt = screenConfig.HT
     ht = screenConfig.WT
 
+    screenConfig.WP = screenConfig.HT - screenConfig.Y
+
     setOrientation(PORTRAIT)
 
     return x, y, w, h, wt, ht
@@ -136,6 +141,8 @@ function initModes.landscape()
 
     wt = screenConfig.WT
     ht = screenConfig.HT
+
+    screenConfig.WP = screenConfig.WT - screenConfig.X - screenConfig.W
 
     setOrientation(LANDSCAPE)
 
@@ -163,21 +170,26 @@ function initWindow(mode)
             display = 1 -- config.flags and config.flags.display or 1
         end
 
-        love.window.setMode(
-            wt,
-            ht, {
-                highdpi = not oswindows,
-                usedpiscale = not oswindows,
+        local w, h = love.window.getMode()
+        if w ~= wt or h ~= ht or os.name == 'ios' then
+            print('set mode '..wt..'x'..ht)
 
-                msaa = 1,
-                depth = 16,
-                vsync = 0,
+            love.window.setMode(
+                wt,
+                ht, {
+                    highdpi = not oswindows,
+                    usedpiscale = not oswindows,
 
-                x = x,
-                y = y,
+                    msaa = 1,
+                    depth = 16,
+                    vsync = 0,
 
-                display = display,
-            })
+                    x = x,
+                    y = y,
+
+                    display = display,
+                })
+        end
     end
 
     return x, y, w, h

@@ -78,7 +78,7 @@ function Layout:layout(mode, n)
                 position.x = position.x + node.size.x + innerMarge
                 i = i + 1
 
-                if position.x > screenConfig.WP or node.newLine then
+                if index > 1 and position.x > screenConfig.WP or node.newLine then
                     position.x = outerMarge
                     position.y = position.y + max(self.rowSize[j].y, node.size.y) + innerMarge
 

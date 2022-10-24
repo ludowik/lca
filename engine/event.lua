@@ -27,7 +27,7 @@ function Engine.mousepressed(x, y, button, istouch, presses)
         end
         callApp('mousepressed', mouse2)
         callApp('touched', mouse2)
-        
+
     else
         if x < X then
             config.show.showLogs = not config.show.showLogs
@@ -92,7 +92,14 @@ end
 function Engine.buttonup(button)
 end
 
-function Engine.captureImage()
-    love.filesystem.createDirectory('screenshots')
-    _G.env.canvas:newImageData():encode('png', 'screenshots/'.._G.env.appName..'.png')
+function Engine.captureImage(directory)
+    local fileName
+    if directory then
+        fileName = directory..'/'.._G.env.appName..'_'..os.date('%Y%m%d_%H%M%S')..'.png'
+    else
+        directory = 'screenshots'
+        fileName = directory..'/'.._G.env.appName..'.png'
+    end
+    love.filesystem.createDirectory(directory)
+    _G.env.canvas:newImageData():encode('png', fileName)
 end

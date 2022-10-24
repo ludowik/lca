@@ -38,7 +38,7 @@ function draw()
     background()
 
     local arrays = table()
-    local size = W/4
+    local size = min(W, H) / 4
     local n = #buffer
 
     for i=1,n do
@@ -62,5 +62,7 @@ function draw()
 --        table.insert(arrays, H/2 + random() * noise(elapsedTime + x / 10) * size)
 --    end
 
-    polyline(arrays)
+noFill()
+
+    polygon(arrays)
 end

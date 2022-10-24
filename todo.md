@@ -1,32 +1,17 @@
-Général 
-Prendre une capture d’image 
-En mode portrait modifier le layout des paramètres : mettre à droite les paramètres de l’application 
-Améliorer les infos globales : fps os app name….
-
-Density 
-Taille des éléments ajoutés trop petite et sans continuité 
-
 Electric 
 Plantage systématique
 
+Sound
+Plantage
+
 Graph
 Recentrage de toutes les infos
-
-Keys
-Calculer la taille de la fonte pour être en phase avec l'écran
-
-Lexer
-Assertion sur la recherche
 
 Projets
 all title to lower
 
 BBTan
-Invers l'écran
 Taille de le bille bizarre 
-
-Sound
-Plantage
 
 PI
 Porter la version Js

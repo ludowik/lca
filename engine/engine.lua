@@ -219,11 +219,7 @@ function Engine.drawInfo()
         function()
             text(getFPS())
             text(os.name)
-            text(env.appPath..'/'..env.appName)
             text(debugging() and 'debug mode' or 'release mode')
-
-            text(config.framework)
-            text(config.renderer)
 
             if env.__autotest then
                 text('autotest')
