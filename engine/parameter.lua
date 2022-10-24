@@ -43,12 +43,6 @@ function Parameter:clear()
 
     ----------------
     self.group = group
-    self:menu('Screen')
-    self:watch('config.framework')
-    self:watch('config.renderer')
-
-    ----------------
-    self.group = group
     self:menu('Apps menu', Layout.row)
     self.group:add(ButtonIconFont('die_six', function () loadAppOfTheApps().__autotest = true end))
     self.group:add(ButtonIconFont('loop', restart))
@@ -75,6 +69,12 @@ function Parameter:clear()
                 supportedOrientations(getOrientation() == PORTRAIT and LANDSCAPE_ANY or PORTRAIT)
                 btn.label = getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait'
             end))
+
+    ----------------
+    self.group = group
+    self:menu('Screen')
+    self:watch('config.framework')
+    self:watch('config.renderer')
 
     self.group = UINode()
     self.scene:add(self.group)

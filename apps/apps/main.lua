@@ -41,7 +41,7 @@ function browse(path, previousPath)
                         info = item}
                     :setstyles{
                         textColor = colors.green,
-                        fontSize = 26})
+                        fontSize = 22})
             else
                 scene:add(
                     UI(name,
@@ -52,7 +52,7 @@ function browse(path, previousPath)
                         info = item}
                     :setstyles{
                         textColor = colors.blue,
-                        fontSize = 26})
+                        fontSize = 22})
             end
         end
     end

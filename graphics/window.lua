@@ -78,7 +78,7 @@ do
     local wt, ht
     local x
     if os.name == 'ios' then
-        SCALE = 1 / 0.85
+        SCALE = 1 / 0.75
 
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
