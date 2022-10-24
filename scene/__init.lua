@@ -13,7 +13,7 @@ requireLib(
     'checkbox',
     'editor',
     'sprite',
-    'iconsFont',
+    'icons_font',
     'dashboard',
     'color_picker',
     'choice_list',

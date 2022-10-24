@@ -7,7 +7,9 @@ function makezip()
         
     else
         local zip = 'zip'
-        os.execute(zip..' -u -1 -r lca.love . -x *.git* *.DS_Store* lca.love __archive/\\*')
+        local zipCommand = zip..' -u -1 -r lca.love . -x *.git* *.DS_Store* lca.love __archive/\\*'
+        print(zipCommand)
+        os.execute(zipCommand)
     end
 end
 

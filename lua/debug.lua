@@ -4,7 +4,7 @@ function debugging() return inDebugging end
 
 function debugStart()
     inDebugging = true
-    local debug = require("mobdebug")
+    local debug = require 'lib/mobdebug/mobdebug'
     debug.start()
     debug.coro()
     debug.on()
@@ -12,9 +12,9 @@ end
 
 function debugStop(check)
     if not check then return end
-    
+
     inDebugging = true
-    local debug = require("mobdebug")
+    local debug = require 'lib/mobdebug/mobdebug'
     debug.start()
     debug.on()
     debug.pause()

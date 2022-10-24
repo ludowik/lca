@@ -55,10 +55,10 @@ function Scene:drawUIScene(x, y)
         Layout.reverse(self)
     end
 
-    if not self:getFocus() then
-        self:computeNavigation(self, self)
-        self:nextFocus()
-    end
+--    if not self:getFocus() then
+--        self:computeNavigation(self, self)
+--        self:nextFocus()
+--    end
 
     Node.draw(self)
 

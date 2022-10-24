@@ -12,6 +12,8 @@ require 'lua.debug'
 require 'lua'
 require 'lua_collection'
 require 'maths'
+require 'engine.config'
+require 'engine.framework'
 require 'graphics'
 require 'scene'
 require 'physics'
@@ -19,7 +21,8 @@ require 'physics'
 requireLib(
     'apps',
     'application',
-    'config',
+--    'config',
+--    'framework',
     'engine',
     'event',
     'events',
@@ -31,7 +34,6 @@ requireLib(
     'sound',
     'keyboard',
     'speech',
-    'framework',
     'package')
 
 local function __debug()

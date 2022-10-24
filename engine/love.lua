@@ -1,9 +1,12 @@
 function love.info()
     local major, minor, revision, codename = love.getVersion()
-    version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
+    local version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
+    print(version)
+    
 end
 
 function love.load()
+    love.info()
     return Engine.load()
 end
 
@@ -23,6 +26,7 @@ function love.keyreleased(key, scancode)
     return Engine.keyreleased(key)
 end
 
+-- TODEL ?
 --function love.textinput(text)
 --    print(text)
 --end

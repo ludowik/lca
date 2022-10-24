@@ -9,7 +9,7 @@ end
 
 function Node:clear()
     Rect.init(self)
-    
+
     self.nodes = table()
     return self
 end
@@ -35,8 +35,10 @@ function Node:addItems(items)
     for _,item in ipairs(items) do
         item.parent = self
         table.insert(self:items(), item)
-        
-        item:setstyles(self:root().styles)
+
+        if item.setstyles then
+            item:setstyles(self:root().styles)
+        end
 
         assert(item.className ~= 'Scene')
     end

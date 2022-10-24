@@ -207,7 +207,8 @@ function loadApp(path, name, garbage)
         love.window.setTitle(name)
     end
 
-    setMode(env.__mode, env.__square)
+    supportedOrientations(env.__mode == LANDSCAPE and LANDSCAPE_ANY or PORTRAIT)
+--    setMode(env.__mode)
 
     return _G.env
 end

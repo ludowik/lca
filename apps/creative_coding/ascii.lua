@@ -1,5 +1,5 @@
 function setup()
-    supportedOrientations(LANDSCAPE_ANY, true)
+    supportedOrientations(LANDSCAPE_ANY)
 
     baseImageList = {
         'documents:joconde',
@@ -17,7 +17,7 @@ function setup()
     local function getSource()
         local baseImage = Image(baseImageList[baseImageIndex])
 
-        local w = W/2
+        local w = min(W/2, H/2)
         local scaleFactor = w / max(baseImage.width, baseImage.height)
 
         local source = Image(w)
@@ -29,6 +29,7 @@ function setup()
                 sprite(baseImage:scale(scaleFactor), w/2, w/2)
             end,
             source)
+
         return source
     end
 

@@ -1,7 +1,7 @@
 class 'Separator' : extends(UI)
 
 function Separator:init()
-    UI.init(self, 'line')
+    UI.init(self, 'separator')
 end
 
 function Separator:computeSize()
@@ -16,4 +16,18 @@ function Separator:draw()
     stroke(colors.white)
 
     line(0, 1, self.size.x, 1)
+end
+
+class 'SeparatorNewLine' : extends(UI)
+
+function SeparatorNewLine:init()
+    UI.init(self, 'new line')
+    self.newLine = true
+end
+
+function SeparatorNewLine:computeSize()
+    self.size:set()
+end
+
+function SeparatorNewLine:draw()
 end

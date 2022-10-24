@@ -32,18 +32,19 @@ function Engine.load()
     disableGlobal()
 
     addApps()
-    
+
     loadApp(config.appPath, config.appName)
 end
 
 function Engine.unload()
     local width, height, flags = love.window.getMode()    
     config.flags = flags
-        
+
     saveConfig()
 end
 
 function Engine.release()
+    -- TOFIX
 --    resetApps()
 
     output.clear()
@@ -171,16 +172,10 @@ function Engine.draw(present)
     local clr = Color(51)
     love.graphics.clear(clr.r, clr.g, clr.b, 1, true, true)
 
-    local x, y = love.mouse.getPosition()
-    if x < X then
-        Engine.draw2d()
-        Engine.draw3d()
-        Engine.drawInfo()
-    else
-        Engine.drawInfo()
-        Engine.draw2d()
-        Engine.draw3d()
-    end
+    Engine.draw2d()
+    Engine.draw3d()
+
+    Engine.drawInfo()
 
     if present then
         love.graphics.present()
@@ -232,10 +227,12 @@ function Engine.drawInfo()
     ortho()
 
     local width, height, flags = love.window.getMode()    
-    Engine.render(function()
+    Engine.render(
+        function()
             text(getFPS())
             text(os.name)
             text(env.appPath..'/'..env.appName)
+            text(debugging() and 'debug mode' or 'release mode')
 
             text(config.framework)
             text(config.renderer)
@@ -246,11 +243,17 @@ function Engine.drawInfo()
 
             callApp('drawInfo')
 
-            Log.draw(0, 20)
-        end, 10, Y)
+            if config.show.showLogs then
+                Log.draw(0, 20)
+            end
+        end, X, Y)
 
     Engine.render(function()
-            env.parameter.interface.draw(W/SCALE, 0)
+            if getOrientation() == LANDSCAPE then
+                env.parameter.interface.draw(W/SCALE, 0)
+            else
+                env.parameter.interface.draw(X, H/SCALE)
+            end
         end, X, Y)
 end
 
@@ -268,42 +271,4 @@ function getOrigin()
         return env.origin
     end
     return TOP_LEFT
-end
-
-PORTRAIT = 'portrait'
-LANDSCAPE = 'landscape'
-LANDSCAPE_ANY = 'landscape_any'
-
-function supportedOrientations(orientations, square)
-    if orientations == PORTRAIT then
-        setMode(PORTRAIT, square)
-    elseif orientations == LANDSCAPE_ANY or orientations == LANDSCAPE then
-        setMode(LANDSCAPE, square)
-    end
-end
-
-local __mode, __square
-function setMode(mode, square)
-    env.__mode = mode or PORTRAIT
-    env.__square = square
-    if __mode == env.__mode and __square == env.__square then return end
-    setupWindow()
-    env.canvas = nil
-    __mode = env.__mode
-    __square = env.__square
-end
-
-function getMode()
-    if env then
-        return env.__mode, env.__square
-    end
-    return PORTRAIT, false
-end
-
-FULLSCREEN_NO_BUTTONS = 'FULLSCREEN_NO_BUTTONS'
-
-function displayMode(mode)
-    if mode == FULLSCREEN_NO_BUTTONS then
-        love.window.setFullscreen(true)
-    end
 end

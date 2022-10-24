@@ -5,7 +5,7 @@ function Parameter:init()
 end
 
 function getScreenSize() 
-    local w, h = love.window.getMode()
+    local w, h = love.graphics.getDimensions()
     return w..'x'..h
 end
 
@@ -25,30 +25,39 @@ end
 function Parameter:clear()
     self.scene = UIScene()
     self.scene.getOrigin = function () return TOP_LEFT end
-    
+
     self.scene:setstyles{
-        fontSize = 12
+        fontSize = 16
     }
 
     ----------------
-    self:menu('Info', true)
+    self:menu('Info')
     self:watch('screen', 'getScreenSize()')
     self:watch('safe area', 'getSafeAreaSize()')
     self:watch('window', 'getWindowSize()')
     self:watch('mouse', 'getMousePosition()')
 
     ----------------
-    self:menu('Apps menu', true, Layout.row)
-    self:action('restart', restart)
-    self:action('apps', loadAppOfTheApps)
-    self:action('tests all apps', function () loadAppOfTheApps().__autotest = true end)
-    self:action('test app', function () env.__autotest = not env.__autotest end)
-    self:action('next app', nextApp)
-    self:action('previous app', previousApp)
-    self:action('random app', randomApp)
+    self:menu('Screen')
+    global.bottom_left = false
+    global.landscape = env.__mode ~= PORTRAIT
 
-    self:boolean('bottom_left', false, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
-    self:boolean('landscape', false, function (val) supportedOrientations(val and LANDSCAPE_ANY or PORTRAIT) end)
+    self:boolean('bottom_left', bottom_left, function (val) setOrigin(val and BOTTOM_LEFT or TOP_LEFT) end)
+    self:boolean('landscape', landscape, function (val) supportedOrientations(val and LANDSCAPE_ANY or PORTRAIT) end)
+
+    ----------------
+    self:menu('Apps menu', Layout.row)
+    self:action('tests all apps', function () loadAppOfTheApps().__autotest = true end)
+    self.group:add(ButtonIconFont('loop', restart))
+    self:action('apps', loadAppOfTheApps)
+
+    self:newline()
+    
+    self:action('test app', function () env.__autotest = not env.__autotest end)
+    
+    self.group:add(ButtonIconFont('heart', randomApp))
+    self.group:add(ButtonIconFont('previous', previousApp))
+    self.group:add(ButtonIconFont('next', nextApp))
 
     self.group = self.scene
 end
@@ -84,19 +93,26 @@ function Parameter:notify(ui, value, notify)
     end
 end
 
-function Parameter:menu(name, visible, layout)
+function Parameter:menu(name, layout)
+    config.show = config.show or table()
+
     self.group = UINode()
-    self.group.visible = not not visible
+    self.group.visible = not not config.show[name]
     if layout then self.group:setLayoutFlow(layout) end
-    
+
     local group = self.group
     local button = Button(name, function ()
             group.visible = not group.visible
+            config.show[name] = group.visible
             group.size:set()
         end)
 
     self.scene:add(button)
     self.scene:add(group)
+end
+
+function Parameter:newline()
+    self.group:add(SeparatorNewLine())
 end
 
 function Parameter:action(name, callback)

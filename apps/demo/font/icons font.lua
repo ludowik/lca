@@ -1,3 +1,17 @@
+function setup()
+    zoom = 1
+    translation = vec2()
+end
+
+function touched(touch)
+    translation = translation + vec2(touch.dx, touch.dy)
+end
+
+function wheelmoved(dx, dy)
+    zoom = zoom + dy    
+    zoom = max(1, zoom)
+end
+
 function draw()
     background()
 
@@ -13,18 +27,65 @@ function draw()
         hMax = max(h, hMax)
     end
 
+    hMax = hMax + 4
+
     local i = 0
 
-    local col = tointeger((WIDTH -2*wMax) / wMax)
-    local row = tointeger(n/col)
+    local ncol = tointeger((WIDTH -2*wMax) / wMax)
+    local nrow = tointeger(n/ncol)
 
-    translate(WIDTH/2, -HEIGHT/2)
-    translate(-col*wMax/2, row*hMax/2)
+    translate(W/2, H/2)
+    scale(zoom)
+    translate(translation.x, translation.y)
+    translate(-ncol*wMax/2, -nrow*hMax/2)    
 
-    for row=0,row-1 do
-        for col=0,col-1 do
-            text(''..utf8.char(0xF100+i), col*wMax, HEIGHT-row*hMax)
-            i = i + 1
+    textColor(colors.white)
+
+    local row, col = 0, 0
+    for k,v in pairs(iconsFont) do
+        if col >= ncol then
+            row = row + 1
+            col = 0
         end
+
+        text(''..utf8.char(v), col*wMax, row*hMax)
+
+        col = col + 1
     end
+
+    fontName('Arial')
+    fontSize(6)
+
+    textMode(CENTER)
+    
+    local pos = (vec2(mouse) + translation) * zoom
+
+    row, col = 0, 0
+    for k,v in pairs(iconsFont) do
+        if col >= ncol then
+            row = row + 1
+            col = 0
+        end
+
+        if (mouse.x > col*wMax and 
+            mouse.x < col*wMax+wMax and 
+            mouse.y > row*hMax and 
+            mouse.y < row*hMax + hMax)
+        then
+            textColor(colors.red)
+        else
+            textColor(colors.lightgray)
+        end
+
+        text(k, col*wMax+wMax/2, row*hMax+hMax)
+
+        col = col + 1
+    end
+
+    --    for row=0,row-1 do
+    --        for col=0,col-1 do
+    --            text(''..utf8.char(0xF100+i), col*wMax, HEIGHT-row*hMax)
+    --            i = i + 1
+    --        end
+    --    end
 end

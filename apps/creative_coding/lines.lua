@@ -43,6 +43,7 @@ function draw()
     noStroke()
 
     blendMode(NORMAL)
+    
     fill(0, 0, 0, 0.02)
 
     rectMode(CORNER)

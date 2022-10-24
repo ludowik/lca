@@ -59,7 +59,7 @@ Engine.keys = {
     ['lalt+m'] = {
         desc = 'Orientation',
         f = function ()
-            if getMode() == PORTRAIT then
+            if getOrientation() == PORTRAIT then
                 setMode(LANDSCAPE)
             else
                 setMode(PORTRAIT)

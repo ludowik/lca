@@ -1,12 +1,13 @@
-function setupWindow(__mode, scale)
-    local mode, square = getMode()
+function setupWindow(mode, scale)
+    mode = mode or getOrientation()
 
-    SCALE = scale or (env and env.SCALE) or 1
+    SCALE = SCALE or scale or (env and env.SCALE) or 1
 
-    X, Y, W, H = initWindow(mode, square)
+    X, Y, W, H = initWindow(mode)
 
     WIDTH, HEIGHT = W, H
 
+    -- TODO : usefull
     safeArea = {
         left = X,
         top = Y,
@@ -15,102 +16,168 @@ function setupWindow(__mode, scale)
     }
 end
 
-screenConfig = {
-    W = 500,
-    H = 500, -- * 9/16,
-    X = 80,
-    Y = 24,
-    WP = 500
-}
+PORTRAIT = 'portrait'
+LANDSCAPE = 'landscape'
+LANDSCAPE_ANY = 'landscape_any'
+
+function supportedOrientations(orientations)
+    if orientations == PORTRAIT then
+        setMode(PORTRAIT)
+
+    elseif orientations == LANDSCAPE_ANY or orientations == LANDSCAPE then
+        setMode(LANDSCAPE)
+    end
+end
+
+local __mode, __square
+-- TODO : simpifiable ?
+function setMode(mode)
+    env.__mode = mode or LANDSCAPE
+--    if __mode == env.__mode then return end
+    setupWindow(env.__mode)
+    env.canvas = nil
+    __mode = env.__mode
+end
+
+FULLSCREEN_NO_BUTTONS = 'FULLSCREEN_NO_BUTTONS'
+
+function displayMode(mode)
+    if mode == FULLSCREEN_NO_BUTTONS then
+        love.window.setFullscreen(true)
+    end
+end
+
+local orientation = LANDSCAPE
+local W, H = love.graphics.getDimensions()
+
+function getOrientation()
+    return orientation
+end
+
+function setOrientation(newOrientation)
+    newOrientation = newOrientation or orientation
+    if newOrientation == LANDSCAPE then
+        W, H = math.max(W, H), math.min(W, H)
+    else
+        W, H = math.min(W, H), math.max(W, H)
+    end
+
+    orientation = newOrientation
+
+    love.window.updateMode(W, H)
+
+    print(orientation)
+    print(W, H)
+end
+
+--debugStart()
+
+do
+    local wt, ht
+    local x
+    if os.name == 'ios' then
+        SCALE = 1 / 0.85
+        
+        wt, ht = love.graphics.getDimensions()
+        x, y = love.window.getSafeArea()
+
+    else        
+        SCALE = 1 / 1.2
+
+        wt = 812 / SCALE
+        ht = 375 / SCALE
+
+        x = 40
+    end
+
+    setOrientation(LANDSCAPE)
+
+    screenConfig = {
+        WT = wt,
+        HT = ht,
+
+        W = floor(wt * (0.75)),
+        H = floor(ht * (0.98)),
+
+        X = x
+    }
+
+    screenConfig.Y = (screenConfig.HT - screenConfig.H) / 2
+    screenConfig.WP = screenConfig.WT - screenConfig.X - screenConfig.W
+end
 
 local initModes = {}
 
 function initModes.portrait()
     local x, y, w, h, wt, ht
 
-    x = screenConfig.X
-    y = screenConfig.Y
+    x = screenConfig.Y
+    y = screenConfig.X
 
-    h = SCALE * screenConfig.W
     w = SCALE * screenConfig.H
+    h = SCALE * screenConfig.W
 
-    wt = w / SCALE + screenConfig.WP
-    ht = h / SCALE + 2 * screenConfig.Y
+    wt = screenConfig.HT
+    ht = screenConfig.WT
+
+    setOrientation(PORTRAIT)
 
     return x, y, w, h, wt, ht
 end
 
-function initModes.landscape(square)
+function initModes.landscape()
     local x, y, w, h, wt, ht
 
     x = screenConfig.X
     y = screenConfig.Y
 
-    if square then
-        w = SCALE * screenConfig.H
-        h = w
-    else
-        w = SCALE * screenConfig.W
-        h = SCALE * screenConfig.H
-    end
-    
-    w = SCALE * screenConfig.H
-    h = w
-    
-    wt = w / SCALE + screenConfig.WP
-    ht = h / SCALE + 2 * screenConfig.Y
+    w = SCALE * screenConfig.W
+    h = SCALE * screenConfig.H
+
+    wt = screenConfig.WT
+    ht = screenConfig.HT
+
+    setOrientation(LANDSCAPE)
 
     return x, y, w, h, wt, ht
 end
 
-
-function initWindow(mode, square)
+function initWindow(mode)
     local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
 
-    if os.name == 'web' then
-        local w1, h1 = love.window.getDesktopDimensions()
-        local w2, h2 = love.graphics.getDimensions()        
-        if w1 < w2 then
-            w, h = w1, h1
-        else
-            w, h = w2, h2
-        end
-        wt, ht = w, h
-
-    elseif os.name == 'ios' then
-        x, y, w, h = love.window.getSafeArea()
-        x = x * 3
-        w = w - x * 2
-        wt, ht = love.window.getMode()
-        wt, ht = min(wt, ht), max(wt, ht)
-
-    else
-        x, y, w, h, wt, ht = initModes[mode](square)
-    end
+    x, y, w, h, wt, ht = initModes[mode]()
 
     w = round(w)
     h = round(h)
 
     if not global.__autotest then
+        local x, y, display
+
         if os.name == 'ios' then
-            love.window.setMode(wt, ht)
+            --            x, y, display = 0, 0, 0
+
         else
-            love.window.updateMode(
-                wt,
-                ht, {
-                    highdpi = not oswindows,
-                    usedpiscale = not oswindows,
+            x = config.flags and config.flags.x or 100
+            y = config.flags and config.flags.y or 50
 
-                    msaa = 1,
-                    depth = 16,
-                    vsync = 0,
-
-                    x = config.flags and config.flags.x or 100,
-                    y = config.flags and config.flags.y or 50,
-
-                    display = config.flags and config.flags.display or 1,
-                })
+            display = 1 -- config.flags and config.flags.display or 1
         end
+
+        love.window.setMode(
+            wt,
+            ht, {
+                highdpi = not oswindows,
+                usedpiscale = not oswindows,
+
+                msaa = 1,
+                depth = 16,
+                vsync = 0,
+
+                x = x,
+                y = y,
+
+                display = display,
+            })
     end
 
     return x, y, w, h

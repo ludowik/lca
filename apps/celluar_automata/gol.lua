@@ -1,13 +1,10 @@
-CELLS_COUNT = vec2(50, 80)
-
-CELLS_SIZE = (H - 100) / CELLS_COUNT.y
-
-function cell2screen(i, j)
-    return WIDTH / 10 * i, HEIGHT / 10 * j
-end
-
 function setup()
-    supportedOrientations(PORTRAIT)
+    supportedOrientations(LANDSCAPE)
+
+    CELLS_SIZE = floor(W/60)
+    CELLS_COUNT = vec2(
+        floor(W/CELLS_SIZE),
+        floor(H/CELLS_SIZE))
 
     delay = 0
 
@@ -20,10 +17,16 @@ function setup()
 
     menu = ToolBar(cell2screen(1, 1))
 
-    menu:add(Button('clear', function (btn) grid:clear() end))
-    menu:add(Button('reset', function (btn) grid:reset() end))
-    
+    menu:add(Button('clear', function () grid:clear() end))
+    menu:add(Button('reset', function () grid:reset() end))
+    menu:add(Button('pause', function () grid:pause() end))
+    menu:add(Button('resume', function () grid:resume() end))
+
     parameter.link('https://beltoforion.de/en/game_of_life/')
+end
+
+function cell2screen(i, j)
+    return WIDTH / 10 * i, HEIGHT / 10 * j
 end
 
 function update(dt)
@@ -42,11 +45,19 @@ function draw()
 end
 
 function touched(touch)
-    local cell = grid:cellFromPosition(touch.x, touch.y)
-    if cell then
-        grid:addLife(cell.x, cell.y)
-    else
-        menu:touched(touch)
+    if touch.state == RELEASED then
+        if menu:contains(touch) then
+            menu:touched(touch)
+        else
+            local cell = grid:cellFromPosition(touch.x, touch.y)
+            if cell then
+                if grid.status == 'active' then
+                    grid:addLife(cell.x, cell.y)
+                else
+                    grid:setLife(cell.x, cell.y)
+                end
+            end
+        end
     end
 end
 
@@ -54,6 +65,7 @@ class 'GolGrid' : extends(Grid)
 
 function GolGrid:init(...)
     Grid.init(self, ...)
+    self.status = 'active'
 end
 
 function GolGrid:reset()
@@ -65,6 +77,14 @@ function GolGrid:reset()
 
     self.size = vec2()
     self.position = vec2()
+end
+
+function GolGrid:pause()
+    self.status = 'paused'
+end
+
+function GolGrid:resume()
+    self.status = 'active'
 end
 
 function GolGrid:addLife(x, y)
@@ -79,7 +99,16 @@ function GolGrid:addLife(x, y)
     end
 end
 
+function GolGrid:setLife(x, y)
+    x = x or randomInt(CELLS_COUNT.x)
+    y = y or randomInt(CELLS_COUNT.y)
+
+    self:set(x, y, not self:get(x, y))
+end
+
 function GolGrid:update(dt)
+    if self.status == 'paused' then return end
+
     delay = delay + dt
 
     if delay >= 0.08 then
@@ -132,13 +161,10 @@ function GolGrid:draw()
     local y = self.position.y
 
     translate(x, y)
-
     scale(self.scale, self.scale)
 
-    stroke(colors.red)
-    strokeSize(1)
-
-    fill(colors.red)
+    stroke(colors.gray)
+    strokeSize(0.5)
 
     for i=0,grid.n do
         line(w*i, 0, w*i, h*grid.m)
@@ -147,6 +173,8 @@ function GolGrid:draw()
     for j=0,grid.m do
         line(0, h*j, w*grid.n, h*j)
     end
+
+    fill(colors.white)
 
     rectMode(CORNER)
 

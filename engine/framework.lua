@@ -45,22 +45,27 @@ function restart()
     quit('restart')
 end
 
-function quit(...)
+function quit(mode)
     Engine.unload()
     Engine.quit = true
-    return love.event.quit(...)
+    if os.name == 'ios' and mode ~= 'restart' then exit() end
+    return love.event.quit(mode)
 end
 
 function exit()
     os.exit()
 end
 
-os.name = os.name or (
-    (love.filesystem.getSaveDirectory():find('CoreSimulator') and 'ios') or
-    (jit and jit.os) or
-    (love and love.system.getOS()) or
-    (os and os.getenv('OS')) or
-    ('osx')):lower():gsub(' ', ''):gsub('_nt', '')
+function getOS()
+    return (
+        (love and love.system.getOS()) or
+        (jit and jit.os) or
+        (os and os.getenv('OS')) or
+        ('osx')):lower():gsub(' ', ''):gsub('_nt', '')
+end
+
+os.name = os.name or getOS()
+os.real = getOS()
 
 osx = os.name == 'osx'
 oswindows = os.name == 'windows'
@@ -221,7 +226,7 @@ else
 
             timer = {
                 sleep = timer.sleep,
-                
+
                 step = function ()
                     if global.__time1 == nil then
                         global.__time1 = love.timer.getTime()

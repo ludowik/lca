@@ -27,6 +27,11 @@ function Engine.mousepressed(x, y, button, istouch, presses)
         end
         callApp('mousepressed', mouse2)
         callApp('touched', mouse2)
+        
+    else
+        if x < X then
+            config.show.showLogs = not config.show.showLogs
+        end
     end
 
     _G.env.parameter.touched(mouse)

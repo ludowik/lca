@@ -78,14 +78,22 @@ function Layout:layout(mode, n)
                 position.x = position.x + node.size.x + innerMarge
                 i = i + 1
 
-                if position.x > screenConfig.WP then
+                if position.x > screenConfig.WP or node.newLine then
                     position.x = outerMarge
-                    position.y = position.y + node.size.y + innerMarge
-                    
+                    position.y = position.y + max(self.rowSize[j].y, node.size.y) + innerMarge
+
                     node.position.x = position.x
                     node.position.y = position.y
+
+                    if not node.newLine then
+                        position.x = position.x + node.size.x + innerMarge
+                    end
+
+                    i = 1
+                    j = j + 1
                     
-                    position.x = position.x + node.size.x + innerMarge
+                    self.rowSize[j] = self.rowSize[j] or vec2()
+                    self.rowSize[j].y = self.rowSize[j-1].y
                 end
 
             elseif mode == 'column' then

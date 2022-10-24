@@ -283,7 +283,7 @@ function table:tolua(level, __recursive)
         end
 
         if type(k) == 'string' then
-            t = t .. tab(level) .. k .. ' = ' .. val .. ',\n'
+            t = t .. tab(level) .. "['" .. k .."']" .. ' = ' .. val .. ',\n'
         else
             t = t .. tab(level) .. '[' .. k ..']' .. ' = ' .. val .. ',\n'
         end

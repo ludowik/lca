@@ -1,16 +1,18 @@
 function setup()
+    supportedOrientations(LANDSCAPE_ANY)
+
     scene = UIScene(Layout.grid, 2)
     scene:setAlignment('v-center,h-center')
-    
+
     browse(APPS)
 
-    parameter.watch('searchTime')
-    parameter.watch('searchText')
+--    parameter.watch('searchTime')
+--    parameter.watch('searchText')
 end
 
 function browse(path, previousPath)
     scene:clear()
-    
+
     if previousPath then
         scene:add(UI('..', function ()
                     browse(previousPath)
@@ -127,7 +129,7 @@ function autotest(dt)
 
     local apps = enumFiles(APPS)
     apps:sort()
-    
+
     for i = appsList.saveCurrentIndex, #apps do        
         if pumpEvent() then break end
 
@@ -177,5 +179,5 @@ function autotest(dt)
     global.__autotest = false
 
     quit()
-    
+
 end

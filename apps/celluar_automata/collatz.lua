@@ -5,7 +5,7 @@ function setup()
     angle = 0
     x1, y1, x2, y2 = 0, 0, 0, 0
 
-    rotation = PI / 3
+    rotation = PI / 1.99
 
     len = 100
 
@@ -21,13 +21,7 @@ function setup()
         end)
 end
 
-function collatz()
-    if nextValue == 1 then
-        background(0)
-    end
-    
-    blendMode(NORMAL)
-
+function collatz()    
     if value == 1 then
         nextValue = nextValue + 1
         value = nextValue
@@ -48,7 +42,6 @@ function collatz()
         -- odd
         value = (3 * value + 1) / 2
         angle = angle + rotation
-
     end
 
     x1, y1 = x2, y2
@@ -63,6 +56,18 @@ function collatz()
 end
 
 function draw()
+    if nextValue == 1 then
+        background(0)
+    end
+    
+    blendMode(NORMAL)
+
+    noStroke()
+    fill(0, 0, 0, 0.001)
+
+    rectMode(CORNER)
+    rect(0, 0, W, H)
+    
     translate(W/2, H/2)
 
     for i=1,100 do
