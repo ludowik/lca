@@ -9,7 +9,6 @@
     => setOrientation
         => updateMode
             => love.window.updateMode
-
 ]]
 
 --debugStart()
@@ -19,16 +18,16 @@ local function setupScreen()
     local x
 
     if os.name == 'ios' then
-        SCALE = 1 / 0.85
+        SCALE_APP = 1.25
 
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
 
     else        
-        SCALE = 1 / 1
+        SCALE_APP = 0.85
 
-        wt = 812 / SCALE
-        ht = 375 / SCALE
+        wt = 812
+        ht = 375
 
         x = 40
         y = 40
@@ -53,7 +52,7 @@ local initModes = {}
 
 local function initWindow(mode)
     mode = mode or LANDSCAPE
-    local x, y, w, h, wt, ht = initModes[mode]()
+    local left, top, w, h, wt, ht = initModes[mode]()
 
     local display
 
@@ -84,7 +83,7 @@ local function initWindow(mode)
             display = display,
         })
 
-    return x, y, w, h
+    return left, top, w, h
 end
 
 function setupWindow()
@@ -95,7 +94,7 @@ function setupWindow()
     X, Y, W, H = initWindow(mode)
     WIDTH, HEIGHT = W, H
 
-    SCALE = SCALE or (env and env.SCALE) or 1    
+    SCALE_APP = SCALE_APP or (env and env.SCALE_APP) or 1
 
     -- TODO : usefull
     safeArea = {
@@ -112,8 +111,8 @@ function initModes.portrait()
     x = screenConfig.Y
     y = screenConfig.X
 
-    w = floor(SCALE * screenConfig.H)
-    h = floor(SCALE * screenConfig.W)
+    w = floor(SCALE_APP * screenConfig.H)
+    h = floor(SCALE_APP * screenConfig.W)
 
     wt = screenConfig.HT
     ht = screenConfig.WT
@@ -129,8 +128,8 @@ function initModes.landscape()
     x = screenConfig.X
     y = screenConfig.Y
 
-    w = floor(SCALE * screenConfig.W)
-    h = floor(SCALE * screenConfig.H)
+    w = floor(SCALE_APP * screenConfig.W)
+    h = floor(SCALE_APP * screenConfig.H)
 
     wt = screenConfig.WT
     ht = screenConfig.HT
@@ -144,8 +143,13 @@ local function updateMode(mode)
     mode = mode or LANDSCAPE
     local x, y, w, h, wt, ht = initModes[mode]()
 
-    print('update mode '..wt..'x'..ht)
-    love.window.updateMode(wt, ht)
+    local _wt, _ht = love.window.getMode()
+    if _wt ~= wt then
+        print('update mode '..wt..'x'..ht)
+        love.window.updateMode(wt, ht)
+    end
+
+    return x, y, w, h, wt, ht
 end
 
 PORTRAIT = 'portrait'
@@ -173,13 +177,13 @@ end
 local orientation = LANDSCAPE
 
 function getOrientation()
-    return orientation
+    return env and env.__orientation or orientation
 end
 
 function setOrientation(newOrientation)
     local wt, ht = screenConfig.WT, screenConfig.HT -- love.graphics.getDimensions()
 
-    newOrientation = newOrientation or orientation
+    newOrientation = newOrientation or getOrientation()
     if newOrientation == LANDSCAPE then
         wt, ht = math.max(wt, ht), math.min(wt, ht)
     else
@@ -187,8 +191,12 @@ function setOrientation(newOrientation)
     end
 
     orientation = newOrientation
+    if env then
+        env.__orientation = orientation
+    end
 
-    updateMode(orientation)
+    X, Y, W, H = updateMode(orientation)
+    WIDTH, HEIGHT = W, H
 end
 
 function setVSync(vsync)

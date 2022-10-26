@@ -20,7 +20,7 @@ function Engine.mousepressed(x, y, button, istouch, presses)
     mouseevent(PRESSED, x, y, button, 0)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        local mouse2 = __mouseScale(mouse, SCALE)
+        local mouse2 = __mouseScale(mouse, SCALE_APP)
         if getOrigin() == BOTTOM_LEFT then
             mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2
@@ -41,7 +41,7 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
     mouseevent(MOVED, x, y, mouse.button, 0)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        local mouse2 = __mouseScale(mouse, SCALE)
+        local mouse2 = __mouseScale(mouse, SCALE_APP)
         if getOrigin() == BOTTOM_LEFT then
             mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2
@@ -49,7 +49,7 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
         callApp('mousemoved', mouse2)
         if istouch or love.mouse.isDown(mouse2.button) then
             if getCamera() then
-                getCamera():processMouseMovement(__mouseReverseY(__mouseScale(mouse, SCALE)), true)
+                getCamera():processMouseMovement(__mouseReverseY(__mouseScale(mouse, SCALE_APP)), true)
             end
 
             callApp('touched', mouse2)
@@ -65,7 +65,7 @@ function Engine.mousereleased(x, y, button, istouch, presses)
     mouseevent(RELEASED, x, y, button, presses)
 
     if Rect(X, Y, W, H):contains(x, y) then
-        local mouse2 = __mouseScale(mouse, SCALE)
+        local mouse2 = __mouseScale(mouse, SCALE_APP)
         if getOrigin() == BOTTOM_LEFT then
             mouse2 = __mouseReverseY(mouse2)
             CurrentTouch = mouse2

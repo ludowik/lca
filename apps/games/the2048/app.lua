@@ -1,4 +1,6 @@
 function setup()
+    supportedOrientations(PORTRAIT)
+    
     env.commands = table{'down', 'up', 'left', 'right'}
 
     grid = newGrid()

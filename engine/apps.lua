@@ -16,7 +16,7 @@ function addApps(path)
 
     path = path or APPS
 
-    local files = dir(path) -- love.filesystem.getDirectoryItems(path)
+    local files = dir(path)
     files:sort()
 
     for _,ref in ipairs(files) do
@@ -113,7 +113,7 @@ function loadApp(path, name, garbage)
     end
 
     apps.currentIndex = apps.listByName[filePath].index
-            
+
     if not apps.listByName[filePath].loaded then        
         apps.listByName[filePath].loaded = true
 
@@ -122,6 +122,7 @@ function loadApp(path, name, garbage)
 
         local env = {
             __vsync = 1,
+            __orientation = LANDSCAPE,
 
             setup = function () end,
 
@@ -192,17 +193,30 @@ function loadApp(path, name, garbage)
 
                 callApp('setup')
 
+                setOrientation()
+
                 apps.listByName[filePath].env = env
             end
         end
 
     else
         local env = apps.listByIndex[apps.currentIndex].env
-        setActiveApp(env)
+        _G.env = env
+        setfenv(0, env)
+
         setOrientation()
+
+        callApp('resume')
     end
 
     love.window.setTitle(name)
+
+    config.appPath = _G.env.appPath
+    config.appName = _G.env.appName
+
+    saveConfig()
+
+    love.window.setVSync(not not _G.env.__vsync)
 
     return _G.env
 end
@@ -237,19 +251,6 @@ function loadAppCodea(dir, name, isDependencies)
             end
         end
     end
-end
-
-function setActiveApp(env)
-    _G.env = env
-    setfenv(0, env)
-    love.window.setVSync(not not _G.env.__vsync)
-
-    config.appPath = _G.env.appPath
-    config.appName = _G.env.appName
-
-    saveConfig()
-
-    callApp('resume')
 end
 
 function setApp(index, garbage)

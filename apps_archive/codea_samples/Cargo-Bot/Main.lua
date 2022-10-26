@@ -1,7 +1,8 @@
 -- Main.lua
 DEV_MODE = false
 NO_MUSIC = true
-SCALE = 1.6
+ 
+ SCALE_APP = 1.6
 
 function setup()
     --IO.clearAll()

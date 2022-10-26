@@ -54,10 +54,11 @@ function Parameter:clear()
     self.group:add(ButtonIconFont('heart', randomApp))
     self.group:add(ButtonIconFont('previous', previousApp))
     self.group:add(ButtonIconFont('next', nextApp))
-    self.group:add(ButtonIconFont('photo', function () Engine.captureImage('captures') end))
 
     self:newline()
 
+    self.group:add(ButtonIconFont('photo', function () Engine.captureImage('captures') end))
+    
     self.group:add(ButtonIconFont(getOrigin() == TOP_LEFT and 'arrow_up' or 'arrow_down',
             function (btn)
                 setOrigin(getOrigin() == TOP_LEFT and BOTTOM_LEFT or TOP_LEFT)
@@ -69,6 +70,10 @@ function Parameter:clear()
                 supportedOrientations(getOrientation() == PORTRAIT and LANDSCAPE_ANY or PORTRAIT)
                 btn.label = getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait'
             end))
+
+    self:newline()
+    
+    self:number('_G.SCALE_APP', 0.25, 2)
 
     ----------------
     self.group = group

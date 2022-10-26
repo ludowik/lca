@@ -37,7 +37,7 @@ function Engine.load()
 end
 
 function Engine.unload()
-    local width, height, flags = love.window.getMode()    
+    local _, _, flags = love.window.getMode()    
     config.flags = flags
 
     saveConfig()
@@ -111,7 +111,8 @@ end
 
 function Engine.beginDraw(origin)
     Engine.origin = origin
-    if not env.canvas then
+    
+    if not env.canvas or env.canvas:getWidth() ~= W then
         env.canvas = love.graphics.newCanvas(W, H)
 
         love.graphics.setCanvas({
@@ -150,9 +151,9 @@ function Engine.endDraw()
     local reverseY = Engine.origin == BOTTOM_LEFT
 
     if reverseY then
-        love.graphics.draw(source, X, H/SCALE + Y, 0, 1/SCALE, -1/SCALE)
+        love.graphics.draw(source, X, H/SCALE_APP + Y, 0, 1/SCALE_APP, -1/SCALE_APP)
     else
-        love.graphics.draw(source, X, Y, 0, 1/SCALE, 1/SCALE)
+        love.graphics.draw(source, X, Y, 0, 1/SCALE_APP, 1/SCALE_APP)
     end
 end
 
@@ -214,7 +215,6 @@ function Engine.drawInfo()
     resetMatrix(true)
     ortho()
 
-    local width, height, flags = love.window.getMode()    
     Engine.render(
         function()
             text(getFPS())
@@ -234,9 +234,9 @@ function Engine.drawInfo()
 
     Engine.render(function()
             if getOrientation() == LANDSCAPE then
-                env.parameter.interface.draw(W/SCALE, 0)
+                env.parameter.interface.draw(W/SCALE_APP, 0)
             else
-                env.parameter.interface.draw(X, H/SCALE)
+                env.parameter.interface.draw(X, H/SCALE_APP)
             end
         end, X, Y)
 end
