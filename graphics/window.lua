@@ -17,7 +17,7 @@
 local function setupScreen()
     local wt, ht
     local x
-    
+
     if os.name == 'ios' then
         SCALE = 1 / 0.85
 
@@ -52,59 +52,49 @@ end
 local initModes = {}
 
 local function initWindow(mode)
-    local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
+    mode = mode or LANDSCAPE
+    local x, y, w, h, wt, ht = initModes[mode]()
 
-    x, y, w, h, wt, ht = initModes[mode]()
+    local display
 
-    w = round(w)
-    h = round(h)
+    if os.name == 'ios' then
+--        x, y, display = 0, 0, 0
 
-    if not global.__autotest then
-        local x, y, display
+    else
+        x = config.flags and config.flags.x or 100
+        y = config.flags and config.flags.y or 50
 
-        if os.name == 'ios' then
-            --            x, y, display = 0, 0, 0
-
-        else
-            x = config.flags and config.flags.x or 100
-            y = config.flags and config.flags.y or 50
-
-            display = 1 -- config.flags and config.flags.display or 1
-        end
-
-        local w, h = love.window.getMode()
-        if w ~= wt or h ~= ht then -- or os.name == 'ios' then
-            print('set mode '..wt..'x'..ht)
-
-            love.window.setMode(
-                wt,
-                ht, {
-                    highdpi = not oswindows,
-                    usedpiscale = not oswindows,
-
-                    msaa = 1,
-                    depth = 16,
-                    vsync = 0,
-
-                    x = x,
-                    y = y,
-
-                    display = display,
-                })
-        end
+        display = 1 -- config.flags and config.flags.display or 1
     end
+
+    print('set mode '..wt..'x'..ht)
+    love.window.setMode(
+        wt,
+        ht, {
+            highdpi = not oswindows,
+            usedpiscale = not oswindows,
+
+            msaa = 1,
+            depth = 16,
+            vsync = 0,
+
+            x = x,
+            y = y,
+
+            display = display,
+        })
 
     return x, y, w, h
 end
 
 function setupWindow()
     setupScreen()
-    
+
     local mode = getOrientation()
 
     X, Y, W, H = initWindow(mode)
     WIDTH, HEIGHT = W, H
-    
+
     SCALE = SCALE or (env and env.SCALE) or 1    
 
     -- TODO : usefull
@@ -122,8 +112,8 @@ function initModes.portrait()
     x = screenConfig.Y
     y = screenConfig.X
 
-    w = SCALE * screenConfig.H
-    h = SCALE * screenConfig.W
+    w = floor(SCALE * screenConfig.H)
+    h = floor(SCALE * screenConfig.W)
 
     wt = screenConfig.HT
     ht = screenConfig.WT
@@ -139,8 +129,8 @@ function initModes.landscape()
     x = screenConfig.X
     y = screenConfig.Y
 
-    w = SCALE * screenConfig.W
-    h = SCALE * screenConfig.H
+    w = floor(SCALE * screenConfig.W)
+    h = floor(SCALE * screenConfig.H)
 
     wt = screenConfig.WT
     ht = screenConfig.HT
@@ -153,6 +143,8 @@ end
 local function updateMode(mode)
     mode = mode or LANDSCAPE
     local x, y, w, h, wt, ht = initModes[mode]()
+
+    print('update mode '..wt..'x'..ht)
     love.window.updateMode(wt, ht)
 end
 
@@ -195,7 +187,7 @@ function setOrientation(newOrientation)
     end
 
     orientation = newOrientation
-    
+
     updateMode(orientation)
 end
 
