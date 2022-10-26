@@ -18,15 +18,15 @@ function addApps(path)
 
     local files = dir(path) -- love.filesystem.getDirectoryItems(path)
     files:sort()
-    
+
     for _,ref in ipairs(files) do
         local _path, file = splitPath(ref)
-        
+
         if (file:lower():contains('.ds_store') or 
             file:lower():contains('.git'))
         then
             -- continue
-            
+
         elseif isApp(path..'/' .. file) then
             addApp(path, file:gsub('.lua', ''))
 
@@ -46,6 +46,7 @@ function addApp(path, name)
             name = name
         }
         apps.listByIndex[#apps.listByIndex + 1] = apps.listByName[filePath]
+        apps.listByName[filePath].index = #apps.listByIndex
     end
 end
 
@@ -81,7 +82,7 @@ function loadApp(path, name, garbage)
         loadAppOfTheApps()
         return
     end
-    
+
     if garbage then
         gc()
     end
@@ -102,7 +103,7 @@ function loadApp(path, name, garbage)
         loadAppOfTheApps()
         return
     end
-    
+
     callApp('pause')
 
     if not apps.listByName[filePath].loaded then
@@ -111,6 +112,8 @@ function loadApp(path, name, garbage)
         log('set active app : '..name)
     end
 
+    apps.currentIndex = apps.listByName[filePath].index
+            
     if not apps.listByName[filePath].loaded then        
         apps.listByName[filePath].loaded = true
 
@@ -192,23 +195,14 @@ function loadApp(path, name, garbage)
                 apps.listByName[filePath].env = env
             end
         end
+
+    else
+        local env = apps.listByIndex[apps.currentIndex].env
+        setActiveApp(env)
+        setOrientation()
     end
 
-    if apps.listByName[filePath] then
-        for index=1,#apps.listByIndex do
-            if apps.listByIndex[index] == apps.listByName[filePath] then
-                apps.currentIndex = index
-                local env = apps.listByIndex[apps.currentIndex].env
-                setActiveApp(env)
-                break
-            end
-        end
-
-        love.window.setTitle(name)
-    end
-
-    supportedOrientations(env.__mode == LANDSCAPE and LANDSCAPE_ANY or PORTRAIT)
---    setMode(env.__mode)
+    love.window.setTitle(name)
 
     return _G.env
 end
@@ -248,13 +242,13 @@ end
 function setActiveApp(env)
     _G.env = env
     setfenv(0, env)
-    love.window.setVSync(_G.env.__vsync)
+    love.window.setVSync(not not _G.env.__vsync)
 
     config.appPath = _G.env.appPath
     config.appName = _G.env.appName
 
     saveConfig()
-    
+
     callApp('resume')
 end
 

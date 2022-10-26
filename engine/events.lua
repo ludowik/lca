@@ -56,17 +56,6 @@ Engine.keys = table{
         end
     },
 
-    ['lalt+m'] = {
-        desc = 'Orientation',
-        f = function ()
-            if getOrientation() == PORTRAIT then
-                setMode(LANDSCAPE)
-            else
-                setMode(PORTRAIT)
-            end
-        end
-    },
-
     ['lalt+s'] = {
         desc = 'Scan toxxxx',
         f = function ()

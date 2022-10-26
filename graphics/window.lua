@@ -1,104 +1,44 @@
-function setupWindow(mode, scale)
-    mode = mode or getOrientation()
+--[[
+=> setupWindow
+    => setupScreen
+    => initWindow
+        => initModes
+        => love.window.setMode
 
-    SCALE = SCALE or scale or (env and env.SCALE) or 1
+=> supportedOrientations
+    => setOrientation
+        => updateMode
+            => love.window.updateMode
 
-    X, Y, W, H = initWindow(mode)
-
-    WIDTH, HEIGHT = W, H
-
-    -- TODO : usefull
-    safeArea = {
-        left = X,
-        top = Y,
-        right = X * 2 + W,
-        bottom = Y * 2 + H
-    }
-end
-
-PORTRAIT = 'portrait'
-LANDSCAPE = 'landscape'
-LANDSCAPE_ANY = 'landscape_any'
-
-function supportedOrientations(orientations)
-    if orientations == PORTRAIT then
-        setMode(PORTRAIT)
-
-    elseif orientations == LANDSCAPE_ANY or orientations == LANDSCAPE then
-        setMode(LANDSCAPE)
-    end
-end
-
-local __mode, __square
--- TODO : simpifiable ?
-function setMode(mode)
-    env.__mode = mode or LANDSCAPE
---    if __mode == env.__mode then return end
-    setupWindow(env.__mode)
-    env.canvas = nil
-    __mode = env.__mode
-end
-
-FULLSCREEN_NO_BUTTONS = 'FULLSCREEN_NO_BUTTONS'
-
-function displayMode(mode)
-    if mode == FULLSCREEN_NO_BUTTONS then
-        love.window.setFullscreen(true)
-    end
-end
-
-local orientation = LANDSCAPE
-
-function getOrientation()
-    return orientation
-end
-
-function setOrientation(newOrientation)
-    local wt, ht = love.graphics.getDimensions()
-
-    newOrientation = newOrientation or orientation
-    if newOrientation == LANDSCAPE then
-        wt, ht = math.max(wt, ht), math.min(wt, ht)
-    else
-        wt, ht = math.min(wt, ht), math.max(wt, ht)
-    end
-
-    orientation = newOrientation
-
-    local w, h = love.window.getMode()
-    if w ~= wt or h ~= ht then
-        love.window.updateMode(wt, ht)
-        print('update mode '..wt..'x'..ht)
-    end
-end
+]]
 
 --debugStart()
 
-do
+local function setupScreen()
     local wt, ht
     local x
+    
     if os.name == 'ios' then
-        SCALE = 1 / 0.75
+        SCALE = 1 / 0.85
 
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
 
     else        
-        SCALE = 1 / 1.25
+        SCALE = 1 / 1
 
         wt = 812 / SCALE
         ht = 375 / SCALE
 
-        x, y = 40, 40
+        x = 40
+        y = 40
     end
-
-    setOrientation(LANDSCAPE)
 
     screenConfig = {
         WT = floor(wt),
         HT = floor(ht),
 
-        W = floor(wt * (0.75)),
+        W = floor(wt * (0.70)),
         H = floor(ht * (0.98)),
 
         X = x
@@ -111,45 +51,7 @@ end
 
 local initModes = {}
 
-function initModes.portrait()
-    local x, y, w, h, wt, ht
-
-    x = screenConfig.Y
-    y = screenConfig.X
-
-    w = SCALE * screenConfig.H
-    h = SCALE * screenConfig.W
-
-    wt = screenConfig.HT
-    ht = screenConfig.WT
-
-    screenConfig.WP = screenConfig.HT - screenConfig.Y
-
-    setOrientation(PORTRAIT)
-
-    return x, y, w, h, wt, ht
-end
-
-function initModes.landscape()
-    local x, y, w, h, wt, ht
-
-    x = screenConfig.X
-    y = screenConfig.Y
-
-    w = SCALE * screenConfig.W
-    h = SCALE * screenConfig.H
-
-    wt = screenConfig.WT
-    ht = screenConfig.HT
-
-    screenConfig.WP = screenConfig.WT - screenConfig.X - screenConfig.W
-
-    setOrientation(LANDSCAPE)
-
-    return x, y, w, h, wt, ht
-end
-
-function initWindow(mode)
+local function initWindow(mode)
     local x, y, w, h, wt, ht = 0, 0, 0, 0, 0, 0
 
     x, y, w, h, wt, ht = initModes[mode]()
@@ -171,7 +73,7 @@ function initWindow(mode)
         end
 
         local w, h = love.window.getMode()
-        if w ~= wt or h ~= ht or os.name == 'ios' then
+        if w ~= wt or h ~= ht then -- or os.name == 'ios' then
             print('set mode '..wt..'x'..ht)
 
             love.window.setMode(
@@ -193,6 +95,108 @@ function initWindow(mode)
     end
 
     return x, y, w, h
+end
+
+function setupWindow()
+    setupScreen()
+    
+    local mode = getOrientation()
+
+    X, Y, W, H = initWindow(mode)
+    WIDTH, HEIGHT = W, H
+    
+    SCALE = SCALE or (env and env.SCALE) or 1    
+
+    -- TODO : usefull
+    safeArea = {
+        left = X,
+        top = Y,
+        right = X * 2 + W,
+        bottom = Y * 2 + H
+    }
+end
+
+function initModes.portrait()
+    local x, y, w, h, wt, ht
+
+    x = screenConfig.Y
+    y = screenConfig.X
+
+    w = SCALE * screenConfig.H
+    h = SCALE * screenConfig.W
+
+    wt = screenConfig.HT
+    ht = screenConfig.WT
+
+    screenConfig.WP = screenConfig.HT - screenConfig.Y
+
+    return x, y, w, h, wt, ht
+end
+
+function initModes.landscape()
+    local x, y, w, h, wt, ht
+
+    x = screenConfig.X
+    y = screenConfig.Y
+
+    w = SCALE * screenConfig.W
+    h = SCALE * screenConfig.H
+
+    wt = screenConfig.WT
+    ht = screenConfig.HT
+
+    screenConfig.WP = screenConfig.WT - screenConfig.X - screenConfig.W
+
+    return x, y, w, h, wt, ht
+end
+
+local function updateMode(mode)
+    mode = mode or LANDSCAPE
+    local x, y, w, h, wt, ht = initModes[mode]()
+    love.window.updateMode(wt, ht)
+end
+
+PORTRAIT = 'portrait'
+
+LANDSCAPE = 'landscape'
+LANDSCAPE_ANY = 'landscape_any'
+
+function supportedOrientations(orientations)
+    if orientations == PORTRAIT then
+        setOrientation(PORTRAIT)
+
+    elseif orientations == LANDSCAPE_ANY or orientations == LANDSCAPE then
+        setOrientation(LANDSCAPE)
+    end
+end
+
+FULLSCREEN_NO_BUTTONS = 'FULLSCREEN_NO_BUTTONS'
+
+function displayMode(mode)
+    if mode == FULLSCREEN_NO_BUTTONS then
+        love.window.setFullscreen(true)
+    end
+end
+
+local orientation = LANDSCAPE
+
+function getOrientation()
+    return orientation
+end
+
+function setOrientation(newOrientation)
+    local wt, ht = screenConfig.WT, screenConfig.HT -- love.graphics.getDimensions()
+
+    newOrientation = newOrientation or orientation
+    if newOrientation == LANDSCAPE then
+        wt, ht = math.max(wt, ht), math.min(wt, ht)
+    else
+        wt, ht = math.min(wt, ht), math.max(wt, ht)
+    end
+
+    orientation = newOrientation
+    
+    updateMode(orientation)
 end
 
 function setVSync(vsync)
