@@ -58,7 +58,7 @@ function Parameter:clear()
     self:newline()
 
     self.group:add(ButtonIconFont('photo', function () Engine.captureImage('captures') end))
-    
+
     self.group:add(ButtonIconFont(getOrigin() == TOP_LEFT and 'arrow_up' or 'arrow_down',
             function (btn)
                 setOrigin(getOrigin() == TOP_LEFT and BOTTOM_LEFT or TOP_LEFT)
@@ -72,8 +72,11 @@ function Parameter:clear()
             end))
 
     self:newline()
-    
-    self:number('_G.SCALE_APP', 0.25, 2)
+
+    self:number('_G.SCALE_APP', 0.25, 2, _G.SCALE_APP,
+        function ()
+            setOrientation()
+        end)
 
     ----------------
     self.group = group

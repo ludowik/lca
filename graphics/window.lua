@@ -13,18 +13,38 @@
 
 --debugStart()
 
-local function setupScreen()
-    local wt, ht
+local setupScreen, initWindow
+function setupWindow()
+    setupScreen()
+
+    local mode = getOrientation()
+
+    X, Y, W, H = initWindow(mode)
+    WIDTH, HEIGHT = W, H
+
+    SCALE_APP = (env and env.SCALE_APP) or screenConfig.SCALE_APP
+
+    -- TODO : usefull
+    safeArea = {
+        left = X,
+        top = Y,
+        right = X * 2 + W,
+        bottom = Y * 2 + H
+    }
+end
+
+setupScreen = function()
+    local wt, ht, scale
     local x
 
     if os.name == 'ios' then
-        SCALE_APP = 1.25
+        scale = 1.25
 
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
 
     else        
-        SCALE_APP = 0.85
+        scale = 0.85
 
         wt = 812
         ht = 375
@@ -39,8 +59,10 @@ local function setupScreen()
 
         W = floor(wt * (0.70)),
         H = floor(ht * (0.98)),
+        
+        SCALE_APP = scale,
 
-        X = x
+        X = x,
     }
 
     screenConfig.Y = (screenConfig.HT - screenConfig.H) / 2
@@ -50,7 +72,7 @@ end
 
 local initModes = {}
 
-local function initWindow(mode)
+initWindow = function (mode)
     mode = mode or LANDSCAPE
     local left, top, w, h, wt, ht = initModes[mode]()
 
@@ -86,33 +108,17 @@ local function initWindow(mode)
     return left, top, w, h
 end
 
-function setupWindow()
-    setupScreen()
-
-    local mode = getOrientation()
-
-    X, Y, W, H = initWindow(mode)
-    WIDTH, HEIGHT = W, H
-
-    SCALE_APP = SCALE_APP or (env and env.SCALE_APP) or 1
-
-    -- TODO : usefull
-    safeArea = {
-        left = X,
-        top = Y,
-        right = X * 2 + W,
-        bottom = Y * 2 + H
-    }
-end
-
 function initModes.portrait()
     local x, y, w, h, wt, ht
 
     x = screenConfig.Y
     y = screenConfig.X
 
-    w = floor(SCALE_APP * screenConfig.H)
-    h = floor(SCALE_APP * screenConfig.W)
+    w = floor(screenConfig.SCALE_APP * screenConfig.H)
+    h = floor(screenConfig.SCALE_APP * screenConfig.W)
+    
+    w = w + w % 2
+    h = h + h % 2
 
     wt = screenConfig.HT
     ht = screenConfig.WT
@@ -128,8 +134,11 @@ function initModes.landscape()
     x = screenConfig.X
     y = screenConfig.Y
 
-    w = floor(SCALE_APP * screenConfig.W)
-    h = floor(SCALE_APP * screenConfig.H)
+    w = floor(screenConfig.SCALE_APP * screenConfig.W)
+    h = floor(screenConfig.SCALE_APP * screenConfig.H)
+    
+    w = w + w % 2
+    h = h + h % 2
 
     wt = screenConfig.WT
     ht = screenConfig.HT

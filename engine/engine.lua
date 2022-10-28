@@ -230,15 +230,15 @@ function Engine.drawInfo()
             if config.show.showLogs then
                 Log.draw(0, 20)
             end
-        end, X, Y)
+        end, screenConfig.X, screenConfig.Y)
 
     Engine.render(function()
             if getOrientation() == LANDSCAPE then
-                env.parameter.interface.draw(W/SCALE_APP, 0)
+                env.parameter.interface.draw(screenConfig.W, 0)
             else
-                env.parameter.interface.draw(X, H/SCALE_APP)
+                env.parameter.interface.draw(screenConfig.X, screenConfig.H)
             end
-        end, X, Y)
+        end, screenConfig.X, screenConfig.Y)
 end
 
 TOP_LEFT = 'top_left'
