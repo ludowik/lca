@@ -18,13 +18,14 @@ local function setupScreen()
     local x
 
     if os.name == 'ios' then
-        SCALE_APP = 1.25
+        SCALE_APP = 1
 
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
 
     else        
-        SCALE_APP = 0.85
+        SCALE_APP = 1
+        SCALE_SCREEN = 1
 
         wt = 812
         ht = 375
