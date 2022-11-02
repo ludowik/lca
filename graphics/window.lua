@@ -44,6 +44,7 @@ setupScreen = function()
         x, y = love.window.getSafeArea()
 
     else        
+        SCALE_SCREEN = 1
         scale = 0.85
 
         wt = 812
