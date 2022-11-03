@@ -7,9 +7,9 @@ viewer = {
 
 layout = {
     safeArea = {
-        top = safeArea.top,
-        bottom = safeArea.bottom,
-        left = safeArea.left,
-        right = safeArea.right,
+        top    = X,
+        bottom = Y,
+        left   = X * 2 + W,
+        right  = Y * 2 + H,
     }
 }

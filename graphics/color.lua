@@ -252,10 +252,10 @@ function Color.hexa(hexa)
     local r, g, b
 
     r = hexa % 256
-    hexa = (hexa - r) / 256
+    hexa = (hexa - r) / 255
 
     g = hexa % 256
-    hexa = (hexa - g) / 256
+    hexa = (hexa - g) / 255
 
     b = hexa % 256
 
@@ -279,8 +279,8 @@ function Color.visibleColor(clr)
 
     local m
 
-    if cm < 128 then
-        m = 255
+    if cm < 0.5 then
+        m = 1
     else
         m = 0
     end
@@ -294,6 +294,10 @@ end
 
 function Color.hsl(hue, sat, lgt, alpha)
     assert(hue)
+    if hue > 1 then
+        hue = hue / 255
+    end
+    
     sat = sat or 0.5
     lgt = lgt or 0.5
     alpha = alpha or 1
@@ -322,6 +326,10 @@ end
 
 function Color.hsb(hue, sat, val, alpha)
     assert(hue)
+    if hue > 1 then
+        hue = hue / 255
+    end
+    
     sat = sat or 0.5
     val = val or 1
     a = a or 1
