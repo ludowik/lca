@@ -34,18 +34,18 @@ function setupWindow()
 end
 
 setupScreen = function()
-    local wt, ht, scale
+    local wt, ht
     local x
 
     if os.name == 'ios' then
-        scale = 1.25
+        SCALE_APP = 1.25
 
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
 
     else        
         SCALE_SCREEN = 1
-        scale = 0.85
+        SCALE_APP = 0.85
 
         wt = 812
         ht = 375
@@ -61,7 +61,7 @@ setupScreen = function()
         W = floor(wt * (0.70)),
         H = floor(ht * (0.98)),
         
-        SCALE_APP = scale,
+        SCALE_APP = SCALE_APP,
 
         X = x,
     }
@@ -115,8 +115,8 @@ function initModes.portrait()
     x = screenConfig.Y
     y = screenConfig.X
 
-    w = floor(screenConfig.SCALE_APP * screenConfig.H)
-    h = floor(screenConfig.SCALE_APP * screenConfig.W)
+    w = floor(SCALE_APP * screenConfig.H)
+    h = floor(SCALE_APP * screenConfig.W)
     
     w = w + w % 2
     h = h + h % 2
@@ -135,8 +135,8 @@ function initModes.landscape()
     x = screenConfig.X
     y = screenConfig.Y
 
-    w = floor(screenConfig.SCALE_APP * screenConfig.W)
-    h = floor(screenConfig.SCALE_APP * screenConfig.H)
+    w = floor(SCALE_APP * screenConfig.W)
+    h = floor(SCALE_APP * screenConfig.H)
     
     w = w + w % 2
     h = h + h % 2
