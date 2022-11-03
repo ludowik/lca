@@ -21,12 +21,14 @@ end
 function Slider:computeSize()
     UI.computeSize(self)
     
-    local wval, hval = textSize(tostring(self.value))
+    local wval, hval = textSize(tostring(self.__value))
     local wmin, hmin = textSize(tostring(self.min))
     local wmax, hmax = textSize(tostring(self.max))
-    local wdef, hdef = textSize(tostring(self.def))
+    local wdef, hdef = textSize(tostring(self.default))
     
-    self.size.x = max(ws(1), self.size.x) + max(wmin, wmax, wdef)
+    self.w = max(screenConfig.WT/10, self.size.x)
+    
+    self.size.x = self.w + max(wmin, wmax, wdef)
 end
 
 function Slider:draw()
@@ -37,7 +39,7 @@ function Slider:draw()
     strokeSize(2)
     line(x, 0, x, self.size.y)
     
-    local formatValue = self:formatValue(self.value)
+    local formatValue = self:formatValue(self.__value)
     local w, h = textSize(formatValue)
     textMode(CORNER)
     text(formatValue, self.size.x-w, 0)

@@ -2,7 +2,7 @@
 DEV_MODE = false
 NO_MUSIC = true
  
- SCALE_APP = 1.6
+SCALE_APP = 1.6
 
 function setup()
     --IO.clearAll()

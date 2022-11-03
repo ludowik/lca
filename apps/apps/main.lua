@@ -5,9 +5,6 @@ function setup()
     scene:setAlignment('v-center,h-center')
 
     browse(APPS)
-
---    parameter.watch('searchTime')
---    parameter.watch('searchText')
 end
 
 function browse(path, previousPath)
@@ -141,8 +138,6 @@ function autotest(dt)
             if newApp ~= currentApp then
                 newApp.__autotest = true
                 do
-                    setActiveApp(newApp)
-
                     local start = time()
                     for i=1,30 do
                         Engine.update(1/60)
@@ -174,10 +169,7 @@ function autotest(dt)
     print('after   : '..ram.afterTest)
     print('release : '..ram.afterRelease)
 
-    setActiveApp(currentApp)
+    loadApp(currentApp.appPath, currentApp.appName)
 
     global.__autotest = false
-
-    quit()
-
 end

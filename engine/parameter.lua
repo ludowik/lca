@@ -27,7 +27,7 @@ function Parameter:clear()
     self.scene.getOrigin = function () return TOP_LEFT end
 
     self.scene:setstyles{
-        fontSize = 16
+        fontSize = 14
     }
 
     local group = UINode()
@@ -35,11 +35,13 @@ function Parameter:clear()
 
     ----------------
     self.group = group
-    self:menu(env.appPath..'/'..env.appName)
+    self:menu(env.appName)
     self:watch('screen', 'getScreenSize()')
     self:watch('safe area', 'getSafeAreaSize()')
     self:watch('window', 'getWindowSize()')
     self:watch('mouse', 'getMousePosition()')
+    self:watch('config.framework')
+    self:watch('config.renderer')
 
     ----------------
     self.group = group
@@ -48,14 +50,14 @@ function Parameter:clear()
     self.group:add(ButtonIconFont('loop', restart))
     self.group:add(ButtonIconFont('list_bullet', loadAppOfTheApps))
 
-    self:newline()
+    --self:newline()
 
     self.group:add(ButtonIconFont('die_one', function () env.__autotest = not env.__autotest end))
     self.group:add(ButtonIconFont('heart', randomApp))
     self.group:add(ButtonIconFont('previous', previousApp))
     self.group:add(ButtonIconFont('next', nextApp))
 
-    self:newline()
+    --self:newline()
 
     self.group:add(ButtonIconFont('photo', function () Engine.captureImage('captures') end))
 
@@ -71,27 +73,29 @@ function Parameter:clear()
                 btn.label = getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait'
             end))
 
-    self:newline()
+    --self:newline()
 
     self:number('_G.SCALE_APP', 0.25, 2, _G.SCALE_APP,
         function ()
             setOrientation()
         end)
 
-    ----------------
-    self.group = group
-    self:menu('Screen')
-    self:watch('config.framework')
-    self:watch('config.renderer')
-
     self.group = UINode()
     self.scene:add(self.group)
 end
 
 function Parameter:random()
+    seed(time())
+    
     for i,ui in ipairs(self.group:items()) do
         if ui.__className == 'Slider' then
-            ui:setValue(random(ui.min, ui.max))
+            local value
+            if ui.integer then
+                value = randomInt(ui.min, ui.max)
+            else
+                value = random(ui.min, ui.max)
+            end
+            ui:setValue(value)
 
         elseif ui.__className == 'CheckBox' then
             ui:setValue(randomBoolean())

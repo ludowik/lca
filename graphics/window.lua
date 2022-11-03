@@ -11,31 +11,20 @@
             => love.window.updateMode
 ]]
 
---debugStart()
-
 local setupScreen, initWindow
 function setupWindow()
     setupScreen()
+    
+    _G.SCALE_APP = (env and env.SCALE_APP) or screenConfig.SCALE_APP or 1
 
-    local mode = getOrientation()
-
-    X, Y, W, H = initWindow(mode)
+    X, Y, W, H = initWindow(getOrientation())
     WIDTH, HEIGHT = W, H
-
-    SCALE_APP = (env and env.SCALE_APP) or screenConfig.SCALE_APP
-
-    -- TODO : usefull
-    safeArea = {
-        left = X,
-        top = Y,
-        right = X * 2 + W,
-        bottom = Y * 2 + H
-    }
 end
 
 setupScreen = function()
     local wt, ht, scale
-    local x
+    local x, y
+    local rw, rh = 0.70, 0.98
 
     if os.name == 'ios' then
         scale = 1.25
@@ -43,23 +32,27 @@ setupScreen = function()
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
 
-    else        
-        SCALE_SCREEN = 1
-        scale = 0.85
+    elseif os.name == 'windows' then
+        scale = 1.25
 
-        wt = 812
-        ht = 375
+        wt, ht = 896, 414
+        x, y = 44, 34
+    
+    else
+        scale = 1.25
 
-        x = 40
-        y = 40
+        wt, ht = 1024, 768
+        x, y = 44, 34
+        
+        rw, rh = 0.70, 0.98
     end
 
     screenConfig = {
         WT = floor(wt),
         HT = floor(ht),
 
-        W = floor(wt * (0.70)),
-        H = floor(ht * (0.98)),
+        W = floor(wt * rw),
+        H = floor(ht * rh),
         
         SCALE_APP = scale,
 
@@ -115,8 +108,8 @@ function initModes.portrait()
     x = screenConfig.Y
     y = screenConfig.X
 
-    w = floor(screenConfig.SCALE_APP * screenConfig.H)
-    h = floor(screenConfig.SCALE_APP * screenConfig.W)
+    w = floor(SCALE_APP * screenConfig.H)
+    h = floor(SCALE_APP * screenConfig.W)
     
     w = w + w % 2
     h = h + h % 2
@@ -135,8 +128,8 @@ function initModes.landscape()
     x = screenConfig.X
     y = screenConfig.Y
 
-    w = floor(screenConfig.SCALE_APP * screenConfig.W)
-    h = floor(screenConfig.SCALE_APP * screenConfig.H)
+    w = floor(SCALE_APP * screenConfig.W)
+    h = floor(SCALE_APP * screenConfig.H)
     
     w = w + w % 2
     h = h + h % 2
@@ -184,28 +177,19 @@ function displayMode(mode)
     end
 end
 
-local orientation = LANDSCAPE
+local __orientation = LANDSCAPE
 
 function getOrientation()
-    return env and env.__orientation or orientation
+    return env and env.__orientation or __orientation
 end
 
 function setOrientation(newOrientation)
-    local wt, ht = screenConfig.WT, screenConfig.HT -- love.graphics.getDimensions()
-
-    newOrientation = newOrientation or getOrientation()
-    if newOrientation == LANDSCAPE then
-        wt, ht = math.max(wt, ht), math.min(wt, ht)
-    else
-        wt, ht = math.min(wt, ht), math.max(wt, ht)
-    end
-
-    orientation = newOrientation
+    __orientation = newOrientation or getOrientation()
     if env then
-        env.__orientation = orientation
+        env.__orientation = __orientation
     end
 
-    X, Y, W, H = updateMode(orientation)
+    X, Y, W, H = updateMode(__orientation)
     WIDTH, HEIGHT = W, H
 end
 
