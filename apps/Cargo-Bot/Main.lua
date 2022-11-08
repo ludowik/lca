@@ -2,9 +2,11 @@
 DEV_MODE = false
 NO_MUSIC = true
  
-SCALE_APP = 1.6
+_G.SCALE_APP = 1.94
 
 function setup()
+    setOrientation(PORTRAIT)
+    
     --IO.clearAll()
     --IO.printSolution("Mirror 3")
     viewer.mode = FULLSCREEN
