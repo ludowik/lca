@@ -27,7 +27,7 @@ setupScreen = function()
     --local rw, rh = 0.70, 0.98
 
     if os.name == 'ios' then
-        scale = 1.25
+        SCALE_APP = 1.25
 
         wt, ht = love.graphics.getDimensions()
         x, y, w, h = love.window.getSafeArea()
@@ -56,7 +56,7 @@ setupScreen = function()
         W = floor(w), -- wt * rw),
         H = floor(h), -- ht * rh),
         
-        SCALE_APP = scale,
+        SCALE_APP = SCALE_APP,
 
         X = x,
     }
