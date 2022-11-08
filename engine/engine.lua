@@ -234,11 +234,11 @@ function Engine.drawInfo()
 
     Engine.render(function()
             if getOrientation() == LANDSCAPE then
-                local x, y = screenConfig.W, 0
-                env.parameter.interface.draw(x, y)
+                local x, y = screenConfig.W - env.parameter.instance.scene.WMAX, 0
+                env.parameter.interface.draw(x, y, env.parameter.instance.scene.WMAX)
             else
-                local x, y = 0, screenConfig.W
-                env.parameter.interface.draw(x, y)
+                local x, y = 0, screenConfig.W - env.parameter.instance.scene.WMAX
+                env.parameter.interface.draw(x, y, W)
             end
         end, X, Y)
 end

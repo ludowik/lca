@@ -24,35 +24,37 @@ end
 setupScreen = function()
     local wt, ht, scale
     local x, y
-    local rw, rh = 0.70, 0.98
+    --local rw, rh = 0.70, 0.98
 
     if os.name == 'ios' then
         scale = 1.25
 
         wt, ht = love.graphics.getDimensions()
-        x, y = love.window.getSafeArea()
+        x, y, w, h = love.window.getSafeArea()
 
     elseif os.name == 'windows' then
         scale = 1.25
 
         wt, ht = 896, 414
-        x, y = 44, 34
+        x, y = 38, 0
+        w, h = wt-2*x, ht-2*y
     
     else
         scale = 1.25
 
         wt, ht = 1024, 768
-        x, y = 44, 34
+        x, y = 38, 0
+        w, h = wt-2*x, ht-2*y
         
-        rw, rh = 0.70, 0.98
+        --rw, rh = 0.70, 0.98
     end
 
     screenConfig = {
         WT = floor(wt),
         HT = floor(ht),
 
-        W = floor(wt * rw),
-        H = floor(ht * rh),
+        W = floor(w), -- wt * rw),
+        H = floor(h), -- ht * rh),
         
         SCALE_APP = scale,
 
@@ -117,7 +119,7 @@ function initModes.portrait()
     wt = screenConfig.HT
     ht = screenConfig.WT
 
-    screenConfig.WP = screenConfig.HT - screenConfig.Y
+    screenConfig.WP = screenConfig.H
 
     return x, y, w, h, wt, ht
 end
@@ -137,7 +139,7 @@ function initModes.landscape()
     wt = screenConfig.WT
     ht = screenConfig.HT
 
-    screenConfig.WP = screenConfig.WT - screenConfig.X - screenConfig.W
+    screenConfig.WP = screenConfig.W
 
     return x, y, w, h, wt, ht
 end

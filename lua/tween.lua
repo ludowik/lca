@@ -132,6 +132,10 @@ function Tween:update(dt)
 
         if self.elapsed >= self.delay then 
             self.active = false
+            
+            for k,v in pairs(self.target) do
+                self.object[k] = self.target[k]
+            end
 
             if self.callback then
                 self.callback()

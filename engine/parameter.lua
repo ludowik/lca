@@ -2,23 +2,24 @@ class 'Parameter'
 
 function Parameter:init()    
     Parameter.clear(self)
+    self.scene.WMAX = 250
 end
 
-function getScreenSize() 
+local function getScreenSize() 
     local w, h = love.graphics.getDimensions()
     return w..'x'..h
 end
 
-function getSafeAreaSize() 
+local function getSafeAreaSize() 
     local x, y, w, h = love.window.getSafeArea()
     return x..'x'..y..' '..w..'x'..h
 end
 
-function getWindowSize() 
+local function getWindowSize() 
     return W..'x'..H
 end
 
-function getMousePosition()    
+local function getMousePosition()    
     return mouse.x..'x'..mouse.y
 end
 
@@ -32,7 +33,13 @@ function Parameter:clear()
 
     local group = UINode()
     self.scene:add(group)
-
+    
+    group:add(
+        Button('Menu', 
+            function ()
+                tween(0.2, self.scene, {WMAX = self.scene.WMAX == 10 and 250 or 10}, tween.easing.sineIn)
+            end))
+    
     ----------------
     self.group = group
     self:menu(env.appName)
@@ -86,7 +93,7 @@ end
 
 function Parameter:random()
     seed(time())
-    
+
     for i,ui in ipairs(self.group:items()) do
         if ui.__className == 'Slider' then
             local value

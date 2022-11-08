@@ -209,9 +209,9 @@ function Node:setAlignment(alignment)
     return self
 end
 
-function Node:layout()
+function Node:layout(_, _, wmax)
     if self.layoutFlow then
-        self.layoutFlow(self, self.layoutParam)
+        self.layoutFlow(self, self.layoutParam, wmax)
         --        Layout.align(self)
         --        Layout.computeAbsolutePosition(self)
 
