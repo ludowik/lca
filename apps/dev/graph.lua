@@ -95,7 +95,6 @@ end
 
 function ClassItem:draw()
     pushMatrix()
-    translate(self.position.x, self.position.y)
 
     zLevel(-1)
 
