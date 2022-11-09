@@ -32,7 +32,7 @@ setupScreen = function()
         wt, ht = love.graphics.getDimensions()
         x, y = love.window.getSafeArea()
 
-    elseif os.name == 'windows' then
+    elseif os.name == 'osx' then
         scale = 1.25
 
         wt, ht = 896, 414
