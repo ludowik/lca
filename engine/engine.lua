@@ -228,14 +228,15 @@ function Engine.drawInfo()
             fill(colors.red)
             rect(-2*r, 0, r, r*(1-pct))
             
+            text(formatRAM())
+            
             text(os.name)
             text(debugging() and 'debug mode' or 'release mode')
             
             local state, percent, seconds = love.system.getPowerInfo()
             text(state..':'..percent..'%('..(seconds or 0)..')')
             
-            text(date())
-            text(time())
+            text(date():asDatetime())
             
             local datetime
 

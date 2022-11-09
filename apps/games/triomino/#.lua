@@ -1,7 +1,7 @@
 requireLib(
     'main',
     'grid',
-    'gameScene',
+    'game_scene',
     'cell',
     'mino',
-    'gameOver')
+    'game_over')

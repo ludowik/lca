@@ -84,7 +84,6 @@ initWindow = function (mode)
         display = 1 -- config.flags and config.flags.display or 1
     end
 
-    print('set mode '..wt..'x'..ht)
     love.window.setMode(
         wt,
         ht, {
@@ -149,8 +148,7 @@ local function updateMode(mode)
     local x, y, w, h, wt, ht = initModes[mode]()
 
     local _wt, _ht = love.window.getMode()
-    if _wt ~= wt then
-        print('update mode '..wt..'x'..ht)
+    if _wt ~= wt and not env.__autotest then
         love.window.updateMode(wt, ht)
     end
 

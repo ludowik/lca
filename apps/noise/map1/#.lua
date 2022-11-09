@@ -1,3 +1,3 @@
 requireLib(
     'main',
-    'height map')
+    'height_map')

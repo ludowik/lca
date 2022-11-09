@@ -5,5 +5,17 @@ function Date:init()
 end
 
 function Date:__tostring()
+    return self:asdate()
+end
+
+function Date:asDate()
     return self.day..'/'..self.month..'/'..self.year
+end
+
+function Date:asTime()
+    return self.hour..':'..self.min
+end
+
+function Date:asDatetime()
+    return self:asDate()..' '..self:asTime()
 end
