@@ -51,10 +51,12 @@ function Layout:layout(mode, n, wmax)
 --        self.nodeSize:set()
     end
 
-    local i, j = 1, 1
+    local i, j, k = 1, 1, 0
     for index=1,#self.nodes do
         local node = self.nodes[index]
         if node.visible ~= false then
+            k = k + 1
+            
             node.position.x = position.x
             node.position.y = position.y
 
@@ -80,7 +82,7 @@ function Layout:layout(mode, n, wmax)
                 position.x = position.x + node.size.x + innerMarge
                 i = i + 1
 
-                if index > 1 and position.x > wmax or node.newLine then
+                if not node.nodes and k > 1 and position.x > wmax or node.newLine then
                     position.x = outerMarge
                     position.y = position.y + max(self.rowSize[j].y, node.size.y) + innerMarge
 

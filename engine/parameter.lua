@@ -31,14 +31,17 @@ function Parameter:clear()
         fontSize = 14
     }
 
-    local group = UINode()
-    self.scene:add(group)
-    
-    group:add(
-        Button('Menu', 
+    self.scene:add(
+        ButtonColor(colors.red, -- 'Menu', 
             function ()
                 tween(0.2, self.scene, {WMAX = self.scene.WMAX == 10 and 250 or 10}, tween.easing.sineIn)
             end))
+    
+    self.globalGroup = UINode(Layout.column)
+    self.scene:add(self.globalGroup)
+    
+    local group = UINode()
+    self.globalGroup:add(group)
     
     ----------------
     self.group = group
@@ -57,14 +60,10 @@ function Parameter:clear()
     self.group:add(ButtonIconFont('loop', restart))
     self.group:add(ButtonIconFont('list_bullet', loadAppOfTheApps))
 
-    --self:newline()
-
     self.group:add(ButtonIconFont('die_one', function () env.__autotest = not env.__autotest end))
     self.group:add(ButtonIconFont('heart', randomApp))
     self.group:add(ButtonIconFont('previous', previousApp))
     self.group:add(ButtonIconFont('next', nextApp))
-
-    --self:newline()
 
     self.group:add(ButtonIconFont('photo', function () Engine.captureImage('captures') end))
 
@@ -88,7 +87,7 @@ function Parameter:clear()
         end)
 
     self.group = UINode()
-    self.scene:add(self.group)
+    self.globalGroup:add(self.group)
 end
 
 function Parameter:random()

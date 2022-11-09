@@ -218,8 +218,26 @@ function Engine.drawInfo()
     Engine.render(
         function()
             text(getFPS())
+            
+            local r = fontSize()
+            local pct = min(getFPS(), 60)/60
+            noStroke()            
+            fill(colors.green)
+            rectMode(CORNER)
+            rect(-2*r, 0, r, r)
+            fill(colors.red)
+            rect(-2*r, 0, r, r*(1-pct))
+            
             text(os.name)
             text(debugging() and 'debug mode' or 'release mode')
+            
+            local state, percent, seconds = love.system.getPowerInfo()
+            text(state..':'..percent..'%('..(seconds or 0)..')')
+            
+            text(date())
+            text(time())
+            
+            local datetime
 
             if env.__autotest then
                 text('autotest')

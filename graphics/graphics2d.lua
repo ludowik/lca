@@ -64,10 +64,14 @@ end
 
 function Graphics.text(txt, x, y, wraplimit, maxheight)
     if type(txt) == 'table' then
-        local t = txt
-        txt = ''
-        for _,v in ipairs(t) do
-            txt = txt .. tostring(v) .. ' '
+        if txt.__tostring then
+            txt = txt:__tostring()
+        else
+            local t = txt
+            txt = ''
+            for _,v in ipairs(t) do
+                txt = txt .. tostring(v) .. ' '
+            end
         end
     else
         txt = tostring(txt)
