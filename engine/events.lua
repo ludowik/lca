@@ -90,7 +90,7 @@ Engine.keys = table{
     ['tab'] = {
         desc = 'Navigate thru ui - next focus',
         f = function ()
-            local scene = _G.env.ui or _G.env.scene
+            local scene = env.parameter.instance.scene -- _G.env.ui or _G.env.scene or 
             if scene then
                 scene:nextFocus()
             end
@@ -100,7 +100,7 @@ Engine.keys = table{
     ['lshift+tab'] = {
         desc = 'Navigate thru ui - previous focus',
         f = function ()
-            local scene = _G.env.ui or _G.env.scene
+            local scene = env.parameter.instance.scene -- _G.env.ui or _G.env.scene or 
             if scene then
                 scene:previousFocus()
             end

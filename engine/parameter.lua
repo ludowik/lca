@@ -2,23 +2,24 @@ class 'Parameter'
 
 function Parameter:init()    
     Parameter.clear(self)
+    self.scene.WMAX = 250
 end
 
-function getScreenSize() 
+local function getScreenSize() 
     local w, h = love.graphics.getDimensions()
     return w..'x'..h
 end
 
-function getSafeAreaSize() 
+local function getSafeAreaSize() 
     local x, y, w, h = love.window.getSafeArea()
     return x..'x'..y..' '..w..'x'..h
 end
 
-function getWindowSize() 
+local function getWindowSize() 
     return W..'x'..H
 end
 
-function getMousePosition()    
+local function getMousePosition()    
     return mouse.x..'x'..mouse.y
 end
 
@@ -30,9 +31,18 @@ function Parameter:clear()
         fontSize = 14
     }
 
+    self.scene:add(
+        ButtonColor(colors.red, -- 'Menu', 
+            function ()
+                tween(0.2, self.scene, {WMAX = self.scene.WMAX == 10 and 250 or 10}, tween.easing.sineIn)
+            end))
+    
+    self.globalGroup = UINode(Layout.column)
+    self.scene:add(self.globalGroup)
+    
     local group = UINode()
-    self.scene:add(group)
-
+    self.globalGroup:add(group)
+    
     ----------------
     self.group = group
     self:menu(env.appName)
@@ -50,14 +60,10 @@ function Parameter:clear()
     self.group:add(ButtonIconFont('loop', restart))
     self.group:add(ButtonIconFont('list_bullet', loadAppOfTheApps))
 
-    --self:newline()
-
     self.group:add(ButtonIconFont('die_one', function () env.__autotest = not env.__autotest end))
     self.group:add(ButtonIconFont('heart', randomApp))
     self.group:add(ButtonIconFont('previous', previousApp))
     self.group:add(ButtonIconFont('next', nextApp))
-
-    --self:newline()
 
     self.group:add(ButtonIconFont('photo', function () Engine.captureImage('captures') end))
 
@@ -81,12 +87,12 @@ function Parameter:clear()
         end)
 
     self.group = UINode()
-    self.scene:add(self.group)
+    self.globalGroup:add(self.group)
 end
 
 function Parameter:random()
     seed(time())
-    
+
     for i,ui in ipairs(self.group:items()) do
         if ui.__className == 'Slider' then
             local value
@@ -228,6 +234,8 @@ function Parameter:link(name, url)
 end
 
 function Parameter:draw(x, y)
+    fill(Color(1, 1, 1, 0.8))
+    rect(x, y, self.scene.size.x, self.scene.y, 10)
     self.scene:draw(x, y)
 end
 

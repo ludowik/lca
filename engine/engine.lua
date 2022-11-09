@@ -218,8 +218,27 @@ function Engine.drawInfo()
     Engine.render(
         function()
             text(getFPS())
+            
+            local r = fontSize()
+            local pct = min(getFPS(), 60)/60
+            noStroke()            
+            fill(colors.green)
+            rectMode(CORNER)
+            rect(-2*r, 0, r, r)
+            fill(colors.red)
+            rect(-2*r, 0, r, r*(1-pct))
+            
+            text(formatRAM())
+            
             text(os.name)
             text(debugging() and 'debug mode' or 'release mode')
+            
+            local state, percent, seconds = love.system.getPowerInfo()
+            text(state..':'..percent..'%('..(seconds or 0)..')')
+            
+            text(date():asDatetime())
+            
+            local datetime
 
             if env.__autotest then
                 text('autotest')
@@ -234,11 +253,11 @@ function Engine.drawInfo()
 
     Engine.render(function()
             if getOrientation() == LANDSCAPE then
-                local x, y = screenConfig.W, 0
-                env.parameter.interface.draw(x, y)
+                local x, y = screenConfig.W - env.parameter.instance.scene.WMAX, 0
+                env.parameter.interface.draw(x, y, env.parameter.instance.scene.WMAX)
             else
-                local x, y = 0, screenConfig.W
-                env.parameter.interface.draw(x, y)
+                local x, y = 0, screenConfig.W - env.parameter.instance.scene.WMAX
+                env.parameter.interface.draw(x, y, W)
             end
         end, X, Y)
 end

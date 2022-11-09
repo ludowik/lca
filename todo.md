@@ -1,3 +1,9 @@
+Ajouter l'heure
+Ajouter la mémoire
+Ajouter la baterrie
+
+Ajuster la taille de la fenetre paramètre
+
 Electric 
 Plantage systématique
 

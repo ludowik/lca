@@ -1,4 +1,4 @@
 requireLib(
-    'appCalc',
+    'app',
     'calc',
     'unit')

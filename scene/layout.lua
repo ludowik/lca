@@ -25,7 +25,9 @@ function Layout:computeNodeFixedSize(node)
     end
 end
 
-function Layout:layout(mode, n)
+function Layout:layout(mode, n, wmax)
+    wmax = wmax or W
+    
     local outerMarge = self.outerMarge or (self.parent and self.parent.outerMarge or Layout.outerMarge)
     local innerMarge = self.innerMarge or (self.parent and self.parent.innerMarge or Layout.innerMarge)
 
@@ -49,15 +51,17 @@ function Layout:layout(mode, n)
 --        self.nodeSize:set()
     end
 
-    local i, j = 1, 1
+    local i, j, k = 1, 1, 0
     for index=1,#self.nodes do
         local node = self.nodes[index]
         if node.visible ~= false then
+            k = k + 1
+            
             node.position.x = position.x
             node.position.y = position.y
 
             if node.nodes then
-                node:layout(n)
+                node:layout(mode, n, wmax-position.x)
             else
                 Layout.computeNodeSize(self, node)
             end
@@ -78,7 +82,7 @@ function Layout:layout(mode, n)
                 position.x = position.x + node.size.x + innerMarge
                 i = i + 1
 
-                if index > 1 and position.x > screenConfig.WP or node.newLine then
+                if not node.nodes and k > 1 and position.x > wmax or node.newLine then
                     position.x = outerMarge
                     position.y = position.y + max(self.rowSize[j].y, node.size.y) + innerMarge
 
@@ -129,20 +133,20 @@ function Layout:layout(mode, n)
     self.size = size
 end
 
-function Layout:row()
-    return Layout.layout(self, 'row')
+function Layout:row(_, wmax)
+    return Layout.layout(self, 'row', nil, wmax or self.WMAX or W)
 end
 
-function Layout:column()
-    return Layout.layout(self, 'column')
+function Layout:column(_, wmax)
+    return Layout.layout(self, 'column', nil, wmax or self.WMAX or W)
 end
 
-function Layout:topleft()
-    return Layout.layout(self, 'topleft')
+function Layout:topleft(_, wmax)
+    return Layout.layout(self, 'topleft', nil, wmax or self.WMAX or W)
 end
 
-function Layout:grid(n)
-    return Layout.layout(self, 'grid', n or self.n)
+function Layout:grid(n, wmax)
+    return Layout.layout(self, 'grid', n or self.n, wmax or self.WMAX or W)
 end
 
 function Layout:reverse()

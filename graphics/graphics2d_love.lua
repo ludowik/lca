@@ -137,7 +137,7 @@ function Graphics.rect(x, y, w, h, rx, ry)
     end
 end
 
-local SEGMENTS = 32
+local SEGMENTS = 36
 function Graphics.circle(x, y, radius)
     if circleMode() == CORNER then
         x = x - radius
