@@ -234,8 +234,10 @@ function Parameter:link(name, url)
 end
 
 function Parameter:draw(x, y)
-    fill(Color(1, 1, 1, 0.8))
-    rect(x, y, self.scene.size.x, self.scene.y, 10)
+    noStroke()
+    fill(Color(0.5, 0.5, 0.5, 0.9))
+    rect(x, y, W, self.scene.size.y, 10)
+        
     self.scene:draw(x, y)
 end
 

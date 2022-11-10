@@ -1,6 +1,4 @@
-Ajouter l'heure
-Ajouter la mémoire
-Ajouter la baterrie
+touch screen => problème avec le deltaX
 
 Ajuster la taille de la fenetre paramètre
 

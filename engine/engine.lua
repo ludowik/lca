@@ -224,17 +224,11 @@ function Engine.drawInfo()
             noStroke()            
             fill(colors.green)
             rectMode(CORNER)
-            rect(-2*r, 0, r, r)
+            rect(-r, 0, r, r)
             fill(colors.red)
-            rect(-2*r, 0, r, r*(1-pct))
+            rect(-r, 0, r, r*(1-pct))
             
             text(formatRAM())
-            
-            text(os.name)
-            text(debugging() and 'debug mode' or 'release mode')
-            
-            local state, percent, seconds = love.system.getPowerInfo()
-            text(state..':'..percent..'%('..(seconds or 0)..')')
             
             text(date():asDatetime())
             
@@ -245,7 +239,31 @@ function Engine.drawInfo()
             end
 
             callApp('drawInfo')
-
+            
+            local state, percent, seconds = love.system.getPowerInfo()
+            percent = percent or 100
+            --text(state..':'..(percent or 0)..'%('..(seconds or 0)..')')
+            
+            if percent then
+                fontName('Foundation-Icons')
+                textMode(CENTER)
+                if percent > 80 then
+                    text(utf8.char(iconsFont.battery_full), -r/2, 1.5*r)
+                elseif percent > 30 then
+                    text(utf8.char(iconsFont.battery_half), -r/2, 1.5*r)
+                else
+                    text(utf8.char(iconsFont.battery_empty), -r/2, 1.5*r)
+                end
+                fontName('Arial')
+            end
+            
+            if debugging() then
+                fontName('Foundation-Icons')
+                textMode(CENTER)
+                text(utf8.char(iconsFont.camera), -r/2, 2.5*r)
+                fontName('Arial')
+            end
+            
             if config.show.showLogs then
                 Log.draw(0, 20)
             end

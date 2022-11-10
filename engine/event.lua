@@ -16,6 +16,10 @@ end
 function Engine.keyreleased(key)
 end
 
+function Engine.touchpressed(id, x, y, dx, dy, pressure)
+    Engine.mousepressed(x, y, id, true, 1)
+end
+
 function Engine.mousepressed(x, y, button, istouch, presses)
     mouseevent(PRESSED, x, y, button, 0)
 
@@ -35,6 +39,10 @@ function Engine.mousepressed(x, y, button, istouch, presses)
     end
 
     _G.env.parameter.touched(mouse)
+end
+
+function Engine.touchmoved(id, x, y, dx, dy, pressure)
+    Engine.mousemoved(x, y, dx, dy, true)
 end
 
 function Engine.mousemoved(x, y, dx, dy, istouch)
@@ -61,7 +69,11 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
     end
 end
 
-function Engine.mousereleased(x, y, button, istouch, presses)    
+function Engine.touchreleased(id, x, y, dx, dy, pressure)
+    Engine.mousereleased(x, y, id, false, 1)
+end
+
+function Engine.mousereleased(x, y, button, istouch, presses)
     mouseevent(RELEASED, x, y, button, presses)
 
     if Rect(X, Y, W, H):contains(x, y) then
