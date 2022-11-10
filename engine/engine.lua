@@ -234,7 +234,7 @@ function Engine.drawInfo()
             text(debugging() and 'debug mode' or 'release mode')
             
             local state, percent, seconds = love.system.getPowerInfo()
-            text(state..':'..percent..'%('..(seconds or 0)..')')
+            text(state..':'..(percent or 0)..'%('..(seconds or 0)..')')
             
             text(date():asDatetime())
             
