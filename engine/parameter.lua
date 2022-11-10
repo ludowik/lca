@@ -5,21 +5,21 @@ function Parameter:init()
     self.scene.WMAX = 250
 end
 
-local function getScreenSize() 
+function getScreenSize()
     local w, h = love.graphics.getDimensions()
     return w..'x'..h
 end
 
-local function getSafeAreaSize() 
+function getSafeAreaSize() 
     local x, y, w, h = love.window.getSafeArea()
     return x..'x'..y..' '..w..'x'..h
 end
 
-local function getWindowSize() 
+function getWindowSize() 
     return W..'x'..H
 end
 
-local function getMousePosition()    
+function getMousePosition()    
     return mouse.x..'x'..mouse.y
 end
 

@@ -9,7 +9,7 @@ Sound
 Plantage
 
 Graph
-Recentrage de toutes les infos
+Améliorer l'algo d'équilibrage
 
 Projets
 all title to lower

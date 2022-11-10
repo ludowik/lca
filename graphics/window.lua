@@ -24,7 +24,6 @@ end
 setupScreen = function()
     local wt, ht, scale
     local x, y
-    --local rw, rh = 0.70, 0.98
 
     if os.name == 'ios' then
         SCALE_APP = 1.25
@@ -42,19 +41,17 @@ setupScreen = function()
     else
         scale = 1.25
 
-        wt, ht = 1024, 768
+        wt, ht = 896, 414
         x, y = 38, 0
         w, h = wt-2*x, ht-2*y
-        
-        --rw, rh = 0.70, 0.98
     end
 
     screenConfig = {
         WT = floor(wt),
         HT = floor(ht),
 
-        W = floor(w), -- wt * rw),
-        H = floor(h), -- ht * rh),
+        W = floor(w),
+        H = floor(h),
         
         SCALE_APP = SCALE_APP,
 
