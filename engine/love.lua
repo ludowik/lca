@@ -2,7 +2,7 @@ function love.info()
     local major, minor, revision, codename = love.getVersion()
     local version = string.format("Version %d.%d.%d - %s", major, minor, revision, codename)
     print(version)
-    
+
 end
 
 function love.load()
@@ -26,23 +26,33 @@ function love.keyreleased(key, scancode)
     return Engine.keyreleased(key)
 end
 
--- TODEL ?
---function love.textinput(text)
---    print(text)
---end
+if os.name == 'ios' then 
+    function love.touchpressed(...)
+        return Engine.touchpressed(...)
+    end
 
-function love.mousepressed(...)
-    return Engine.mousepressed(...)
-end
+    function love.touchmoved(...)
+        return Engine.touchmoved(...)
+    end
 
-function love.mousemoved(...)
-    return Engine.mousemoved(...)
-end
+    function love.touchreleased(...)
+        return Engine.touchreleased(...)
+    end
 
-function love.mousereleased(...)
-    return Engine.mousereleased(...)
-end
+else
+    function love.mousepressed(...)
+        return Engine.mousepressed(...)
+    end
 
-function love.wheelmoved(dx, dy)
-    return Engine.wheelmoved(dx, dy)
+    function love.mousemoved(...)
+        return Engine.mousemoved(...)
+    end
+
+    function love.mousereleased(...)
+        return Engine.mousereleased(...)
+    end
+
+    function love.wheelmoved(dx, dy)
+        return Engine.wheelmoved(dx, dy)
+    end
 end
