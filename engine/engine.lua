@@ -111,7 +111,7 @@ end
 
 function Engine.beginDraw(origin)
     Engine.origin = origin
-    
+
     if not env.canvas or env.canvas:getWidth() ~= W then
         env.canvas = love.graphics.newCanvas(W, H)
 
@@ -217,8 +217,6 @@ function Engine.drawInfo()
 
     Engine.render(
         function()
-            text(getFPS())
-            
             local r = fontSize()
             local pct = min(getFPS(), 60)/60
             noStroke()            
@@ -227,29 +225,10 @@ function Engine.drawInfo()
             rect(-r, 0, r, r)
             fill(colors.red)
             rect(-r, 0, r, r*(1-pct))
-            
-            text(formatRAM())
-            
-            text(os.name)
-            text(debugging() and 'debug mode' or 'release mode')
-            
-            local state, percent, seconds = love.system.getPowerInfo()
-            text(state..':'..(percent or 0)..'%('..(seconds or 0)..')')
-            
-            text(date():asDatetime())
-            
-            local datetime
 
-            if env.__autotest then
-                text('autotest')
-            end
-
-            callApp('drawInfo')
-            
             local state, percent, seconds = love.system.getPowerInfo()
             percent = percent or 100
-            --text(state..':'..(percent or 0)..'%('..(seconds or 0)..')')
-            
+            seconds = seconds or 0
             if percent then
                 fontName('Foundation-Icons')
                 textMode(CENTER)
@@ -262,27 +241,44 @@ function Engine.drawInfo()
                 end
                 fontName('Arial')
             end
-            
+
             if debugging() then
                 fontName('Foundation-Icons')
                 textMode(CENTER)
                 text(utf8.char(iconsFont.camera), -r/2, 2.5*r)
                 fontName('Arial')
             end
-            
+
+            textMode(CORNER)
+
+            textPosition(0)
+
+            local x, y = 0, 0
+            local function text(info)
+                x = x + GraphicsBase.text(info, x, y) + fontSize()
+            end
+
+            text(getFPS())
+            text(os.name)
+            text(debugging() and 'debug mode' or 'release mode')
+            text(state..':'..percent..'%('..floor(seconds / 60)..')')
+            text(date():asDatetime())
+            text(formatRAM())
+
+            if env.__autotest then
+                text('autotest')
+            end
+
+            callApp('drawInfo')
+
             if config.show.showLogs then
-                Log.draw(0, 20)
+                Log.draw(0, 0)
             end
         end, X, Y)
 
-    Engine.render(function()
-            if getOrientation() == LANDSCAPE then
-                local x, y = screenConfig.W - env.parameter.instance.scene.WMAX, 0
-                env.parameter.interface.draw(x, y, env.parameter.instance.scene.WMAX)
-            else
-                local x, y = 0, screenConfig.W - env.parameter.instance.scene.WMAX
-                env.parameter.interface.draw(x, y, W)
-            end
+    Engine.render(
+        function()
+            env.parameter.interface.draw()
         end, X, Y)
 end
 

@@ -25,14 +25,6 @@ function UI:setstyles(...)
     return self
 end
 
-function UI.properties.set:value(value)
-    self:setValue(value)
-end
-
-function UI.properties.get:value()
-    return self:getValue()
-end
-
 function UI:computeSize()
     fontName(self.styles.fontName or DEFAULT_FONT_NAME)
     fontSize(self.styles.fontSize or DEFAULT_FONT_SIZE)
@@ -85,7 +77,7 @@ end
 function UI:touched(touch)
     if touch.state == RELEASED then
         if self.callback then
-            self.callback(self, self.value)
+            self.callback(self, self:getValue())
 
         elseif self.click then
             self:click()

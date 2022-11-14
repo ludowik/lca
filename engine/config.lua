@@ -15,7 +15,7 @@ function loadConfig()
 
     if config.version == nil then
         config.version = '1.0'
-        
+
         config.framework = 'love2d'
         config.renderer = 'love2d'
 

@@ -29,9 +29,9 @@ if arg[#arg] == "-debug" then
     debugStart()
 end
 
-function __FILE__(level) return debug.getinfo(level or 1, 'S').short_src end
-function __LINE__(level) return debug.getinfo(level or 1, 'l').currentline end
-function __FUNC__(level) return debug.getinfo(level or 1).name end
+function __FILE__(level) return debug.getinfo(level or 1, 'S').short_src or 'unknown file' end
+function __LINE__(level) return debug.getinfo(level or 1, 'l').currentline or 'unknown line' end
+function __FUNC__(level) return debug.getinfo(level or 1).name or 'unknown function' end
 
 function getFileLocation(msg, level)
     level = 3 + (level or 1)

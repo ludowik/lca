@@ -268,7 +268,7 @@ function Node:touched(touch)
     for i,node in ipairs(nodes) do
         if node:contains(touch) then
             node:touched(touch)
-            break
+            return true
         end
     end
 end

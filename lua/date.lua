@@ -9,11 +9,11 @@ function Date:__tostring()
 end
 
 function Date:asDate()
-    return self.day..'/'..self.month..'/'..self.year
+    return string.format('%02d/%02d/%04d', self.day, self.month, self.year)
 end
 
 function Date:asTime()
-    return self.hour..':'..self.min
+    return string.format('%02d:%02d', self.hour, self.min)
 end
 
 function Date:asDatetime()

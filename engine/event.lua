@@ -5,9 +5,10 @@ function Engine.keypressed(key, isrepeat)
         (isDown('lalt'  ) and 'lalt+'   or '')..
         (isDown('lctrl' ) and 'lctrl+'  or '')..
         (isDown('lshift') and 'lshift+' or '')..
+        (isDown('lgui') and 'lgui+' or '')..
         key
     )
-
+    
     if Engine.keys[key] then
         Engine.keys[key].f()
     end
@@ -23,7 +24,10 @@ end
 function Engine.mousepressed(x, y, button, istouch, presses)
     mouseevent(PRESSED, x, y, button, 0)
 
-    if Rect(X, Y, W, H):contains(x, y) then
+    if _G.env.parameter.touched(mouse) then
+        -- pass
+        
+    elseif Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = __mouseScale(mouse, SCALE_APP)
         if getOrigin() == BOTTOM_LEFT then
             mouse2 = __mouseReverseY(mouse2)
@@ -37,8 +41,6 @@ function Engine.mousepressed(x, y, button, istouch, presses)
             config.show.showLogs = not config.show.showLogs
         end
     end
-
-    _G.env.parameter.touched(mouse)
 end
 
 function Engine.touchmoved(id, x, y, dx, dy, pressure)
@@ -55,7 +57,8 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
             CurrentTouch = mouse2
         end
         callApp('mousemoved', mouse2)
-        if istouch or love.mouse.isDown(mouse2.button) then
+        if istouch then -- or love.mouse.isDown(mouse2.button) then
+            log(mouse2.button)            
             if getCamera() then
                 getCamera():processMouseMovement(__mouseReverseY(__mouseScale(mouse, SCALE_APP)), true)
             end
@@ -76,7 +79,10 @@ end
 function Engine.mousereleased(x, y, button, istouch, presses)
     mouseevent(RELEASED, x, y, button, presses)
 
-    if Rect(X, Y, W, H):contains(x, y) then
+    if _G.env.parameter.instance.scene:contains(x, y) then
+        -- pass
+        
+    elseif Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = __mouseScale(mouse, SCALE_APP)
         if getOrigin() == BOTTOM_LEFT then
             mouse2 = __mouseReverseY(mouse2)

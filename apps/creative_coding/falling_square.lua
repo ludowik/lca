@@ -1,5 +1,5 @@
 function setup()
-    setOrientation(PORTRAIT)
+    supportedOrientations(PORTRAIT)
     
     angle = 0
     mode = 1

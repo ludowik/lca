@@ -36,7 +36,7 @@ function Sdl:initialize()
                 0, 0,
                 0, 0,
                 renderer.flag +
-                self.SDL_WINDOW_RESIZABLE +
+--                self.SDL_WINDOW_RESIZABLE +
 --                self.SDL_WINDOW_ALLOW_HIGHDPI +
 --                self.SDL_WINDOW_FULLSCREEN +
 --                self.SDL_WINDOW_SHOWN +

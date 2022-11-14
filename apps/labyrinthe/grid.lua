@@ -35,7 +35,7 @@ function Grid:draw()
             elseif type.from or type.to then
                 fill(colors.white)
             elseif type.distance then
-                fill(type.distance*2)
+                fill(colors.white)
             elseif type.value == 0 then
                 fill(colors.white)
             else
@@ -44,7 +44,7 @@ function Grid:draw()
             rect((x-1)*w, (y-1)*w, w, w)
 
             if type.distance then
-                textColor(colors.white)
+                textColor(Color.hsl(type.distance))
                 textMode(CENTER)
                 fontSize(w)
                 text(type.distance, (x-1)*w+w/2, (y-1)*w+w/2)

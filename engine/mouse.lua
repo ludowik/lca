@@ -34,6 +34,8 @@ mouse = table(
 
         altitude = 1,
         azimuthVec = vec2(),
+        
+        button = 0,
     })
 CurrentTouch = mouse
 

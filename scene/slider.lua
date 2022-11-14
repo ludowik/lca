@@ -8,7 +8,7 @@ function Slider:init(variable, min, max, default, integer, callback)
 
     self.default = default or 0
     
-    self.value = default or 0
+    self:setValue(default or 0)
 
     self.integer = integer
     
@@ -21,7 +21,7 @@ end
 function Slider:computeSize()
     UI.computeSize(self)
     
-    local wval, hval = textSize(tostring(self.__value))
+    local wval, hval = textSize(tostring(self:getValue()))
     local wmin, hmin = textSize(tostring(self.min))
     local wmax, hmax = textSize(tostring(self.max))
     local wdef, hdef = textSize(tostring(self.default))
@@ -34,7 +34,7 @@ end
 function Slider:draw()
     UI.draw(self)
     
-    local x = map(self.value, self.min, self.max, 0, self.size.x)
+    local x = map(self:getValue(), self.min, self.max, 0, self.size.x)
     stroke(colors.red)
     strokeSize(2)
     line(x, 0, x, self.size.y)
@@ -69,5 +69,5 @@ function Slider:touched(touch)
 end
 
 function Slider:wheelmoved(dx, dy)
-    self:setValue(self.value - (self.max - self.min) * dy / 10)
+    self:setValue(self:getValue() - (self.max - self.min) * dy / 10)
 end

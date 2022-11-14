@@ -4,7 +4,8 @@ function CheckBox:init(label, value, callback)
     UI.init(self, label, callback)
     
     Bind.init(self, label, value, callback)
-    self.value = value
+    
+    self:setValue(value)
     
     self:setstyles{
         textMode = CENTER,
@@ -14,16 +15,16 @@ end
 
 function CheckBox:touched(touch)
     if touch.state == RELEASED then
-        self.value = not self.value
+        self:setValue(not self:getValue())
 
         if self.callback then
-            self.callback(self, self.value)
+            self.callback(self, self:getValue())
         end
     end
 end
 
 function CheckBox:draw()
-    if self.value then
+    if self:getValue() then
         self:setstyles{textColor = colors.green}
     else
         self:setstyles{textColor = colors.red}

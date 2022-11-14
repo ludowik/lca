@@ -26,6 +26,7 @@ function Layout:computeNodeFixedSize(node)
 end
 
 function Layout:layout(mode, n, wmax)
+    assert(wmax)
     wmax = wmax or W
     
     local outerMarge = self.outerMarge or (self.parent and self.parent.outerMarge or Layout.outerMarge)

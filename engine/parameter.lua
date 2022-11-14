@@ -2,7 +2,8 @@ class 'Parameter'
 
 function Parameter:init()    
     Parameter.clear(self)
-    self.scene.WMAX = 250
+
+    self.scene.WMAX = WMAX
 end
 
 function getScreenSize()
@@ -24,7 +25,7 @@ function getMousePosition()
 end
 
 function Parameter:clear()
-    self.scene = UIScene(Layout.row)
+    self.scene = UIScene(Layout.column)
     self.scene.getOrigin = function () return TOP_LEFT end
 
     self.scene:setstyles{
@@ -34,15 +35,16 @@ function Parameter:clear()
     self.scene:add(
         ButtonColor(colors.red, -- 'Menu', 
             function ()
-                tween(0.2, self.scene, {WMAX = self.scene.WMAX == 10 and 250 or 10}, tween.easing.sineIn)
+                tween(0.2, self.scene, {WMAX = self.scene.WMAX == WMAX and 0
+                        or WMAX}, tween.easing.sineIn)
             end))
-    
+
     self.globalGroup = UINode(Layout.column)
     self.scene:add(self.globalGroup)
-    
+
     local group = UINode()
     self.globalGroup:add(group)
-    
+
     ----------------
     self.group = group
     self:menu(env.appName)
@@ -71,16 +73,20 @@ function Parameter:clear()
             function (btn)
                 setOrigin(getOrigin() == TOP_LEFT and BOTTOM_LEFT or TOP_LEFT)
                 btn.label = getOrigin() == TOP_LEFT and 'arrow_up' or 'arrow_down'
+                self.scene.WMAX = WMAX
             end))
 
     self.group:add(ButtonIconFont(getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait',
             function (btn)
-                supportedOrientations(getOrientation() == PORTRAIT and LANDSCAPE_ANY or PORTRAIT)
+                setOrientation(getOrientation() == PORTRAIT and LANDSCAPE or PORTRAIT)
                 btn.label = getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait'
+                self.scene.WMAX = WMAX
             end))
 
     --self:newline()
 
+    _G.SCALE_APP = 1
+    
     self:number('_G.SCALE_APP', 0.25, 2, _G.SCALE_APP,
         function ()
             setOrientation()
@@ -236,13 +242,21 @@ end
 function Parameter:draw(x, y)
     noStroke()
     fill(Color(0.5, 0.5, 0.5, 0.9))
+
+    local x, y
+    if getOrientation() == LANDSCAPE then
+        x, y = screenConfig.W - env.parameter.instance.scene.WMAX, 0
+    else
+        x, y = 0, screenConfig.W - env.parameter.instance.scene.WMAX
+    end
+
     rect(x, y, W, self.scene.size.y, 10)
-        
+
     self.scene:draw(x, y)
 end
 
 function Parameter:touched(touch)
-    self.scene:touched(touch)
+    return self.scene:touched(touch)
 end
 
 function Parameter:wheelmoved(dx, dy)

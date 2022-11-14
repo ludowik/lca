@@ -1,6 +1,4 @@
 function setup()
-    supportedOrientations(LANDSCAPE_ANY)
-
     scene = UIScene(Layout.grid, 2)
     scene:setAlignment('v-center,h-center')
 
@@ -9,6 +7,8 @@ end
 
 function browse(path, previousPath)
     scene:clear()
+    
+    local fontSize = floor(min(W, H) / 15)
 
     if previousPath then
         scene:add(UI('..', function ()
@@ -38,7 +38,7 @@ function browse(path, previousPath)
                         info = item}
                     :setstyles{
                         textColor = colors.green,
-                        fontSize = 22})
+                        fontSize = fontSize})
             else
                 scene:add(
                     UI(name,
@@ -49,7 +49,7 @@ function browse(path, previousPath)
                         info = item}
                     :setstyles{
                         textColor = colors.blue,
-                        fontSize = 22})
+                        fontSize = fontSize})
             end
         end
     end
@@ -57,6 +57,7 @@ end
 
 function draw()
     background()
+    
     scene:draw()
 end
 

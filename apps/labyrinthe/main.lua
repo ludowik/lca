@@ -27,7 +27,7 @@ function setup()
     end
 
     grid:set(2, 3, {wall=false, from=true, distance=0, value=0})
-    grid:set(grid.size.x-1, grid.size.y-2, {wall=false, to=true, distance=0, value=0})
+    grid:set(grid.size.x-1, grid.size.y-2, {wall=false, to=true, value=0})
 
     parameter.watch('coroutine.status(routine)')
 
@@ -79,7 +79,7 @@ function setup()
                     if cell.value > 0 then
                         if not value then
                             value = cell.value
-                            
+
                         elseif cell.value ~= value then
                             continue = true
                             break
@@ -103,9 +103,8 @@ function setup()
     end
 
     function resolve()
-        local stop
+        local continue
         repeat
-            stop = true
             for x=2,grid.size.x-1 do
                 for y=2,grid.size.y-1 do
                     local type = grid:get(x, y)
@@ -116,7 +115,6 @@ function setup()
                             local neirbourg = grid:get(x+1*dx, y+1*dy)
                             if neirbourg.distance and not neirbourg.new then
                                 grid:set(x, y, {distance=neirbourg.distance+1, new=true, value=0})
-                                stop = false
                             end
                         end
 
@@ -127,8 +125,22 @@ function setup()
                     end
                 end       
             end
+
+            continue = false
+            
+            local value
+            for x=2,grid.size.x-1 do
+                for y=2,grid.size.y-1 do
+                    local cell = grid:get(x , y)
+                    if not cell.wall and not cell.distance then
+                        continue = true
+                        break
+                    end
+                end
+            end
+
             coroutine.yield()
-        until stop
+        until not continue
     end
 
     function flow()

@@ -5,7 +5,7 @@ NO_MUSIC = true
 _G.SCALE_APP = 1.94
 
 function setup()
-    setOrientation(PORTRAIT)
+    supportedOrientations(PORTRAIT)
     
     --IO.clearAll()
     --IO.printSolution("Mirror 3")

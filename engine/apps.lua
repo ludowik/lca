@@ -122,7 +122,6 @@ function loadApp(path, name, garbage)
 
         local env = {
             __vsync = 1,
-            __orientation = LANDSCAPE,
 
             setup = function () end,
 

@@ -28,6 +28,20 @@ Engine.keys = table{
         end
     },
 
+    ['lgui+left'] = {
+        desc = 'Change orientation',
+        f = function ()
+            setOrientation(getOrientation() == PORTRAIT and LANDSCAPE or PORTRAIT)
+        end
+    },
+
+    ['lgui+right'] = {
+        desc = 'Change orientation',
+        f = function ()
+            setOrientation(getOrientation() == PORTRAIT and LANDSCAPE or PORTRAIT)
+        end
+    },
+
     ['lctrl+a'] = {
         desc = 'Apps App',
         f = function ()
