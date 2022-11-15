@@ -3,6 +3,8 @@ function setup()
             newConf = i
         end)
 
+    parameter.boolean('rotation', rotation, false) 
+
     newConf = 1
     reset(newConf)
 end
@@ -20,14 +22,16 @@ function reset(i)
 
     vertices = table()
 
-    size = min(W, H) / 2
+    size = min(W, H) / 3
 
     deltaAngle = TAU / conf.n
 
     for i = 0,conf.n-1 do
-        vertices:add(vector(vec2(
-                    W/2 + sin(conf.startAngle + i * deltaAngle) * size,
-                    H/2 + cos(conf.startAngle + i * deltaAngle) * size)
+        vertices:add(
+            vector(
+                vec2(
+                    sin(conf.startAngle + i * deltaAngle) * size,
+                    cos(conf.startAngle + i * deltaAngle) * size)
             ))
     end
 
@@ -38,7 +42,7 @@ function reset(i)
 
     vertices:draw()
 
-    currentPoint = vec2(W/2, H/2)
+    currentPoint = vec2()
     previousPoint = currentPoint
 end
 
@@ -130,6 +134,12 @@ function draw()
     stroke(colors.white)
     strokeSize(1)
 
+    translate(W/2, H/2)
+
+    if rotation then
+        rotate(elapsedTime)
+    end
+    
     for i = 1,1000 do
         local point = conf.rule()
 

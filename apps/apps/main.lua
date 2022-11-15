@@ -7,8 +7,8 @@ end
 
 function browse(path, previousPath)
     scene:clear()
-    
-    local fontSize = floor(min(W, H) / 15)
+
+    local fontSize = floor(min(W, H) / 20)
 
     if previousPath then
         scene:add(UI('..', function ()
@@ -57,7 +57,13 @@ end
 
 function draw()
     background()
-    
+
+    if getOrientation() == PORTRAIT then
+        scene.layoutParam = 1
+    else
+        scene.layoutParam = 2
+    end
+
     scene:draw()
 end
 

@@ -22,6 +22,9 @@ function setupWindow()
     WIDTH, HEIGHT = W, H
 end
 
+local ios_w, ios_h = 692, 320
+simulate_ios = simulate_ios or false
+
 setupScreen = function()
     local wt, ht, scale
     local x, y
@@ -43,9 +46,9 @@ setupScreen = function()
         scale = 1.25
 
         if getOrientation() == LANDSCAPE then
-            wt = 1280
+            wt = simulate_ios and ios_w or 1280
         else
-            wt = 896
+            wt = simulate_ios and ios_w or 896
         end
 
         local ratio = 1 / 1.8

@@ -21,6 +21,13 @@ Engine.keys = table{
         end
     },
 
+    ['f6'] = {
+        desc = 'Restart',
+        f = function ()
+            restart()
+        end
+    },
+
     ['lalt+,'] = {
         desc = 'Random App',
         f = function () -- ?

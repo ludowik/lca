@@ -47,6 +47,9 @@ function mouseevent(state, x, y, button, presses)
 end
 
 function __mouseevent(state, x, y, button, presses)
+    x = round(x)
+    y = round(y)
+    
     mouse.id = 1
 
     mouse.state = state
@@ -118,15 +121,20 @@ end
 
 function __mouseScale(mouse, scale)
     mouse = mouse:clone()
-    mouse.x = mouse.x * scale
-    mouse.pos.x = mouse.x * scale
-    mouse.position.x = mouse.x * scale
-    mouse.dx = mouse.dx * scale
-    mouse.deltaX = mouse.deltaX * scale
-    mouse.y = mouse.y * scale
-    mouse.pos.y = mouse.y * scale
-    mouse.position.y = mouse.y * scale
-    mouse.dy = mouse.dy * scale
-    mouse.deltaY = mouse.deltaY * scale
+    
+    mouse.x = round(mouse.x * scale)
+    mouse.pos.x = mouse.x
+    mouse.position.x = mouse.x
+    
+    mouse.dx = round(mouse.dx * scale)
+    mouse.deltaX = mouse.dx
+    
+    mouse.y = round(mouse.y * scale)
+    mouse.pos.y = mouse.y
+    mouse.position.y = mouse.y
+    
+    mouse.dy = round(mouse.dy * scale)
+    mouse.deltaY = mouse.dy
+    
     return mouse
 end
