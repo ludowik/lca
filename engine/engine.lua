@@ -15,6 +15,8 @@ function Engine.setGraphicsLibrary()
 end
 
 function Engine.load()
+    --override()
+    
     Engine.setGraphicsLibrary()
 
     Engine.frameTarget = 60
@@ -41,11 +43,13 @@ function Engine.unload()
     config.flags = flags
 
     saveConfig()
+    
+    --unoverride()
 end
 
 function Engine.release()
     -- TOFIX
---    resetApps()
+    --    resetApps()
 
     output.clear()
     Image.release()

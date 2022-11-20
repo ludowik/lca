@@ -1,4 +1,4 @@
-simulate_ios = true
+--simulate_ios = true
 
 require 'engine'
 

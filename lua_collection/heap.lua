@@ -20,3 +20,13 @@ function pop(heapName)
     end
     return value
 end
+
+class '__heap'
+
+function __heap.test()
+    local heap = newHeap('__heap')
+    push('__heap', '__heap')
+    pop('__heap')
+    
+    assert(#heap == 0)
+end

@@ -35,14 +35,14 @@ Engine.keys = table{
         end
     },
 
-    ['lgui+left'] = {
+    ['lctrl+left'] = {
         desc = 'Change orientation',
         f = function ()
             setOrientation(getOrientation() == PORTRAIT and LANDSCAPE or PORTRAIT)
         end
     },
 
-    ['lgui+right'] = {
+    ['lctrl+right'] = {
         desc = 'Change orientation',
         f = function ()
             setOrientation(getOrientation() == PORTRAIT and LANDSCAPE or PORTRAIT)
@@ -67,13 +67,6 @@ Engine.keys = table{
         desc = 'Autotest App',
         f = function ()
             _G.env.__autotest = not _G.env.__autotest
-        end
-    },
-
-    ['lalt+l'] = {
-        desc = 'Autotest all Apps',
-        f = function ()
-            loadAppOfTheApps().__autotest = true
         end
     },
 

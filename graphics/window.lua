@@ -42,13 +42,13 @@ setupScreen = function()
             x, y, w, h = x, y, h, w
         end
 
-    elseif os.name == 'osx' then
+    else
         scale = 1.25
 
         if getOrientation() == LANDSCAPE then
-            wt = simulate_ios and ios_w or 1280
+            wt = simulate_ios and ios_w or os.name == 'osx' and 1280 or 1280 
         else
-            wt = simulate_ios and ios_w or 896
+            wt = simulate_ios and ios_w or os.name == 'osx' and  896 or 896
         end
 
         local ratio = 1 / 1.8
@@ -57,12 +57,6 @@ setupScreen = function()
         x, y = 38, 24
         w, h = wt-2*x, ht-2*y
 
-    else
-        scale = 1.25
-
-        wt, ht = 896, 414
-        x, y = 38, 24
-        w, h = wt-2*x, ht-2*y
     end
 
     WMAX = 250 -- max(w, h) / 4
@@ -79,6 +73,10 @@ setupScreen = function()
         X = x,
         Y = y,
     }
+end
+
+function getSafeArea()
+    return screenConfig.X, screenConfig.Y, screenConfig.W, screenConfig.H
 end
 
 local initModes = {}

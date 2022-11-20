@@ -64,11 +64,14 @@ function getOS()
         ('osx')):lower():gsub(' ', ''):gsub('_nt', '')
 end
 
-os.name = os.name or getOS()
-os.real = getOS()
+class 'OS'
+function OS.setup()
+    os.name = os.name or getOS()
+    os.real = getOS()
 
-osx = os.name == 'osx'
-oswindows = os.name == 'windows'
+    osx = os.name == 'osx'
+    oswindows = os.name == 'windows'
+end
 
 function pumpEvent(event)
     event = event or love.event

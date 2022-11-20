@@ -57,8 +57,7 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
             CurrentTouch = mouse2
         end
         callApp('mousemoved', mouse2)
-        if istouch then -- or love.mouse.isDown(mouse2.button) then
-            log(mouse2.button)            
+        if istouch or love.mouse.isDown(mouse2.button) then
             if getCamera() then
                 getCamera():processMouseMovement(__mouseReverseY(__mouseScale(mouse, SCALE_APP)), true)
             end

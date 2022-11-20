@@ -158,7 +158,8 @@ function Camera:moveForward(speed, dt)
     local right = self:right()
 
     local velocity = self.speed * speed * dt
-    self.vEye:add(front, velocity)
+    self.vEye:add(front * velocity)
+    print(speed)
 end
 
 function Camera:moveSideward(speed, dt)
@@ -232,10 +233,9 @@ end
 
 function Camera:processWheelMoveOnCamera(touch)
     if self:getMode() == CAMERA_MODEL then
-        self:moveSideward(touch.dx, deltaTime)
-        self:moveUp(touch.dy, deltaTime)
+        self:moveForward(touch.dy, deltaTime)
     else
-        self:zoom(0, touch.dy, deltaTime)
+        self:moveForward(touch.dy, deltaTime)
     end
 end
 

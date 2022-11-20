@@ -2,6 +2,7 @@ requireLib(
     'performance',
     'performanceCheck',
     'profiler',
+    'override',
     'reporting',
     'introspection')
 
