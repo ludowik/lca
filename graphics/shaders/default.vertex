@@ -2,14 +2,23 @@ uniform mat4 pvm;
 uniform mat4 model;
 
 attribute vec3 VertexNormal;
+
+attribute float InstanceID;
+
 attribute vec3 InstancePosition;
 attribute vec3 InstanceScale;
+attribute vec4 InstanceColor;
 
-varying vec3 FragPos;
+varying float VaryingInstanceID;
+varying vec3 VaryingFragPos;
 varying vec3 VaryingNormal;
+varying vec4 VaryingInstanceColor;
 
 vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
+    VaryingInstanceID = InstanceID;
+    VaryingInstanceColor = InstanceColor;
+    
     vec4 vp = VertexPosition;
     if (InstanceScale.x > 0.) {
         vp.x *= InstanceScale.x;
@@ -18,9 +27,8 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
     }
     vp += vec4(InstancePosition.xyz, 0.);
     
-    FragPos = vec3(model * vp);
+    VaryingFragPos = vec3(model * vp);
     
-    //VaryingNormal = VertexNormal;    
     VaryingNormal = mat3(transpose(inverse(model))) * VertexNormal;
     
     return pvm * vp;

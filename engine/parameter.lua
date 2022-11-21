@@ -12,7 +12,7 @@ function getScreenSize()
 end
 
 function getSafeAreaSize() 
-    local x, y, w, h = love.window.getSafeArea()
+    local x, y, w, h = getSafeArea()
     return x..'x'..y..' '..w..'x'..h
 end
 
@@ -58,7 +58,6 @@ function Parameter:clear()
     ----------------
     self.group = group
     self:menu('Apps menu', Layout.row)
-    self.group:add(ButtonIconFont('die_six', function () loadAppOfTheApps().__autotest = true end))
     self.group:add(ButtonIconFont('loop', restart))
     self.group:add(ButtonIconFont('list_bullet', loadAppOfTheApps))
 
@@ -82,8 +81,6 @@ function Parameter:clear()
                 btn.label = getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait'
                 self.scene.WMAX = WMAX
             end))
-
-    --self:newline()
 
     _G.SCALE_APP = 1
     

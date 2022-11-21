@@ -74,8 +74,22 @@ function MeshRender:update()
     if self.instancePosition then
         if self.needUpdate or self:bufferHasChanged('instancePosition', self.instancePosition) then
             self.instancePosition = self.instancePosition or {{1, 1, 1}}
-            self.instanceScale = self.instanceScale or {{.5, .5, .5}}
+            self.instanceScale = self.instanceScale or {{1, 1, 1}}
+            self.instanceColor = self.instanceColor or {{.5, .5, .5, 1}}
+            
+            if not self.instanceID then
+                self.instanceID = {}
+                for i=1,#self.instancePosition do
+                    table.insert(self.instanceID, {i})
+                end
+            end
 
+            self.instanceMeshID = love.graphics.newMesh({
+                    {"InstanceID", "float", 1}
+                },
+                self.instanceID, nil, "static")
+            self.mesh:attachAttribute("InstanceID", self.instanceMeshID, "perinstance")
+            
             self.instanceMeshPosition = love.graphics.newMesh({
                     {"InstancePosition", "float", 3}
                 },
@@ -87,6 +101,12 @@ function MeshRender:update()
                 },
                 self.instanceScale, nil, "static")
             self.mesh:attachAttribute("InstanceScale", self.instanceMeshScale, "perinstance")
+            
+            self.instanceMeshColor = love.graphics.newMesh({
+                    {"InstanceColor", "float", 4},
+                },
+                self.instanceColor, nil, "static")
+            self.mesh:attachAttribute("InstanceColor", self.instanceMeshColor, "perinstance")
         end
     end
 
@@ -115,11 +135,8 @@ function MeshRender:draw(...)
 end
 
 function MeshRender:getShader()
-    if __light() then
-        return shaders.light
-    end
     if self.shader then return self.shader end
-    return shaders.default
+    return shaders.light
 end
 
 function MeshRender:drawModel(x, y, z, w, h, d, n)
@@ -166,7 +183,7 @@ function MeshRender:drawInstanced(...)
 end
 
 function MeshRender:sendUniforms(shader)
-    local uniforms = self.uniforms or shader.uniforms or {}
+    local uniforms = self.uniforms or {}
     uniforms.pvm = {pvmMatrix():getMatrix()}
 
     -- TODO : compute the reverse matrix before and send it to the shader    
@@ -179,10 +196,15 @@ function MeshRender:sendUniforms(shader)
         uniforms.cameraPos = getCamera().vEye
     end
 
+    uniforms.lightMode = __light() and 1 or 0
     uniforms.light = lights
-    uniforms.material = currentMaterial
+    uniforms.material = currentMaterial    
 
     self:_sendUniforms(shader, uniforms)
+    
+    if shader.uniforms then
+--        self:_sendUniforms(shader, shader.uniforms)
+    end
 end
 
 function MeshRender:_sendUniforms(_shader, uniforms, baseName)

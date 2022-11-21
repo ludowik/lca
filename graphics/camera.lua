@@ -27,7 +27,7 @@ function Camera:init(...)
     self.fovy = 45
 
     self.speed = 10
-    self.sensitivity = 0.5
+    self.sensitivity = 0.1
 
     self:updateVectors()
 
@@ -102,7 +102,7 @@ function Camera:front()
 end
 
 function Camera:right()
-    self.vRight:set(v):crossInPlace(self.vUp):normalizeInPlace()
+    self.vRight:set(self:direction()):crossInPlace(self.vUp):normalizeInPlace()
     return self.vRight
 end
 
@@ -158,7 +158,7 @@ function Camera:moveForward(speed, dt)
     local right = self:right()
 
     local velocity = self.speed * speed * dt
-    self.vEye:add(front, velocity)
+    self.vEye:add(front * velocity)
 end
 
 function Camera:moveSideward(speed, dt)
@@ -167,7 +167,7 @@ function Camera:moveSideward(speed, dt)
     local right = self:right()
 
     local velocity = self.speed * speed * dt
-    self.vEye:sub(right, velocity)
+    self.vEye:sub(right * velocity)
 end
 
 function Camera:moveUp(speed, dt)
@@ -176,7 +176,7 @@ function Camera:moveUp(speed, dt)
     local right = self:right()
 
     local velocity = self.speed * speed, dt
-    self.vEye:add(up, velocity)
+    self.vEye:add(up * velocity)
 end
 
 function Camera:processKeyboardMovement(direction, dt)
@@ -232,15 +232,15 @@ end
 
 function Camera:processWheelMoveOnCamera(touch)
     if self:getMode() == CAMERA_MODEL then
-        self:moveSideward(touch.dx, deltaTime)
-        self:moveUp(touch.dy, deltaTime)
+        self:moveForward(touch.dy * 10, deltaTime)
     else
-        self:zoom(0, touch.dy, deltaTime)
+        self:moveForward(touch.dy * 10, deltaTime)
     end
 end
 
 function Camera:rotateAround(at, deltaX, deltaY, constrainPitch)
     local camera = Camera()
+    
     camera:eye(self:at():unpack())
     camera:at(self:eye():unpack())
     camera:up(self:up():unpack())
