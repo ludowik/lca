@@ -49,6 +49,12 @@ end
 
 function Engine.mousemoved(x, y, dx, dy, istouch)
     mouseevent(MOVED, x, y, mouse.button, 0)
+    
+    if istouch or love.mouse.isDown(mouse.button) then
+        if _G.env.parameter.touched(mouse) then
+            return
+        end
+    end
 
     if Rect(X, Y, W, H):contains(x, y) then
         local mouse2 = __mouseScale(mouse, SCALE_APP)
@@ -64,10 +70,6 @@ function Engine.mousemoved(x, y, dx, dy, istouch)
 
             callApp('touched', mouse2)
         end
-    end
-
-    if istouch or love.mouse.isDown(mouse.button) then
-        _G.env.parameter.touched(mouse)
     end
 end
 

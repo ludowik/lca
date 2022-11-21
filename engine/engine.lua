@@ -92,6 +92,8 @@ function Engine.update(dt)
     end
 
     callApp('update', dt)
+    
+    if getCamera() and getCamera().lookAt then getCamera():update(dt) end
 end
 
 function Engine.autotest()

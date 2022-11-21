@@ -306,6 +306,7 @@ end
 
 function Graphics.plane(...)
     local x, y, z, w, h, d = positionAndSize(...)
+    Model.plane():draw(x, y, z, w, h, d)
 end
 
 function Graphics.pyramid(...)

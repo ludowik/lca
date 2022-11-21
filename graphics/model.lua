@@ -2,20 +2,20 @@ class 'Model'
 
 local v = 0.5
 
-local p1 = vec3(-v, -v, 0)
-local p2 = vec3( v, -v, 0)
-local p3 = vec3( v,  v, 0)
-local p4 = vec3(-v,  v, 0)
+local p1 = vec3(-v, 0, -v)
+local p2 = vec3( v, 0, -v)
+local p3 = vec3( v, 0,  v)
+local p4 = vec3(-v, 0,  v)
 
-local f1 = vec3(-v,-v,-v)
-local f2 = vec3( v,-v,-v)
-local f3 = vec3( v, v,-v)
-local f4 = vec3(-v, v,-v)
+local f1 = vec3(-v, -v, -v)
+local f2 = vec3( v, -v, -v)
+local f3 = vec3( v,  v, -v)
+local f4 = vec3(-v,  v, -v)
 
-local b1 = vec3(-v,-v, v)
-local b2 = vec3( v,-v, v)
-local b3 = vec3( v, v, v)
-local b4 = vec3(-v, v, v)
+local b1 = vec3(-v, -v, v)
+local b2 = vec3( v, -v, v)
+local b3 = vec3( v,  v, v)
+local b4 = vec3(-v,  v, v)
 
 local u5 = vec3(v, v, v)
 

@@ -1,21 +1,12 @@
-touch screen => problème avec le deltaX
-
-Ajuster la taille de la fenetre paramètre
-
-Electric 
+Electric & Sound
 Plantage systématique
-
-Sound
-Plantage
 
 Graph
 Améliorer l'algo d'équilibrage
 
-Projets
-all title to lower
-
 BBTan
-Taille de le bille bizarre 
+Taille de le bille bizarre
+Faire un mini-moteur physique dédié
 
 PI
 Porter la version Js
@@ -33,9 +24,6 @@ pitch to zoom (en étant centré)
 
 Icone
 refaire le layout de l'écran
-
-Particle
-Rien de visible ?
 
 Shadertoy
 Affichage à la ramasse ???!!!
@@ -63,8 +51,8 @@ lovejs : virer le fond
 config vsc
 package lua via js
 
-tree generation
-chess
+Tree generation
+Chess
 Jeu de carte : solitaire
 
 Modéliser une fourmi en voxel

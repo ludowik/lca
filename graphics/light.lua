@@ -63,12 +63,12 @@ function Light.ambient(ambientStrength, clr)
     return light
 end
 
-function Light.sun(diffuseStrength, specularStrength)
+function Light.sun(diffuseStrength, specularStrength, clr)
     local light = Light()
     light.type = 1
 
     light.position = vec3(-500000., -500000., -1000.)
-    light.color = Color(clr or colors.white)
+    light.color = Color(clr or colors.yellow)
 
     light.ambientStrength = ambientStrength or 0.4
     light.diffuseStrength = diffuseStrength or 0.8
