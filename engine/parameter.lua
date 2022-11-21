@@ -250,7 +250,7 @@ function Parameter:draw(x, y)
         x, y = 0, screenConfig.W - env.parameter.instance.scene.WMAX
     end
 
-    rect(x, y, W, self.scene.size.y, 10)
+    rect(x, y, W, H, 10)
 
     self.scene:draw(x, y)
 end

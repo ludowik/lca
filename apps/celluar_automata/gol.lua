@@ -45,17 +45,22 @@ function draw()
 end
 
 function touched(touch)
-    if touch.state == RELEASED then
-        if menu:contains(touch) then
-            menu:touched(touch)
-        else
-            local cell = grid:cellFromPosition(touch.x, touch.y)
-            if cell then
-                if grid.status == 'active' then
-                    grid:addLife(cell.x, cell.y)
-                else
-                    grid:setLife(cell.x, cell.y)
-                end
+    if menu:contains(touch) then
+        menu:touched(touch)
+    else
+        if touch.state == PRESSED and grid.status == 'active' then
+            grid.status = 'suspended'
+            
+        elseif touch.state == RELEASED and grid.status == 'suspended' then
+            grid.status = 'active'
+        end
+        
+        local cell = grid:cellFromPosition(touch.x, touch.y)
+        if cell then
+            if grid.status ~= 'paused' then
+                grid:addLife(cell.x, cell.y)
+            else
+                grid:setLife(cell.x, cell.y)
             end
         end
     end
@@ -107,7 +112,7 @@ function GolGrid:setLife(x, y)
 end
 
 function GolGrid:update(dt)
-    if self.status == 'paused' then return end
+    if self.status ~= 'active' then return end
 
     delay = delay + dt
 
