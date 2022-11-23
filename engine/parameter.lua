@@ -38,6 +38,8 @@ function Parameter:clear()
                 tween(0.2, self.scene, {WMAX = self.scene.WMAX == WMAX and 0
                         or WMAX}, tween.easing.sineIn)
             end))
+    
+    self.scene.WMAX = 0
 
     self.globalGroup = UINode(Layout.column)
     self.scene:add(self.globalGroup)

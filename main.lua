@@ -6,3 +6,8 @@ require 'engine'
 APPS = 'apps'
 
 --debugStart()
+
+local __require
+require = function (...)
+    return __require(...)
+end
