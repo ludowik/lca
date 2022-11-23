@@ -1,6 +1,6 @@
 class 'Log'
 
-local logs = table()
+local logs = {}
 
 local __print = __print or print
 
@@ -29,7 +29,7 @@ function __log(...)
             count = 0,
             text = text
         }
-        logs:insert(logs[text])
+        table.insert(logs, logs[text])
     end
 
     logs[text].count = logs[text].count + 1
