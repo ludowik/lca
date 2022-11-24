@@ -3,7 +3,7 @@ class 'Parameter'
 function Parameter:init()    
     Parameter.clear(self)
 
-    self.scene.WMAX = WMAX
+    self.scene.WMAX = config.WMAX or 0
 end
 
 function getScreenSize()

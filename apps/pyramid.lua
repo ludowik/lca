@@ -1,6 +1,4 @@
 function setup()
-    scene = Scene()
-    
     scene:add(pyramid('Khéops', 0, 0, 0, 230.902, 144.93, 201, floor(144.93/0.69)))
     scene:add(pyramid('Khéphren', -340, 0, -370, 215.16, 143.87, 201, floor(144.93/0.69)))
     

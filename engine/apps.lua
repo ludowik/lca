@@ -123,8 +123,17 @@ function loadApp(path, name, garbage)
         local env = {
             __vsync = 1,
 
+            scene = Scene(),
+            
             setup = function () end,
 
+            update = function (dt)
+                local scene = env.scene or env.ui
+                if scene then
+                    scene:update(dt)
+                end
+            end,
+            
             draw = function ()
                 background()
                 local scene = env.scene or env.ui
