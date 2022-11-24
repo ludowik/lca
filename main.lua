@@ -7,7 +7,7 @@ APPS = 'apps'
 
 --debugStart()
 
-local __require
+local __require = require
 require = function (...)
     return __require(...)
 end
