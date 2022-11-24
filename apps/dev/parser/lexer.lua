@@ -14,7 +14,7 @@ function lexer(source)
     local patterns = {
         {'comment'    , '%-%-%[%[.-%]%]'},
         {'comment'    , '(%-%-.-)\n'},
-        {'new line'   , '\n'},
+        {'new line'   , '\n+\r+'},
         {'tab'        , '    '},
         {'space'      , '%s+'},
         {'string'     , '%b""'},
@@ -56,13 +56,6 @@ function lexer(source)
         if startPos == pos then
 
             local token = string.match(source, search, pos)
-
---            for i=1,#token do
---                print(string.byte(token, i))
---            end
-
---            print(token)
-
             table.insert(tokens, {
                     type = pattern[1],
                     token = token
@@ -74,8 +67,8 @@ function lexer(source)
         return 0
     end
 
-    local pos = 1
-    while true do
+    local pos, find = 1, true
+    while find do
         find = false
 
         for i,keyword in ipairs(keywords) do
@@ -97,56 +90,22 @@ function lexer(source)
                 break
             end
         end
-
-        if not find then
-            break
-        end
     end
 
-    if #source > pos then
-        local infos = ''
-        for i,token in ipairs(tokens) do
-            if token.type == 'new line' then
-                infos = infos..'\n'
-            elseif token.type == 'tab' then
-                infos = infos..' '
-            elseif token.type == 'space' then
-                infos = infos..' '
-            else
-                infos = infos..'['..token.type..':'..token.token..']'..'\n'
-            end
+    local list = {}
+    for i,token in ipairs(tokens) do
+        if token.type == 'new line' then
+            table.insert(list, '\n?\r?')
+            
+        elseif token.type == 'tab' then
+            table.insert(list, '    ')
+            
+        elseif token.type == 'space' then
+            table.insert(list, ' ')
+        else
+            --table.insert(list, '['..token.type..':'..token.token..']')
+            table.insert(list, token.token)
         end
-        print(infos)
-
-        local toparse = ''
-        for i,token in ipairs(tokens) do
-            toparse = toparse..token.token
-        end
-
-        print(toparse:right(200))
-        print('================')
-        print(source:left(50))
-
-        assert()
-
-    else
-        local infos = ''
-        local list = {}
-        for i,token in ipairs(tokens) do
-            if token.type == 'new line' then
-                table.insert(list, '\n')
---                infos = infos..'\n'
-            elseif token.type == 'tab' then
-                table.insert(list, ' ')
---                infos = infos..' '
-            elseif token.type == 'space' then
-                table.insert(list, ' ')
---                infos = infos..' '
-            else
-                table.insert(list, '['..token.type..':'..token.token..']'..'\n')
---                infos = infos..'['..token.type..':'..token.token..']'..'\n'
-            end
-        end
---        print(infos)
     end
+    print(table.concat(list))
 end

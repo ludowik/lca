@@ -28,18 +28,15 @@ refaire le layout de l'écran
 Shadertoy
 Affichage à la ramasse ???!!!
 
-have a look to
-- https://github.com/SN0987/CandyCanGrabberInLove2d
-- https://github.com/MobinYengejehi/js_executer_in_lua
-
 js to lua :
+- https://github.com/MobinYengejehi/js_executer_in_lua
 - https://github.com/pygy/LuLPeg
 - https://github.com/alitskevich/js-on-lua
 
 lua to js :
 - https://github.com/hsiaosiyuan0/jlua
-https://github.com/mherkender/lua.js
-https://github.com/Doridian/LuaJS
+- https://github.com/mherkender/lua.js
+- https://github.com/Doridian/LuaJS
 
 rotation quaternion
 
