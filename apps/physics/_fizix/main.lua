@@ -5,7 +5,6 @@ function setup()
 
     local ground = Rect(WIDTH/2, 0, WIDTH, 100)
     
-    env.scene = Scene()
     env.scene:add(ground)
 
     physics:add(ground, STATIC, RECT, ground.size.x, ground.size.y)

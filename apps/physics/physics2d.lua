@@ -26,7 +26,6 @@ function setup()
 
     parameter.action('add ball', function () addBall() end)
 
-    env.scene = Scene()
     env.scene:add(physics)
 end
 
