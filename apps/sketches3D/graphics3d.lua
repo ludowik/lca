@@ -93,7 +93,7 @@ function setModelName(modelName)
 
     elseif modelName == 'planet' then
         model = Model.sphere()
-        model.shader = shaders['terrain']
+        model.shader = shaders.terrain
 
     elseif modelName == 'pyramid' then
         model = Model.pyramid()
@@ -118,8 +118,6 @@ function setModelName(modelName)
     else
         model = Model.box()
     end
-
---    model.shader = model.shader or shaders['model3d']
 
     setModel(model:normalize(2):center(), keepColor)
 

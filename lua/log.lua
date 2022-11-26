@@ -6,14 +6,12 @@ local __print = __print or print
 
 function print(...)
     __log(...)
-    __print(...)
-
     io.flush()
 end
 
 function log(...)
     local level = 3
-    print('Log: '..__FILE__(level)..':'..__LINE__(level)..': '..__FUNC__(level)..' => ', ...)
+    print(__FILE__(level)..':'..__LINE__(level)..': '..__FUNC__(level)..' => '..table.concat{...})
 end
 
 function __log(...)
@@ -30,6 +28,8 @@ function __log(...)
             text = text
         }
         table.insert(logs, logs[text])
+        
+        __print(text)
     end
 
     logs[text].count = logs[text].count + 1

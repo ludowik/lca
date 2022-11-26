@@ -50,6 +50,10 @@ function string.format(str, args, ...)
     return string.__format(str, args, ...)
 end
 
+function string:quote()
+    return '"'..self..'"'
+end
+
 function string.left(s, n)
     return s:sub(1, n)
 end

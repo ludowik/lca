@@ -291,13 +291,13 @@ end
 
 function __light(mode)
     if type(mode) == 'boolean' then
-        styles.light = mode
+        styles.lightMode = mode
     end
-    return styles.light
+    return styles.lightMode
 end
 
 function noLight()
-    styles.light = false
+    styles.lightMode = false
 end
 
 function loop()

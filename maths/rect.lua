@@ -52,11 +52,17 @@ function Rect:setSize(w, h)
     return self
 end
 
-function Rect:contains(x, y)
+function Rect:contains(x, y, alignMode)
+    alignMode = alignMode or self.alignMode or CORNER
+    
     if type(x) == 'table' or type(x) == 'cdata' then x, y = x.x, x.y end
     assert(type(x) == 'number', type(x))
 
     local position = self:getPosition()
+    if alignMode == CENTER then
+        position = position - self.size / 2
+    end
+
     local size = self.size
     
     return (

@@ -51,6 +51,7 @@ class 'SpriteObject' : extends(Object)
 
 function SpriteObject:init(spriteName)
     Object.init(self)
+    self.alignMode = CENTER
     self.img = Image(spriteName)
 end
 
@@ -63,6 +64,7 @@ class 'Player' : extends(SpriteObject)
 
 function Player:init()
     SpriteObject.init(self, 'documents:joconde')
+    self.alignMode = CENTER
 end
 
 function Player:update(dt)
@@ -89,6 +91,7 @@ class 'Bomb' : extends(Object)
 
 function Bomb:init(x, y)
     Object.init(self)
+    self.alignMode = CENTER
     self.position:set(x, y)
     self.size:set(4, 12)
 end
@@ -106,4 +109,5 @@ class 'Alien' : extends(SpriteObject)
 
 function Alien:init()
     SpriteObject.init(self, 'documents:joconde')
+    self.alignMode = CENTER
 end

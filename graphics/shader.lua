@@ -59,7 +59,7 @@ function Shader:compile()
         io.write('_shader.vertex', vertexShader)
         io.write('_shader.fragment', fragmentShader)
         
-        self.shader = love.graphics.newShader(fragmentShader, vertexShader)
+        self.program = love.graphics.newShader(fragmentShader, vertexShader)
     end
 end
 
@@ -69,10 +69,5 @@ function Shaders.setup()
     shaders = Shaders()
 
     shaders.default = Shader('default')
-    shaders.terrain = shaders.default
-    shaders.terrain2d = shaders.default
-    shaders.rect = shaders.default
-    shaders.model3d = shaders.default
-    
-    shaders.light = Shader('light')    
+    shaders.terrain = Shader('terrain2d')
 end

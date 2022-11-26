@@ -3,33 +3,57 @@ uniform mat4 model;
 
 attribute vec3 VertexNormal;
 
-attribute float InstanceID;
+//attribute float InstanceID;
 
 attribute vec3 InstancePosition;
 attribute vec3 InstanceScale;
 attribute vec4 InstanceColor;
+
+uniform int instanceMode;
+uniform int computeHeight;
+uniform vec3 translation;
 
 varying float VaryingInstanceID;
 varying vec3 VaryingFragPos;
 varying vec3 VaryingNormal;
 varying vec4 VaryingInstanceColor;
 
-vec4 position(mat4 transform_projection, vec4 vertex_position)
-{
-    VaryingInstanceID = InstanceID;
-    VaryingInstanceColor = InstanceColor;
-    
+float noise(vec2 v) {
+    return snoise(v/100.);
+}
+
+vec4 position(mat4 transform_projection, vec4 vertex_position) {
     vec4 vp = VertexPosition;
-    if (InstanceScale.x > 0.) {
-        vp.x *= InstanceScale.x;
-        vp.y *= InstanceScale.y;
-        vp.z *= InstanceScale.z;
+    vec3 vn = VertexNormal;
+    
+    if (instanceMode == 1) {
+        VaryingInstanceID = gl_InstanceID;
+        VaryingInstanceColor = InstanceColor;
+    
+        if (InstanceScale.x > 0.) {
+            vp.x *= InstanceScale.x;
+            vp.y *= InstanceScale.y;
+            vp.z *= InstanceScale.z;
+        }
+        
+        vp += vec4(InstancePosition.xyz, 0.);
     }
-    vp += vec4(InstancePosition.xyz, 0.);
     
+    if (computeHeight == 1) {
+        vp.y += noise(vec3(vp.xyz + translation).xz) * 10.;
+    
+        float ya = noise(vp.xz);
+        float yb = noise(vp.xz+vec2(1., 0.));
+        float yc = noise(vp.xz+vec2(0., 1.));
+        
+        vec3 v1 = vec3(1., yb-ya, 0.);
+        vec3 v2 = vec3(0., yc-ya, 1.);    
+        
+        vn = cross(v1, v2);        
+    }
+        
     VaryingFragPos = vec3(model * vp);
-    
-    VaryingNormal = mat3(transpose(inverse(model))) * VertexNormal;
+    VaryingNormal = mat3(transpose(inverse(model))) * vn;
     
     return pvm * vp;
 }

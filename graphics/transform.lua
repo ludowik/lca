@@ -10,11 +10,11 @@ local model, view, projection
 local function setTransformation()    
     love.graphics.replaceTransform(scale_matrix(nil, (W)/2, (H)/2, 1))
     love.graphics.applyTransform(translate_matrix(nil, 1, 1, 0))
-    
+
     love.graphics.applyTransform(projectionMatrix())
     love.graphics.applyTransform(viewMatrix())
     love.graphics.applyTransform(modelMatrix())
-    
+
 end
 
 local function setMatrix(m, mode, ...)
@@ -116,7 +116,7 @@ end
 
 function translate_matrix(m, x, y, z)
     m = m or love.math.newTransform()
-    
+
     assert(x)
     y = y or x
     z = z or 0
@@ -128,7 +128,7 @@ function translate_matrix(m, x, y, z)
         0,0,1,z or 0,
         0,0,0,1)
     m:apply(translate)
-    
+
     return m
 end
 
@@ -139,7 +139,7 @@ end
 
 function scale_matrix(m, w, h, d)
     m = m or love.math.newTransform()
-    
+
     assert(w)
     h = h or w
     d = d or w
@@ -151,7 +151,7 @@ function scale_matrix(m, w, h, d)
         0,0,d,0,
         0,0,0,1)
     m:apply(scale)
-    
+
     return m
 end
 
@@ -160,14 +160,19 @@ function rotate(angle, x, y, z)
     setTransformation()
 end
 
-function rotate_matrix(m, angle, x, y, z)
+function rotate_matrix(m, angle, x, y, z, mode)
     m = m or love.math.newTransform()
-    
+
     x = x or 0
     y = y or 0
     z = z or 1
 
-    local c, s = __cos(angle), __sin(angle)
+    local c, s
+    if mode == DEGREES then
+        c, s = __cos(__rad(angle)), __sin(__rad(angle))
+    else
+        c, s = __cos(angle), __sin(angle)
+    end
 
     if x == 1 then
         local rotate = love.math.newTransform()
@@ -199,7 +204,7 @@ function rotate_matrix(m, angle, x, y, z)
             0,0,0,1)
         m:apply(rotate)
     end
-    
+
     return m
 end
 
@@ -228,7 +233,7 @@ end
 
 function isometric(n)
     ortho()
-    
+
     -- TODo :with model and not projection ????
 
     translate_matrix(model, W/2, H/2)

@@ -26,7 +26,7 @@ end
 function draw3d()
     perspective()
 
-    shaders.light.uniforms.iTime = elapsedTime
+    shaders.default.uniforms.iTime = elapsedTime
 
     light(true)
     material(Material())

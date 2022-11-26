@@ -17,7 +17,6 @@ function draw3d()
     perspective()    
     light(param.light)
 
---    boxes:draw()
     m:drawInstanced()
 end
 

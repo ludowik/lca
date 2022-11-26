@@ -12,6 +12,13 @@ local format = {
 }
 
 function MeshRender:init()
+    self.uniforms = {}
+
+    self.uniforms.instanceMode = 0
+
+    self.instancePosition = table()
+    self.instanceScale = table()
+    self.instanceColor = table()
 end
 
 function MeshRender:clear()
@@ -71,43 +78,65 @@ function MeshRender:update()
         end
     end
 
-    if self.instancePosition then
+    if #self.instancePosition > 0 then
         if self.needUpdate or self:bufferHasChanged('instancePosition', self.instancePosition) then
-            self.instancePosition = self.instancePosition or {{1, 1, 1}}
+            self.uniforms.instanceMode = 1
+
+--            self.instancePosition = self.instancePosition or {{1, 1, 1}}
             self.instanceScale = self.instanceScale or {{1, 1, 1}}
             self.instanceColor = self.instanceColor or {{.5, .5, .5, 1}}
-            
-            if not self.instanceID then
-                self.instanceID = {}
-                for i=1,#self.instancePosition do
-                    table.insert(self.instanceID, {i})
-                end
-            end
 
-            self.instanceMeshID = love.graphics.newMesh({
-                    {"InstanceID", "float", 1}
-                },
-                self.instanceID, nil, "static")
-            self.mesh:attachAttribute("InstanceID", self.instanceMeshID, "perinstance")
-            
+--            if not self.instanceID then
+--                self.instanceID = {}
+--                for i=1,#self.instancePosition do
+--                    table.insert(self.instanceID, {i})
+--                end
+--            end
+
+            if #self.instanceColor < #self.instancePosition then
+                local clr
+                if #self.instanceColor > 0 then
+                    clr = self.instanceColor[#self.instanceColor]
+                else
+                    clr = {__fill():unpack()}
+                end
+
+                for i=#self.instanceColor,#self.instancePosition-1 do
+                    self.instanceColor:add(clr)
+                end
+            end            
+
+--            self.instanceMeshID = love.graphics.newMesh({
+--                    {"InstanceID", "float", 1}
+--                },
+--                self.instanceID, nil, "static")
+--            self.mesh:attachAttribute("InstanceID", self.instanceMeshID, "perinstance")
+
             self.instanceMeshPosition = love.graphics.newMesh({
                     {"InstancePosition", "float", 3}
                 },
                 self.instancePosition, nil, "static")
             self.mesh:attachAttribute("InstancePosition", self.instanceMeshPosition, "perinstance")
 
-            self.instanceMeshScale = love.graphics.newMesh({
-                    {"InstanceScale", "float", 3},
-                },
-                self.instanceScale, nil, "static")
-            self.mesh:attachAttribute("InstanceScale", self.instanceMeshScale, "perinstance")
-            
-            self.instanceMeshColor = love.graphics.newMesh({
-                    {"InstanceColor", "float", 4},
-                },
-                self.instanceColor, nil, "static")
-            self.mesh:attachAttribute("InstanceColor", self.instanceMeshColor, "perinstance")
+            if #self.instanceScale > 1 then
+                self.instanceMeshScale = love.graphics.newMesh({
+                        {"InstanceScale", "float", 3},
+                    },
+                    self.instanceScale, nil, "static")
+                self.mesh:attachAttribute("InstanceScale", self.instanceMeshScale, "perinstance")
+            end
+
+            if #self.instanceColor > 0 then
+                self.instanceMeshColor = love.graphics.newMesh({
+                        {"InstanceColor", "float", 4},
+                    },
+                    self.instanceColor, nil, "static")
+                self.mesh:attachAttribute("InstanceColor", self.instanceMeshColor, "perinstance")
+            end
         end
+
+    else
+        self.uniforms.instanceMode = 0
     end
 
     self.needUpdate = false
@@ -135,16 +164,14 @@ function MeshRender:draw(...)
 end
 
 function MeshRender:getShader()
-    if self.shader then return self.shader end
-    return shaders.light
+    return self.shader or shaders.default
 end
 
 function MeshRender:drawModel(x, y, z, w, h, d, n)
-    assert(not n)
     local shader = self:getShader()
 
     local previousShader = love.graphics.getShader()
-    love.graphics.setShader(shader.shader)
+    love.graphics.setShader(shader.program)
 
     pushMatrix()
     do
@@ -155,7 +182,7 @@ function MeshRender:drawModel(x, y, z, w, h, d, n)
         if w then
             scale(w, h, d)
         end
-        
+
         local clr = __fill() or __stroke()
 
         if clr then
@@ -164,10 +191,10 @@ function MeshRender:drawModel(x, y, z, w, h, d, n)
 
             if self.instancePosition and #self.instancePosition > 1 then
                 love.graphics.drawInstanced(self.mesh, #self.instancePosition)
-            
+
             elseif n and n > 1 then
                 love.graphics.drawInstanced(self.mesh, n)
-            
+
             else
                 love.graphics.draw(self.mesh)
             end
@@ -178,12 +205,12 @@ function MeshRender:drawModel(x, y, z, w, h, d, n)
     love.graphics.setShader(previousShader)
 end
 
-function MeshRender:drawInstanced(...)
-    self:draw(...)
+function MeshRender:drawInstanced(x, y, z, w, h, d, n)
+    self:draw(x, y, z, w, h, d, n)
 end
 
 function MeshRender:sendUniforms(shader)
-    local uniforms = self.uniforms or {}
+    local uniforms = self.uniforms
     uniforms.pvm = {pvmMatrix():getMatrix()}
 
     -- TODO : compute the reverse matrix before and send it to the shader    
@@ -196,59 +223,68 @@ function MeshRender:sendUniforms(shader)
         uniforms.cameraPos = getCamera().vEye
     end
 
-    uniforms.lightMode = __light() and 1 or 0
-    uniforms.light = lights
-    uniforms.material = currentMaterial    
+    uniforms.lightMode = uniforms.lightModeExtra or (__light() and 1 or 0)
+    if uniforms.lightMode > 0 then
+        uniforms.lights = lights
+        uniforms.material = currentMaterial    
+    end
 
     self:_sendUniforms(shader, uniforms)
-    
+
     if shader.uniforms then
---        self:_sendUniforms(shader, shader.uniforms)
+        self:_sendUniforms(shader, shader.uniforms)
     end
 end
 
-function MeshRender:_sendUniforms(_shader, uniforms, baseName)
+function MeshRender:_sendUniforms(shader, uniforms, baseName)
     assert(uniforms)
-
-    -- TODO : enhance naming
-    local shader = _shader.shader
 
     if uniforms then        
         for uniformName,uniform in pairs(uniforms) do
-            local className = typeof(uniform)
+            self:sendUniform(shader, uniformName, uniform, baseName)
+        end
+    end
+end
 
-            if className == 'table' and #uniform > 0 and classnameof(uniform[1]) == 'Light' then
-                for i,light in ipairs(uniform) do
-                    self:_sendUniforms(_shader, uniform[i], 'light['..(i-1)..'].')
-                end
+function MeshRender:sendUniform(shader, uniformName, uniform, baseName)
+    local className = typeof(uniform)
 
-            elseif className == 'Material' then
-                self:_sendUniforms(_shader, uniform, 'material.')
+    if className == 'table' and #uniform > 0 and classnameof(uniform[1]) == 'Light' then
+        for i,light in ipairs(uniform) do
+            self:_sendUniforms(shader, uniform[i], 'lights['..(i-1)..'].')
+        end
+
+    elseif className == 'Material' then
+        self:_sendUniforms(shader, uniform, 'material.')
+
+    else
+        uniformName = (baseName or '')..uniformName
+
+        if shader.program:hasUniform(uniformName) then
+            if className == 'Color' then
+                shader.program:send(uniformName, {uniform:unpack()})
+
+            elseif className == 'vec2' then
+                shader.program:send(uniformName, {uniform:unpack()})
+
+            elseif className == 'vec3' then                
+                shader.program:send(uniformName, {uniform:unpack()})
+
+            elseif className == 'vec4' then
+                shader.program:send(uniformName, {uniform:unpack()})
+
+            elseif className == 'Image' then
+                shader.program:send(uniformName, uniform.data)
+
+            elseif className == 'boolean' then
+                shader.program:send(uniformName, uniform and 1 or 0)
 
             else
-                uniformName = (baseName or '')..uniformName
-
-                if shader:hasUniform(uniformName) then
-                    if className == 'Color' then
-                        shader:send(uniformName, {uniform:unpack()})
-
-                    elseif className == 'vec2' then
-                        shader:send(uniformName, {uniform:unpack()})
-
-                    elseif className == 'vec3' then                
-                        shader:send(uniformName, {uniform:unpack()})
-
-                    elseif className == 'vec4' then
-                        shader:send(uniformName, {uniform:unpack()})
-
-                    elseif className == 'Image' then
-                        shader:send(uniformName, uniform.data)
-
-                    else
-                        shader:send(uniformName, uniform)
-                    end
-                end
+                shader.program:send(uniformName, uniform)
             end
+
+        else
+            log('send unknown uniform '..uniformName:quote()..' to shader '..shader.name:quote())
         end
     end
 end

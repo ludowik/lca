@@ -28,6 +28,8 @@ function appPrimitives:init()
     self.vectors = Model.random.polygon(self.primitiveWidth/2)
 
     self.mesh = mesh(Model.triangulate(self.vectors))
+    
+    -- TOFIX
 --    self.mesh.shader = Shader('polygon')
 
     parameter.number('use_strokeSize', 0, 50, 20)

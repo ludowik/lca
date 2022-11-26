@@ -44,12 +44,14 @@ function Engine.unload()
 
     config.WMAX = env.parameter.interface.WMAX or 0
 
+    callApp('pause')
+    
     saveConfig()
 
     --unoverride()
 end
 
-function Engine.release()
+function Engine.release() -- free max of memory
     -- TOFIX
 --    resetApps()
 

@@ -37,7 +37,7 @@ function AppMap:init()
         for ib=0,n-1 do
             for jb=0,n-1 do
                 local block = Mesh()
-                block.shader = shaders.light
+                block.shader = shaders.default
 
                 map:add(block)
 

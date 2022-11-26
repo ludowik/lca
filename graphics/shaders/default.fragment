@@ -1,8 +1,108 @@
+uniform float iTime;
+
+uniform vec3 cameraPos;
+vec3 cameraToLight;
+
+uniform int instanceMode;
+
+varying float VaryingInstanceID;
+varying vec3 VaryingFragPos;
+varying vec3 VaryingNormal;
 varying vec4 VaryingInstanceColor;
 
+vec3 currentNormal;
+
+uniform float param1;
+uniform float param2;
+uniform float param3;
+
+uniform int lightMode;
+
+struct Light {
+    int type;
+    
+    int state;
+    
+    vec3 position;
+    vec3 direction;
+    
+    vec4 color;
+    
+    float ambientStrength;
+    float diffuseStrength;
+    float specularStrength;
+};
+
+uniform Light lights[10];
+
+struct Material {
+    float ambientStrength;
+    float diffuseStrength;
+    float specularStrength;
+
+    float shininess;
+
+    float alpha;
+};
+
+uniform Material material;
+
+vec4 ambient(Light light) {    
+    vec4 ambient = light.ambientStrength * light.color;
+    return ambient;
+}
+
+vec4 diffuse(Light light) {
+    float diff = max(dot(currentNormal, cameraToLight), 0.0);
+    
+    vec4 diffuse = light.diffuseStrength * diff * light.color;
+    return diffuse;
+}
+
+vec4 specular(Light light) {
+    float specularStrength = 0.5;
+    
+    vec3 viewDir = normalize(cameraPos - VaryingFragPos);
+    vec3 reflectDir = reflect(-cameraToLight, currentNormal);  
+
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.);
+    
+    vec4 specular = light.specularStrength * spec * vec4(1., 0., 0., 1.); 
+    return specular;
+}
+
 vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
-{
-    //vec4 texcolor = Texel(tex, texture_coords);
-    //return texcolor * VaryingInstanceColor;
-    return vec4(0.);
+{    
+    vec4 result = vec4(0.);
+    
+    if (instanceMode == 1) color = VaryingInstanceColor;
+    
+    vec4 texcolor = Texel(tex, texture_coords);
+    
+    if (lightMode == 0) {
+        result = texcolor * color;
+    
+    } else if (lightMode == 1) {
+        currentNormal = normalize(VaryingNormal);
+        
+        float relief = snoise(vec3(texture_coords.xy * 10., VaryingInstanceID * param1))/1.;
+        currentNormal += vec3(relief);
+            
+        // TOFIX
+        cameraToLight = normalize(lights[0].position - cameraPos); // VaryingFragPos);
+        
+        result = vec4(0.);
+        for (int i=0; i<2; ++i) {
+            vec4 clr =
+                ambient(lights[i]) +
+                diffuse(lights[i]) +
+                specular(lights[i]);
+                
+            result += vec4(clr.xyz, 1.) * texcolor * color;
+        }
+    } else if (lightMode == 2) {
+        result = vec4(VaryingFragPos.yyy/10., 1);
+    }
+    
+    return result;
 }

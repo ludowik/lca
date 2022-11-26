@@ -4,6 +4,8 @@ function appMap:init()
     Application.init(self)
 
     supportedOrientations(LANDSCAPE_ANY)
+    
+    setOrigin(BOTTOM_LEFT)
 
     parameter.number('opacity', 0, 255, 100)
 
@@ -13,17 +15,14 @@ function appMap:init()
     self.hmg = HeightsMapGenerator()
 
     skybox = Model.skybox(100000)
-    skybox.shader = Shader('default')
     skybox.texture = Image('documents:skybox')
 
     self.s = 10
     local s = self.s
 
     terrain = Mesh()
-    terrain.shader = Shader('default')
 
     sea = Mesh()
-    sea.shader = Shader('default')
 
     local a = vec3(0, 0, 0)
     local b = vec3(s, 0, 0)
@@ -110,7 +109,7 @@ function appMap:init()
 
     self.player = vec3(0, 0, 0)
     
-    self.scene.camera = camera(500, 100, 500, -100, 0, -500)
+    self.scene.camera = camera(0, 0, 0, 0, 0, -10)
 end
 
 function appMap:draw()
@@ -118,8 +117,7 @@ function appMap:draw()
 
     perspective()
 
-    self.player.x = self.player.x + 0.1 -- playerX
-    self.player.z = playerZ
+    self.player:add(self.scene.camera:direction()*.1)
 
     local s = 10
     local w = 5
@@ -127,10 +125,15 @@ function appMap:draw()
 
     local x, y, z = xyz(self.player)
     y = -200 -- self.hmg:getHeight(x, z)
+    
+    self.player.y = 200
 
-    camera(
-        s*(x-1)-100, y, -s*(z-1),
-        s*(x-1), y/2, -s*(z-1))
+    local position = self.player -- vec3(s*(x-1)-50, y, -s*(z-1))
+    local direction = self.scene.camera:direction()
+    local at = position + direction
+    self.scene.camera = camera(
+        position.x, position.y, position.z,
+        at.x, at.y, at.z)
     
     box(s*(x-1), y, -s*(z-1), w, w, w)
     

@@ -23,7 +23,7 @@ function db.clear(dbName)
 end
 
 function db.path(path)
-    
+
     return path:replace('/', '.')
 end
 

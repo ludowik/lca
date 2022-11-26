@@ -29,12 +29,13 @@ function Light:init()
     self.diffuseStrength = 0
     self.specularStrength = 0
 
-    self.constant = 1
-    self.linear = 0
-    self.quadratic = 0
+    -- TODO
+--    self.constant = 1
+--    self.linear = 0
+--    self.quadratic = 0
 
-    self.innerCutOff = 0
-    self.outerCutOff = 0
+--    self.innerCutOff = 0
+--    self.outerCutOff = 0
 end
 
 function Light:update(dt)
@@ -74,9 +75,10 @@ function Light.sun(diffuseStrength, specularStrength, clr)
     light.diffuseStrength = diffuseStrength or 0.8
     light.specularStrength = specularStrength or 0.8
     
-    light.constant = 0
-    light.linear = 0
-    light.quadratic = 0
+    -- TODO
+--    light.constant = 0
+--    light.linear = 0
+--    light.quadratic = 0
 
     return light
 end
@@ -89,9 +91,10 @@ function Light.point()
     light.diffuseStrength = 0.5
     light.specularStrength = 0.5
 
-    light.constant = 0
-    light.linear = 0
-    light.quadratic = 0.2
+    -- TODO
+--    light.constant = 0
+--    light.linear = 0
+--    light.quadratic = 0.2
 
     return light
 end
@@ -106,12 +109,13 @@ function Light.spot()
     light.diffuseStrength = 0.5
     light.specularStrength = 0.5
 
-    light.innerCutOff = rad(10)
-    light.outerCutOff = rad(12)
+    -- TODO
+--    light.innerCutOff = rad(10)
+--    light.outerCutOff = rad(12)
 
-    light.constant = 0
-    light.linear = 0
-    light.quadratic = 0.5
+--    light.constant = 0
+--    light.linear = 0
+--    light.quadratic = 0.5
 
     return light
 end

@@ -77,10 +77,18 @@ function Model.mesh(vertices, texCoords, normals, indices)
 end
 
 function Model.add(m1, m2)
-    m1.vertices:addItems(m2.vertices)
-    m1.colors:addItems(m2.colors)
-    m1.texCoords:addItems(m2.texCoords)
-    m1.normals:addItems(m2.normals)
+    if m2.vertices then
+        m1.vertices:addItems(m2.vertices:clone())
+    end
+    if m2.colors then
+        m1.colors:addItems(m2.colors:clone())
+    end
+    if m2.texCoords then
+        m1.texCoords:addItems(m2.texCoords:clone())
+    end
+    if m2.normals then
+        m1.normals:addItems(m2.normals:clone())
+    end
 end
 
 function Model.set(m, p)
@@ -130,7 +138,7 @@ function Model.computeIndices(vertices, texCoords, normals, colors)
             if colors then
                 c[nbIndices] = colors[i]
             end
-            
+
             indices[i] = nbIndices -- index from 1
             verticesIndices[key]:add(nbIndices)
             nbIndices = nbIndices + 1
@@ -222,15 +230,13 @@ function Model.scaleAndTranslateAndRotate(vertices, x, y, z, w, h, e, ax, ay, az
     ay = ay or 0
     az = az or 0
 
-    local m = matrix()
+    m1 = translate_matrix(nil, x, y, z)
 
-    m1 = m:translate(x, y, z)
+    m2 = rotate_matrix(nil, ax, 1,0,0, DEGREES)
+    m3 = rotate_matrix(nil, ay, 0,1,0, DEGREES)
+    m4 = rotate_matrix(nil, az, 0,0,1, DEGREES)
 
-    m2 = m:rotate(ax, 1,0,0, nil, DEGREES)
-    m3 = m:rotate(ay, 0,1,0, nil, DEGREES)
-    m4 = m:rotate(az, 0,0,1, nil, DEGREES)
-
-    m5 = m:scale(w, h, e)
+    m5 = scale_matrix(nil, w, h, e)
 
     return Model.transform(vertices:clone(), m1*m2*m3*m4*m5)
 end
@@ -402,7 +408,7 @@ function Model.box(w, h, d)
     local m = Model.mesh(
         vertices,
         texCoords)
-    
+
     -- front
     m:setRectColor(1, colors.green)
 
@@ -613,12 +619,21 @@ function Model.grass(n)
 end
 
 function Model.ground(n)
-    local dec = -(n+1)/2
+    n = n or 100
+    
+    local dec = -(n-1)/2
+
+    local vertices_face = Buffer('vec3', {
+            p1,p2,p3,p1,p3,p4
+        })
 
     local ground = mesh()
-    for x=1,n do
-        for z=1,n do
-            Model.add(ground, Model.plane(dec+x, 0, dec+z, 1, 1, 1))
+    for x=0,n-1 do
+        for z=0,n-1 do
+            Model.add(ground, {
+                    vertices = Model.scaleAndTranslateAndRotate(vertices_face, x+dec, 0, z+dec),
+                    texCoords_face = texCoords_face
+                })
         end
     end
     return ground
@@ -631,15 +646,11 @@ function Model.plane(x, y, z, w, h, d)
             p1,p2,p3,p1,p3,p4
         })
 
-    local vertices_face_edge = Buffer('vec3', {
-            p1,p2,p3,p4,p1
-        })
-
-    vertices_face = Model.scaleAndTranslateAndRotate(vertices_face, x+0.5, y+0.5, z+0.5, w, h, d, -90)
+    vertices_face = Model.scaleAndTranslateAndRotate(vertices_face, x, y, z, w, h, d, 0)
 
     return Model.mesh(
-        vertices_face,
-        texCoords_face,
+        vertices_face:clone(),
+        texCoords_face:clone(),
         Model.computeNormals(vertices_face))
 end
 

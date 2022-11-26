@@ -26,14 +26,14 @@ function Camera:init(...)
 
     self.fovy = 45
 
-    self.speed = 10
+    self.speed = 100
     self.sensitivity = 0.1
 
     self:updateVectors()
 
     self:set(...)
 
-    self.mode = CAMERA_MODEL
+    self.mode = CAMERA_FPS
 end
 
 function Camera:set(eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ)
@@ -117,27 +117,21 @@ end
 
 function Camera:update(dt)
     local dist = 10
-    if isDown('up') or isDown('a')  then
-        if self:getMode() == CAMERA_MODEL then
-            self:processKeyboardMovement('up', dt)
-        else
-            self:processKeyboardMovement('forward', dt)
-        end
+    if isDown('up') then
+        self:processKeyboardMovement('up', dt)
+    elseif isDown('down') then
+        self:processKeyboardMovement('down', dt)
     end
-
-    if isDown('down') or isDown('q') then
-        if self:getMode() == CAMERA_MODEL then
-            self:processKeyboardMovement('down', dt)
-        else
-            self:processKeyboardMovement('backward', dt)
-        end
+    
+    if isDown('a')  then
+        self:processKeyboardMovement('forward', dt)
+    elseif isDown('q') then
+        self:processKeyboardMovement('backward', dt)
     end
 
     if isDown('left') then
         self:processKeyboardMovement('left', dt)
-    end
-
-    if isDown('right') then
+    elseif isDown('right') then
         self:processKeyboardMovement('right', dt)
     end
 end
@@ -156,27 +150,37 @@ function Camera:moveForward(speed, dt)
     local up = self:up()
     local front = self:front()
     local right = self:right()
+    local direction = self:direction()
+    
+    front.y = 0
 
     local velocity = self.speed * speed * dt
     self.vEye:add(front * velocity)
+    self.vAt:set(self.vEye + direction)
 end
 
 function Camera:moveSideward(speed, dt)
     local up = self:up()
     local front = self:front()
     local right = self:right()
+    local direction = self:direction()
+    
+    right.y = 0
 
     local velocity = self.speed * speed * dt
     self.vEye:sub(right * velocity)
+    self.vAt:set(self.vEye + direction)
 end
 
 function Camera:moveUp(speed, dt)
     local up = self:up()
     local front = self:front()
     local right = self:right()
+    local direction = self:direction()
 
-    local velocity = self.speed * speed, dt
+    local velocity = self.speed * speed * dt
     self.vEye:add(up * velocity)
+    self.vAt:set(self.vEye + direction)
 end
 
 function Camera:processKeyboardMovement(direction, dt)

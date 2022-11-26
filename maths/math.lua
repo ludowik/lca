@@ -100,6 +100,9 @@ fract = math.fract
 
 math.tointeger = tointeger
 
+RADIANS = 'radians'
+DEGREES = 'degrees'
+
 class '__math'
 
 function __math.test()

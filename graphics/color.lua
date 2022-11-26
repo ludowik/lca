@@ -22,7 +22,7 @@ function Color.setup()
         brown = Color(165,  42,  42),
         beige = Color(245, 245, 220),
         azure = Color(240, 255, 255),
-        
+
         transparent = Color(0, 0, 0, 0)
     }
 end
@@ -39,13 +39,13 @@ if ffi then
             float values[4];
         } color;
     ]]
-    
+
 --    ffi.metatype('color', Color)
 end
 
 function Color:init(r, g, b, a)
 --    self = ffi.new('color')
-    
+
     if type(r) == 'table' or type(r) == 'cdata' then r, g, b, a = r.r, r.g, r.b, r.a end
 
     r = r or 0
@@ -65,7 +65,7 @@ function Color:init(r, g, b, a)
     self.g = g
     self.b = b
     self.a = a
-    
+
 --    return self
 end
 
@@ -86,12 +86,20 @@ function Color:unpack()
     return self.r, self.g, self.b, self.a
 end
 
-function Color.random()
-    return Color(
-        random(),
-        random(),
-        random(),
-        1)
+function Color.random(self)
+    if self then
+        return Color(
+            self.r + random(0.05),
+            self.g + random(0.05),
+            self.b + random(0.05),
+            1)
+    else
+        return Color(
+            random(),
+            random(),
+            random(),
+            1)
+    end
 end
 
 function Color.__add(clr1, clr2)
@@ -297,7 +305,7 @@ function Color.hsl(hue, sat, lgt, alpha)
     if hue > 1 then
         hue = hue / 255
     end
-    
+
     sat = sat or 0.5
     lgt = lgt or 0.5
     alpha = alpha or 1
@@ -329,7 +337,7 @@ function Color.hsb(hue, sat, val, alpha)
     if hue > 1 then
         hue = hue / 255
     end
-    
+
     sat = sat or 0.5
     val = val or 1
     a = a or 1

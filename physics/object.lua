@@ -83,7 +83,7 @@ function MeshObject:init(object, ...)
 
     self.object = object
     if object then
-        object.shader = object.shader or shaders['light']
+        object.shader = object.shader or shaders.default
     end
 end
 

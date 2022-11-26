@@ -235,7 +235,7 @@ function __setOrientation(newOrientation)
 end
 
 function setOrientation(newOrientation)
-    newOrientation = newOrientation or getOrientation() or LANDSCAPE
+    newOrientation = env and env.__orientation or newOrientation or getOrientation() or LANDSCAPE
     __setOrientation(newOrientation)
     setupScreen()
 

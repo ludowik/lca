@@ -50,7 +50,6 @@ function Horloge:aiguille(clr, x, y, a, l, size)
 
     if self.m == nil then
         self.m = Mesh()
-        self.m.shader = shaders['rect']
 
         self.m.vertices = Buffer('vec3', {
                 vec3(0, l),
