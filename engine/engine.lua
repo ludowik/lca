@@ -105,7 +105,7 @@ function Engine.update(dt)
     end
 
     callApp('update', dt)
-    
+
     local camera = getCamera()
     if camera then -- and camera.lookAt then -- TODEL
         camera:update(dt)
@@ -113,9 +113,14 @@ function Engine.update(dt)
 end
 
 function Engine.draw(present)
-    local clr = Color(51)
-    love.graphics.clear(clr.r, clr.g, clr.b, 1, true, true)
+    local previousCanvas = love.graphics.getCanvas()
+    pushMatrix()
 
+    if present then
+        local clr = Color(51)
+        love.graphics.clear(clr.r, clr.g, clr.b, 1, true, true)
+    end
+    
     Engine.draw2d()
     Engine.draw3d()
 
@@ -124,6 +129,9 @@ function Engine.draw(present)
     if present then
         love.graphics.present()
     end
+
+    popMatrix()
+    love.graphics.setCanvas(previousCanvas)
 end
 
 function Engine.draw2d()

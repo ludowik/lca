@@ -179,6 +179,16 @@ function spriteMode(mode)
     return styles.spriteMode
 end
 
+RGB = 'rgb'
+HSL = 'hsl'
+HSB = 'hsb'
+
+local __colorMode = RGB
+function colorMode(mode)
+    __colorMode = mode or __colorMode or RGB
+    return __colorMode
+end
+
 function textColor(clr, ...)
     assert(clr)
     return __textColor(clr, ...)

@@ -118,6 +118,11 @@ function autotest(dt)
     local currentApp = env
     currentApp.__autotest = false
 
+    local __print = _G.print
+    local __log = _G.log
+    _G.print = function () end
+    _G.log = function () end
+
     local ram = {
         beforeTest = formatRAM()
     }
@@ -127,11 +132,6 @@ function autotest(dt)
     Engine.draw(true)
     Engine.captureImage()
 
-    local __print = _G.print
-    local __log = _G.log
-    _G.print = function () end
-    _G.log = function () end
-
     local apps = enumFiles(APPS)
     apps:sort()
 
@@ -139,8 +139,8 @@ function autotest(dt)
         if pumpEvent() then break end
 
         item = apps[i]
-        if isApp(item) then            
-            local path, name, ext = splitFilePath(item)            
+        if isApp(item) then
+            local path, name, ext = splitFilePath(item)
             local newApp = loadApp(path, name)
             assert(newApp, item..','..path..','..name)
             if newApp ~= currentApp then

@@ -44,6 +44,13 @@ if ffi then
 end
 
 function Color:init(r, g, b, a)
+    local colorMode = colorMode()
+    if colorMode == HSL then
+        r, g, b, a = Color.hsl2rgb(r, g, b, a)
+    elseif colorMode == HSB then
+        r, g, b, a = Color.hsb2rgb(r, g, b, a)
+    end
+    
 --    self = ffi.new('color')
 
     if type(r) == 'table' or type(r) == 'cdata' then r, g, b, a = r.r, r.g, r.b, r.a end
@@ -301,6 +308,10 @@ function Color.visibleColor(clr)
 end
 
 function Color.hsl(hue, sat, lgt, alpha)
+    return Color(Color.hsl2rgb(hue, sat, lgt, alpha))
+end
+
+function Color.hsl2rgb(hue, sat, lgt, alpha)
     assert(hue)
     if hue > 1 then
         hue = hue / 255
@@ -311,7 +322,7 @@ function Color.hsl(hue, sat, lgt, alpha)
     alpha = alpha or 1
 
     if sat <= 0 then
-        return Color(lgt, lgt, lgt, alpha)
+        return lgt, lgt, lgt, alpha
     end
 
     hue = hue * 6 -- We will split hue into 6 sectors    
@@ -329,10 +340,14 @@ function Color.hsl(hue, sat, lgt, alpha)
     else              r,g,b = c,0,x
     end
 
-    return Color(r+m, g+m, b+m, alpha)
+    return r+m, g+m, b+m, alpha
 end
 
 function Color.hsb(hue, sat, val, alpha)
+    return Color(Color.hsb2rgb(hue, sat, val, alpha))
+end
+
+function Color.hsb2rgb(hue, sat, val, alpha)
     assert(hue)
     if hue > 1 then
         hue = hue / 255
@@ -340,10 +355,10 @@ function Color.hsb(hue, sat, val, alpha)
 
     sat = sat or 0.5
     val = val or 1
-    a = a or 1
+    alpha = alpha or 1
 
     if sat <= 0 then 
-        return Color(val, val, val, alpha) -- Return early if grayscale
+        return val, val, val, alpha -- Return early if grayscale
     end
 
     hue = hue * 6 -- We will split hue into 6 sectors    
@@ -384,7 +399,7 @@ function Color.hsb(hue, sat, val, alpha)
         g = tint3
         b = tint1
     end
-    return Color(r, g, b, alpha)
+    return r, g, b, alpha
 end
 
 function Color.rgb2hsl(...)

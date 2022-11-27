@@ -9,8 +9,6 @@ local c = 8.0 / 3.0
 points = table()
 
 function setup()
-    --colorMode(HSB)
-
     parameter.watch('#points')
     camera(0, 0, 1)
 end
