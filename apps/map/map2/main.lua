@@ -63,17 +63,9 @@ function setup()
     assert(m.normals)
     
     env.scene = Scene()
-    env.scene.camera = Camera()
-    
-    env.scene.camera:eye(loadstring('return vec3('..(readProjectData('camera.eye') or '50, 50, 50')..')')())
-    env.scene.camera:at(loadstring('return vec3('..(readProjectData('camera.at') or '0, 0, -10')..')')())
+    env.scene.camera = Camera(50, 50, 50, 0, 0, 0)
     
     env.scene:add(MeshObject(m))
-end
-
-function pause()
-    saveProjectData('camera.eye', tostring(env.scene.camera:eye()))
-    saveProjectData('camera.at', tostring(env.scene.camera:at()))
 end
 
 function draw3d()

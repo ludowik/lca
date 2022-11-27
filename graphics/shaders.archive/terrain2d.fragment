@@ -1,6 +1,5 @@
 in vec3 vPosition;
 in vec3 vNormal;
-in vec3 aNormal;
 in vec4 vColor;
 in vec2 vTexCoords;
 

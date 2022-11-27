@@ -1,5 +1,5 @@
-uniform mat4 pvm;
-uniform mat4 model;
+uniform mat4 matrixPV;
+uniform mat4 matrixModel;
 
 attribute vec3 VertexNormal;
 
@@ -28,7 +28,6 @@ uniform int n;
 
 out vec3 vPosition;
 out vec3 vNormal;
-out vec3 aNormal;
 out vec4 vColor;
 out vec2 vTexCoords;
 
@@ -99,7 +98,7 @@ vec4 position(mat4 transform_projection, vec4 vertex_position) {
     
     vec4 vertexInstance = vec4(vertex.xyz * size + pos + vec3(x * size.x, 0., z * size.z), 1.);
 
-    vec4 vertexPosition = model * vertexInstance;
+    vec4 vertexPosition = matrixModel * vertexInstance;
 
     elevation = getElevation(vertexPosition.xz);
         
@@ -142,9 +141,7 @@ vec4 position(mat4 transform_projection, vec4 vertex_position) {
         
     vPosition = vertexPosition.xyz;
     
-    aNormal = mat3(transpose(inverse(model))) * vNormal;
-    
     vertexInstance.y = elevation;
             
-    return pvm * vertexInstance;
+    return matrixPV * vertexPosition;
 }

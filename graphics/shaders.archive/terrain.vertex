@@ -27,7 +27,6 @@ uniform float octave3;
 
 out vec3 vPosition;
 out vec3 vNormal;
-out vec3 aNormal;
 out vec4 vColor;
 out vec2 vTexCoords;
 
@@ -63,8 +62,6 @@ void main() {
     } else {
         vColor = stroke;
     }
-
-    aNormal = mat3(transpose(inverse(matrixModel))) * vNormal;
 
     gl_Position = matrixPV * matrixModel * position;
 }

@@ -1,19 +1,5 @@
 class 'Engine'
 
-function Engine.setGraphicsLibrary()
-    if config.renderer == 'love2d' then
-        Engine.graphics = GraphicsLove()
-
-    elseif config.renderer == 'core' then
-        Engine.graphics = GraphicsCore()
-        GraphicsCore.drawMesh = GraphicsCore._drawMeshCore
-
-    else
-        Engine.graphics = GraphicsCore()
-        GraphicsCore.drawMesh = GraphicsCore._drawMeshSoft
-    end
-end
-
 function Engine.load()
     --override()
 
@@ -38,17 +24,44 @@ function Engine.load()
     loadApp(config.appPath, config.appName)
 end
 
+function Engine.setGraphicsLibrary()
+    if config.renderer == 'love2d' then
+        Engine.graphics = GraphicsLove()
+
+    elseif config.renderer == 'core' then
+        Engine.graphics = GraphicsCore()
+        GraphicsCore.drawMesh = GraphicsCore._drawMeshCore
+
+    else
+        Engine.graphics = GraphicsCore()
+        GraphicsCore.drawMesh = GraphicsCore._drawMeshSoft
+    end
+end
+
 function Engine.unload()
     local _, _, flags = love.window.getMode()    
     config.flags = flags
 
     config.WMAX = env.parameter.interface.WMAX or 0
 
-    callApp('pause')
+    Engine.pause()
     
     saveConfig()
 
     --unoverride()
+end
+
+function Engine.pause()
+    callApp('pause')
+    
+    if env and env.scene and env.scene.camera then
+        saveProjectData('camera.eye', tostring(env.scene.camera:eye()))
+        saveProjectData('camera.at', tostring(env.scene.camera:at()))
+    end
+end
+
+function Engine.resume()
+    callApp('resume')
 end
 
 function Engine.release() -- free max of memory
@@ -62,18 +75,8 @@ function Engine.release() -- free max of memory
     gc()
 end
 
-function Engine.needDraw()
-    if env.__loop > 0 then
-        return true
-    end
-    if env.__loop == 0 then
-        return false
-    end    
-    if env.__loop < 0 then
-        env.__loop = env.__loop + 1
-        return true
-    end
-    return false
+function Engine.autotest()
+    env.parameter.random()
 end
 
 function Engine.update(dt)
@@ -100,8 +103,66 @@ function Engine.update(dt)
     if getCamera() and getCamera().lookAt then getCamera():update(dt) end
 end
 
-function Engine.autotest()
-    env.parameter.random()
+function Engine.draw(present)
+    local clr = Color(51)
+    love.graphics.clear(clr.r, clr.g, clr.b, 1, true, true)
+
+    Engine.draw2d()
+    Engine.draw3d()
+
+    Engine.drawInfo()
+
+    if present then
+        love.graphics.present()
+    end
+end
+
+function Engine.draw2d()
+    local draw = env.draw or env.draw2d
+    if draw then
+        Engine.beginDraw(getOrigin())
+        if Engine.needDraw() then
+            Engine.render(function ()
+                    depthMode(true)
+                    cullingMode(false)
+                    if getCamera() and getCamera().lookAt then getCamera():lookAt() end
+                    draw()
+                end)
+        end
+        Engine.endDraw()
+    end
+end
+
+function Engine.draw3d()
+    local draw = env.draw3d
+    if draw then
+        Engine.beginDraw(BOTTOM_LEFT)
+        do
+            Engine.render(function ()
+                    depthMode(true)
+                    cullingMode(true)
+                    love.graphics.clear()
+                    if getCamera() and getCamera().lookAt then getCamera():lookAt() end
+                    draw()
+                end
+            )
+        end
+        Engine.endDraw(true)
+    end
+end
+
+function Engine.needDraw()
+    if env.__loop > 0 then
+        return true
+    end
+    if env.__loop == 0 then
+        return false
+    end    
+    if env.__loop < 0 then
+        env.__loop = env.__loop + 1
+        return true
+    end
+    return false
 end
 
 function Engine.render(f, x, y)
@@ -164,54 +225,6 @@ function Engine.endDraw()
         love.graphics.draw(source, X, H/SCALE_APP + Y, 0, 1/SCALE_APP, -1/SCALE_APP)
     else
         love.graphics.draw(source, X, Y, 0, 1/SCALE_APP, 1/SCALE_APP)
-    end
-end
-
-function Engine.draw(present)
-    local clr = Color(51)
-    love.graphics.clear(clr.r, clr.g, clr.b, 1, true, true)
-
-    Engine.draw2d()
-    Engine.draw3d()
-
-    Engine.drawInfo()
-
-    if present then
-        love.graphics.present()
-    end
-end
-
-function Engine.draw2d()
-    local draw = env.draw or env.draw2d
-    if draw then
-        Engine.beginDraw(getOrigin())
-        if Engine.needDraw() then
-            Engine.render(function ()
-                    depthMode(true)
-                    cullingMode(false)
-                    if getCamera() and getCamera().lookAt then getCamera():lookAt() end
-                    draw()
-                end)
-        end
-        Engine.endDraw()
-    end
-end
-
-function Engine.draw3d()
-    local draw = env.draw3d
-    if draw then
-        Engine.beginDraw(BOTTOM_LEFT)
-        do
-            Engine.render(function ()
-                    depthMode(true)
-                    cullingMode(true)
-                    love.graphics.clear()
-                    if getCamera() and getCamera().lookAt then getCamera():lookAt() end
-                    draw()
-                end
-            )
-        end
-        Engine.endDraw(true)
     end
 end
 

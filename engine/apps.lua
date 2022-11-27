@@ -104,7 +104,7 @@ function loadApp(path, name, garbage)
         return
     end
 
-    callApp('pause')
+    Engine.pause()
 
     if not apps.listByName[filePath].loaded then
         log('load app : '..path..'/'..name)
@@ -124,7 +124,7 @@ function loadApp(path, name, garbage)
             __vsync = 1,
 
             scene = Scene(),
-            
+
             setup = function () end,
 
             update = function (dt)
@@ -133,7 +133,7 @@ function loadApp(path, name, garbage)
                     scene:update(dt)
                 end
             end,
-            
+
             draw = function ()
                 background()
                 local scene = env.scene or env.ui
@@ -201,6 +201,16 @@ function loadApp(path, name, garbage)
 
                 callApp('setup')
 
+                -- TODO : créer une fonction globale de mise en pause et d eseu
+                -- unload app
+                if env and env.scene and env.scene.camera then
+                    local eyePosition = readProjectData('camera.eye')
+                    if eyePosition then
+                        env.scene.camera:eye(loadstring('return vec3('..(eyePosition)..')')())
+                        env.scene.camera:at(loadstring('return vec3('..(readProjectData('camera.at') or '0, 0, -10')..')')())
+                    end
+                end
+
                 setOrientation()
 
                 apps.listByName[filePath].env = env
@@ -214,7 +224,7 @@ function loadApp(path, name, garbage)
 
         setOrientation()
 
-        callApp('resume')
+        Engine.resume()
     end
 
     love.window.setTitle(name)

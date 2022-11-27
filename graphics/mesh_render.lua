@@ -211,14 +211,10 @@ end
 
 function MeshRender:sendUniforms(shader)
     local uniforms = self.uniforms
-    uniforms.pvm = {pvmMatrix():getMatrix()}
-
-    -- TODO : compute the reverse matrix before and send it to the shader    
-    uniforms.model = {modelMatrix():getMatrix()}
-
+    
     uniforms.matrixModel = {modelMatrix():getMatrix()}
     uniforms.matrixPV = {pvMatrix():getMatrix()}
-
+    
     if getCamera() then
         uniforms.cameraPos = getCamera().vEye
     end

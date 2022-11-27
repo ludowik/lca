@@ -31,7 +31,6 @@ uniform int n;
 
 out vec3 vPosition;
 out vec3 vNormal;
-out vec3 aNormal;
 out vec4 vColor;
 out vec2 vTexCoords;
 
@@ -138,8 +137,6 @@ void main() {
     vNormal = cross(
         vec3(0., elevation2, 1.)-vec3(-0.7, elevation3, -0.7),
         vec3(1., elevation1, 0.)-vec3(-0.7, elevation3, -0.7));
-
-    aNormal = mat3(transpose(inverse(matrixModel))) * vNormal;
 
     gl_Position = matrixPV * vertexPosition;
 }

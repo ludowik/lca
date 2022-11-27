@@ -1,5 +1,5 @@
-uniform mat4 pvm;
-uniform mat4 model;
+uniform mat4 matrixPV;
+uniform mat4 matrixModel;
 
 attribute vec3 VertexNormal;
 
@@ -52,8 +52,10 @@ vec4 position(mat4 transform_projection, vec4 vertex_position) {
         vn = cross(v1, v2);        
     }
         
-    VaryingFragPos = vec3(model * vp);
-    VaryingNormal = mat3(transpose(inverse(model))) * vn;
+    vp = matrixModel * vp;
     
-    return pvm * vp;
+    VaryingFragPos = vec3(vp);
+    VaryingNormal = mat3(transpose(inverse(matrixModel))) * vn;
+    
+    return matrixPV * vp;
 }
