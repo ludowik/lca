@@ -39,7 +39,7 @@ asset = {
         Patterns = Documents(),
         
         Materials = {
-            Basic = Craft.material()
+            Basic = Craft and Craft.material()
         },
 
         UI = {

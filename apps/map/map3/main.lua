@@ -14,7 +14,7 @@ function setup()
     parameter.number('uniforms.octave2', 0, 1, 0)
     parameter.number('uniforms.octave3', 0, 1, 0)
 
-    env.scene.camera = camera(0, 400, -100, -100, 200, -10)
+    camera(0, 400, -100, -100, 200, -10)
 end
 
 function draw3d()
@@ -24,7 +24,8 @@ function draw3d()
 
     noLight()
     
-    local x, y, z = tointeger(env.scene.camera.vEye.x), tointeger(env.scene.camera.vEye.y), tointeger(env.scene.camera.vEye.z)
+    local camera = getCamera()
+    local x, y, z = tointeger(camera.vEye.x), tointeger(camera.vEye.y), tointeger(camera.vEye.z)
 
     local w = 128
     

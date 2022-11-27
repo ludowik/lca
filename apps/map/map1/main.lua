@@ -109,7 +109,7 @@ function appMap:init()
 
     self.player = vec3(0, 0, 0)
     
-    self.scene.camera = camera(0, 0, 0, 0, 0, -10)
+    camera(0, 0, 0, 0, 0, -10)
 end
 
 function appMap:draw()
@@ -117,7 +117,8 @@ function appMap:draw()
 
     perspective()
 
-    self.player:add(self.scene.camera:direction()*.1)
+    local camera = getCamera()
+    self.player:add(camera:direction()*.1)
 
     local s = 10
     local w = 5
@@ -129,9 +130,10 @@ function appMap:draw()
     self.player.y = 200
 
     local position = self.player -- vec3(s*(x-1)-50, y, -s*(z-1))
-    local direction = self.scene.camera:direction()
+    local direction = camera:direction()
     local at = position + direction
-    self.scene.camera = camera(
+    
+    camera:set(
         position.x, position.y, position.z,
         at.x, at.y, at.z)
     
@@ -140,7 +142,7 @@ function appMap:draw()
     noMaterial()
 
     MeshAxes()
-    MeshAxes(self.scene.camera:at())
+    MeshAxes(camera:at())
 
     skybox:draw()
 

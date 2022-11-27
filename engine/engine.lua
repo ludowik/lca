@@ -42,10 +42,15 @@ function Engine.unload()
     local _, _, flags = love.window.getMode()    
     config.flags = flags
 
-    config.WMAX = env.parameter.interface.WMAX or 0
+    local orientation = getOrientation()
+    config[orientation] = config[orientation] or {}
+    config[orientation].x = flags.x
+    config[orientation].y = flags.y
+
+    config.WMAX = env.parameter.instance.scene.WMAX or 0
 
     Engine.pause()
-    
+
     saveConfig()
 
     --unoverride()
@@ -53,10 +58,11 @@ end
 
 function Engine.pause()
     callApp('pause')
-    
-    if env and env.scene and env.scene.camera then
-        saveProjectData('camera.eye', tostring(env.scene.camera:eye()))
-        saveProjectData('camera.at', tostring(env.scene.camera:at()))
+
+    local camera = getCamera()
+    if camera then
+        saveProjectData('camera.eye', tostring(camera:eye()))
+        saveProjectData('camera.at', tostring(camera:at()))
     end
 end
 
@@ -99,8 +105,11 @@ function Engine.update(dt)
     end
 
     callApp('update', dt)
-
-    if getCamera() and getCamera().lookAt then getCamera():update(dt) end
+    
+    local camera = getCamera()
+    if camera then -- and camera.lookAt then -- TODEL
+        camera:update(dt)
+    end
 end
 
 function Engine.draw(present)

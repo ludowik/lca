@@ -7,7 +7,7 @@ function setup()
 
     rotation = PI / 1.99
 
-    len = min(w, H) / 15
+    len = min(W, H) / 15
 
     clr = Color.random()
     clr.a = 0.1

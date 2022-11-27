@@ -11,7 +11,7 @@ end
 
 function log(...)
     local level = 3
-    print(__FILE__(level)..':'..__LINE__(level)..': '..__FUNC__(level)..' => '..table.concat{...})
+    print(__FILE__(level)..':'..__LINE__(level)..': '..__FUNC__(level)..' => '..table.concat({...}, ' '))
 end
 
 function __log(...)

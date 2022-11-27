@@ -63,7 +63,7 @@ function setup()
     assert(m.normals)
     
     env.scene = Scene()
-    env.scene.camera = Camera(50, 50, 50, 0, 0, 0)
+    camera(50, 50, 50, 0, 0, 0)
     
     env.scene:add(MeshObject(m))
 end

@@ -35,8 +35,8 @@ function Parameter:clear()
     self.scene:add(
         ButtonColor(colors.red, -- 'Menu', 
             function ()
-                tween(0.2, self.scene, {WMAX = self.scene.WMAX == WMAX and 0
-                        or WMAX}, tween.easing.sineIn)
+                config.WMAX = self.scene.WMAX == screenConfig.WMAX and 0 or screenConfig.WMAX
+                tween(0.2, self.scene, {WMAX = config.WMAX}, tween.easing.sineIn)
             end))
     
     self.scene.WMAX = 0
@@ -74,14 +74,14 @@ function Parameter:clear()
             function (btn)
                 setOrigin(getOrigin() == TOP_LEFT and BOTTOM_LEFT or TOP_LEFT)
                 btn.label = getOrigin() == TOP_LEFT and 'arrow_up' or 'arrow_down'
-                self.scene.WMAX = WMAX
+                self.scene.WMAX = screenConfig.WMAX
             end))
 
     self.group:add(ButtonIconFont(getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait',
             function (btn)
                 setOrientation(getOrientation() == PORTRAIT and LANDSCAPE or PORTRAIT)
                 btn.label = getOrientation() == PORTRAIT and 'tablet_landscape' or 'tablet_portrait'
-                self.scene.WMAX = WMAX
+                self.scene.WMAX = screenConfig.WMAX
             end))
 
     _G.SCALE_APP = 1
@@ -238,7 +238,7 @@ function Parameter:link(name, url)
             end))
 end
 
-function Parameter:draw(x, y)
+function Parameter:draw()
     noStroke()
     fill(Color(0.5, 0.5, 0.5, 0.9))
 
@@ -249,7 +249,7 @@ function Parameter:draw(x, y)
         x, y = 0, screenConfig.W - env.parameter.instance.scene.WMAX
     end
 
-    rect(x, y, W, H, 10)
+    rect(x, y, screenConfig.W, screenConfig.H, 10)
 
     self.scene:draw(x, y)
 end

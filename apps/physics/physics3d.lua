@@ -19,7 +19,7 @@ function setup()
 
     parameter.action('add ball', function () addBall() end)
 
-    env.scene.camera = Camera(0, 8, 35, 0, 0, 0)
+    camera(0, 8, 35, 0, 0, 0)
     env.scene:add(physics)
 
     physics:draw()
@@ -28,8 +28,9 @@ end
 function update(dt)
     env.scene:update(dt)
 
-    if env.scene.camera then
-        env.scene.camera:rotateY(1)
+    local camera = getCamera()
+    if camera then
+        camera:rotateY(1)
     end
 end
 

@@ -30,4 +30,3 @@ function saveConfig()
 end
 
 config = loadConfig()
-

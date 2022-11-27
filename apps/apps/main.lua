@@ -14,6 +14,7 @@ function browse(path, previousPath)
         scene:add(UI('..', function ()
                     browse(previousPath)
                 end))
+        scene:add(UISpace())
     end
 
     local list = dir(path)
@@ -30,7 +31,7 @@ function browse(path, previousPath)
         if name ~= APPS then
             if isApp(item) then
                 scene:add(
-                    UI(name,
+                    UI(name:replace('_', ' '),
                         function (_)
                             loadApp(path, name)
                         end)
@@ -41,7 +42,7 @@ function browse(path, previousPath)
                         fontSize = fontSize})
             else
                 scene:add(
-                    UI(name,
+                    UI(name:replace('_', ' '),
                         function (_)
                             browse(item, path)
                         end)
@@ -154,7 +155,7 @@ function autotest(dt)
                         end
                     end
 
-                    Engine.draw()
+                    Engine.draw(true)
                     Engine.captureImage()
                 end
                 newApp.__autotest = false

@@ -2,10 +2,6 @@ class('Camera')
 
 local __cos, __sin, __acos, __asin = math.cos, math.sin, math.acos, math.asin
 
-function getCamera()
-    return _G.env.__camera or (_G.env.scene and _G.env.scene.camera)
-end
-
 function Camera.setup()
     CAMERA_FPS = 'fps'
     CAMERA_MODEL = 'model'

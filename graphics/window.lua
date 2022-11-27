@@ -12,11 +12,17 @@
             => love.window.updateMode
 ]]
 
+PORTRAIT = 'portrait'
+
+LANDSCAPE = 'landscape'
+LANDSCAPE_ANY = 'landscape_any'
+
 local setupScreen, initWindow
+
 function setupWindow()
     setupScreen()
 
-    _G.SCALE_APP = (env and env.SCALE_APP) or screenConfig.SCALE_APP or 1
+    SCALE_APP = (env and env.SCALE_APP) or screenConfig.SCALE_APP or 1
 
     X, Y, W, H = initWindow(getOrientation())
     WIDTH, HEIGHT = W, H
@@ -26,13 +32,16 @@ local ios_w, ios_h = 692, 320
 simulate_ios = simulate_ios or false
 
 setupScreen = function()
-    local wt, ht, scale
-    local x, y
+    local wt, ht
+    local scale, x, y, w, h
+
+    local desktopDimensions = {}
+    desktopDimensions.w, desktopDimensions.h = love.window.getDesktopDimensions()
 
     if os.name == 'ios' then
-        SCALE_APP = 1.25
-
         wt, ht = love.graphics.getDimensions()
+
+        scale = 1.25
         x, y, w, h = love.window.getSafeArea()
 
         if wt > ht then
@@ -43,23 +52,19 @@ setupScreen = function()
         end
 
     else
-        scale = 1.25
-
         if getOrientation() == LANDSCAPE then
             wt = simulate_ios and ios_w or os.name == 'osx' and 1280 or 1280 
         else
-            wt = simulate_ios and ios_w or os.name == 'osx' and  896 or 896
+            wt = simulate_ios and ios_w or os.name == 'osx' and  896 or floor(desktopDimensions.h*.8)
         end
 
         local ratio = 1 / 1.8
         ht = floor(wt * ratio) + floor(wt * ratio) % 2
 
+        scale = 1.25
         x, y = 38, 24
         w, h = wt-2*x, ht-2*y
-
     end
-
-    WMAX = 250 -- max(w, h) / 4
 
     screenConfig = {
         WT = floor(wt),
@@ -67,8 +72,10 @@ setupScreen = function()
 
         W = floor(w),
         H = floor(h),
+        
+        WMAX = 250, -- max(w, h) / 4
 
-        SCALE_APP = SCALE_APP,
+        SCALE_APP = scale,
 
         X = x,
         Y = y,
@@ -79,27 +86,40 @@ function getSafeArea()
     return screenConfig.X, screenConfig.Y, screenConfig.W, screenConfig.H
 end
 
+local function getDisplayPosition(mode)
+    local x, y, display
+    if os.name == 'ios' then
+--        x, y, display = 0, 0, 0
+
+    else
+        if config[mode] then
+            x = config[mode].x
+            y = config[mode].y
+        else
+            x = 100
+            y = 50
+        end
+
+        display = 1 -- config.flags and config.flags.display or 1
+    end
+    return x, y, display
+end
+
 local initModes = {}
 
 initWindow = function (mode)
     mode = mode or LANDSCAPE
     local left, top, w, h, wt, ht = initModes[mode]()
 
-    local x, y, display
-    if os.name == 'ios' then
---        x, y, display = 0, 0, 0
-
-    else
-        x = config.flags and config.flags.x or 100
-        y = config.flags and config.flags.y or 50
-
-        display = 1 -- config.flags and config.flags.display or 1
-    end
+    local x, y, display = getDisplayPosition(mode)
+    local fullscreen, fullscreentype = love.window.getFullscreen()
 
     log('set mode', wt, ht)
-
     love.window.setMode(wt, ht,
         {
+            fullscreen = fullscreen,
+            fullscreentype = fullscreentype,
+
             highdpi = not oswindows,
             usedpiscale = not oswindows,
 
@@ -160,19 +180,9 @@ local function updateMode(mode)
 
     local _wt, _ht = love.window.getMode()
     if _wt ~= wt and not env.__autotest then
-        local x, y, display
-        if os.name == 'ios' then
---        x, y, display = 0, 0, 0
-
-        else
-            x = config.flags and config.flags.x or 100
-            y = config.flags and config.flags.y or 50
-
-            display = 1 -- config.flags and config.flags.display or 1
-        end
+        local x, y, display = getDisplayPosition(mode)
 
         log('update mode', wt, ht, _wt, _ht)
-
         love.window.updateMode(wt, ht,
             {
                 x = x,
@@ -182,8 +192,8 @@ local function updateMode(mode)
             })
     end
 
-    _wt, _ht = love.window.getMode()
-    wt, ht = _wt, _ht
+    -- validate the final orientation
+    wt, ht = love.window.getMode()
     if wt < ht then
         w, h = min(w, h), max(w, h)
         left, top = min(left, top), max(left, top)
@@ -196,11 +206,6 @@ local function updateMode(mode)
 
     return left, top, w, h, wt, ht
 end
-
-PORTRAIT = 'portrait'
-
-LANDSCAPE = 'landscape'
-LANDSCAPE_ANY = 'landscape_any'
 
 function supportedOrientations(orientations)
     if orientations == PORTRAIT then

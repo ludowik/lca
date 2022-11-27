@@ -1,12 +1,13 @@
 requireReloadLib(
     'maths',
-    'quaternion',
+--    'quaternion',
     'screen',
     'graphics',
-    'craft',
+--    'craft',
     'camera',
     'assets',
-    'app')
+    'app'
+)
 
 setOrigin(BOTTOM_LEFT)
 

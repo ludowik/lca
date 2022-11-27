@@ -201,13 +201,14 @@ function loadApp(path, name, garbage)
 
                 callApp('setup')
 
-                -- TODO : créer une fonction globale de mise en pause et d eseu
+                -- TODO : créer une fonction globale pour le rechargement des paramètres "standars"
                 -- unload app
-                if env and env.scene and env.scene.camera then
+                local camera = getCamera()
+                if camera then
                     local eyePosition = readProjectData('camera.eye')
                     if eyePosition then
-                        env.scene.camera:eye(loadstring('return vec3('..(eyePosition)..')')())
-                        env.scene.camera:at(loadstring('return vec3('..(readProjectData('camera.at') or '0, 0, -10')..')')())
+                        camera:eye(loadstring('return vec3('..(eyePosition)..')')())
+                        camera:at(loadstring('return vec3('..(readProjectData('camera.at') or '0, 0, -10')..')')())
                     end
                 end
 

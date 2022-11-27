@@ -9,7 +9,7 @@ function setup()
     local modelName = readProjectData('modelName', 'teapot')
     setModelName(modelName)
 
-    env.scene.camera = Camera(2, 1, 3)
+    camera(2, 1, 3)
 end
 
 function createUI()

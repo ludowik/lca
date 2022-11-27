@@ -8,6 +8,8 @@ function AppMap:init()
     Application.init(self)
 
     supportedOrientations(LANDSCAPE_ANY)
+    
+    setOrigin(BOTTOM_LEFT)
 
     self.imageSize = 512
 
@@ -146,7 +148,14 @@ function AppMap:init()
             position = vec3(0, 0, 0)
         })
 
-    self.scene.camera = Camera(0, 500, 500, self.imageSize*10/2, 0, self.imageSize*10/2)
+    camera(0, 500, 500, self.imageSize*10/2, 0, self.imageSize*10/2)
 end
 
+function AppMap:draw()
+    background(69)
+    
+    perspective()
+    
+    self.scene:draw()
+end
 

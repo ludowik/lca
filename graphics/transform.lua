@@ -304,6 +304,14 @@ function lookAt(eye, target, up)
 end
 
 function camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
-    _G.env.__camera = Camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
-    return _G.env.__camera
+    local env = _G.app or _G.env.scene or _G.env
+    env.__camera = Camera(eye_x, eye_y, eye_z, at_x, at_y, at_z, up_x, up_y, up_z)
+    return env.__camera
+end
+
+function getCamera()
+    return _G.env and (
+        (_G.env.__camera) or
+        (_G.env.scene and _G.env.scene.__camera) or
+        (_G.env.app and _G.env.app.__camera))
 end

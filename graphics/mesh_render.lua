@@ -215,8 +215,9 @@ function MeshRender:sendUniforms(shader)
     uniforms.matrixModel = {modelMatrix():getMatrix()}
     uniforms.matrixPV = {pvMatrix():getMatrix()}
     
-    if getCamera() then
-        uniforms.cameraPos = getCamera().vEye
+    local camera = getCamera()
+    if camera then
+        uniforms.cameraPos = camera.vEye
     end
 
     uniforms.lightMode = uniforms.lightModeExtra or (__light() and 1 or 0)
