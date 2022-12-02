@@ -45,7 +45,9 @@ function Shader:compile()
         io.read(self.path..'/'..self.name..'.glsl') or
         io.read(self.path..'/'..'default.fragment'))
 
-    local version = '#pragma language glsl3'..NL
+    local version = [[#pragma language glsl3
+        precision highp float;
+    ]]
     
     if vertexShader then
         vertexShader = version..self:complete(GL_VERTEX_SHADER, vertexShader)

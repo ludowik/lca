@@ -35,7 +35,7 @@ function Parameter:clear()
     self.scene:add(
         ButtonColor(colors.red, -- 'Menu', 
             function ()
-                config.WMAX = self.scene.WMAX == screenConfig.WMAX and (screenConfig.WT-screenConfig.X-screenConfig.W) or screenConfig.WMAX
+                config.WMAX = self.scene.WMAX == screenConfig.WMAX and (0) or screenConfig.WMAX
                 tween(0.2, self.scene, {WMAX = config.WMAX}, tween.easing.sineIn)
             end))
     
