@@ -5,7 +5,7 @@ vec3 cameraToLight;
 
 uniform int instanceMode;
 
-varying float VaryingInstanceID;
+flat varying float VaryingInstanceID;
 varying vec3 VaryingFragPos;
 varying vec3 VaryingNormal;
 varying vec4 VaryingInstanceColor;

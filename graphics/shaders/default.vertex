@@ -13,7 +13,7 @@ uniform int instanceMode;
 uniform int computeHeight;
 uniform vec3 translation;
 
-varying float VaryingInstanceID;
+flat varying float VaryingInstanceID;
 varying vec3 VaryingFragPos;
 varying vec3 VaryingNormal;
 varying vec4 VaryingInstanceColor;
@@ -27,7 +27,7 @@ vec4 position(mat4 transform_projection, vec4 vertex_position) {
     vec3 vn = VertexNormal;
     
     if (instanceMode == 1) {
-        VaryingInstanceID = gl_InstanceID;
+        VaryingInstanceID = float(gl_InstanceID);
         VaryingInstanceColor = InstanceColor;
     
         if (InstanceScale.x > 0.) {
