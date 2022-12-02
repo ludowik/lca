@@ -63,7 +63,7 @@ setupScreen = function()
 
         scale = 1.25
         x, y = 38, 24
-        w, h = wt-2*x, ht-2*y
+        w, h = wt-x-wt/5, ht-2*y
     end
 
     screenConfig = {
@@ -73,7 +73,7 @@ setupScreen = function()
         W = floor(w),
         H = floor(h),
         
-        WMAX = 250, -- max(w, h) / 4
+        WMAX = max(w, h) / 5,
 
         SCALE_APP = scale,
 
