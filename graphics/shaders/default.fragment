@@ -5,7 +5,7 @@ vec3 cameraToLight;
 
 uniform int instanceMode;
 
-flat varying float VaryingInstanceID;
+varying float VaryingInstanceID;
 varying vec3 VaryingFragPos;
 varying vec3 VaryingNormal;
 varying vec4 VaryingInstanceColor;
@@ -71,7 +71,7 @@ vec4 specular(Light light) {
     return specular;
 }
 
-vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
+vec4 effect(highp vec4 color, Image tex, highp vec2 texture_coords, highp vec2 screen_coords)
 {    
     vec4 result = vec4(0.);
     

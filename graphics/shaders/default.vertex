@@ -3,7 +3,7 @@ uniform mat4 matrixModel;
 
 attribute vec3 VertexNormal;
 
-//attribute float InstanceID;
+attribute float InstanceID;
 
 attribute vec3 InstancePosition;
 attribute vec3 InstanceScale;
@@ -13,7 +13,7 @@ uniform int instanceMode;
 uniform int computeHeight;
 uniform vec3 translation;
 
-flat varying float VaryingInstanceID;
+varying float VaryingInstanceID;
 varying vec3 VaryingFragPos;
 varying vec3 VaryingNormal;
 varying vec4 VaryingInstanceColor;
@@ -22,12 +22,12 @@ float noise(vec2 v) {
     return snoise(v/100.);
 }
 
-vec4 position(mat4 transform_projection, vec4 vertex_position) {
+vec4 position(highp mat4 transform_projection, highp vec4 vertex_position) {
     vec4 vp = VertexPosition;
     vec3 vn = VertexNormal;
     
     if (instanceMode == 1) {
-        VaryingInstanceID = float(gl_InstanceID);
+        VaryingInstanceID = float(InstanceID); // gl_InstanceID
         VaryingInstanceColor = InstanceColor;
     
         if (InstanceScale.x > 0.) {

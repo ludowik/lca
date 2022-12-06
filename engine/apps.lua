@@ -111,6 +111,11 @@ function loadApp(path, name, garbage)
     else
         log('set active app : '..name)
     end
+    
+    config.appPath = 'apps'
+    config.appName = 'apps'
+
+    saveConfig()
 
     apps.currentIndex = apps.listByName[filePath].index
 

@@ -56,6 +56,10 @@ function browse(path, previousPath)
     end
 end
 
+function resize()
+    browse(APPS)
+end
+
 function draw()
     background()
 

@@ -5,6 +5,10 @@ function Layout.setup()
     Layout.innerMarge = 5
 end
 
+function Layout:clear()
+    self.rowSize = nil
+end
+
 function Layout:computeNodeSize(node)
     node:computeSize()
     Layout.computeNodeFixedSize(self, node)

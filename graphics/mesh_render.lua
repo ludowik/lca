@@ -86,12 +86,12 @@ function MeshRender:update()
             self.instanceScale = self.instanceScale or {{1, 1, 1}}
             self.instanceColor = self.instanceColor or {{.5, .5, .5, 1}}
 
---            if not self.instanceID then
---                self.instanceID = {}
---                for i=1,#self.instancePosition do
---                    table.insert(self.instanceID, {i})
---                end
---            end
+            if not self.instanceID then
+                self.instanceID = {}
+                for i=1,#self.instancePosition do
+                    table.insert(self.instanceID, {i})
+                end
+            end
 
             if #self.instanceColor < #self.instancePosition then
                 local clr
@@ -106,11 +106,11 @@ function MeshRender:update()
                 end
             end            
 
---            self.instanceMeshID = love.graphics.newMesh({
---                    {"InstanceID", "float", 1}
---                },
---                self.instanceID, nil, "static")
---            self.mesh:attachAttribute("InstanceID", self.instanceMeshID, "perinstance")
+            self.instanceMeshID = love.graphics.newMesh({
+                    {"InstanceID", "float", 1}
+                },
+                self.instanceID, nil, "static")
+            self.mesh:attachAttribute("InstanceID", self.instanceMeshID, "perinstance")
 
             self.instanceMeshPosition = love.graphics.newMesh({
                     {"InstancePosition", "float", 3}

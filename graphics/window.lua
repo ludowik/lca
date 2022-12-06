@@ -17,6 +17,8 @@ PORTRAIT = 'portrait'
 LANDSCAPE = 'landscape'
 LANDSCAPE_ANY = 'landscape_any'
 
+DEFAULT_ORIENTATION = PORTRAIT
+
 local setupScreen, initWindow
 
 function setupWindow()
@@ -55,7 +57,7 @@ setupScreen = function()
         if getOrientation() == LANDSCAPE then
             wt = simulate_ios and ios_w or os.name == 'osx' and 1280 or 1280 
         else
-            wt = simulate_ios and ios_w or os.name == 'osx' and  896 or floor(desktopDimensions.h*.8)
+            wt = simulate_ios and ios_w or os.name == 'osx' and 1024 or floor(desktopDimensions.h*.8)
         end
 
         local ratio = 1 / 1.8
@@ -108,7 +110,8 @@ end
 local initModes = {}
 
 initWindow = function (mode)
-    mode = mode or LANDSCAPE
+    mode = mode or DEFAULT_ORIENTATION
+    
     local left, top, w, h, wt, ht = initModes[mode]()
 
     local x, y, display = getDisplayPosition(mode)
@@ -172,10 +175,11 @@ function initModes.landscape()
     return x, y, w, h, wt, ht
 end
 
-local __orientation = LANDSCAPE
+local __orientation = DEFAULT_ORIENTATION
 
 local function updateMode(mode)
-    mode = mode or LANDSCAPE
+    mode = mode or DEFAULT_ORIENTATION
+    
     local left, top, w, h, wt, ht = initModes[mode]()
 
     local _wt, _ht = love.window.getMode()
@@ -240,7 +244,7 @@ function __setOrientation(newOrientation)
 end
 
 function setOrientation(newOrientation)
-    newOrientation = env and env.__orientation or newOrientation or getOrientation() or LANDSCAPE
+    newOrientation = env and env.__orientation or newOrientation or getOrientation() or DEFAULT_ORIENTATION
     __setOrientation(newOrientation)
     setupScreen()
 

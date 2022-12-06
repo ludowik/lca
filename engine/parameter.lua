@@ -89,6 +89,7 @@ function Parameter:clear()
     self:number('_G.SCALE_APP', 0.25, 2, _G.SCALE_APP,
         function ()
             setOrientation()
+            callApp('resize')
         end)
 
     self.group = UINode()

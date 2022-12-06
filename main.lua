@@ -7,7 +7,5 @@ APPS = 'apps'
 
 --debugStart()
 
-local __require = require
-require = function (...)
-    return __require(...)
-end
+config.appPath = 'apps'
+config.appName = 'apps'

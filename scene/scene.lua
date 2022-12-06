@@ -7,6 +7,7 @@ end
 
 function Scene:clear()
     Node.clear(self)
+    Layout.clear(self)
     self.focus = nil
     return self
 end
