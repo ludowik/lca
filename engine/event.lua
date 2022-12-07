@@ -24,7 +24,10 @@ end
 function Engine.mousepressed(x, y, button, istouch, presses)
     mouseevent(PRESSED, x, y, button, 0)
 
-    if _G.env.parameter.touched(mouse) then
+    if Rect(W-25, Y, 25, 25):contains(x, y) then
+        addAppOfTheApps()
+        
+    elseif _G.env.parameter.touched(mouse) then
         -- pass
         
     elseif Rect(X, Y, W, H):contains(x, y) then

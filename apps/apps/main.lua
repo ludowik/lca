@@ -64,7 +64,7 @@ function draw()
     background()
 
     if getOrientation() == PORTRAIT then
-        scene.layoutParam = 1
+        scene.layoutParam = 2
     else
         scene.layoutParam = 2
     end

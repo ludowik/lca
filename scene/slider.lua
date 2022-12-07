@@ -8,7 +8,7 @@ function Slider:init(variable, min, max, default, integer, callback)
 
     self.default = default or 0
     
-    self:setValue(default or 0)
+    self:initValue(default or 0)
 
     self.integer = integer
     
@@ -49,13 +49,17 @@ function Slider:formatValue(value)
     return tostring(round(value, 2))
 end
 
-function Slider:setValue(value)
+function Slider:initValue(value)
     self.__value = math.clamp(value, self.min, self.max)
 
     if self.integer then
         self.__value = round(self.__value)
-    end
+    end    
+end
 
+function Slider:setValue(value)
+    self:initValue(value)
+    
     if self.callback then
         self.callback(self, self.__value)
     end
