@@ -257,37 +257,43 @@ function Engine.drawInfo()
 
     Engine.render(
         function()
-            local r = fontSize()
-            local pct = min(getFPS(), 60)/60
-            noStroke()            
-            fill(colors.green)
-            rectMode(CORNER)
-            rect(-r, 0, r, r)
-            fill(colors.red)
-            rect(-r, 0, r, r*(1-pct))
+            fontSize(12)            
+            translate(0, -fontSize())
+            
+            -- TODEL
+--            local r = fontSize()
+--            local pct = min(getFPS(), 60)/60
+--            noStroke()            
+--            fill(colors.green)
+--            rectMode(CORNER)
+--            rect(-r, 0, r, r)
+--            fill(colors.red)
+--            rect(-r, 0, r, r*(1-pct))
 
             local state, percent, seconds = love.system.getPowerInfo()
             percent = percent or 100
             seconds = seconds or 0
-            if percent then
-                fontName('Foundation-Icons')
-                textMode(CENTER)
-                if percent > 80 then
-                    text(utf8.char(iconsFont.battery_full), -r/2, 1.5*r)
-                elseif percent > 30 then
-                    text(utf8.char(iconsFont.battery_half), -r/2, 1.5*r)
-                else
-                    text(utf8.char(iconsFont.battery_empty), -r/2, 1.5*r)
-                end
-                fontName('Arial')
-            end
+            -- TODEL
+--            if percent then
+--                fontName('Foundation-Icons')
+--                textMode(CENTER)
+--                if percent > 80 then
+--                    text(utf8.char(iconsFont.battery_full), -r/2, 1.5*r)
+--                elseif percent > 30 then
+--                    text(utf8.char(iconsFont.battery_half), -r/2, 1.5*r)
+--                else
+--                    text(utf8.char(iconsFont.battery_empty), -r/2, 1.5*r)
+--                end
+--                fontName('Arial')
+--            end
 
-            if debugging() then
-                fontName('Foundation-Icons')
-                textMode(CENTER)
-                text(utf8.char(iconsFont.camera), -r/2, 2.5*r)
-                fontName('Arial')
-            end
+            -- TODEL
+--            if debugging() then
+--                fontName('Foundation-Icons')
+--                textMode(CENTER)
+--                text(utf8.char(iconsFont.camera), -r/2, 2.5*r)
+--                fontName('Arial')
+--            end
 
             textMode(CORNER)
 
