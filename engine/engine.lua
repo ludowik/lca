@@ -257,6 +257,10 @@ function Engine.drawInfo()
 
     Engine.render(
         function()
+            fontSize(12)            
+            translate(0, -fontSize())
+            
+            -- TODEL
 --            local r = fontSize()
 --            local pct = min(getFPS(), 60)/60
 --            noStroke()            
@@ -270,6 +274,7 @@ function Engine.drawInfo()
             percent = percent or 100
             seconds = seconds or 0
             
+            -- TODEL
 --            if percent then
 --                fontName('Foundation-Icons')
 --                textMode(CENTER)
@@ -283,6 +288,7 @@ function Engine.drawInfo()
 --                fontName('Arial')
 --            end
 
+            -- TODEL
 --            if debugging() then
 --                fontName('Foundation-Icons')
 --                textMode(CENTER)
