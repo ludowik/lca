@@ -21,8 +21,11 @@ function makelovejs()
         os.execute('makelove')    
         os.execute('unzip -o '..build_directory..'/lovejs/lca-lovejs.zip -d '..build_directory..'/lovejs')
         os.execute('cp '..build_directory..'/lovejs/lca/game.data .')
+        
+        os.execute('cmd.exe python3 -m http.server 8080 --directory lca')
+    else    
+        os.execute('cmd.exe python -m http.server 8080 --directory lca')
     end
     
-    os.execute('cmd.exe python3 -m http.server 8080 --directory lca')
     openURL('http://localhost:8080')
 end

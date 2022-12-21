@@ -1,0 +1,13 @@
+{
+    "name": "Creative Coding",
+    "short_name": "cc",
+    "start_url": "index.html",
+    "display": "fullscreen",
+    "icons": [
+        {
+            "src": "assets/apple-touch-icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}
