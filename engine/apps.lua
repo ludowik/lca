@@ -176,7 +176,7 @@ function loadApp(path, name, garbage)
                     loadAppCodea('path', 'name')
                 ]]                
                 code = code:gsub('path', path):gsub('name', name)
-                chunk = load(code)
+                chunk = loadstring(code)
 
             elseif info.type == 'file' then
                 chunk = love.filesystem.load(path..'/' .. name .. '.lua')

@@ -120,8 +120,6 @@ function __math.test()
 
     ut.assert('tau', TAU == math.pi * 2)
 
-    ut.assertBetween('random', random(), 0, 1)
-
     ut.assertEqual('clamp', clamp(5, 1, 9), 5)
     ut.assertEqual('clamp', clamp(0, 1, 9), 1)
     ut.assertEqual('clamp', clamp(10, 1, 9), 9)

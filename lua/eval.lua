@@ -29,7 +29,7 @@ end
 function setValue(expression, val)
     if val then
         local res = expression..' = '..val
-        return load(res)()
+        return loadstring(res)()
     end
 end
 

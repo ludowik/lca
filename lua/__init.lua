@@ -30,4 +30,3 @@ require 'lua.decorator'
 require 'lua.enum'
 
 --require 'lua.bit'
-bit32 = require 'bit'

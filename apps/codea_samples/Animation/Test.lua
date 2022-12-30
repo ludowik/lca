@@ -32,7 +32,8 @@ function Test:drawTest()
     
     background(40, 40, 50)
     
-    font("SourceSansPro-Bold")
+    font("Arial")
+    
     strokeWidth(5)
     fill(210, 219, 224, 255)
     fontSize(38)

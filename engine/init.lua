@@ -1,14 +1,16 @@
 love.filesystem.setRequirePath('?.lua;?/__init.lua')
 
-print(love.filesystem.getSaveDirectory())
+--print(love.filesystem.getSaveDirectory())
 
-ffi = love and require 'ffi' or nil
+--ffi = love and require 'ffi' or nil
+
+require 'lua.debug'
+bit32 = require 'lua.bit'
 
 json = require 'lib/json'
 utf8 = require 'lib/utf8'
 sfxr = require 'lib/sfxr'
 
-require 'lua.debug'
 require 'lua'
 require 'lua_collection'
 require 'maths'

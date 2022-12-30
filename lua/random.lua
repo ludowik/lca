@@ -33,7 +33,9 @@ function Random.test()
     assert(randomInt)
 
     for i=1,10000 do
-        assert(randomInt(1) == 1)
+        ut.assertBetween('random', random(), 0, 1)
+        ut.assertBetween('randomInt', randomInt(1), 0, 1)
+        
         assert(isinteger(randomInt(10^6)) == true)
         assert(isinteger(random(10^6)) == false)
     end
