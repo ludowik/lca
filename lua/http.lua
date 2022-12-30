@@ -19,7 +19,7 @@ function http.request(url, success, fail, parameterTable)
         
     else        
         if fail then
-            fail()
+            fail(result, code, headers)
         end
     end
 
