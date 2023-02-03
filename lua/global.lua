@@ -14,7 +14,6 @@ setmetatable(global, {
 -- alias
 local alias = {
     DeltaTime = 'deltaTime',
-    ElapsedTime = 'elapsedTime',
 }
 
 -- disable create unexpected global variable

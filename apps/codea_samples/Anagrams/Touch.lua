@@ -193,7 +193,7 @@ function Gesture:init()
     self.touches = {}
     self.num = 0
     self.updated = true
-    self.updatedat = ElapsedTime
+    self.updatedat = elapsedTime
     self.type = {}
 end
 
@@ -206,7 +206,7 @@ function Gesture:addTouch(touch)
     self.touches[touch.id] = touch
     touch.gesture = self
     self.updated = true
-    self.updatedat = ElapsedTime
+    self.updatedat = elapsedTime
     return true
 end
 
@@ -219,7 +219,7 @@ function Gesture:removeTouch(touch)
     touch.gesture = nil
     self.num = self.num - 1
     self.updated = true
-    self.updatedat = ElapsedTime
+    self.updatedat = elapsedTime
     self.type = {}
     return true
 end
@@ -234,7 +234,7 @@ function Gesture:reset()
     self.touches = {}
     self.num = 0
     self.updated = true
-    self.updatedat = ElapsedTime
+    self.updatedat = elapsedTime
     self.type = {}
 end
 
@@ -290,7 +290,7 @@ function Gesture:analyse()
     else
         self.type.tap = false
     end
-    if self.type.ended and (ElapsedTime - self.updatedat) > .5 then
+    if self.type.ended and (elapsedTime - self.updatedat) > .5 then
         self.type.finished = true
     end
     self.type.long = not self.type.notlong
@@ -322,9 +322,9 @@ function Touch:init(touch)
     self.touch = touch
     self.firsttouch = touch
     self.updated = true
-    self.updatedat = ElapsedTime
-    self.createdat = ElapsedTime
-    self.startedat = ElapsedTime
+    self.updatedat = elapsedTime
+    self.createdat = elapsedTime
+    self.startedat = elapsedTime
     self.deltatime = 0
     self.laststate = 0
     self.moved = false -- did we move?
@@ -340,18 +340,18 @@ Updates new information from a "touch" object.
 function Touch:update(touch)
         -- save previous state
         self.laststate = touch.state
-        self.deltatime = ElapsedTime - self.updatedat
-        self.updatedat = ElapsedTime
+        self.deltatime = elapsedTime - self.updatedat
+        self.updatedat = elapsedTime
         -- Update the touch
         self.touch = touch
         -- Regard ourselves as "refreshed"
         self.updated = true
         if self.gesture then
             self.gesture.updated = true
-            self.gesture.updatedat = ElapsedTime
+            self.gesture.updatedat = elapsedTime
         end
         if self.laststate == BEGAN then
-            self.startedat = ElapsedTime
+            self.startedat = elapsedTime
         end
         -- record whether we've moved
         if touch.state == MOVING then
@@ -364,7 +364,7 @@ function Touch:update(touch)
         if touch.state == ENDED then
             -- If we've ended and it's less than a second since we 
             -- actually did something, we're short
-            if (ElapsedTime - self.startedat) < 1 then
+            if (elapsedTime - self.startedat) < 1 then
                 self.short = true
             end
         end
@@ -404,7 +404,7 @@ Test to find out if we are "long"
 function Touch:islong()
     if self.long then
         return self.long
-    elseif self.touch.state == BEGAN and (ElapsedTime - self.createdat) > 1 then
+    elseif self.touch.state == BEGAN and (elapsedTime - self.createdat) > 1 then
         self.long = true
         return true
     else
@@ -419,7 +419,7 @@ Test to find out if we are "short"
 function Touch:isshort()
     if self.short then
         return self.short
-    elseif (ElapsedTime - self.startedat) < 1 then
+    elseif (elapsedTime - self.startedat) < 1 then
         return true
     else
         return false

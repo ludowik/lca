@@ -24,7 +24,7 @@ function setup()
 end
 
 function reset(paddle)
-    startTime = elapsedTime
+    startTime = ElapsedTime
     resetDelay = 2            -- 2 second delay until the ball moves
 
     if not ball then ball = Ball() end     -- create a ball if one doesn't exist
@@ -83,7 +83,7 @@ end
 function update()
     -- if the game is being reset, then either do nothing or just update the angle pointer
     if (resetDelay) then
-        timediff = elapsedTime - startTime
+        timediff = ElapsedTime - startTime
         if (timediff < resetDelay) then
             return
         else

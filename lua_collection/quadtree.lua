@@ -1,4 +1,4 @@
-require 'maths.rect'
+--require 'maths.rect'
 
 class 'Quadtree' : extends(Rect)
 

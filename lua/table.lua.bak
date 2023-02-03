@@ -15,8 +15,7 @@ setmetatable(table, mt)
 Table = table
 table.__index = table
 
-table.unpack = table.unpack or unpack
-unpack = table.unpack
+table.unpack = unpack
 
 function table:clone()
     local function clone(self)

@@ -59,9 +59,9 @@ function Fireworks:draw()
     end
     local dead = true
     if self.ftimes[self.nfw] then
-        if elapsedTime - self.fstart > self.ftimes[self.nfw] then
+        if ElapsedTime - self.fstart > self.ftimes[self.nfw] then
             self.nfw = self.nfw + 1
-            self.fstart = elapsedTime
+            self.fstart = ElapsedTime
             sound(SOUND_EXPLODE)
         end
         dead = false
@@ -111,7 +111,7 @@ function Fireworks:newshow(p)
             end
             t = math.random() + .5
             table.insert(self.ftimes,t)
-            self.fstart = elapsedTime
+            self.fstart = ElapsedTime
             self.nfw = 1
         end
         table.remove(self.ftimes)

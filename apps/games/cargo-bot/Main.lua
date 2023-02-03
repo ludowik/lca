@@ -20,7 +20,7 @@ end
 function draw()
     dt = DeltaTime*100
     -- estimate DeltaTime based on last few observations to pass to sound library
-    table.insert(elapsedTimes,ElapsedTime)
+    table.insert(elapsedTimes,elapsedTime)
     while #elapsedTimes > 50 do table.remove(elapsedTimes,1) end
     MY_DELTA_TIME = (elapsedTimes[#elapsedTimes] - elapsedTimes[1]) / (#elapsedTimes - 1)
 

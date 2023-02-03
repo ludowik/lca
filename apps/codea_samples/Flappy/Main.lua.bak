@@ -116,7 +116,7 @@ function draw()
     local seg = 100
     local offset = -camera-2*seg
     for i = offset, offset + WIDTH + seg * 6, seg do
-        sprite("Platformer Art:Water", i - (offset * 1.5 + elapsedTime * seg) % seg, 25, seg)
+        sprite("Platformer Art:Water", i - (offset * 1.5 + ElapsedTime * seg) % seg, 25, seg)
     end
     
     popMatrix()

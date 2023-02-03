@@ -107,7 +107,7 @@ function StartScreen.shadowOffset(x,y)
 end
 
 function StartScreen:newCrate()
-    if ElapsedTime < self.crateT then return nil end
+    if elapsedTime < self.crateT then return nil end
     
     local y = HEIGHT + 100
     local x = 200 + math.random(-50,50)
@@ -156,7 +156,7 @@ function StartScreen:newCrate()
     
     table.insert(self.bodies,{body=body,obj=obj})
 
-    self.crateT = ElapsedTime + math.random()+.1
+    self.crateT = elapsedTime + math.random()+.1
 end
 
 function StartScreen:cleanCrates()

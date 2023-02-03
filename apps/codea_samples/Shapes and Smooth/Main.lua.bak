@@ -26,7 +26,7 @@ function draw()
     fill(255, 0, 0, 255)
     
     translate(WIDTH/2,HEIGHT/2)
-    rotate(elapsedTime)
+    rotate(ElapsedTime)
     
     if SHAPE == false then
         rectMode(CENTER)

@@ -1,7 +1,11 @@
+local function cleanPath(path)
+    return path:replace('%./', ''):replace('/', '.')
+end
+
 function requireLib(...)
     local path = scriptPath(3)
     for i,v in pairs({...}) do
-        local fileName = path:replace('/', '.')..'.'..v
+        local fileName = cleanPath(path)..'.'..v
         require(fileName)
     end
 end
@@ -9,7 +13,7 @@ end
 function requireReloadLib(...)
     local path = scriptPath(3)
     for i,v in pairs({...}) do
-        local fileName = path:replace('/', '.')..'.'..v
+        local fileName = cleanPath(path)..'.'..v
         package.loaded[fileName] = false
         require(fileName)
     end

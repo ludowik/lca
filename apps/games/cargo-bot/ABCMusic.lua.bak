@@ -1003,7 +1003,7 @@ function ABCMusic:preCachePlay()
     if cachedIdx >= #gPreCacheSoundTable then return true end
     
     -- is it time to cache a new sound?
-    if elapsedTime > nextT then
+    if ElapsedTime > nextT then
         cachedIdx = cachedIdx + 1
         --print("caching",self.cachedIdx)
         ABCMusic:adjustSoundBufferSize()

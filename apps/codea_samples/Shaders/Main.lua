@@ -37,7 +37,7 @@ function draw()
     m:setRect(rIdx, WIDTH/2, HEIGHT/2, cw, ch)
 
     -- Configure out custom uniforms for the ripple shader
-    m.shader.time = ElapsedTime
+    m.shader.time = elapsedTime
     m.shader.freq = Freq
 
     -- Draw the mesh

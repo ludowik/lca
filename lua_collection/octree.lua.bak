@@ -1,5 +1,5 @@
---require 'maths.rect'
---require 'maths.box'
+require 'maths.rect'
+require 'maths.box'
 
 class 'Octree' : extends(Box)
 

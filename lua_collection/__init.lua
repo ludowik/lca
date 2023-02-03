@@ -1,5 +1,7 @@
-require 'lua_collection.buffer'
-require 'lua_collection.grid'
-require 'lua_collection.heap'
-require 'lua_collection.quadtree'
-require 'lua_collection.octree'
+requireLib(
+    'buffer',
+    'grid',
+    'heap',
+    'quadtree',
+    'octree')
+    

@@ -32,7 +32,7 @@ function draw()
     translate(WIDTH/2, HEIGHT/2)
     
     -- Rotate the transform at 100 degrees per second
-    rotate(elapsedTime*100)
+    rotate(ElapsedTime*100)
     
     -- Construct equilateral triangle points, this could be any 3 points
     local top = vec2(math.cos(2*math.pi/6), math.sin(2*math.pi/6))
