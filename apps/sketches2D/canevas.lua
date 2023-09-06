@@ -2,7 +2,7 @@ function setup()
     value = 0
     r = W * 0.45
 
-    parameter.number('coef', 0, 10, 0, function ()
+    parameter.integer('coef', 0, 10, 0, function ()
             clearBackground = true
         end)
     
