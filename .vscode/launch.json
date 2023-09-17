@@ -5,15 +5,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug Lua Interpreter",
+            "name": "Debug Löve",
             "type": "lua-local",
             "request": "launch",
             "program": {
                 "command": "/Applications/love.app/Contents/MacOS/love"
             },
+            "windows": {
+                "program": {
+                    "command": "C:/Program Files/LOVE/love.exe",
+                },
+            },
+            "env": {
+                "LUA_PATH": "./?.lua;[ADDITIONAL_PATHS]"
+            },
             "args": [
                 "${workspaceFolder}",
                 "vsc_debug"
+            ],
+            "ignorePatterns": [
+                "class"
+            ],
+            "scriptRoots": [
+                "."
+            ],
+            "scriptFiles": [
+                "./*.lua"
             ]
         }
     ]
