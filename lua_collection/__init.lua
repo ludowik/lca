@@ -2,6 +2,6 @@ requireLib(
     'buffer',
     'grid',
     'heap',
-    'quadtree',
+    --'quadtree',
     'octree')
     
