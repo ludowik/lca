@@ -22,15 +22,17 @@ end
 
 if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     print("start lldebugger")
-    require("lldebugger").start() 
+    require("lldebugger").start()
 end
 
 if arg[#arg] == "-debug" then
     debugStart()
 end
 
-function __FILE__(level) return debug.getinfo(level or 1, 'S').short_src or 'unknown file' end
+function __FILE__(level) return debug.getinfo(level or 1, 'S').source or 'unknown file' end
+
 function __LINE__(level) return debug.getinfo(level or 1, 'l').currentline or 'unknown line' end
+
 function __FUNC__(level) return debug.getinfo(level or 1).name or 'unknown function' end
 
 function getFileLocation(msg, level)

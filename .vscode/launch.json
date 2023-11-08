@@ -16,21 +16,16 @@
                     "command": "C:/Program Files/LOVE/love.exe",
                 },
             },
-            "env": {
-                "LUA_PATH": "./?.lua;[ADDITIONAL_PATHS]"
-            },
+            "cwd": "${workspaceFolder}",
+            "scriptRoots": [
+                "./"
+            ],
             "args": [
                 "${workspaceFolder}",
                 "vsc_debug"
             ],
             "ignorePatterns": [
                 "class"
-            ],
-            "scriptRoots": [
-                "."
-            ],
-            "scriptFiles": [
-                "./*.lua"
             ]
         }
     ]
