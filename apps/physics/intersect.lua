@@ -1,5 +1,4 @@
 function setup()
-    seed(time())
     autotest()
 end
 

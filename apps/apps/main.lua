@@ -81,9 +81,6 @@ function touched(touch)
     end
 end
 
-searchText = ''
-searchTime = 0
-
 function keyboard(key)
     if key == 'f3' then
         browse(APPS)
@@ -94,24 +91,6 @@ function keyboard(key)
         local ui = scene:getFocus()
         if ui.callback then
             ui.callback(ui)
-        end
-
-    else
-        if time() - searchTime > 2 then
-            searchText = ''
-        end
-
-        searchTime = time()
-
-        if key == 'backspace' then
-            searchText = searchText:sub(1, searchText:len()-1)
-        else
-            searchText = searchText..key
-        end
-
-        local ui = scene:ui(searchText)
-        if ui then
-            scene:setFocus(ui)
         end
     end
 end
@@ -126,10 +105,6 @@ function autotest(dt)
     local __log = _G.log
     _G.print = function () end
     _G.log = function () end
-
-    local ram = {
-        beforeTest = formatRAM()
-    }
 
     appsList.saveCurrentIndex = appsList.saveCurrentIndex or 1
 
@@ -168,18 +143,12 @@ function autotest(dt)
 
     end
 
-    ram.afterTest = formatRAM()
-
     Engine.release()    
-    ram.afterRelease = formatRAM()
 
     _G.print = __print
     _G.log = __log
 
     print('n appps : '..#apps)
-    print('before  : '..ram.beforeTest)
-    print('after   : '..ram.afterTest)
-    print('release : '..ram.afterRelease)
 
     loadApp(currentApp.appPath, currentApp.appName)
 

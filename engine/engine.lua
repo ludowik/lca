@@ -270,24 +270,6 @@ function Engine.drawInfo()
 --            fill(colors.red)
 --            rect(-r, 0, r, r*(1-pct))
 
-            local state, percent, seconds = love.system.getPowerInfo()
-            percent = percent or 100
-            seconds = seconds or 0
-            
-            -- TODEL
---            if percent then
---                fontName('Foundation-Icons')
---                textMode(CENTER)
---                if percent > 80 then
---                    text(utf8.char(iconsFont.battery_full), -r/2, 1.5*r)
---                elseif percent > 30 then
---                    text(utf8.char(iconsFont.battery_half), -r/2, 1.5*r)
---                else
---                    text(utf8.char(iconsFont.battery_empty), -r/2, 1.5*r)
---                end
---                fontName('Arial')
---            end
-
             -- TODEL
 --            if debugging() then
 --                fontName('Foundation-Icons')
@@ -305,12 +287,8 @@ function Engine.drawInfo()
                 x = x + GraphicsBase.text(info, x, y) + fontSize()
             end
 
-            text(getFPS())
             text(os.name)
             text(debugging() and 'debug mode' or 'release mode')
-            text(state..':'..percent..'%('..floor(seconds / 60)..')')
-            text(date():asDatetime())
-            text(formatRAM())
 
             if env.__autotest then
                 text('autotest')

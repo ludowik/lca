@@ -97,8 +97,6 @@ function Parameter:clear()
 end
 
 function Parameter:random()
-    seed(time())
-
     for i,ui in ipairs(self.group:items()) do
         if ui.__className == 'Slider' then
             local value
