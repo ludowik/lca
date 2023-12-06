@@ -1,5 +1,5 @@
 function setup()
-    parameter.link('opengl', 'https://learnopengl.com/Lighting/Basic-Lighting')
+    parameter.link('opengl', 'https://learnopengl.com/lighting/basic-lighting')
 
     local function addParameters(name, v)
         parameter.watch('#'..name)
