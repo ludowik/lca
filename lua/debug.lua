@@ -2,34 +2,50 @@ local inDebugging = false
 
 function debugging() return inDebugging end
 
-function debugStart()
-    inDebugging = true
-    local debug = require 'lib/mobdebug/mobdebug'
-    debug.start()
-    debug.coro()
-    debug.on()
-end
+-- function debugStart()
+--     inDebugging = true
+--     local debug = require 'lib/mobdebug/mobdebug'
+--     debug.start()
+--     debug.coro()
+--     debug.on()
+-- end
 
-function debugStop(check)
-    if not check then return end
+-- function debugStop(check)
+--     if not check then return end
 
-    inDebugging = true
-    local debug = require 'lib/mobdebug/mobdebug'
-    debug.start()
-    debug.on()
-    debug.pause()
-end
+--     inDebugging = true
+--     local debug = require 'lib/mobdebug/mobdebug'
+--     debug.start()
+--     debug.on()
+--     debug.pause()
+-- end
 
-if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
-    print("start lldebugger")
-    require("lldebugger").start()
+if arg[#arg] == "vsc_debug" then
+    local lldebugger = require "lldebugger"
+    lldebugger.start()
+
+    debugMode = true
+
+    local run = love.run
+    function love.run(...)
+        local f = lldebugger.call(run, false, ...)
+        return function(...)
+            return lldebugger.call(f, false, ...)
+        end
+    end
 end
+-- if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+--     print("start lldebugger")
+--     require("lldebugger").start()
+-- end
 
 if arg[#arg] == "-debug" then
-    debugStart()
+    --debugStart()
 end
 
-function __FILE__(level) return debug.getinfo(level or 1, 'S').source or 'unknown file' end
+function __FILE__(level)
+    return debug.getinfo(level or 1, 'S').source or 'unknown file'
+end
 
 function __LINE__(level) return debug.getinfo(level or 1, 'l').currentline or 'unknown line' end
 

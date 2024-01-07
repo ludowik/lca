@@ -8,25 +8,21 @@
             "name": "Debug Löve",
             "type": "lua-local",
             "request": "launch",
-            "program": {
-                "command": "/Applications/love.app/Contents/MacOS/love"
-            },
             "windows": {
                 "program": {
                     "command": "C:/Users/lmilhau/Documents/Divers/love2d/love.exe",
                 },
             },
-            "cwd": "${workspaceFolder}",
-            "scriptRoots": [
-                "./"
-            ],
+            "program": {
+                "command": "/Applications/love.app/Contents/MacOS/love"
+            },
             "args": [
                 "${workspaceFolder}",
                 "vsc_debug"
             ],
             "ignorePatterns": [
                 "class"
-            ]
+            ],
         }
     ]
 }

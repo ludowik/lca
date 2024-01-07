@@ -3,8 +3,7 @@ requireLib(
     'performanceCheck',
     'profiler',
     'override',
-    'reporting',
-    'introspection')
+    'reporting')
 
 function profile()
     Profiler.resetClasses()
